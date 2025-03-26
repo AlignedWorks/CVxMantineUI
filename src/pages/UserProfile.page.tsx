@@ -19,7 +19,7 @@ export function UserProfile() {
   return (
     <Container size="sm" py="xl">
       <Paper radius="md" withBorder p="xl" shadow="md">
-        <Group position="center" direction="column" spacing="xs">
+        <Group>
           <Avatar src={user.avatar_url} size={120} radius={120} />
           <Title order={2}>{user.name}</Title>
           <Text color="dimmed">{user.role}</Text>
@@ -36,14 +36,14 @@ export function UserProfile() {
           </Button>
         </Group>
 
-        <Text mt="md" align="center">
+        <Text mt="md">
           {user.description}
         </Text>
 
         <SimpleGrid cols={2} spacing="md" mt="xl">
           <div>
             <Title order={4}>Skills</Title>
-            <Group spacing="xs" mt="xs">
+            <Group mt="xs">
               {user.skills.map((skill) => (
                 <Badge key={skill} color="blue" variant="light">
                   {skill}
@@ -53,7 +53,7 @@ export function UserProfile() {
           </div>
           <div>
             <Title order={4}>Industry</Title>
-            <Group spacing="xs" mt="xs">
+            <Group mt="xs">
               {user.industry.map((industry) => (
                 <Badge key={industry} color="green" variant="light">
                   {industry}
@@ -63,7 +63,7 @@ export function UserProfile() {
           </div>
         </SimpleGrid>
 
-        <Group position="center" mt="xl">
+        <Group mt="xl">
           <Button variant="light" color="gray">
             Edit Profile
           </Button>

@@ -15,7 +15,6 @@ import {
   Tabs,
   Text,
   UnstyledButton,
-  useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderTabs.module.css';

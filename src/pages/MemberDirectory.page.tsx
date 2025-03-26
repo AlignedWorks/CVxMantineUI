@@ -170,13 +170,10 @@ export function MemberDirectory() {
 
   return (
     <Container size="lg" py="xl">
-      <Title order={1} align="left" mb="md" pt="xl" pb="xl">
+      <Title order={1} mb="md" pt="xl" pb="xl">
         Member Directory
       </Title>
-      <SimpleGrid cols={3} spacing="xl" breakpoints={[
-        { maxWidth: 'md', cols: 2, spacing: 'md' },
-        { maxWidth: 'sm', cols: 1, spacing: 'sm' },
-      ]}>
+      <SimpleGrid cols={3} spacing="xl">
         {users.map((user) => (
           <Paper key={user.id} radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
             <Avatar
