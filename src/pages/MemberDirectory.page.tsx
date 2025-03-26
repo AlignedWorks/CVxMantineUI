@@ -1,6 +1,19 @@
-import React, { useState }  from 'react';
+import { useState }  from 'react';
 import { Container, Title, SimpleGrid, Paper, Text, Button, Group, Avatar, Modal, TextInput, Textarea, MultiSelect } from '@mantine/core';
-import { IconMapSearch } from '@tabler/icons-react';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  description: string;
+  avatar_url: string;
+  role: string;
+  location: string;
+  member_since: string;
+  linkedin: string;
+  skills: string[];
+  industry: string[];
+}
 
 const skills = [
   'Design & Creative',
@@ -28,7 +41,7 @@ const industries = [
   'Entertainment',
 ];
 
-const users = [
+const users: User[] = [
   {
     id: 1,
     name: 'Gary Hartis',
@@ -51,6 +64,7 @@ const users = [
     role: 'Venture Talent Network',
     location: 'Mechanicsburg, PA',
     member_since: '01-01-2023',
+    linkedin: 'https://www.linkedin.com/in/alignedworks/',
     skills: ['string'],
     industry: ['string'],
   },
@@ -124,9 +138,9 @@ const users = [
 
 export function MemberDirectory() {
   const [modalOpened, setModalOpened] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [formValues, setFormValues] = useState({
-    id: '',
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [formValues, setFormValues] = useState<User>({
+    id: 0,
     name: '',
     email: '',
     description: '',
@@ -139,13 +153,13 @@ export function MemberDirectory() {
     industry: [],
   });
 
-  const handleEditClick = (user) => {
+  const handleEditClick = (user: User) => {
     setSelectedUser(user);
     setFormValues(user);
     setModalOpened(true);
   };
 
-  const handleFormChange = (field, value) => {
+  const handleFormChange = (field: keyof User, value: any) => {
     setFormValues((current) => ({ ...current, [field]: value }));
   };
 

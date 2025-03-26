@@ -1,14 +1,9 @@
 import { useState } from 'react';
 import {
   IconChevronDown,
-  IconHeart,
   IconLogout,
-  IconMessage,
-  IconPlayerPause,
   IconSettings,
-  IconStar,
   IconSwitchHorizontal,
-  IconTrash,
 } from '@tabler/icons-react';
 import cx from 'clsx';
 import {
@@ -23,7 +18,6 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './HeaderTabs.module.css';
 
 const user = {
@@ -41,7 +35,7 @@ const tabs = [
 ];
 
 export function HeaderTabs() {
-  const theme = useMantineTheme();
+  // const theme = useMantineTheme();
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 

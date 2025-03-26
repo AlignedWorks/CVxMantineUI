@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Drawer, TextInput, Textarea, MultiSelect } from '@mantine/core';
-import { IconEdit, IconPlus } from '@tabler/icons-react';
+import { IconEdit } from '@tabler/icons-react';
 import { IconChevronDown, IconChevronUp, IconSearch, IconSelector } from '@tabler/icons-react';
 import {
   Center,
@@ -226,7 +226,7 @@ export function TableSort() {
       <Table.Td className={classes.td}>{row.skills.join(', ')}</Table.Td>
       <Table.Td className={classes.td}>{row.industry}</Table.Td>
       <Table.Td className={classes.td}>
-        <Button variant="outline" size="xs" leftIcon={<IconEdit size={14} />} onClick={() => handleEditClick(row)}>
+        <Button variant="outline" size="xs" leftSection={<IconEdit size={14} />} onClick={() => handleEditClick(row)}>
           Edit
         </Button>
       </Table.Td>

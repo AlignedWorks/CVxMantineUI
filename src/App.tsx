@@ -1,10 +1,8 @@
 import "@mantine/core/styles.css";
-import { MantineProvider, AppShell, Burger } from "@mantine/core";
+import { MantineProvider, AppShell } from "@mantine/core";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
-import { MantineLogo } from '@mantinex/mantine-logo';
-import { NavbarSimple } from './components/Navbar/Navbar';
-import { HeaderTabs } from './components/Header/HeaderTabs';
+import { NavbarSimple } from './components/Navbar/Navbar';;
 import { HeaderMegaMenu } from './components/Header/HeaderMegaMenu';
 import { theme } from "./theme";
 import { Home } from './pages/Home.page';
@@ -14,7 +12,7 @@ import { MemberDirectory } from './pages/MemberDirectory.page';
 import { UserProfile } from './pages/UserProfile.page';
 
 export default function App() {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened] = useDisclosure();
 
   return (
     <MantineProvider theme={theme}>

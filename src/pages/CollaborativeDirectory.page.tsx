@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, Title, Text, Divider } from '@mantine/core';
+import { Container, Title } from '@mantine/core';
 import { TableSort } from '../components/Table/TableSort';
 
 export function CollaborativeDirectory() {

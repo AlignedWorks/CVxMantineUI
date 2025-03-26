@@ -1,19 +1,11 @@
 import { useState } from 'react';
 import {
-  Icon2fa,
-  IconBellRinging,
-  IconDatabaseImport,
-  IconFingerprint,
   IconFolder,
-  IconKey,
   IconLogout,
-  IconReceipt2,
-  IconSettings,
   IconSwitchHorizontal,
 } from '@tabler/icons-react';
-import { Code, Group, useMantineColorScheme } from '@mantine/core';
+import { Group, useMantineColorScheme } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import lightLogo from '../../assets/CVxLogoWhite.png';
 import darkLogo from '../../assets/CVxLogoBlack.png';
 import classes from './Navbar.module.css';

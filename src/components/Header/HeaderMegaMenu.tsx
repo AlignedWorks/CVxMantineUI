@@ -26,10 +26,8 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import { Link } from 'react-router-dom';
 import classes from './HeaderMegaMenu.module.css';
-import logo from '../../assets/CVxWorksLogo.png';
 
 const mockdata = [
   {

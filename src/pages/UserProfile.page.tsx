@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Paper, Avatar, Title, Text, Group, Button, Badge, SimpleGrid } from '@mantine/core';
 import { IconBrandLinkedin } from '@tabler/icons-react';
 
@@ -29,7 +28,7 @@ export function UserProfile() {
             component="a"
             href={user.linkedin}
             target="_blank"
-            leftIcon={<IconBrandLinkedin size={18} />}
+            leftSection={<IconBrandLinkedin size={18} />}
             variant="outline"
             color="blue"
           >
