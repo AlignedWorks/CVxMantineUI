@@ -40,6 +40,7 @@ export function HeaderTabs() {
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
+    console.log('Logout button clicked');
     try {
         const response = await fetch('https://cvx.jordonbyers.com/logout', {
             method: 'POST',
