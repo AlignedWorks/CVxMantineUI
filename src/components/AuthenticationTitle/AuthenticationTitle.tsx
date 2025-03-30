@@ -28,27 +28,45 @@ export function AuthenticationTitle() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError('');
-  
-      const loginRequest: LoginRequest = { email, password };
-  
-      const response = await fetch('https://cvx.jordonbyers.com/login?useCookies=true', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    e.preventDefault();
+    setError('');
+
+    const loginRequest: LoginRequest = { email, password };
+
+    const response = await fetch('https://cvx.jordonbyers.com/login?useCookies=true', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(loginRequest),
+    });
+
+    if (response.ok) {
+      // Fetch user profile after login
+      const profileResponse = await fetch('https://cvx.jordonbyers.com/profile', {
         credentials: 'include',
-        body: JSON.stringify(loginRequest),
       });
   
-      if (response.ok) {
-        login(email); // Log the user in
+      if (profileResponse.ok) {
+        const userProfile = await profileResponse.json();
+        const user = {
+          email: userProfile.email,
+          firstName: userProfile.firstName,
+          lastName: userProfile.lastName,
+          avatarUrl: userProfile.avatarUrl,
+        };
+  
+        login(user); // Store user in AuthContext
         navigate('/');
       } else {
-        setError('Invalid email or password');
+        setError('Failed to fetch user profile');
       }
-    };
+    } else {
+      setError('Invalid email or password');
+    }
+  };
+
 
   return (
     <Container size={420} my={40}>

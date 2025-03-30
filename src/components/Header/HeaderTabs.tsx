@@ -106,9 +106,13 @@ export function HeaderTabs() {
                     className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
                   >
                     <Group gap={7}>
-                      <Avatar src={userAvatar} alt={user} radius="xl" size={20} />
+                      {user.avatarUrl ? (
+                        <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={20} />
+                      ) : (
+                        <Avatar src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png' alt={user.firstName + ' ' + user.lastName} radius="xl" size={20} />
+                      )}
                       <Text fw={500} size="sm" lh={1} mr={3}>
-                        {user}
+                        {user.firstName + ' ' + user.lastName}
                       </Text>
                       <IconChevronDown size={12} stroke={1.5} />
                     </Group>
