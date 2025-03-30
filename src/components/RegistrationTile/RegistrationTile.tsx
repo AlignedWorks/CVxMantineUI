@@ -1,5 +1,4 @@
 import {
-  Anchor,
   Button,
   Container,
   Group,
@@ -10,6 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import classes from './RegistrationTitle.module.css';
 
 export function RegistrationTile() {
@@ -53,9 +53,9 @@ export function RegistrationTile() {
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already have an account?{' '}
-        <Anchor size="sm" component="button">
+        <Link to="/login">
           Sign in
-        </Anchor>
+        </Link>
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">

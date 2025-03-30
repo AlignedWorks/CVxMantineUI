@@ -4,8 +4,6 @@ import {
 } from '@tabler/icons-react';
 import { Group, useMantineColorScheme } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import lightLogo from '../../assets/CVxLogoWhite.png';
-import darkLogo from '../../assets/CVxLogoBlack.png';
 import classes from './Navbar.module.css';
 
 const data = [
@@ -16,7 +14,7 @@ const data = [
 export function NavbarSimple() {
   const [active, setActive] = useState('Billing');
   const { colorScheme } = useMantineColorScheme();
-  const logo = colorScheme === 'dark' ? darkLogo : lightLogo;
+  const logo = colorScheme === 'dark' ? '/assets/CVxLogoBlack.png' : '/assets/CVxLogoWhite.png';
 
   const links = data.map((item) => (
     <Link
