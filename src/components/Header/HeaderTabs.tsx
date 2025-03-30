@@ -21,8 +21,6 @@ import { useAuth } from '../../AuthContext.tsx';
 import { Link } from 'react-router-dom';
 import classes from './HeaderTabs.module.css';
 
-const userAvatar = 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png';
-
 const tabs = [
   'Home',
   'Projects',
