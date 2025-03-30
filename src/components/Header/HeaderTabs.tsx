@@ -62,6 +62,7 @@ export function HeaderTabs() {
         }
     } catch (err) {
         setError('An error occurred');
+        console.log(error);
         setMessage(null);
     }
 };
