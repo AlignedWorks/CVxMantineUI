@@ -105,9 +105,9 @@ export function HeaderTabs() {
                   >
                     <Group gap={7}>
                       {user.avatarUrl ? (
-                        <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={20} />
+                        <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={25} />
                       ) : (
-                        <Avatar src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png' alt={user.firstName + ' ' + user.lastName} radius="xl" size={20} />
+                        <Avatar src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png' alt={user.firstName + ' ' + user.lastName} radius="xl" size={25} />
                       )}
                       <Text fw={500} size="sm" lh={1} mr={3}>
                         {user.firstName + ' ' + user.lastName}
