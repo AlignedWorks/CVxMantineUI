@@ -21,12 +21,6 @@ import { useAuth } from '../../AuthContext.tsx';
 import { Link } from 'react-router-dom';
 import classes from './HeaderTabs.module.css';
 
-const user2 = {
-  name: 'Peter Sahajian',
-  email: 'peter.sahajian@gmail.com',
-  image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-};
-
 const userAvatar = 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png';
 
 const tabs = [
