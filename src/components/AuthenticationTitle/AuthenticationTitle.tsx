@@ -10,6 +10,7 @@ import {
     TextInput,
     Title,
   } from '@mantine/core';
+  import { Link } from 'react-router-dom';
   import classes from './AuthenticationTitle.module.css';
   
   export function AuthenticationTitle() {
@@ -20,9 +21,9 @@ import {
         </Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
           Do not have an account yet?{' '}
-          <Anchor size="sm" component="button">
+          <Link to="/register">
             Create account
-          </Anchor>
+          </Link>
         </Text>
   
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">

@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Home } from './pages/Home.page';
-import { AuthenticationTitle } from './pages/AuthenticationTitle/AuthenticationTitle';
+import { AuthenticationTitle } from './components/AuthenticationTitle/AuthenticationTitle';
+import { RegistrationTile } from './components/RegistrationTile/RegistrationTile'
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { MemberDirectory } from './pages/MemberDirectory.page';
 
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <AuthenticationTitle />,
+  },
+  {
+    path: '/register',
+    element: <RegistrationTile />,
   },
   {
     path: '/collaborative-directory',

@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { NavbarSimple } from './components/Navbar/Navbar';;
 import { HeaderMegaMenu } from './components/Header/HeaderMegaMenu';
+import { HeaderTabs } from './components/Header/HeaderTabs';
 import { theme } from "./theme";
 import { Home } from './pages/Home.page';
-import { AuthenticationTitle } from './pages/AuthenticationTitle/AuthenticationTitle';
+import { AuthenticationTitle } from './components/AuthenticationTitle/AuthenticationTitle';
+import { RegistrationTile } from './components/RegistrationTile/RegistrationTile';
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { MemberDirectory } from './pages/MemberDirectory.page';
 import { UserProfile } from './pages/UserProfile.page';
@@ -28,15 +30,16 @@ export default function App() {
           padding="md"
         >
           <AppShell.Header>
-            <HeaderMegaMenu />
+            <HeaderTabs />
           </AppShell.Header>
 
           <AppShell.Navbar><NavbarSimple /></AppShell.Navbar>
 
           <AppShell.Main>
-            <Routes>
+          <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<AuthenticationTitle />} />
+              <Route path="/register" element={<RegistrationTile />} />
               <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
               <Route path="/member-directory" element={<MemberDirectory />} />
               <Route path="/user-profile" element={<UserProfile />} />

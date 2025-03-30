@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 .DS_Store
+localhost-key.pem
+localhost.pem
+vite.config.ts

@@ -189,11 +189,11 @@ export function HeaderMegaMenu() {
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-              <Link to="/login" className={classes.link}>
-                <Button variant="default">
-                  Log in
-                </Button>
-              </Link> 
+            <Link to="/login" >
+              <Button variant="default">
+                Log in
+              </Button>
+            </Link>
             <Button>Sign up</Button>
           </Group>
         </ScrollArea>
