@@ -34,7 +34,7 @@ export function NavbarSimple() {
       <div className={classes.navbarMain}>
         <Group className={classes.header} justify="space-between">
           <Link to="/">
-          <img src={logo} alt="Logo" className={classes.logo}/>
+          <img src={logo} alt="Logo" className={classes.logo} />
           </Link>
         </Group>
         {links}
