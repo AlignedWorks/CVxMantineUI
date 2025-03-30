@@ -40,7 +40,6 @@ export function HeaderTabs() {
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
-    console.log('Logout button clicked');
     try {
         const response = await fetch('https://cvx.jordonbyers.com/logout', {
             method: 'POST',
@@ -122,7 +121,12 @@ export function HeaderTabs() {
                   <Menu.Item leftSection={<IconSwitchHorizontal size={16} stroke={1.5} />}>
                     Change account
                   </Menu.Item>
-                  <Menu.Item leftSection={<IconLogout size={16} stroke={1.5} onClick={handleLogout} />}>Logout</Menu.Item>
+                  <Menu.Item
+                    leftSection={<IconLogout size={16} stroke={1.5} />}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>
