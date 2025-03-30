@@ -107,7 +107,7 @@ export function HeaderTabs() {
                       {user.avatarUrl ? (
                         <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
                       ) : (
-                        <Avatar alt={user.firstName + ' ' + user.lastName} color="grey" radius="xl" size={30}>{user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()}</Avatar>
+                        <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
                       )}
                       <Text fw={500} size="sm" lh={1} mr={3}>
                         {user.firstName + ' ' + user.lastName}
