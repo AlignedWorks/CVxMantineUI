@@ -6,7 +6,7 @@
 }
 
 .mainSection {
-  padding-bottom: var(--mantine-spacing-sm);
+  padding-top: var(--mantine-spacing-sm);
 }
 
 .user {
@@ -39,7 +39,7 @@
   height: 38px;
   background-color: transparent;
   position: relative;
-  bottom: -1px;
+  bottom: -2px;
 
   &::before,
   &::after {

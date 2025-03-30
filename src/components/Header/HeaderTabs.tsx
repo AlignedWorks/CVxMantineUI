@@ -48,6 +48,19 @@ export function HeaderTabs() {
     <div className={classes.header}>
       <Container className={classes.mainSection} size="lg">
         <Group justify="space-between">
+          <Tabs
+            defaultValue="Home"
+            variant="outline"
+            visibleFrom="sm"
+            classNames={{
+              root: classes.tabs,
+              list: classes.tabsList,
+              tab: classes.tab,
+            }}
+          >
+            <Tabs.List>{items}</Tabs.List>
+          </Tabs>
+
           <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
 
           <Menu
@@ -82,20 +95,6 @@ export function HeaderTabs() {
             </Menu.Dropdown>
           </Menu>
         </Group>
-      </Container>
-      <Container size="md">
-        <Tabs
-          defaultValue="Home"
-          variant="outline"
-          visibleFrom="sm"
-          classNames={{
-            root: classes.tabs,
-            list: classes.tabsList,
-            tab: classes.tab,
-          }}
-        >
-          <Tabs.List>{items}</Tabs.List>
-        </Tabs>
       </Container>
     </div>
   );
