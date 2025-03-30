@@ -107,7 +107,7 @@ export function HeaderTabs() {
                       {user.avatarUrl ? (
                         <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
                       ) : (
-                        <Avatar src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png' alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
+                        <Avatar alt={user.firstName + ' ' + user.lastName} color="grey" radius="xl" size={30}>{user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()}</Avatar>
                       )}
                       <Text fw={500} size="sm" lh={1} mr={3}>
                         {user.firstName + ' ' + user.lastName}
