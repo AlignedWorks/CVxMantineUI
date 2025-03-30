@@ -3,7 +3,7 @@ import { MantineProvider, AppShell } from "@mantine/core";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { NavbarSimple } from './components/Navbar/Navbar';;
-import { HeaderMegaMenu } from './components/Header/HeaderMegaMenu';
+// import { HeaderMegaMenu } from './components/Header/HeaderMegaMenu';
 import { HeaderTabs } from './components/Header/HeaderTabs';
 import { theme } from "./theme";
 import { Home } from './pages/Home.page';
