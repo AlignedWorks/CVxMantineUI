@@ -13,6 +13,32 @@ import {
 } from '@mantine/core';
 import classes from './TableSort.module.css';
 
+const skills = [
+  'Design & Creative',
+  'Development & IT',
+  'Engineering & Architecture',
+  'Marketing & Sales',
+  'Finance & Accounting',
+  'Human Resources',
+  'Operations & Management',
+  'Customer Service',
+  'Legal',
+  'Education',
+];
+
+const industries = [
+  'Technology',
+  'Healthcare',
+  'Finance',
+  'Education',
+  'Retail',
+  'Manufacturing',
+  'Real Estate',
+  'Transportation',
+  'Energy',
+  'Entertainment',
+];
+
 interface RowData {
   id: number;
   name: string;
@@ -20,7 +46,7 @@ interface RowData {
   manager_email: string;
   created_date: string;
   skills: string[];
-  industry: string;
+  industry: string[];
 }
 
 interface ThProps {
@@ -85,7 +111,7 @@ const data: RowData[] = [
     manager_email: 'alex@codeforge.com',
     created_date: '2023-06-12',
     skills: ['Software Development', 'Open Source', 'DevOps'],
-    industry: 'Technology',
+    industry: ['Technology'],
   },
   {
     id: 2,
@@ -94,7 +120,7 @@ const data: RowData[] = [
     manager_email: 'emily@greenfuture.org',
     created_date: '2022-09-25',
     skills: ['Renewable Energy', 'Environmental Science', 'IoT'],
-    industry: 'Clean Energy',
+    industry: ['Clean Energy'],
   },
   {
     id: 3,
@@ -103,7 +129,7 @@ const data: RowData[] = [
     manager_email: 'james@healthsync.com',
     created_date: '2024-01-18',
     skills: ['Healthcare IT', 'Data Security', 'AI in Medicine'],
-    industry: 'Healthcare',
+    industry: ['Healthcare'],
   },
   {
     id: 4,
@@ -112,7 +138,7 @@ const data: RowData[] = [
     manager_email: 'sophia@nextgencreators.com',
     created_date: '2023-03-14',
     skills: ['Graphic Design', 'Animation', 'Digital Art'],
-    industry: 'Creative Arts',
+    industry: ['Creative Arts'],
   },
   {
     id: 5,
@@ -121,7 +147,7 @@ const data: RowData[] = [
     manager_email: 'michael@edtechvision.com',
     created_date: '2021-11-30',
     skills: ['AI in Education', 'E-Learning', 'Software Development'],
-    industry: 'Education Technology',
+    industry: ['Education Technology'],
   },
   {
     id: 6,
@@ -130,7 +156,7 @@ const data: RowData[] = [
     manager_email: 'oliver@bytesecure.net',
     created_date: '2023-08-05',
     skills: ['Cybersecurity', 'Ethical Hacking', 'Cloud Security'],
-    industry: 'Cybersecurity',
+    industry: ['Cybersecurity'],
   },
   {
     id: 7,
@@ -139,7 +165,7 @@ const data: RowData[] = [
     manager_email: 'jessica@urbanagri.com',
     created_date: '2022-05-10',
     skills: ['Vertical Farming', 'Hydroponics', 'IoT in Agriculture'],
-    industry: 'AgTech',
+    industry: ['AgTech'],
   },
   {
     id: 8,
@@ -148,7 +174,7 @@ const data: RowData[] = [
     manager_email: 'william@fintechpioneers.com',
     created_date: '2023-12-01',
     skills: ['Blockchain', 'FinTech', 'Data Analytics'],
-    industry: 'Financial Technology',
+    industry: ['Financial Technology'],
   },
   {
     id: 9,
@@ -157,7 +183,7 @@ const data: RowData[] = [
     manager_email: 'david@gamecraftstudios.com',
     created_date: '2024-02-20',
     skills: ['Game Development', 'Unreal Engine', 'Narrative Design'],
-    industry: 'Gaming',
+    industry: ['Gaming'],
   },
   {
     id: 10,
@@ -166,7 +192,7 @@ const data: RowData[] = [
     manager_email: 'sarah@buildtogether.com',
     created_date: '2021-07-15',
     skills: ['Robotics', '3D Printing', 'Hardware Prototyping'],
-    industry: 'Engineering & Manufacturing',
+    industry: ['Engineering & Manufacturing'],
   },
 ];
 
@@ -184,7 +210,7 @@ export function TableSort() {
     manager_email: '',
     created_date: '',
     skills: [],
-    industry: '',
+    industry: [],
   });
 
   const setSorting = (field: keyof RowData) => {
@@ -224,7 +250,7 @@ export function TableSort() {
       <Table.Td className={classes.td}>{row.manager_email}</Table.Td>
       <Table.Td className={classes.td}>{row.created_date}</Table.Td>
       <Table.Td className={classes.td}>{row.skills.join(', ')}</Table.Td>
-      <Table.Td className={classes.td}>{row.industry}</Table.Td>
+      <Table.Td className={classes.td}>{row.industry.join(', ')}</Table.Td>
       <Table.Td className={classes.td}>
         <Button variant="outline" size="xs" leftSection={<IconEdit size={14} />} onClick={() => handleEditClick(row)}>
           Edit
@@ -269,14 +295,15 @@ export function TableSort() {
             />
             <MultiSelect
               label="Skills"
-              data={formValues.skills}
+              data={skills}
               value={formValues.skills}
               onChange={(value) => handleFormChange('skills', value)}
             />
-            <TextInput
+            <MultiSelect
               label="Industry"
+              data={industries}
               value={formValues.industry}
-              onChange={(event) => handleFormChange('industry', event.currentTarget.value)}
+              onChange={(value) => handleFormChange('industry', value)}
             />
             <Button onClick={handleFormSubmit} mt="md">
               Save

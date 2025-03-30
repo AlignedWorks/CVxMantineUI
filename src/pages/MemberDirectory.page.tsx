@@ -53,7 +53,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/garyhartis/',
     skills: ['Design & Creative'],
-    industry: ['Educaation', 'Non-Profit', 'Retail'],
+    industry: ['Education', 'Non-Profit', 'Retail'],
   },
   {
     id: 2,
@@ -186,7 +186,10 @@ export function MemberDirectory() {
               {user.name}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
-              {user.email} • {user.role}
+              {user.email}
+            </Text>
+            <Text ta="center" c="dimmed" fz="sm">
+              {user.role}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
               {user.location}
