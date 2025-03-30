@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import {
-  IconFolder,
-  IconLogout,
-  IconSwitchHorizontal,
+  IconFolder
 } from '@tabler/icons-react';
 import { Group, useMantineColorScheme } from '@mantine/core';
 import { Link } from 'react-router-dom';
