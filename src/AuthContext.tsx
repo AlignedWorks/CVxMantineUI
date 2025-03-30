@@ -18,6 +18,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
     const storedUser = localStorage.getItem('user');
+    console.log('Stored user:', storedUser); // Debugging line
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
