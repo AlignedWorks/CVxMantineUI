@@ -46,7 +46,7 @@ export function HeaderTabs() {
 
   return (
     <div className={classes.header}>
-      <Container className={classes.mainSection} size="md">
+      <Container className={classes.mainSection} size="lg">
         <Group justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
 
