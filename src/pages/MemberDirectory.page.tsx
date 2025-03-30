@@ -170,7 +170,7 @@ export function MemberDirectory() {
 
   return (
     <Container size="lg" py="xl">
-      <Title order={1} mb="md" pt="xl" pb="xl">
+      <Title order={1} mb="md" pt="sm" pb="xl">
         Member Directory
       </Title>
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 3, xl: 4 }} spacing="xl">

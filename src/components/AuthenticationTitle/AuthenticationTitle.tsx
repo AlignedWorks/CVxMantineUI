@@ -10,35 +10,93 @@ import {
     TextInput,
     Title,
   } from '@mantine/core';
-  import { Link } from 'react-router-dom';
-  import classes from './AuthenticationTitle.module.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import classes from './AuthenticationTitle.module.css';
+import { useAuth } from '../../AuthContext.tsx';
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export function AuthenticationTitle() {
+  const { login } = useAuth(); // Assuming `useAuth` provides a `login` function
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setError('');
   
-  export function AuthenticationTitle() {
-    return (
-      <Container size={420} my={40}>
-        <Title ta="center" className={classes.title}>
-          Welcome back!
-        </Title>
-        <Text c="dimmed" size="sm" ta="center" mt={5}>
-          Do not have an account yet?{' '}
-          <Link to="/register">
-            Create account
-          </Link>
-        </Text>
+      const loginRequest: LoginRequest = { email, password };
   
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-          <TextInput label="Email" placeholder="you@mantine.dev" required />
-          <PasswordInput label="Password" placeholder="Your password" required mt="md" />
-          <Group justify="space-between" mt="lg">
-            <Checkbox label="Remember me" />
-            <Anchor component="button" size="sm">
-              Forgot password?
-            </Anchor>
-          </Group>
-          <Button fullWidth mt="xl">
-            Sign in
-          </Button>
-        </Paper>
-      </Container>
-    );
-  }
+      const response = await fetch('https://cvx.jordonbyers.com/login?useCookies=true', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(loginRequest),
+      });
+  
+      if (response.ok) {
+        login(email); // Log the user in
+        navigate('/');
+      } else {
+        setError('Invalid email or password');
+      }
+    };
+
+  return (
+    <Container size={420} my={40}>
+      <Title ta="center" className={classes.title}>
+        Welcome back!
+      </Title>
+      <Text c="dimmed" size="sm" ta="center" mt={5}>
+        Do not have an account yet?{' '}
+        <Link to="/register">
+          Create account
+        </Link>
+      </Text>
+
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <form onSubmit={handleSubmit}>
+        <TextInput
+          label="Email"
+          placeholder="you@mantine.dev" 
+          required
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          required
+          mt="md"
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+        />
+
+        {error && (
+          <Text color="red" size="sm" mt="sm">
+            {error}
+          </Text>
+        )}
+
+        <Group justify="space-between" mt="lg">
+          <Checkbox label="Remember me" />
+          <Anchor component="button" size="sm">
+            Forgot password?
+          </Anchor>
+        </Group>
+        <Button fullWidth mt="xl" type="submit">
+          Sign in
+        </Button>
+        </form>
+      </Paper>
+    </Container>
+  );
+}
