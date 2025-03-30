@@ -173,7 +173,7 @@ export function MemberDirectory() {
       <Title order={1} mb="md" pt="xl" pb="xl">
         Member Directory
       </Title>
-      <SimpleGrid cols={3} spacing="xl">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 3, xl: 4 }} spacing="xl">
         {users.map((user) => (
           <Paper key={user.id} radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
             <Avatar
