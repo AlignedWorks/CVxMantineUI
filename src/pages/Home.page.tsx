@@ -43,25 +43,20 @@ export function Home() {
         <Link to="/register">
           <Button variant="default">Register</Button>
         </Link>
-        <Button variant="default" onClick={fetchUserData}>
-          Refresh Profile
-        </Button>
       </Group>
       <Group justify="center" mt="xl">
         <div className="p-4 max-w-md mx-auto bg-white shadow-lg rounded-lg">
-          <h2 className="text-xl font-semibold">Profile</h2>
+          
           {user ? (
             <>
-              <p><strong>Username:</strong> {user.username}</p>
-              <p><strong>First Name:</strong> {user.firstName}</p>
-              <p><strong>Last Name:</strong> {user.lastName}</p>
-              <p><strong>Bio:</strong> {user.bio}</p>
-              <p><strong>LinkedIn:</strong> <a href={user.linkedIn} target="_blank" rel="noopener noreferrer">{user.linkedIn}</a></p>
-              <p><strong>Avatar URL:</strong> <a href={user.avatarUrl} target="_blank" rel="noopener noreferrer">{user.avatarUrl}</a></p>
-              <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+              <h2 className="text-xl font-semibold">Profile</h2>
+              <p>{user.firstName} {user.lastName}</p>
+              <p>{user.username}</p>
+              <p>{user.bio}</p>
+              <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
             </>
           ) : (
-            <p>Loading user data...</p>
+            <p></p>
           )}
         </div>
       </Group>

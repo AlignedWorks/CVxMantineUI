@@ -7,6 +7,7 @@ import {
 } from '@tabler/icons-react';
 import cx from 'clsx';
 import {
+  Button,
   Avatar,
   Burger,
   Container,
@@ -134,7 +135,9 @@ export function HeaderTabs() {
             </>
           ) : (
             <>
-              <Link to="/login" style={{ marginRight: '5rem' }}>Login</Link>
+              <Link to="/login">
+                <Button variant="default">Log in</Button>
+              </Link>
             </>
           )}
           
