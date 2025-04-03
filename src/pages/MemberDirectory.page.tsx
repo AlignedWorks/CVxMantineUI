@@ -143,15 +143,6 @@ export function MemberDirectory() {
     setModalOpened(false);
   };
 
-  // Transform the tiered `skills` data into a format compatible with Mantine's `MultiSelect`
-  const groupedSkills = skills.flatMap((group) =>
-    group.items.map((item) => ({
-      value: item,
-      label: item,
-      group: group.industry, // Use the industry as the group name
-    }))
-  );
-
   return (
     <Container size="lg" py="xl">
       <Title order={1} mb="md" pt="sm" pb="xl">
@@ -232,7 +223,7 @@ export function MemberDirectory() {
             />
             <MultiSelect
               label="Skills"
-              data={groupedSkills} // Use the transformed grouped skills data
+              data={skills} // Use the transformed grouped skills data
               value={formValues.skills}
               onChange={(value) => handleFormChange('skills', value)}
               searchable

@@ -1,10 +1,10 @@
 export const skills = [
     {
-      "industry": "Architecture",
+      "group": "Architecture",
       "items": [
-        "Commercial",
+        // "Commercial",
         "Conservation",
-        "Industrial",
+        // "Industrial",
         "Interior",
         "Landscape",
         "Residential",
@@ -12,7 +12,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Finance and Accounting",
+      "group": "Finance and Accounting",
       "items": [
         "Accounting",
         "Bookkeeping",
@@ -22,7 +22,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Fundraising",
+      "group": "Fundraising",
       "items": [
         "Development Officer",
         "Grant Writing",
@@ -30,7 +30,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Construction",
+      "group": "Construction",
       "items": [
         "Carpentry",
         "Electrician",
@@ -44,7 +44,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Creative",
+      "group": "Creative",
       "items": [
         "Audio",
         "Animation",
@@ -60,7 +60,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Data Science",
+      "group": "Data Science",
       "items": [
         "Artificial Intelligence",
         "Data Analytics",
@@ -73,7 +73,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Engineering",
+      "group": "Engineering",
       "items": [
         "Aerospace",
         "Biomedical",
@@ -86,7 +86,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Entertainment",
+      "group": "Entertainment",
       "items": [
         "Event Planner",
         "Event Manager",
@@ -95,7 +95,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Legal",
+      "group": "Legal",
       "items": [
         "Contracts",
         "Corporate",
@@ -106,7 +106,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Manufacturing",
+      "group": "Manufacturing",
       "items": [
         "Computer Aided Manufacturing",
         "Machinist",
@@ -119,7 +119,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Marketing and Sales",
+      "group": "Marketing and Sales",
       "items": [
         "Advertising",
         "Business Development",
@@ -133,7 +133,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Organization",
+      "group": "Organization",
       "items": [
         "Administration",
         "Administrative Assistant",
@@ -144,7 +144,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "People",
+      "group": "People",
       "items": [
         "Mediation",
         "Coaching and Mentoring",
@@ -153,17 +153,17 @@ export const skills = [
       ]
     },
     {
-      "industry": "Public Relations",
+      "group": "Public Relations",
       "items": [
         "Communications",
-        "Event Manager",
+        // "Event Manager",
         "Government Relations",
         "Media Relations",
         "Social Media Manager"
       ]
     },
     {
-      "industry": "Real Estate",
+      "group": "Real Estate",
       "items": [
         "Agent",
         "Appraiser",
@@ -172,7 +172,7 @@ export const skills = [
         "Inspector",
         "Leasing",
         "Property Management",
-        "Residential",
+        // "Residential",
         "Retail",
         "Buyer",
         "Cashier",
@@ -182,7 +182,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "IT and Software",
+      "group": "IT and Software",
       "items": [
         "Cyber Security",
         "Full-stack Development",
@@ -195,7 +195,7 @@ export const skills = [
       ]
     },
     {
-      "industry": "Trades (Non-Construction)",
+      "group": "Trades (Non-Construction)",
       "items": [
         "Auto Mechanic",
         "Cleaning Services",

@@ -17,8 +17,15 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
+    // Check if running on localhost
+    const isLocalhost = window.location.hostname === 'localhost';
+
+    if (isLocalhost) {
+      console.log('Running on localhost, skipping localStorage retrieval');
+      return null; // Skip retrieving user from localStorage
+    }
+
     const storedUser = localStorage.getItem('user');
-    console.log('Stored user:', storedUser); // Debugging line
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
