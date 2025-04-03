@@ -1,5 +1,6 @@
 import { useState }  from 'react';
 import { Container, Title, SimpleGrid, Paper, Text, Button, Group, Avatar, Modal, TextInput, Textarea, MultiSelect } from '@mantine/core';
+import { skills, experience } from '../data.ts'
 
 interface User {
   id: number;
@@ -12,34 +13,8 @@ interface User {
   member_since: string;
   linkedin: string;
   skills: string[];
-  industry: string[];
+  experience: string[];
 }
-
-const skills = [
-  'Design & Creative',
-  'Development & IT',
-  'Engineering & Architecture',
-  'Marketing & Sales',
-  'Finance & Accounting',
-  'Human Resources',
-  'Operations & Management',
-  'Customer Service',
-  'Legal',
-  'Education',
-];
-
-const industries = [
-  'Technology',
-  'Healthcare',
-  'Finance',
-  'Education',
-  'Retail',
-  'Manufacturing',
-  'Real Estate',
-  'Transportation',
-  'Energy',
-  'Entertainment',
-];
 
 const users: User[] = [
   {
@@ -53,7 +28,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/garyhartis/',
     skills: ['Design & Creative'],
-    industry: ['Education', 'Non-Profit', 'Retail'],
+    experience: ['Education', 'Non-Profit', 'Retail'],
   },
   {
     id: 2,
@@ -66,7 +41,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/alignedworks/',
     skills: ['string'],
-    industry: ['string'],
+    experience: ['string'],
   },
   {
     id: 3,
@@ -79,7 +54,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/davidtvader/',
     skills: ['Design & Creative', 'Development & IT'],
-    industry: ['Education', 'Non-Profit'],
+    experience: ['Education', 'Non-Profit'],
   },
   {
     id: 4,
@@ -92,7 +67,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/leifuptegrove/',
     skills: ['Development & IT'],
-    industry: ['string'],
+    experience: ['string'],
   },
   {
     id: 5,
@@ -105,7 +80,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/petersahajian/',
     skills: ['Development & IT', 'Engineering & Architecture'],
-    industry: ['Telecoms'],
+    experience: ['Telecoms'],
   },
   {
     id: 6,
@@ -118,7 +93,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/benhuangbmj/',
     skills: ['Design & Creative', 'Development & IT'],
-    industry: ['Education'],
+    experience: ['Education'],
   },
   {
     id: 7,
@@ -131,7 +106,7 @@ const users: User[] = [
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/jordonbyers/',
     skills: ['Design & Creative', 'Development & IT'],
-    industry: ['Non-Profit'],
+    experience: ['Non-Profit'],
   },
   // Add more user data as needed
 ];
@@ -150,7 +125,7 @@ export function MemberDirectory() {
     member_since: '',
     linkedin: '',
     skills: [],
-    industry: [],
+    experience: [],
   });
 
   const handleEditClick = (user: User) => {
@@ -167,6 +142,15 @@ export function MemberDirectory() {
     // Update the user data here
     setModalOpened(false);
   };
+
+  // Transform the tiered `skills` data into a format compatible with Mantine's `MultiSelect`
+  const groupedSkills = skills.flatMap((group) =>
+    group.items.map((item) => ({
+      value: item,
+      label: item,
+      group: group.industry, // Use the industry as the group name
+    }))
+  );
 
   return (
     <Container size="lg" py="xl">
@@ -248,15 +232,17 @@ export function MemberDirectory() {
             />
             <MultiSelect
               label="Skills"
-              data={skills}
+              data={groupedSkills} // Use the transformed grouped skills data
               value={formValues.skills}
               onChange={(value) => handleFormChange('skills', value)}
+              searchable
+              clearable
             />
             <MultiSelect
-              label="Industry"
-              data={industries}
-              value={formValues.industry}
-              onChange={(value) => handleFormChange('industry', value)}
+              label="experience"
+              data={experience}
+              value={formValues.experience}
+              onChange={(value) => handleFormChange('experience', value)}
             />
             <Button onClick={handleFormSubmit} mt="md">
               Save
