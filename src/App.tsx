@@ -12,6 +12,7 @@ import { RegistrationTile } from './components/RegistrationTile/RegistrationTile
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { MemberDirectory } from './pages/MemberDirectory.page';
 import { UserProfile } from './pages/UserProfile.page';
+import { CreateCollaborative } from './pages/CreateCollaborative.tsx';
 
 export default function App() {
   const [opened] = useDisclosure();
@@ -43,6 +44,7 @@ export default function App() {
               <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
               <Route path="/member-directory" element={<MemberDirectory />} />
               <Route path="/user-profile" element={<UserProfile />} />
+              <Route path="/create-collaborative" element={<CreateCollaborative />} />
             </Routes>
           </AppShell.Main>
           

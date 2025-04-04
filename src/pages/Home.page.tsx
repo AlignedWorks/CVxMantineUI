@@ -60,6 +60,11 @@ export function Home() {
           )}
         </div>
       </Group>
+      <Group>
+        <Link to="/create-collaborative">
+          <Button variant="default">Create a Collaborative</Button>
+        </Link>
+      </Group>
     </>
   );
 }
