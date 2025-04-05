@@ -23,9 +23,9 @@ export function CreateCollaborative() {
   const [formValues, setFormValues] = useState<Collaborative>({
     name: '',
     description: '',
-    payout_frequency: PayoutFrequency.Monthly,
-    percent_revenue_share: 0,
-    staking_tiers: [],
+    payoutFrequency: PayoutFrequency.Monthly,
+    percentRevenueShare: 0,
+    stakingTiers: [],
     skills: [],
     experience: [],
   });
@@ -33,9 +33,9 @@ export function CreateCollaborative() {
   const [errors, setErrors] = useState<{
     name?: string;
     description?: string;
-    percent_revenue_share?: string;
-    payout_frequency?: string;
-    staking_tiers?: string;
+    percentRevenueShare?: string;
+    payoutFrequency?: string;
+    stakingTiers?: string;
     skills?: string;
     experience?: string;
   }>({});
@@ -44,12 +44,12 @@ export function CreateCollaborative() {
     setFormValues((current) => ({
       ...current,
       [field]: value,
-      ...(field === 'payout_frequency' && { staking_tiers: [] }), // Reset staking_tiers if payout_frequency changes
+      ...(field === 'payoutFrequency' && { stakingTiers: [] }), // Reset stakingTiers if payoutFrequency changes
     }));
 
     // Clear errors when the user starts typing
-    if (field === 'percent_revenue_share') {
-      setErrors((currentErrors) => ({ ...currentErrors, percent_revenue_share: undefined }));
+    if (field === 'percentRevenueShare') {
+      setErrors((currentErrors) => ({ ...currentErrors, percentRevenueShare: undefined }));
     }
   };
 
@@ -57,9 +57,9 @@ export function CreateCollaborative() {
     const newErrors: {
         name?: string;
         description?: string;
-        percent_revenue_share?: string;
-        payout_frequency?: string;
-        staking_tiers?: string;
+        percentRevenueShare?: string;
+        payoutFrequency?: string;
+        stakingTiers?: string;
         skills?: string;
         experience?: string;
       } = {};
@@ -74,21 +74,21 @@ export function CreateCollaborative() {
         newErrors.description = 'Description is required.';
     }
 
-    // Validate percent_revenue_share
-    if (formValues.percent_revenue_share === undefined || formValues.percent_revenue_share === null || isNaN(formValues.percent_revenue_share)) {
-        newErrors.percent_revenue_share = 'Percent Revenue Share is required.';
-    } else if (formValues.percent_revenue_share < 0.25 || formValues.percent_revenue_share > 100) {
-        newErrors.percent_revenue_share = 'Percent Revenue Share must be between 0 and 100.';
+    // Validate percentRevenueShare
+    if (formValues.percentRevenueShare === undefined || formValues.percentRevenueShare === null || isNaN(formValues.percentRevenueShare)) {
+        newErrors.percentRevenueShare = 'Percent Revenue Share is required.';
+    } else if (formValues.percentRevenueShare < 0.25 || formValues.percentRevenueShare > 100) {
+        newErrors.percentRevenueShare = 'Percent Revenue Share must be between 0 and 100.';
     }
 
-    // Validate payout_frequency
-    if (!formValues.payout_frequency) {
-        newErrors.payout_frequency = 'Payout Frequency is required.';
+    // Validate payoutFrequency
+    if (!formValues.payoutFrequency) {
+        newErrors.payoutFrequency = 'Payout Frequency is required.';
     }
 
-    // Validate staking_tiers
-    if (formValues.staking_tiers.length === 0) {
-        newErrors.staking_tiers = 'At least one staking tier must be selected.';
+    // Validate stakingTiers
+    if (formValues.stakingTiers.length === 0) {
+        newErrors.stakingTiers = 'At least one staking tier must be selected.';
     }
 
     // Validate skills
@@ -113,7 +113,7 @@ export function CreateCollaborative() {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include',
+          credentials: 'include',   
           body: JSON.stringify(formValues),
         });
   
@@ -162,11 +162,11 @@ export function CreateCollaborative() {
         label="Percent Revenue Share"
         placeholder="Enter the revenue share percentage (e.g. 5.5, 7.75, 10)"
         type="number"
-        value={formValues.percent_revenue_share}
+        value={formValues.percentRevenueShare}
         onChange={(event) =>
-            handleInputChange('percent_revenue_share', parseFloat(event.currentTarget.value))
+            handleInputChange('percentRevenueShare', parseFloat(event.currentTarget.value))
         }
-        error={errors.percent_revenue_share} // Display validation error
+        error={errors.percentRevenueShare} // Display validation error
         required
         mb="md"
         />
@@ -179,9 +179,9 @@ export function CreateCollaborative() {
             { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
             { value: PayoutFrequency.Yearly, label: 'Yearly' },
         ]}
-        value={formValues.payout_frequency}
-        onChange={(value) => handleInputChange('payout_frequency', value as PayoutFrequency)}
-        error={errors.payout_frequency} // Display validation error
+        value={formValues.payoutFrequency}
+        onChange={(value) => handleInputChange('payoutFrequency', value as PayoutFrequency)}
+        error={errors.payoutFrequency} // Display validation error
         required
         mb="md"
         />
@@ -190,15 +190,15 @@ export function CreateCollaborative() {
         label="Staking Tiers"
         placeholder="Select staking tiers"
         data={
-            formValues.payout_frequency === PayoutFrequency.Monthly
+            formValues.payoutFrequency === PayoutFrequency.Monthly
             ? monthlyStakingTiers
-            : formValues.payout_frequency === PayoutFrequency.Quarterly
+            : formValues.payoutFrequency === PayoutFrequency.Quarterly
             ? quarterlyStakingTiers
             : annualStakingTiers
         }
-        value={formValues.staking_tiers}
-        onChange={(value) => handleInputChange('staking_tiers', value)}
-        error={errors.staking_tiers} // Display validation error
+        value={formValues.stakingTiers}
+        onChange={(value) => handleInputChange('stakingTiers', value)}
+        error={errors.stakingTiers} // Display validation error
         searchable
         clearable
         required
@@ -232,7 +232,7 @@ export function CreateCollaborative() {
         />
 
       <Group mt="xl">
-        <Button onClick={handleSubmit}>Create Collaborative</Button>
+        <Button onClick={handleSubmit}>Propose Collaborative</Button>
       </Group>
     </Container>
   );

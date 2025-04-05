@@ -15,7 +15,6 @@ import classes from './RegistrationTitle.module.css';
 export function RegistrationTile() {
 
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -59,13 +58,6 @@ export function RegistrationTile() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput
-          label="Name"
-          placeholder="Your name"
-          required
-          value={formData.name}
-          onChange={(event) => handleInputChange('name', event.currentTarget.value)}
-        />
         <TextInput
           label="Email"
           placeholder="you@mantine.dev"

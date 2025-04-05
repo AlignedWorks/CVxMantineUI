@@ -60,6 +60,12 @@ export function MemberDirectory() {
             <Text ta="center" c="dimmed" fz="sm">
               {user.location}
             </Text>
+              <Text ta="center" c="dimmed" fz="sm">
+                Skills: {user.skills.join(', ')}
+              </Text>
+              <Text ta="center" c="dimmed" fz="sm">
+                Experience: {user.experience.join(', ')}
+              </Text>
             <Group justify="center" mt="md">
               <Button variant="light" color="gray" size="xs" onClick={() => handleEditClick(user)}>
                 View Profile

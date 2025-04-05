@@ -43,6 +43,9 @@ export function Home() {
         <Link to="/register">
           <Button variant="default">Register</Button>
         </Link>
+        <Link to="/create-collaborative">
+          <Button variant="default">Propose a Collaborative</Button>
+        </Link>
       </Group>
       <Group justify="center" mt="xl">
         <div className="p-4 max-w-md mx-auto bg-white shadow-lg rounded-lg">
@@ -59,11 +62,6 @@ export function Home() {
             <p></p>
           )}
         </div>
-      </Group>
-      <Group>
-        <Link to="/create-collaborative">
-          <Button variant="default">Create a Collaborative</Button>
-        </Link>
       </Group>
     </>
   );
