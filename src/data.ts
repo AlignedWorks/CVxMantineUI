@@ -1,8 +1,10 @@
 export interface Collaborative {
   name: string;
   description: string;
+  revenueShare: number;
+  indirectCosts: number;
+  collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
-  percentRevenueShare: number;
   stakingTiers: string[];
   skills: string[];
   experience: string[];
