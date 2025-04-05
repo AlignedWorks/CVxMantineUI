@@ -1,7 +1,7 @@
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
 import { Welcome } from '../components/Welcome/Welcome';
 import { Link } from 'react-router-dom';
-import { Button, Group } from '@mantine/core';
+import { Modal, TextInput, Textarea, Button, Group } from '@mantine/core';
 import { useEffect, useState } from "react";
 
 interface User {
@@ -16,6 +16,16 @@ interface User {
 
 export function Home() {
   const [user, setUser] = useState<User | null>(null);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [formValues, setFormValues] = useState<User>({
+    username: '',
+    firstName: '',
+    lastName: '',
+    bio: '',
+    linkedIn: '',
+    avatarUrl: '',
+    createdAt: '',
+  });
 
   const fetchUserData = () => {
     fetch("https://cvx.jordonbyers.com/profile", {
@@ -26,6 +36,27 @@ export function Home() {
         setUser(data);
       })
       .catch((err) => console.error("Error fetching profile:", err));
+  };
+
+  const handleFormChange = (field: keyof User, value: string) => {
+    setFormValues((current) => ({ ...current, [field]: value }));
+  };
+
+
+  const handleFormSubmit = () => {
+    // Update the user profile here (e.g., send a PUT request to the API)
+    fetch("https://cvx.jordonbyers.com/profile", {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formValues),
+    })
+      .then((res) => res.json())
+      .then((updatedUser) => {
+        setUser(updatedUser); // Update the user state with the new data
+        setModalOpened(false); // Close the modal
+      })
+      .catch((err) => console.error("Error updating profile:", err));
   };
 
   useEffect(() => {
@@ -46,6 +77,9 @@ export function Home() {
         <Link to="/create-collaborative">
           <Button variant="default">Propose a Collaborative</Button>
         </Link>
+        <Button variant="default" onClick={() => setModalOpened(true)}>
+          Update Profile
+        </Button>
       </Group>
       <Group justify="center" mt="xl">
         <div className="p-4 max-w-md mx-auto bg-white shadow-lg rounded-lg">
@@ -63,6 +97,48 @@ export function Home() {
           )}
         </div>
       </Group>
+
+      {/* Modal for editing the profile */}
+      <Modal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        title="Edit Profile"
+        centered
+      >
+        <TextInput
+          label="First Name"
+          value={formValues.firstName}
+          onChange={(event) => handleFormChange('firstName', event.currentTarget.value)}
+        />
+        <TextInput
+          label="Last Name"
+          value={formValues.lastName}
+          onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
+        />
+        <TextInput
+          label="Username"
+          value={formValues.username}
+          onChange={(event) => handleFormChange('username', event.currentTarget.value)}
+        />
+        <Textarea
+          label="Bio"
+          value={formValues.bio}
+          onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
+        />
+        <TextInput
+          label="LinkedIn"
+          value={formValues.linkedIn}
+          onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
+        />
+        <TextInput
+          label="Avatar URL"
+          value={formValues.avatarUrl}
+          onChange={(event) => handleFormChange('avatarUrl', event.currentTarget.value)}
+        />
+        <Button fullWidth mt="md" onClick={handleFormSubmit}>
+          Save Changes
+        </Button>
+      </Modal>
     </>
   );
 }
