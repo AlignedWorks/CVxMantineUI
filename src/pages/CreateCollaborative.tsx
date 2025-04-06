@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { IconInfoCircle } from '@tabler/icons-react';
 import {
   Container,
   Title,
@@ -8,6 +9,9 @@ import {
   MultiSelect,
   Button,
   Group,
+  Center,
+  Tooltip,
+  Text,
 } from '@mantine/core';
 import {
   Collaborative,
@@ -20,6 +24,28 @@ import {
 } from '../data.ts';
 
 export function CreateCollaborative() {
+
+    const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
+
+    const handleTierChange = (tiers: string[]) => {
+        // Add new tiers with a default exchange rate of 1.0
+        const updatedTiers = tiers.map((tier) => {
+        const existingTier = selectedTiers.find((t) => t.tier === tier);
+        return existingTier || { tier, exchangeRate: 1.0 };
+        });
+
+        // Remove tiers that are no longer selected
+        setSelectedTiers(updatedTiers.filter((t) => tiers.includes(t.tier)));
+        formValues.stakingTiers = updatedTiers; // Update the form values with the selected tiers
+    };
+
+    const handleExchangeRateChange = (tier: string, rate: number) => {
+        setSelectedTiers((current) =>
+        current.map((t) => (t.tier === tier ? { ...t, exchangeRate: rate } : t))
+        );
+        formValues.stakingTiers = selectedTiers;
+    };
+
   const [formValues, setFormValues] = useState<Collaborative>({
     name: '',
     description: '',
@@ -40,6 +66,7 @@ export function CreateCollaborative() {
     collabLeaderCompensation?: string;
     payoutFrequency?: string;
     stakingTiers?: string;
+    exchangeRate?: { [tier: string]: string };
     skills?: string;
     experience?: string;
   }>({});
@@ -54,6 +81,14 @@ export function CreateCollaborative() {
     // Clear errors when the user starts typing
     if (field === 'revenueShare') {
       setErrors((currentErrors) => ({ ...currentErrors, revenueShare: undefined }));
+    } else if (field === 'description') {
+      setErrors((currentErrors) => ({ ...currentErrors, description: undefined }));
+    } else if (field === 'name') {
+      setErrors((currentErrors) => ({ ...currentErrors, name: undefined }));
+    } else if (field === 'indirectCosts') {
+      setErrors((currentErrors) => ({ ...currentErrors, indirectCosts: undefined }));
+    } else if (field === 'collabLeaderCompensation') {
+      setErrors((currentErrors) => ({ ...currentErrors, collabLeaderCompensation: undefined }));
     }
   };
 
@@ -66,6 +101,7 @@ export function CreateCollaborative() {
         collabLeaderCompensation?: string;
         payoutFrequency?: string;
         stakingTiers?: string;
+        exchangeRate?: { [tier: string]: string };
         skills?: string;
         experience?: string;
       } = {};
@@ -82,9 +118,9 @@ export function CreateCollaborative() {
 
     // Validate revenueShare
     if (formValues.revenueShare === undefined || formValues.revenueShare === null || isNaN(formValues.revenueShare)) {
-        newErrors.revenueShare = 'Percent Revenue Share is required.';
+        newErrors.revenueShare = 'Revenue Share is required.';
     } else if (formValues.revenueShare < 0.25 || formValues.revenueShare > 100) {
-        newErrors.revenueShare = 'Percent Revenue Share must be between 0 and 100.';
+        newErrors.revenueShare = 'Revenue Share must be between 0 and 100.';
     }
 
     // Validate indirectCosts
@@ -107,6 +143,20 @@ export function CreateCollaborative() {
         newErrors.stakingTiers = 'At least one staking tier must be selected.';
     }
 
+    // Validate exchangeRate for each selected tier
+    const exchangeRateErrors: { [tier: string]: string } = {};
+    selectedTiers.forEach((tier) => {
+        if (tier.exchangeRate === undefined || tier.exchangeRate === null || isNaN(tier.exchangeRate)) {
+        exchangeRateErrors[tier.tier] = 'Exchange rate is required.';
+        } else if (tier.exchangeRate <= 0 || tier.exchangeRate > 100) {
+        exchangeRateErrors[tier.tier] = 'Exchange rate must be between 0 and 100.';
+        }
+    });
+
+    if (Object.keys(exchangeRateErrors).length > 0) {
+        newErrors.exchangeRate = exchangeRateErrors;
+    }
+
     // Validate skills
     if (formValues.skills.length === 0) {
         newErrors.skills = 'At least one skill must be selected.';
@@ -121,7 +171,7 @@ export function CreateCollaborative() {
 
     // If there are no errors, proceed with form submission
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted:', formValues);
+      console.log('Form submitted:', formValues, selectedTiers);
       
       try {
         const response = await fetch('https://cvx.jordonbyers.com/collaborative', {
@@ -147,6 +197,66 @@ export function CreateCollaborative() {
       }
     }
   };
+
+  const revenueShare = (
+    <Tooltip
+      label="Set the % of Collab-wide revenue to be allocated to the Pool."
+      position="top-end"
+      withArrow
+      transitionProps={{ transition: 'pop-bottom-right' }}
+    >
+      <Text component="div" c="dimmed" style={{ cursor: 'help' }}>
+        <Center>
+          <IconInfoCircle size={18} stroke={1.5} />
+        </Center>
+      </Text>
+    </Tooltip>
+  );
+
+  const indirectCosts = (
+    <Tooltip
+      label="Set the Target % of Collab-wide revenue set aside to cover Indirect costs."
+      position="top-end"
+      withArrow
+      transitionProps={{ transition: 'pop-bottom-right' }}
+    >
+      <Text component="div" c="dimmed" style={{ cursor: 'help' }}>
+        <Center>
+          <IconInfoCircle size={18} stroke={1.5} />
+        </Center>
+      </Text>
+    </Tooltip>
+  );
+
+  const collabLeaderComp = (
+    <Tooltip
+      label="Set compensation for the Collab Leader as a % of revenue OR USD/month."
+      position="top-end"
+      withArrow
+      transitionProps={{ transition: 'pop-bottom-right' }}
+    >
+      <Text component="div" c="dimmed" style={{ cursor: 'help' }}>
+        <Center>
+          <IconInfoCircle size={18} stroke={1.5} />
+        </Center>
+      </Text>
+    </Tooltip>
+  );
+
+  const exchangeRate = (
+    <Tooltip
+      label="This number should be somewhere between 0 and 100."
+      position="top-end"
+      withArrow
+      transitionProps={{ transition: 'pop-bottom-right' }}
+    >
+      <Text component="div" c="dimmed" style={{ cursor: 'help' }}>
+        <Center>
+          <IconInfoCircle size={18} stroke={1.5} />
+        </Center>
+      </Text>
+    </Tooltip>
+  );
 
   return (
     <Container size="lg" py="xl">
@@ -175,6 +285,7 @@ export function CreateCollaborative() {
         />
 
         <TextInput
+            rightSection={revenueShare}
             label="Revenue Share %"
             placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
             type="number"
@@ -188,6 +299,7 @@ export function CreateCollaborative() {
         />
 
         <TextInput
+            rightSection={indirectCosts}
             label="Indirect Costs Target %"
             placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
             type="number"
@@ -201,6 +313,7 @@ export function CreateCollaborative() {
         />
 
         <TextInput
+            rightSection={collabLeaderComp}
             label="Collaborative Leader Compensation %"
             placeholder="Enter the collaborative leader compensation % (e.g. 5.5, 7.75, 10)"
             type="number"
@@ -208,7 +321,7 @@ export function CreateCollaborative() {
             onChange={(event) =>
                 handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
             }
-            error={errors.revenueShare} // Display validation error
+            error={errors.collabLeaderCompensation} // Display validation error
             required
             mb="md"
         />
@@ -238,14 +351,31 @@ export function CreateCollaborative() {
                 ? quarterlyStakingTiers
                 : annualStakingTiers
             }
-            value={formValues.stakingTiers}
-            onChange={(value) => handleInputChange('stakingTiers', value)}
+            value={selectedTiers.map((t) => t.tier)}
+            onChange={handleTierChange}
             error={errors.stakingTiers} // Display validation error
             searchable
             clearable
             required
             mb="md"
         />
+
+        {selectedTiers.map((tier) => (
+            <TextInput
+                rightSection={exchangeRate}
+                key={tier.tier}
+                label={`Exchange Rate for ${tier.tier}`}
+                placeholder="Enter exchange rate"
+                type="number"
+                value={tier.exchangeRate}
+                onChange={(event) =>
+                    handleExchangeRateChange(tier.tier, parseFloat(event.currentTarget.value))
+                }
+                error={errors.exchangeRate?.[tier.tier]} // Display validation error
+                required
+                mb="md"
+            />
+        ))}
 
         <MultiSelect
             label="Skills"

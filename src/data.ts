@@ -5,7 +5,7 @@ export interface Collaborative {
   indirectCosts: number;
   collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
-  stakingTiers: string[];
+  stakingTiers: StakingTier[];
   skills: string[];
   experience: string[];
 }
@@ -16,6 +16,10 @@ export enum PayoutFrequency {
   Yearly = 'Yearly',
 };
 
+export interface StakingTier {
+  tier: string;
+  exchangeRate: number;
+}
 export const monthlyStakingTiers = [
   '1 Month',
   '2 Months',
@@ -54,7 +58,6 @@ export const annualStakingTiers = [
   '9 Years',
   '10 Years',
 ];
-
 
 export interface User {
   id: number;
