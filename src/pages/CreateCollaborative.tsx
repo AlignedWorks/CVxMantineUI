@@ -36,7 +36,11 @@ export function CreateCollaborative() {
 
         // Remove tiers that are no longer selected
         setSelectedTiers(updatedTiers.filter((t) => tiers.includes(t.tier)));
-        formValues.stakingTiers = updatedTiers; // Update the form values with the selected tiers
+        formValues.stakingTiers = updatedTiers; // Update the form values with the selected tier
+
+        console.log('Selected Tiers:', selectedTiers);
+        console.log('Updated Tiers:', updatedTiers);
+
     };
 
     const handleExchangeRateChange = (tier: string, rate: number) => {
