@@ -177,10 +177,6 @@ export function CreateCollaborative() {
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted:', formValues);
 
-      const { ...payload } = formValues;
-
-    console.log('Payload sent to server:', payload);
-
       try {
         const response = await fetch('https://cvx.jordonbyers.com/collaborative', {
           method: 'POST',
@@ -188,7 +184,7 @@ export function CreateCollaborative() {
             'Content-Type': 'application/json',
           },
           credentials: 'include',   
-          body: JSON.stringify(payload),
+          body: JSON.stringify(formValues)
         });
   
         if (response.ok) {
