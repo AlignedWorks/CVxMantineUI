@@ -34,20 +34,30 @@ export function CreateCollaborative() {
         return existingTier || { tier, exchangeRate: 1.0 };
         });
 
-        // Remove tiers that are no longer selected
-        setSelectedTiers(updatedTiers.filter((t) => tiers.includes(t.tier)));
-        formValues.stakingTiers = updatedTiers; // Update the form values with the selected tier
+        const filteredTiers = updatedTiers.filter((t) => tiers.includes(t.tier));
 
-        console.log('Selected Tiers:', selectedTiers);
-        console.log('Updated Tiers:', updatedTiers);
+        setSelectedTiers(filteredTiers);
+
+        // Update formValues using setFormValues
+        setFormValues((current) => ({
+            ...current,
+            stakingTiers: filteredTiers,
+        }));
 
     };
 
     const handleExchangeRateChange = (tier: string, rate: number) => {
-        setSelectedTiers((current) =>
-        current.map((t) => (t.tier === tier ? { ...t, exchangeRate: rate } : t))
-        );
-        formValues.stakingTiers = selectedTiers;
+        const updatedTiers = selectedTiers.map((t) =>
+            t.tier === tier ? { ...t, exchangeRate: rate } : t
+          );
+        
+          setSelectedTiers(updatedTiers);
+        
+          // Update formValues using setFormValues
+          setFormValues((current) => ({
+            ...current,
+            stakingTiers: updatedTiers,
+          }));
     };
 
   const [formValues, setFormValues] = useState<Collaborative>({
