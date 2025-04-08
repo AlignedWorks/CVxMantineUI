@@ -173,7 +173,7 @@ export function CreateCollaborative() {
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted:', formValues);
 
-      const { stakingTiers, skills, experience, ...payload } = formValues;
+      const { ...payload } = formValues;
 
     console.log('Payload sent to server:', payload);
 
