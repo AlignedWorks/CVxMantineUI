@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IconInfoCircle } from '@tabler/icons-react';
 import {
   Container,
@@ -19,13 +19,45 @@ import {
   monthlyStakingTiers,
   quarterlyStakingTiers,
   annualStakingTiers,
-  skills,
-  experience,
 } from '../data.ts';
 
 export function CreateCollaborative() {
-
+    const [skills, setSkills] = useState([]); // State for skills
+    const [experience, setExperience] = useState([]); // State for experience
     const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState(""); // Error state
+
+    // Fetch skills and experience from the backend
+    useEffect(() => {
+        const fetchSkillsAndExperience = async () => {
+        try {
+            const response = await fetch('https://cvx.jordonbyers.com/skillsExperience', {
+                credentials: "include",
+            });
+            if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+            }
+            const data = await response.json();
+            setSkills(data.skills); // Assuming the JSON has a `skills` key
+            setExperience(data.experience); // Assuming the JSON has an `experience` key
+        } catch (err) {
+            setError("Something went wrong!");
+        } finally {
+            setLoading(false);
+        }
+        };
+
+        fetchSkillsAndExperience();
+    }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+    if (loading) {
+        return <div>Loading...</div>; // Show a loading message while fetching data
+    }
+
+    if (error) {
+    return <div>Error: {error}</div>; // Show an error message if the fetch fails
+    }
 
     const handleTierChange = (tiers: string[]) => {
         // Add new tiers with a default exchange rate of 1.0
@@ -140,11 +172,15 @@ export function CreateCollaborative() {
     // Validate indirectCosts
     if (!formValues.indirectCosts) {
         newErrors.indirectCosts = 'An Indirect Costs Target is required.';
+    } else if (formValues.indirectCosts < 0.25 || formValues.indirectCosts > 100) {
+        newErrors.indirectCosts = 'Revenue Share must be between 0 and 100.';
     }
 
     // Validate collabLeaderCompensation
     if (!formValues.collabLeaderCompensation) {
         newErrors.collabLeaderCompensation = 'Collaborarative Leader Compensation is required.';
+    } else if (formValues.collabLeaderCompensation < 0.25 || formValues.collabLeaderCompensation > 100) {
+        newErrors.collabLeaderCompensation = 'Revenue Share must be between 0 and 100.';
     }
 
     // Validate payoutFrequency
