@@ -25,39 +25,23 @@ export function CreateCollaborative() {
     const [skills, setSkills] = useState([]); // State for skills
     const [experience, setExperience] = useState([]); // State for experience
     const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
-    const [loading, setLoading] = useState(true); // Loading state
-    const [error, setError] = useState(""); // Error state
 
     const fetchSkillsAndExperience = async () => {
-        try {
-            const response = await fetch('https://cvx.jordonbyers.com/skillsExperience', {
+        fetch('https://cvx.jordonbyers.com/skillsExperience', {
                 credentials: "include",
-            });
-            if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
-            }
-            const data = await response.json();
-            setSkills(data.skills); // Assuming the JSON has a `skills` key
-            setExperience(data.experience); // Assuming the JSON has an `experience` key
-        } catch (err) {
-            setError("Something went wrong!");
-        } finally {
-            setLoading(false);
-        }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                setSkills(data.skills); // Assuming the JSON has a `skills` key
+                setExperience(data.experience); // Assuming the JSON has an `experience` key
+            })
+            .catch((err) => console.error("Error fetching profile:", err));
         };
 
     // Fetch skills and experience from the backend
     useEffect(() => {
         fetchSkillsAndExperience();
     }, []); // Empty dependency array ensures this runs only once when the component mounts
-
-    if (loading) {
-        return <div>Loading...</div>; // Show a loading message while fetching data
-    }
-
-    if (error) {
-    return <div>Error: {error}</div>; // Show an error message if the fetch fails
-    }
 
     const handleTierChange = (tiers: string[]) => {
         // Add new tiers with a default exchange rate of 1.0
