@@ -28,9 +28,7 @@ export function CreateCollaborative() {
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(""); // Error state
 
-    // Fetch skills and experience from the backend
-    useEffect(() => {
-        const fetchSkillsAndExperience = async () => {
+    const fetchSkillsAndExperience = async () => {
         try {
             const response = await fetch('https://cvx.jordonbyers.com/skillsExperience', {
                 credentials: "include",
@@ -48,6 +46,8 @@ export function CreateCollaborative() {
         }
         };
 
+    // Fetch skills and experience from the backend
+    useEffect(() => {
         fetchSkillsAndExperience();
     }, []); // Empty dependency array ensures this runs only once when the component mounts
 
