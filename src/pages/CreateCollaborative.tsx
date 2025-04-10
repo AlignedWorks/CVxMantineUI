@@ -298,9 +298,10 @@ export function CreateCollaborative() {
             Propose a Collaborative
         </Title>
 
-        <Title order={2} mb="md" pt="sm" pb="xl">
+        <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
             Purpose and People
         </Title>
+
         <TextInput
             label="Collaborative Name"
             placeholder="Enter your collaborative's name"
@@ -347,9 +348,10 @@ export function CreateCollaborative() {
             mb="md"
         />
 
-        <Title order={2} mb="md" pt="sm" pb="xl">
+        <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
             Revenue Sharing Pool
         </Title>
+
         <TextInput
             rightSection={revenueShare}
             label="% of Revenue to the Collab Pool"
@@ -415,7 +417,7 @@ export function CreateCollaborative() {
             />
         ))}
 
-        <Title order={2} mb="md" pt="sm" pb="xl">
+        <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
             Other Financials
         </Title>
 
