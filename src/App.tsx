@@ -13,6 +13,7 @@ import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { MemberDirectory } from './pages/MemberDirectory.page';
 import { UserProfile } from './pages/UserProfile.page';
 import { CreateCollaborative } from './pages/CreateCollaborative.tsx';
+import { NotFound } from './components/404/NotFound.tsx';
 
 export default function App() {
   const [opened] = useDisclosure();
@@ -39,6 +40,7 @@ export default function App() {
           <AppShell.Main>
           <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
               <Route path="/login" element={<AuthenticationTitle />} />
               <Route path="/register" element={<RegistrationTile />} />
               <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
