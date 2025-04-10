@@ -34,7 +34,6 @@ export function CreateCollaborative() {
             .then((data) => {
                 setSkills(data.skills); // Assuming the JSON has a `skills` key
                 setExperience(data.experience); // Assuming the JSON has an `experience` key
-                console.log(data); // Log the data for debugging
             })
             .catch((err) => console.error("Error fetching profile:", err));
         };
@@ -299,9 +298,12 @@ export function CreateCollaborative() {
             Propose a Collaborative
         </Title>
 
+        <Title order={2} mb="md" pt="sm" pb="xl">
+            Purpose and People
+        </Title>
         <TextInput
-            label="Name"
-            placeholder="Enter the collaborative name"
+            label="Collaborative Name"
+            placeholder="Enter your collaborative's name"
             value={formValues.name}
             onChange={(event) => handleInputChange('name', event.currentTarget.value)}
             error={errors.name} // Display validation error
@@ -311,7 +313,7 @@ export function CreateCollaborative() {
 
         <Textarea
             label="Description"
-            placeholder="Enter a description for the collaborative"
+            placeholder="Briefly summarize the purpose and activities of your Collab"
             value={formValues.description}
             onChange={(event) => handleInputChange('description', event.currentTarget.value)}
             error={errors.description} // Display validation error
@@ -319,9 +321,38 @@ export function CreateCollaborative() {
             mb="md"
         />
 
+        <MultiSelect
+            label="Member Skills"
+            placeholder="Select the needed skills"
+            data={skills}
+            value={formValues.skills}
+            onChange={(value) => handleInputChange('skills', value)}
+            error={errors.skills} // Display validation error
+            searchable
+            clearable
+            required
+            mb="md"
+        />
+
+        <MultiSelect
+            label="Sector Experience"
+            placeholder="Select the needed experience"
+            data={experience}
+            value={formValues.experience}
+            onChange={(value) => handleInputChange('experience', value)}
+            error={errors.experience} // Display validation error
+            searchable
+            clearable
+            required
+            mb="md"
+        />
+
+        <Title order={2} mb="md" pt="sm" pb="xl">
+            Revenue Sharing Pool
+        </Title>
         <TextInput
             rightSection={revenueShare}
-            label="Revenue Share %"
+            label="% of Revenue to the Collab Pool"
             placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
             type="number"
             value={formValues.revenueShare}
@@ -329,34 +360,6 @@ export function CreateCollaborative() {
                 handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
             }
             error={errors.revenueShare} // Display validation error
-            required
-            mb="md"
-        />
-
-        <TextInput
-            rightSection={indirectCosts}
-            label="Indirect Costs Target %"
-            placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
-            type="number"
-            value={formValues.indirectCosts}
-            onChange={(event) =>
-                handleInputChange('indirectCosts', parseFloat(event.currentTarget.value))
-            }
-            error={errors.indirectCosts} // Display validation error
-            required
-            mb="md"
-        />
-
-        <TextInput
-            rightSection={collabLeaderComp}
-            label="Collaborative Leader Compensation %"
-            placeholder="Enter the collaborative leader compensation % (e.g. 5.5, 7.75, 10)"
-            type="number"
-            value={formValues.collabLeaderCompensation}
-            onChange={(event) =>
-                handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
-            }
-            error={errors.collabLeaderCompensation} // Display validation error
             required
             mb="md"
         />
@@ -377,7 +380,7 @@ export function CreateCollaborative() {
         />
 
         <MultiSelect
-            label="Staking Tiers"
+            label="SharePoint Staking Tiers"
             placeholder="Select staking tiers"
             data={
                 formValues.payoutFrequency === PayoutFrequency.Monthly
@@ -399,7 +402,7 @@ export function CreateCollaborative() {
             <TextInput
                 rightSection={exchangeRate}
                 key={tier.tier}
-                label={`Exchange Rate for ${tier.tier}`}
+                label={`Staking Exchange Rate for ${tier.tier}`}
                 placeholder="Enter exchange rate"
                 type="number"
                 value={tier.exchangeRate}
@@ -412,31 +415,38 @@ export function CreateCollaborative() {
             />
         ))}
 
-        <MultiSelect
-            label="Skills"
-            placeholder="Select required skills"
-            data={skills}
-            value={formValues.skills}
-            onChange={(value) => handleInputChange('skills', value)}
-            error={errors.skills} // Display validation error
-            searchable
-            clearable
+        <Title order={2} mb="md" pt="sm" pb="xl">
+            Other Financials
+        </Title>
+
+        <TextInput
+            rightSection={indirectCosts}
+            label="% of Revenue to cover Indirect Costs (Target)"
+            placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
+            type="number"
+            value={formValues.indirectCosts}
+            onChange={(event) =>
+                handleInputChange('indirectCosts', parseFloat(event.currentTarget.value))
+            }
+            error={errors.indirectCosts} // Display validation error
             required
             mb="md"
         />
 
-        <MultiSelect
-            label="Experience"
-            placeholder="Select required experience"
-            data={experience}
-            value={formValues.experience}
-            onChange={(value) => handleInputChange('experience', value)}
-            error={errors.experience} // Display validation error
-            searchable
-            clearable
+        <TextInput
+            rightSection={collabLeaderComp}
+            label="% of Revenue to Collab Leader Compensation"
+            placeholder="Enter the collaborative leader compensation % (e.g. 5.5, 7.75, 10)"
+            type="number"
+            value={formValues.collabLeaderCompensation}
+            onChange={(event) =>
+                handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
+            }
+            error={errors.collabLeaderCompensation} // Display validation error
             required
             mb="md"
         />
+
 
       <Group mt="xl">
         <Button onClick={handleSubmit}>Propose Collaborative</Button>
