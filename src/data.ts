@@ -1,13 +1,13 @@
 export interface Collaborative {
   name: string;
   description: string;
+  skills: string[];
+  experience: string[];
   revenueShare: number;
   indirectCosts: number;
   collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
   stakingTiers: StakingTier[];
-  skills: string[];
-  experience: string[];
 }
 
 export enum PayoutFrequency {

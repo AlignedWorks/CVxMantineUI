@@ -12,6 +12,7 @@ import {
   Center,
   Tooltip,
   Text,
+  SimpleGrid
 } from '@mantine/core';
 import {
   Collaborative,
@@ -79,26 +80,26 @@ export function CreateCollaborative() {
   const [formValues, setFormValues] = useState<Collaborative>({
     name: '',
     description: '',
+    skills: [],
+    experience: [],
     revenueShare: 0,
     indirectCosts: 0,
     collabLeaderCompensation: 0,
     payoutFrequency: PayoutFrequency.Monthly,
     stakingTiers: [],
-    skills: [],
-    experience: [],
   });
 
   const [errors, setErrors] = useState<{
     name?: string;
     description?: string;
+    skills?: string;
+    experience?: string;
     revenueShare?: string;
     indirectCosts?: string;
     collabLeaderCompensation?: string;
     payoutFrequency?: string;
     stakingTiers?: string;
     exchangeRate?: { [tier: string]: string };
-    skills?: string;
-    experience?: string;
   }>({});
 
   const handleInputChange = (field: keyof Collaborative, value: any) => {
@@ -108,11 +109,22 @@ export function CreateCollaborative() {
       ...(field === 'payoutFrequency' && { stakingTiers: [] }), // Reset stakingTiers if payoutFrequency changes
     }));
 
+    // Reset selectedTiers when payoutFrequency changes
+    if (field === 'payoutFrequency') {
+      setSelectedTiers([]); // Clear the selectedTiers state
+    }
+
     // Clear errors when the user starts typing
     if (field === 'revenueShare') {
       setErrors((currentErrors) => ({ ...currentErrors, revenueShare: undefined }));
     } else if (field === 'description') {
       setErrors((currentErrors) => ({ ...currentErrors, description: undefined }));
+    } else if (field === 'skills') {
+      setErrors((currentErrors) => ({ ...currentErrors, skills: undefined }));
+    } else if (field === 'experience') {
+      setErrors((currentErrors) => ({ ...currentErrors, experience: undefined }));
+    } else if (field === 'stakingTiers') {
+      setErrors((currentErrors) => ({ ...currentErrors, stakingTiers: undefined }));
     } else if (field === 'name') {
       setErrors((currentErrors) => ({ ...currentErrors, name: undefined }));
     } else if (field === 'indirectCosts') {
@@ -126,14 +138,14 @@ export function CreateCollaborative() {
     const newErrors: {
         name?: string;
         description?: string;
+        skills?: string;
+        experience?: string;
         revenueShare?: string;
         indirectCosts?: string,
         collabLeaderCompensation?: string;
         payoutFrequency?: string;
         stakingTiers?: string;
         exchangeRate?: { [tier: string]: string };
-        skills?: string;
-        experience?: string;
       } = {};
 
     // Validate name
@@ -294,7 +306,7 @@ export function CreateCollaborative() {
 
   return (
     <Container size="lg" py="xl">
-        <Title order={1} mb="md" pt="sm" pb="xl">
+        <Title order={1} mb="md" pt="sm" pb="lg">
             Propose a Collaborative
         </Title>
 
@@ -319,9 +331,11 @@ export function CreateCollaborative() {
             onChange={(event) => handleInputChange('description', event.currentTarget.value)}
             error={errors.description} // Display validation error
             required
+            mt="xl"
             mb="md"
         />
 
+        <SimpleGrid mt="xl" mb="lg" cols={2}>
         <MultiSelect
             label="Member Skills"
             placeholder="Select the needed skills"
@@ -347,11 +361,13 @@ export function CreateCollaborative() {
             required
             mb="md"
         />
+        </SimpleGrid>
 
-        <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
+        <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
             Revenue Sharing Pool
         </Title>
 
+        <SimpleGrid cols={2}>
         <TextInput
             rightSection={revenueShare}
             label="% of Revenue to the Collab Pool"
@@ -380,10 +396,11 @@ export function CreateCollaborative() {
             required
             mb="md"
         />
+        </SimpleGrid>
 
         <MultiSelect
             label="SharePoint Staking Tiers"
-            placeholder="Select staking tiers"
+            placeholder="Select SharePoint staking tiers"
             data={
                 formValues.payoutFrequency === PayoutFrequency.Monthly
                 ? monthlyStakingTiers
@@ -397,14 +414,15 @@ export function CreateCollaborative() {
             searchable
             clearable
             required
+            mt="lg"
             mb="md"
         />
-
+        <Group grow mt="xl" pt="sm" pb="lg" >
         {selectedTiers.map((tier) => (
             <TextInput
                 rightSection={exchangeRate}
                 key={tier.tier}
-                label={`Staking Exchange Rate for ${tier.tier}`}
+                label={`${tier.tier} Staking Exchange Rate`}
                 placeholder="Enter exchange rate"
                 type="number"
                 value={tier.exchangeRate}
@@ -416,11 +434,13 @@ export function CreateCollaborative() {
                 mb="md"
             />
         ))}
+        </Group>
 
-        <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
+        <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
             Other Financials
         </Title>
 
+        <SimpleGrid cols={2}>
         <TextInput
             rightSection={indirectCosts}
             label="% of Revenue to cover Indirect Costs (Target)"
@@ -448,6 +468,7 @@ export function CreateCollaborative() {
             required
             mb="md"
         />
+        </SimpleGrid>
 
 
       <Group mt="xl">
