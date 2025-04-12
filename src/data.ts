@@ -1,8 +1,8 @@
 export interface Collaborative {
   name: string;
   description: string;
-  skills: string[];
-  experience: string[];
+  skills: { id: number; value: string }[];
+  experience: { id: number; value: string }[];
   revenueShare: number;
   indirectCosts: number;
   collabLeaderCompensation: number;

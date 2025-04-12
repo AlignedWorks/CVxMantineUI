@@ -23,8 +23,8 @@ import {
 } from '../data.ts';
 
 export function CreateCollaborative() {
-    const [skills, setSkills] = useState([]); // State for skills
-    const [experience, setExperience] = useState([]); // State for experience
+    const [skills, setSkills] = useState<{ id: number; value: string }[]>([]); // State for skills
+    const [experience, setExperience] = useState<{ id: number; value: string }[]>([]); // State for experience
     const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
 
     const fetchSkillsAndExperience = async () => {
@@ -33,6 +33,7 @@ export function CreateCollaborative() {
             })
             .then((res) => res.json())
             .then((data) => {
+                console.log(data); // Log the data to see its structure
                 setSkills(data.skills); // Assuming the JSON has a `skills` key
                 setExperience(data.experience); // Assuming the JSON has an `experience` key
             })
@@ -217,7 +218,12 @@ export function CreateCollaborative() {
 
     // If there are no errors, proceed with form submission
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted:', formValues);
+      const payload = {
+        ...formValues,
+        skills: formValues.skills.map((skill) => skill.id), // Map skills to their IDs
+        experience: formValues.experience.map((exp) => exp.id), // Map experience to their IDs
+      }
+      console.log('Form submitted:', payload);
 
       try {
         const response = await fetch('https://cvx.jordonbyers.com/collaborative', {
@@ -226,7 +232,7 @@ export function CreateCollaborative() {
             'Content-Type': 'application/json',
           },
           credentials: 'include',   
-          body: JSON.stringify(formValues)
+          body: JSON.stringify(payload)
         });
   
         if (response.ok) {
@@ -339,9 +345,14 @@ export function CreateCollaborative() {
         <MultiSelect
             label="Member Skills"
             placeholder="Select the needed skills"
-            data={skills}
-            value={formValues.skills}
-            onChange={(value) => handleInputChange('skills', value)}
+            data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
+            value={formValues.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
+            onChange={(values) =>
+              handleInputChange(
+                'skills',
+                values.map((id) => skills.find((skill) => skill.id.toString() === id))
+              )
+            }
             error={errors.skills} // Display validation error
             searchable
             clearable
@@ -352,9 +363,14 @@ export function CreateCollaborative() {
         <MultiSelect
             label="Sector Experience"
             placeholder="Select the needed experience"
-            data={experience}
-            value={formValues.experience}
-            onChange={(value) => handleInputChange('experience', value)}
+            data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
+            value={formValues.experience.map((exp) => exp.id.toString())} // Map selected experience to their IDs
+            onChange={(values) =>
+              handleInputChange(
+                'experience',
+                values.map((id) => experience.find((exp) => exp.id.toString() === id))
+              )
+            }
             error={errors.experience} // Display validation error
             searchable
             clearable
