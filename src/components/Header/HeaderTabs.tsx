@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useCookies } from 'react-cookie'; // Import useCookies
 import {
   IconChevronDown,
   IconLogout,
@@ -37,15 +36,7 @@ export function HeaderTabs() {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [cookies, setCookie] = useCookies(['theme']); // Initialize cookies
-  const [theme, setTheme] = useState(cookies.theme || 'light'); // Default to light theme if no cookie exists
   const { user, logout } = useAuth();
-
-  const handleThemeToggle = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    setCookie('theme', newTheme, { path: '/', maxAge: 31536000 }); // Store theme in a cookie for 1 year
-  };
 
   const handleLogout = async () => {
     try {
@@ -127,9 +118,6 @@ export function HeaderTabs() {
                   </UnstyledButton>
                 </Menu.Target>
                 <Menu.Dropdown>
-                  <Button variant="default" onClick={handleThemeToggle}>
-                    Toggle Theme (Current: {theme})
-                  </Button>
                   <Menu.Item leftSection={<IconSettings size={16} stroke={1.5} />}>
                     Account settings
                   </Menu.Item>
