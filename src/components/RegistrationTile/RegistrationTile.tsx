@@ -9,10 +9,11 @@ import {
   Title,
 } from '@mantine/core';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classes from './RegistrationTitle.module.css';
 
 export function RegistrationTile() {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -26,19 +27,45 @@ export function RegistrationTile() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Check for empty fields
     for (const [key, value] of Object.entries(formData)) {
       if (!value.trim()) {
         setError(`The ${key} field is required.`);
         return;
-      }
+      } 
     }
 
     // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
+    } else {
+      const payload = { email: formData.email, password: formData.password };
+
+      const response = await fetch('https://cvx.jordonbyers.com/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+  
+      if (response.ok) {
+        // Fetch user profile after login
+        const profileResponse = await fetch('https://cvx.jordonbyers.com/login', {
+          credentials: 'include',
+        });
+    
+        if (profileResponse.ok) {
+          navigate('/login');
+        } else {
+          setError('Failed to fetch user profile');
+        }
+      } else {
+        setError('Invalid email or password');
+      }
     }
 
     setError(''); // Clear any previous errors
@@ -58,45 +85,47 @@ export function RegistrationTile() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput
-          label="Email"
-          placeholder="you@mantine.dev"
-          required
-          mt="md"
-          value={formData.email}
-          onChange={(event) => handleInputChange('email', event.currentTarget.value)}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          mt="md"
-          value={formData.password}
-          onChange={(event) => handleInputChange('password', event.currentTarget.value)}
-        />
-        <PasswordInput
-          label="Confirm Password"
-          placeholder="Confirm your password"
-          required
-          mt="md"
-          value={formData.confirmPassword}
-          onChange={(event) => handleInputChange('confirmPassword', event.currentTarget.value)}
-        />
+        <form onSubmit={handleSubmit}>
+          <TextInput
+            label="Email"
+            placeholder="you@mantine.dev"
+            required
+            mt="md"
+            value={formData.email}
+            onChange={(event) => handleInputChange('email', event.currentTarget.value)}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            required
+            mt="md"
+            value={formData.password}
+            onChange={(event) => handleInputChange('password', event.currentTarget.value)}
+          />
+          <PasswordInput
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            required
+            mt="md"
+            value={formData.confirmPassword}
+            onChange={(event) => handleInputChange('confirmPassword', event.currentTarget.value)}
+          />
 
-        {error && (
-          <Text color="red" size="sm" mt="sm">
-            {error}
-          </Text>
-        )}
+          {error && (
+            <Text color="red" size="sm" mt="sm">
+              {error}
+            </Text>
+          )}
 
-        <Group justify="space-between" mt="lg">
-          <Text size="sm" c="dimmed">
-            By signing up, you agree to our terms and conditions.
-          </Text>
-        </Group>
-        <Button fullWidth mt="xl" onClick={handleSubmit}> 
-          Sign up
-        </Button>
+          <Group justify="space-between" mt="lg">
+            <Text size="sm" c="dimmed">
+              By signing up, you agree to our terms and conditions.
+            </Text>
+          </Group>
+          <Button fullWidth mt="xl" type="submit"> 
+            Sign up
+          </Button>
+        </form>
       </Paper>
     </Container>
   );

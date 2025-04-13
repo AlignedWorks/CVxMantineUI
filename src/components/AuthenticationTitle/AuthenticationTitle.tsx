@@ -82,37 +82,37 @@ export function AuthenticationTitle() {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={handleSubmit}>
-        <TextInput
-          label="Email"
-          placeholder="you@mantine.dev" 
-          required
-          value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          mt="md"
-          value={password}
-          onChange={(event) => setPassword(event.currentTarget.value)}
-        />
+          <TextInput
+            label="Email"
+            placeholder="you@mantine.dev" 
+            required
+            value={email}
+            onChange={(event) => setEmail(event.currentTarget.value)}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            required
+            mt="md"
+            value={password}
+            onChange={(event) => setPassword(event.currentTarget.value)}
+          />
 
-        {error && (
-          <Text color="red" size="sm" mt="sm">
-            {error}
-          </Text>
-        )}
+          {error && (
+            <Text color="red" size="sm" mt="sm">
+              {error}
+            </Text>
+          )}
 
-        <Group justify="space-between" mt="lg">
-          <Checkbox label="Remember me" />
-          <Anchor component="button" size="sm">
-            Forgot password?
-          </Anchor>
-        </Group>
-        <Button fullWidth mt="xl" type="submit">
-          Sign in
-        </Button>
+          <Group justify="space-between" mt="lg">
+            <Checkbox label="Remember me" />
+            <Anchor component="button" size="sm">
+              Forgot password?
+            </Anchor>
+          </Group>
+          <Button fullWidth mt="xl" type="submit">
+            Sign in
+          </Button>
         </form>
       </Paper>
     </Container>
