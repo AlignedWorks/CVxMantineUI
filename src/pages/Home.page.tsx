@@ -24,7 +24,7 @@ export function Home() {
     bio: user?.bio || '',
     linkedIn: user?.linkedIn || '',
     avatarUrl: user?.avatarUrl || '',
-    createdAt: user?.firstName || '',
+    createdAt: user?.createdAt || '',
   });
 
   const fetchUserData = () => {
@@ -42,6 +42,7 @@ export function Home() {
     setFormValues((current) => ({ ...current, [field]: value }));
   };
 
+  console.log("Form Values:", formValues);
 
   const handleFormSubmit = () => {
     const { createdAt, ...payload } = formValues;
@@ -109,26 +110,31 @@ export function Home() {
       >
         <TextInput
           label="First Name"
+          placeholder={formValues.firstName}
           value={formValues.firstName}
           onChange={(event) => handleFormChange('firstName', event.currentTarget.value)}
         />
         <TextInput
           label="Last Name"
+          placeholder={formValues.lastName}
           value={formValues.lastName}
           onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
         />
         <Textarea
           label="Bio"
+          placeholder={formValues.bio}
           value={formValues.bio}
           onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
         />
         <TextInput
           label="LinkedIn"
+          placeholder={formValues.linkedIn}
           value={formValues.linkedIn}
           onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
         />
         <TextInput
           label="Avatar URL"
+          placeholder={formValues.avatarUrl}
           value={formValues.avatarUrl}
           onChange={(event) => handleFormChange('avatarUrl', event.currentTarget.value)}
         />
