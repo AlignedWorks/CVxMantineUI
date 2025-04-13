@@ -341,31 +341,23 @@ export function CreateCollaborative() {
             mb="md"
         />
 
-        <SimpleGrid mt="xl" mb="lg" cols={2}>
-        <MultiSelect
-            label="Member Skills"
-            placeholder="Select the needed skills"
-            data={skills.flatMap((group) =>
-              group.items.map((item) => ({
-                value: item.id.toString(),
-                label: item.value,
-                group: group.group, // Add the group name
-              }))
-            )}
-            value={formValues.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
-            onChange={(values) =>
-              handleInputChange(
-                'skills',
-                values.map((id) =>
-                  skills
-                    .flatMap((group) => group.items)
-                    .find((skill) => skill.id.toString() === id)
-                )
-              )
+        
+
+        <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
+            Revenue Sharing Pool
+        </Title>
+
+        <SimpleGrid cols={2}>
+        <TextInput
+            rightSection={revenueShare}
+            label="% of Revenue to the Collab Pool"
+            placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
+            type="number"
+            value={formValues.revenueShare}
+            onChange={(event) =>
+                handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
             }
-            error={errors.skills} // Display validation error
-            searchable
-            clearable
+            error={errors.revenueShare} // Display validation error
             required
             mb="md"
         />
@@ -384,26 +376,6 @@ export function CreateCollaborative() {
             error={errors.experience} // Display validation error
             searchable
             clearable
-            required
-            mb="md"
-        />
-        </SimpleGrid>
-
-        <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
-            Revenue Sharing Pool
-        </Title>
-
-        <SimpleGrid cols={2}>
-        <TextInput
-            rightSection={revenueShare}
-            label="% of Revenue to the Collab Pool"
-            placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
-            type="number"
-            value={formValues.revenueShare}
-            onChange={(event) =>
-                handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
-            }
-            error={errors.revenueShare} // Display validation error
             required
             mb="md"
         />
