@@ -51,7 +51,7 @@ export function AuthenticationTitle() {
       if (profileResponse.ok) {
         const userProfile = await profileResponse.json();
         const user = {
-          email: userProfile.email,
+          email: userProfile.userName,
           firstName: userProfile.firstName,
           lastName: userProfile.lastName,
           avatarUrl: userProfile.avatarUrl,
