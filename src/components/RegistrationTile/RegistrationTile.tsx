@@ -27,7 +27,8 @@ export function RegistrationTile() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     // Check for empty fields
     for (const [key, value] of Object.entries(formData)) {
       if (!value.trim()) {
