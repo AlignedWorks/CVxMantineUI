@@ -35,6 +35,7 @@ export function CreateCollaborative() {
             .then((data) => {
                 console.log(data); // Log the data to see its structure
                 setSkills(data.skills); // Assuming the JSON has a `skills` key
+                console.log(skills);
                 setExperience(data.experience); // Assuming the JSON has an `experience` key
             })
             .catch((err) => console.error("Error fetching profile:", err));
