@@ -23,7 +23,7 @@ import {
 } from '../data.ts';
 
 export function CreateCollaborative() {
-    const [skills, setSkills] = useState<{ group: string; items: { id: number; value: string }[] }[]>([]); // State for skills
+    const [skills, setSkills] = useState<{ id: number; value: string }[]>([]); // State for skills
     const [experience, setExperience] = useState<{ id: number; value: string }[]>([]); // State for experience
     const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
 
@@ -35,9 +35,7 @@ export function CreateCollaborative() {
             .then((data) => {
                 console.log(data); // Log the data to see its structure
                 setSkills(data.skills); // Assuming the JSON has a `skills` key
-                console.log(skills);
                 setExperience(data.experience); // Assuming the JSON has an `experience` key
-                console.log(experience);
             })
             .catch((err) => console.error("Error fetching profile:", err));
         };
@@ -343,7 +341,43 @@ export function CreateCollaborative() {
             mb="md"
         />
 
-        
+        <SimpleGrid mt="xl" mb="lg" cols={2}>
+          <MultiSelect
+              label="Member Skills"
+              placeholder="Select the needed skills"
+              data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
+              value={formValues.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
+              onChange={(values) =>
+                handleInputChange(
+                  'skills',
+                  values.map((id) => skills.find((skill) => skill.id.toString() === id))
+                )
+              }
+              error={errors.skills} // Display validation error
+              searchable
+              clearable
+              required
+              mb="md"
+          />
+
+          <MultiSelect
+              label="Sector Experience"
+              placeholder="Select the needed experience"
+              data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
+              value={formValues.experience.map((exp) => exp.id.toString())} // Map selected experience to their IDs
+              onChange={(values) =>
+                handleInputChange(
+                  'experience',
+                  values.map((id) => experience.find((exp) => exp.id.toString() === id))
+                )
+              }
+              error={errors.experience} // Display validation error
+              searchable
+              clearable
+              required
+              mb="md"
+          />
+        </SimpleGrid>
 
         <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
             Revenue Sharing Pool
@@ -360,24 +394,6 @@ export function CreateCollaborative() {
                 handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
             }
             error={errors.revenueShare} // Display validation error
-            required
-            mb="md"
-        />
-
-        <MultiSelect
-            label="Sector Experience"
-            placeholder="Select the needed experience"
-            data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
-            value={formValues.experience.map((exp) => exp.id.toString())} // Map selected experience to their IDs
-            onChange={(values) =>
-              handleInputChange(
-                'experience',
-                values.map((id) => experience.find((exp) => exp.id.toString() === id))
-              )
-            }
-            error={errors.experience} // Display validation error
-            searchable
-            clearable
             required
             mb="md"
         />
