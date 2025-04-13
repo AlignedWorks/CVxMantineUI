@@ -3,6 +3,7 @@ export interface Collaborative {
   description: string;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
+  websiteUrl: string;
   revenueShare: number;
   indirectCosts: number;
   collabLeaderCompensation: number;

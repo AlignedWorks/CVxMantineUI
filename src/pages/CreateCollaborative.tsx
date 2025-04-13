@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../AuthContext.tsx';
 import { IconInfoCircle } from '@tabler/icons-react';
 import {
   Container,
@@ -26,6 +27,7 @@ export function CreateCollaborative() {
     const [skills, setSkills] = useState<{ id: number; value: string }[]>([]); // State for skills
     const [experience, setExperience] = useState<{ id: number; value: string }[]>([]); // State for experience
     const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
+    const { user } = useAuth();
 
     const fetchSkillsAndExperience = async () => {
         fetch('https://cvx.jordonbyers.com/skillsExperience', {
@@ -81,6 +83,7 @@ export function CreateCollaborative() {
   const [formValues, setFormValues] = useState<Collaborative>({
     name: '',
     description: '',
+    websiteUrl: '',
     skills: [],
     experience: [],
     revenueShare: 0,
@@ -320,15 +323,23 @@ export function CreateCollaborative() {
             Purpose and People
         </Title>
 
-        <TextInput
-            label="Collaborative Name"
-            placeholder="Enter your collaborative's name"
-            value={formValues.name}
-            onChange={(event) => handleInputChange('name', event.currentTarget.value)}
-            error={errors.name} // Display validation error
-            required
-            mb="md"
-        />
+        <SimpleGrid mt="xl" cols={2}>
+          <TextInput
+              label="Collaborative Name"
+              placeholder="Enter your collaborative's name"
+              value={formValues.name}
+              onChange={(event) => handleInputChange('name', event.currentTarget.value)}
+              error={errors.name} // Display validation error
+              required
+              mb="md"
+          />
+          <TextInput
+              label="Collaborative Leader"
+              disabled={true}
+              defaultValue={user ? `${user?.firstName} ${user?.lastName}` : "No user logged in"}
+              mb="md"
+          />
+        </SimpleGrid>
 
         <Textarea
             label="Description"
@@ -337,6 +348,15 @@ export function CreateCollaborative() {
             onChange={(event) => handleInputChange('description', event.currentTarget.value)}
             error={errors.description} // Display validation error
             required
+            mt="md"
+            mb="md"
+        />
+
+        <TextInput
+            label="Collaborative Website URL"
+            placeholder="If your Collab has a website add its URL here"
+            value={formValues.websiteUrl}
+            onChange={(event) => handleInputChange('websiteUrl', event.currentTarget.value)}
             mt="xl"
             mb="md"
         />
