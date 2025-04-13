@@ -29,6 +29,26 @@ export function CreateCollaborative() {
     const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
     const { user } = useAuth();
 
+    useEffect(() => {
+      if (!user) {
+        // Clear the form when the user logs out
+        setFormValues({
+          name: '',
+          description: '',
+          websiteUrl: '',
+          skills: [],
+          experience: [],
+          revenueShare: 0,
+          indirectCosts: 0,
+          collabLeaderCompensation: 0,
+          payoutFrequency: PayoutFrequency.Monthly,
+          stakingTiers: [],
+        });
+        setErrors({});
+        setSelectedTiers([]);
+      }
+    }, [user]);
+
     const fetchSkillsAndExperience = async () => {
         fetch('https://cvx.jordonbyers.com/skillsExperience', {
                 credentials: "include",
