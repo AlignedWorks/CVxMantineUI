@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Drawer, TextInput, Textarea, MultiSelect } from '@mantine/core';
 import { IconEdit } from '@tabler/icons-react';
 import { IconChevronDown, IconChevronUp, IconSearch, IconSelector } from '@tabler/icons-react';
@@ -212,6 +212,29 @@ export function TableSort() {
     skills: [],
     industry: [],
   });
+
+   // Fetch collaborative data from the backend
+   useEffect(() => {
+    fetch('https://cvx.jordonbyers.com/collaboratives', {
+      method: 'GET',
+      credentials: 'include', // Include cookies if needed
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch collaborative data');
+        }
+        return response.json();
+      })
+      .then((data: RowData[]) => {
+        console.log('Fetched collaborative data:', data); // Log the data to the console
+      })
+      .catch((error) => {
+        console.error('Error fetching collaborative data:', error);
+      });
+  }, []); // Run only once when the component mounts
 
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
