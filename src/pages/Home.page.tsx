@@ -18,13 +18,13 @@ export function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
   const [formValues, setFormValues] = useState<User>({
-    username: '',
-    firstName: '',
-    lastName: '',
-    bio: '',
-    linkedIn: '',
-    avatarUrl: '',
-    createdAt: '',
+    username: user?.username || '',
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    bio: user?.bio || '',
+    linkedIn: user?.linkedIn || '',
+    avatarUrl: user?.avatarUrl || '',
+    createdAt: user?.firstName || '',
   });
 
   const fetchUserData = () => {
@@ -44,11 +44,11 @@ export function Home() {
 
 
   const handleFormSubmit = () => {
-    const { username, createdAt, ...payload } = formValues;
+    const { createdAt, ...payload } = formValues;
 
     // Update the user profile here (e.g., send a PUT request to the API)
     fetch("https://cvx.jordonbyers.com/profile", {
-      method: "PUT",
+      method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
