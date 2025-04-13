@@ -41,6 +41,7 @@ export function RegistrationTile() {
       setError('Passwords do not match');
       return;
     } else {
+      console.log("hello, you've got here!");
       const payload = { email: formData.email, password: formData.password };
 
       const response = await fetch('https://cvx.jordonbyers.com/register', {
@@ -51,6 +52,8 @@ export function RegistrationTile() {
         credentials: 'include',
         body: JSON.stringify(payload),
       });
+
+      console.log("you've got here too!");
   
       if (response.ok) {
         // Fetch user profile after login
