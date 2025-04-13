@@ -23,7 +23,7 @@ import {
 } from '../data.ts';
 
 export function CreateCollaborative() {
-    const [skills, setSkills] = useState<{ id: number; value: string }[]>([]); // State for skills
+    const [skills, setSkills] = useState<{ group: string; items: { id: number; value: string }[] }[]>([]); // State for skills
     const [experience, setExperience] = useState<{ id: number; value: string }[]>([]); // State for experience
     const [selectedTiers, setSelectedTiers] = useState<{ tier: string; exchangeRate: number }[]>([]);
 
@@ -345,12 +345,22 @@ export function CreateCollaborative() {
         <MultiSelect
             label="Member Skills"
             placeholder="Select the needed skills"
-            data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
+            data={skills.flatMap((group) =>
+              group.items.map((item) => ({
+                value: item.id.toString(),
+                label: item.value,
+                group: group.group, // Add the group name
+              }))
+            )}
             value={formValues.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
             onChange={(values) =>
               handleInputChange(
                 'skills',
-                values.map((id) => skills.find((skill) => skill.id.toString() === id))
+                values.map((id) =>
+                  skills
+                    .flatMap((group) => group.items)
+                    .find((skill) => skill.id.toString() === id)
+                )
               )
             }
             error={errors.skills} // Display validation error
