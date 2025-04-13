@@ -44,7 +44,7 @@ export function Home() {
 
 
   const handleFormSubmit = () => {
-    const { username, ...payload } = formValues;
+    const { username, createdAt, ...payload } = formValues;
 
     // Update the user profile here (e.g., send a PUT request to the API)
     fetch("https://cvx.jordonbyers.com/profile", {
