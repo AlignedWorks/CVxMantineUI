@@ -17,15 +17,7 @@ interface User {
 export function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
-  const [formValues, setFormValues] = useState<User>({
-    username: user?.username || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    bio: user?.bio || '',
-    linkedIn: user?.linkedIn || '',
-    avatarUrl: user?.avatarUrl || '',
-    createdAt: user?.createdAt || '',
-  });
+  const [formValues, setFormValues] = useState<User | null>(null); // Initialize as null
 
   const fetchUserData = () => {
     fetch("https://cvx.jordonbyers.com/profile", {
@@ -39,12 +31,32 @@ export function Home() {
   };
 
   const handleFormChange = (field: keyof User, value: string) => {
-    setFormValues((current) => ({ ...current, [field]: value }));
+    setFormValues((current) => ({ ...current!, [field]: value }));
   };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  // Update formValues when user data is fetched
+  useEffect(() => {
+    if (user) {
+      setFormValues({
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        bio: user.bio,
+        linkedIn: user.linkedIn,
+        avatarUrl: user.avatarUrl,
+        createdAt: user.createdAt,
+      });
+    }
+  }, [user]); // Run this effect when `user` changes
 
   console.log("Form Values:", formValues);
 
   const handleFormSubmit = () => {
+    if (!formValues) return;
     const { createdAt, ...payload } = formValues;
 
     // Update the user profile here (e.g., send a PUT request to the API)
@@ -61,11 +73,7 @@ export function Home() {
       })
       .catch((err) => console.error("Error updating profile:", err));
   };
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
+  
   return (
     <>
       <Welcome />
@@ -110,32 +118,27 @@ export function Home() {
       >
         <TextInput
           label="First Name"
-          placeholder={formValues.firstName}
-          value={formValues.firstName}
+          value={formValues?.firstName}
           onChange={(event) => handleFormChange('firstName', event.currentTarget.value)}
         />
         <TextInput
           label="Last Name"
-          placeholder={formValues.lastName}
-          value={formValues.lastName}
+          value={formValues?.lastName}
           onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
         />
         <Textarea
           label="Bio"
-          placeholder={formValues.bio}
-          value={formValues.bio}
+          value={formValues?.bio}
           onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
         />
         <TextInput
           label="LinkedIn"
-          placeholder={formValues.linkedIn}
-          value={formValues.linkedIn}
+          value={formValues?.linkedIn}
           onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
         />
         <TextInput
           label="Avatar URL"
-          placeholder={formValues.avatarUrl}
-          value={formValues.avatarUrl}
+          value={formValues?.avatarUrl}
           onChange={(event) => handleFormChange('avatarUrl', event.currentTarget.value)}
         />
         <Button fullWidth mt="md" onClick={handleFormSubmit}>
