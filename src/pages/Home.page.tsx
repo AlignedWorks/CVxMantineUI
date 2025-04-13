@@ -53,8 +53,6 @@ export function Home() {
     }
   }, [user]); // Run this effect when `user` changes
 
-  console.log("Form Values:", formValues);
-
   const handleFormSubmit = () => {
     if (!formValues) return;
     const { createdAt, ...payload } = formValues;
