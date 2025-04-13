@@ -44,12 +44,14 @@ export function Home() {
 
 
   const handleFormSubmit = () => {
+    const { username, ...payload } = formValues;
+
     // Update the user profile here (e.g., send a PUT request to the API)
     fetch("https://cvx.jordonbyers.com/profile", {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formValues),
+      body: JSON.stringify(payload),
     })
       .then((res) => res.json())
       .then((updatedUser) => {
@@ -114,11 +116,6 @@ export function Home() {
           label="Last Name"
           value={formValues.lastName}
           onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
-        />
-        <TextInput
-          label="Username"
-          value={formValues.username}
-          onChange={(event) => handleFormChange('username', event.currentTarget.value)}
         />
         <Textarea
           label="Bio"
