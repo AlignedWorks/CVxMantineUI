@@ -111,7 +111,7 @@ export function HeaderTabs() {
                         <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
                       )}
                       <Text fw={500} size="sm" lh={1} mr={3}>
-                        { user.firstName ? user.firstName + ' ' + user.lastName : user.email }
+                        { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
                       </Text>
                       <IconChevronDown size={12} stroke={1.5} />
                     </Group>
