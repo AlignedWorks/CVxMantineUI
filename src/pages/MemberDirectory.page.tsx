@@ -1,5 +1,18 @@
 import { useState }  from 'react';
-import { Container, Title, SimpleGrid, Paper, Text, Button, Group, Avatar, Modal, TextInput, Textarea, MultiSelect } from '@mantine/core';
+import { 
+  Container,
+  Title,
+  SimpleGrid,
+  Paper,
+  Text,
+  Button,
+  Group,
+  Avatar,
+  Modal,
+  TextInput,
+  Textarea,
+  MultiSelect
+} from '@mantine/core';
 import { User, users, skills, experience } from '../data.ts'
 
 export function MemberDirectory() {
@@ -35,13 +48,13 @@ export function MemberDirectory() {
   };
 
   return (
-    <Container size="lg" py="xl">
+    <Container size="md" py="xl">
       <Title order={1} mb="md" pt="sm" pb="xl">
         Member Directory
       </Title>
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 3, xl: 4 }} spacing="xl">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {users.map((user) => (
-          <Paper key={user.id} radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
+          <Paper key={user.id} shadow="sm" radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
             <Avatar
               src={user.avatar_url}
               size={120}

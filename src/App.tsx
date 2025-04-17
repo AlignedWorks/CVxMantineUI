@@ -12,7 +12,7 @@ import { RegistrationTile } from './components/RegistrationTile/RegistrationTile
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { MemberDirectory } from './pages/MemberDirectory.page';
 import { UserProfile } from './pages/UserProfile.page';
-import { CreateCollaborative } from './pages/CreateCollaborative.tsx';
+import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
 import { NotFound } from './components/404/NotFound.tsx';
 
 export default function App() {
@@ -25,7 +25,7 @@ export default function App() {
           layout="alt"
           header={{ height: 60 }}
           navbar={{
-            width: 300,
+            width: 250,
             breakpoint: 'sm',
             collapsed: { mobile: !opened },
           }}

@@ -74,7 +74,7 @@ export function HeaderTabs() {
 
   return (
     <div className={classes.header}>
-      <Container className={classes.mainSection} size="lg">
+      <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
           <Tabs
             defaultValue="Home"

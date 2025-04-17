@@ -334,7 +334,7 @@ export function CreateCollaborative() {
   );
 
   return (
-    <Container size="lg" py="xl">
+    <Container size="md" py="xl">
         <Title order={1} mb="md" pt="sm" pb="lg">
             Propose a Collaborative
         </Title>
@@ -456,7 +456,7 @@ export function CreateCollaborative() {
 
         <MultiSelect
             label="SharePoint Staking Tiers"
-            placeholder="Select SharePoint staking tiers"
+            placeholder="Set the SharePoint Staking Tiers"
             data={
                 formValues.payoutFrequency === PayoutFrequency.Monthly
                 ? monthlyStakingTiers
@@ -479,7 +479,7 @@ export function CreateCollaborative() {
                 rightSection={exchangeRate}
                 key={tier.tier}
                 label={`${tier.tier} Staking Exchange Rate`}
-                placeholder="Enter exchange rate"
+                placeholder="Set the Exchage Rates for Staking SharePoints"
                 type="number"
                 value={tier.exchangeRate}
                 onChange={(event) =>
