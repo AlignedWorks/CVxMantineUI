@@ -9,6 +9,7 @@ interface User {
   firstName: string;
   lastName: string;
   bio: string;
+  phoneNumber: string;
   linkedIn: string;
   avatarUrl: string;
   createdAt: string;
@@ -46,6 +47,7 @@ export function Home() {
         firstName: user.firstName,
         lastName: user.lastName,
         bio: user.bio,
+        phoneNumber: user.phoneNumber,
         linkedIn: user.linkedIn,
         avatarUrl: user.avatarUrl,
         createdAt: user.createdAt,
@@ -99,6 +101,7 @@ export function Home() {
               <p>{user.firstName} {user.lastName}</p>
               <p>{user.username}</p>
               <p>{user.bio}</p>
+              <p>{user.phoneNumber}</p>
               <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
             </>
           ) : (
@@ -127,6 +130,11 @@ export function Home() {
         <Textarea
           label="Bio"
           value={formValues?.bio}
+          onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
+        />
+        <Textarea
+          label="Phone Number"
+          value={formValues?.phoneNumber}
           onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
         />
         <TextInput
