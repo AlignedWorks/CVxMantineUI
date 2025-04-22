@@ -13,6 +13,7 @@ interface User {
   linkedIn: string;
   avatarUrl: string;
   createdAt: string;
+  memberStatus: string;
 }
 
 export function Home() {
@@ -51,6 +52,7 @@ export function Home() {
         linkedIn: user.linkedIn,
         avatarUrl: user.avatarUrl,
         createdAt: user.createdAt,
+        memberStatus: user.memberStatus
       });
     }
   }, [user]); // Run this effect when `user` changes
@@ -102,6 +104,7 @@ export function Home() {
               <p>{user.username}</p>
               <p>{user.bio}</p>
               <p>{user.phoneNumber}</p>
+              <p>{user.memberStatus}</p>
               <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
             </>
           ) : (
