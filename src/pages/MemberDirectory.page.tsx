@@ -18,6 +18,7 @@ import { User, users, skills, experience } from '../data.ts'
 export function MemberDirectory() {
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
   const [formValues, setFormValues] = useState<User>({
     id: 0,
     name: '',
@@ -47,13 +48,30 @@ export function MemberDirectory() {
     setModalOpened(false);
   };
 
+  // Filter the users based on the search query
+  const filteredUsers = users.filter((user) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      user.name.toLowerCase().includes(query) ||
+      user.email.toLowerCase().includes(query) ||
+      user.location.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <Container size="md" py="xl">
       <Title order={1} mb="md" pt="sm" pb="xl">
         Member Directory
       </Title>
+      {/* Search Input */}
+      <TextInput
+        placeholder="Search members..."
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.currentTarget.value)}
+        mb="xl"
+      />
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <Paper key={user.id} shadow="sm" radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
             <Avatar
               src={user.avatar_url}
