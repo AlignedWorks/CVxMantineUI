@@ -23,8 +23,8 @@ export function MemberDirectory() {
     name: '',
     email: '',
     description: '',
+    phone_number: '',
     avatar_url: '',
-    role: '',
     location: '',
     member_since: '',
     linkedin: '',
@@ -68,9 +68,6 @@ export function MemberDirectory() {
               {user.email}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
-              {user.role}
-            </Text>
-            <Text ta="center" c="dimmed" fz="sm">
               {user.location}
             </Text>
             <Group justify="center" mt="md">
@@ -106,11 +103,6 @@ export function MemberDirectory() {
               onChange={(event) => handleFormChange('description', event.currentTarget.value)}
             />
             <TextInput
-              label="Role"
-              value={formValues.role}
-              onChange={(event) => handleFormChange('role', event.currentTarget.value)}
-            />
-            <TextInput
               label="Location"
               value={formValues.location}
               onChange={(event) => handleFormChange('location', event.currentTarget.value)}
@@ -128,7 +120,7 @@ export function MemberDirectory() {
             <MultiSelect
               label="Skills"
               data={skills} // Use the transformed grouped skills data
-              value={formValues.skills}
+              value={formValues.skills.map((skill) => skill.value)} // Extract the values from the selected skills
               onChange={(value) => handleFormChange('skills', value)}
               searchable
               clearable
@@ -136,7 +128,7 @@ export function MemberDirectory() {
             <MultiSelect
               label="experience"
               data={experience}
-              value={formValues.experience}
+              value={formValues.experience.map((exp) => exp.value)} // Extract the values from the selected experience
               onChange={(value) => handleFormChange('experience', value)}
             />
             <Button onClick={handleFormSubmit} mt="md">

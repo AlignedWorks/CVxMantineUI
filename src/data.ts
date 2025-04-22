@@ -65,13 +65,13 @@ export interface User {
   name: string;
   email: string;
   description: string;
+  phone_number: string;
   avatar_url: string;
-  role: string;
   location: string;
   member_since: string;
   linkedin: string;
-  skills: string[];
-  experience: string[];
+  skills: { id: number; value: string }[];
+  experience: { id: number; value: string }[];
 };
 
 export const users: User[] = [
@@ -80,91 +80,91 @@ export const users: User[] = [
     name: 'Gary Hartis',
     email: 'gerry@aligned.works',
     description: '',
+    phone_number: '123-456-7890',
     avatar_url: '/assets/profile-pic-Gerry-Hartis.jpeg',
-    role: 'Founder',
     location: 'Somewhere, PA soon to be SC',
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/garyhartis/',
-    skills: ['Design & Creative'],
-    experience: ['Education', 'Non-Profit', 'Retail'],
+    skills: [{id: 1, value: 'Design & Creative'}],
+    experience: [{id: 1, value: 'Education'},{id: 2, value: 'Non-Profit'},{id: 3, value: 'Retail'}],
   },
   {
     id: 2,
     name: 'AlignedWorks',
     email: '',
     description: '',
+    phone_number: '123-456-7890',
     avatar_url: 'assets/alignedWorksLogoCompact.png',
-    role: 'Venture Talent Network',
     location: 'Mechanicsburg, PA',
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/alignedworks/',
-    skills: ['string'],
-    experience: ['string'],
+    skills: [{id: 0, value: ''}],
+    experience: [{id: 0, value: ''}],
   },
   {
     id: 3,
     name: 'David Vader',
     email: 'david@aligned.works',
     description: '',
+    phone_number: '123-456-7890',
     avatar_url: '/assets/David_profile_pic.JPG',
-    role: 'Founder',
     location: 'Mechanicsburg, PA',
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/davidtvader/',
-    skills: ['Design & Creative', 'Development & IT'],
-    experience: ['Education', 'Non-Profit'],
+    skills: [{id: 1, value: 'Design & Creative'},{id: 2, value: 'Development & IT'}],
+    experience: [{id: 1, value: 'Education'},{id: 2, value: 'Non-Profit'}],
   },
   {
     id: 4,
     name: 'Leif Uptegrove',
     email: 'focalshine@gmail.com',
     description: '',
+    phone_number: '123-456-7890',
     avatar_url: '/assets/Profile-pic-Leif-Uptegrove.jpg',
-    role: 'Tech Entrenpreneur',
     location: 'Somewhere, PA',
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/leifuptegrove/',
-    skills: ['Development & IT'],
-    experience: ['string'],
+    skills: [{id: 2, value: 'Development & IT'}],
+    experience: [{id: 0, value: ''}],
   },
   {
     id: 5,
     name: 'Peter Sahajian',
     email: 'peter.sahajian@gmail.com',
     description: '',
+    phone_number: '123-456-7890',
     avatar_url: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-    role: 'Software Engineer',
     location: 'Fairfax, VA',
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/petersahajian/',
-    skills: ['Development & IT', 'Engineering & Architecture'],
-    experience: ['Telecoms'],
+    skills: [{id: 2, value: 'Development & IT'},{id: 3, value: 'Engineering & Architecture'}],
+    experience: [{id: 4, value: 'Telecoms'}],
   },
   {
     id: 6,
     name: 'Ben Huang',
     email: 'benjaminwong1985@gmail.com',
     description: '',
+    phone_number: '123-456-7890',
     avatar_url: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-    role: 'Software Engineer',
     location: 'Mechanicsburg, PA',
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/benhuangbmj/',
-    skills: ['Design & Creative', 'Development & IT'],
-    experience: ['Education'],
+    skills: [{id: 1, value: 'Design & Creative'},{id: 2, value: 'Development & IT'}],
+    experience: [{id: 1, value: 'Education'}],
   },
   {
     id: 7,
     name: 'Jordon Byers',
     email: 'jordonbyers@gmail.com',
     description: '',
+    phone_number: '123-456-7890',
     avatar_url: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-    role: 'Software Engineer',
     location: 'Mechanicsburg, PA',
     member_since: '01-01-2023',
     linkedin: 'https://www.linkedin.com/in/jordonbyers/',
-    skills: ['Design & Creative', 'Development & IT'],
-    experience: ['Non-Profit'],
+    skills: [{id: 1, value: 'Design & Creative'},{id: 2, value: 'Development & IT'}],
+    experience: [{id: 2, value: 'Non-Profit'}],
   },
   // Add more user data as needed
 ];

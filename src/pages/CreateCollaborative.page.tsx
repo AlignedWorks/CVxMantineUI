@@ -249,7 +249,7 @@ export function CreateCollaborative() {
       console.log('Form submitted:', payload);
 
       try {
-        const response = await fetch('https://cvx.jordonbyers.com/collaborative', {
+        const response = await fetch('https://cvx.jordonbyers.com/collaboratives', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

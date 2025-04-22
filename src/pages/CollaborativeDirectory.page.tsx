@@ -19,6 +19,99 @@ interface CollaborativeData {
   experience: string[];
 }
 
+const data: CollaborativeData[] = [
+  {
+    id: 1,
+    name: 'CodeForge Collective',
+    description: 'A developer-focused collaborative building open-source tools and frameworks.',
+    manager_email: 'alex@codeforge.com',
+    created_date: '2023-06-12',
+    skills: ['Software Development', 'Open Source', 'DevOps'],
+    experience: ['Technology'],
+  },
+  {
+    id: 2,
+    name: 'GreenFuture Innovators',
+    description: 'A sustainability-driven group working on eco-friendly solutions and smart energy.',
+    manager_email: 'emily@greenfuture.org',
+    created_date: '2022-09-25',
+    skills: ['Renewable Energy', 'Environmental Science', 'IoT'],
+    experience: ['Clean Energy'],
+  },
+  {
+    id: 3,
+    name: 'HealthSync Alliance',
+    description: 'A collaborative focused on building seamless healthcare integration systems.',
+    manager_email: 'james@healthsync.com',
+    created_date: '2024-01-18',
+    skills: ['Healthcare IT', 'Data Security', 'AI in Medicine'],
+    experience: ['Healthcare'],
+  },
+  {
+    id: 4,
+    name: 'NextGen Creators',
+    description: 'A creative hub for digital artists, animators, and designers working on innovative media projects.',
+    manager_email: 'sophia@nextgencreators.com',
+    created_date: '2023-03-14',
+    skills: ['Graphic Design', 'Animation', 'Digital Art'],
+    experience: ['Creative Arts'],
+  },
+  {
+    id: 5,
+    name: 'EdTech Visionaries',
+    description: 'A team dedicated to enhancing education through technology and AI-driven learning solutions.',
+    manager_email: 'michael@edtechvision.com',
+    created_date: '2021-11-30',
+    skills: ['AI in Education', 'E-Learning', 'Software Development'],
+    experience: ['Education Technology'],
+  },
+  {
+    id: 6,
+    name: 'ByteSecure Collective',
+    description: 'A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.',
+    manager_email: 'oliver@bytesecure.net',
+    created_date: '2023-08-05',
+    skills: ['Cybersecurity', 'Ethical Hacking', 'Cloud Security'],
+    experience: ['Cybersecurity'],
+  },
+  {
+    id: 7,
+    name: 'UrbanAgri Solutions',
+    description: 'An urban farming think tank developing high-tech agricultural solutions for cities.',
+    manager_email: 'jessica@urbanagri.com',
+    created_date: '2022-05-10',
+    skills: ['Vertical Farming', 'Hydroponics', 'IoT in Agriculture'],
+    experience: ['AgTech'],
+  },
+  {
+    id: 8,
+    name: 'FinTech Pioneers',
+    description: 'A team of financial innovators building next-gen banking and investment solutions.',
+    manager_email: 'william@fintechpioneers.com',
+    created_date: '2023-12-01',
+    skills: ['Blockchain', 'FinTech', 'Data Analytics'],
+    experience: ['Financial Technology'],
+  },
+  {
+    id: 9,
+    name: 'GameCraft Studios',
+    description: 'An indie game development collaborative focused on immersive storytelling and gameplay.',
+    manager_email: 'david@gamecraftstudios.com',
+    created_date: '2024-02-20',
+    skills: ['Game Development', 'Unreal Engine', 'Narrative Design'],
+    experience: ['Gaming'],
+  },
+  {
+    id: 10,
+    name: 'BuildTogether Makerspace',
+    description: 'A community of engineers, designers, and tinkerers creating hardware and robotics projects.',
+    manager_email: 'sarah@buildtogether.com',
+    created_date: '2021-07-15',
+    skills: ['Robotics', '3D Printing', 'Hardware Prototyping'],
+    experience: ['Engineering & Manufacturing'],
+  },
+];
+
 export function CollaborativeDirectory() {
   const [sortedData, setSortedData] = useState<CollaborativeData[]>([]); // State to hold the sorted data
   const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
