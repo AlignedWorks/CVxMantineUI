@@ -132,10 +132,10 @@ export function Home() {
           value={formValues?.bio}
           onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
         />
-        <Textarea
+        <TextInput
           label="Phone Number"
           value={formValues?.phoneNumber}
-          onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
+          onChange={(event) => handleFormChange('phoneNumber', event.currentTarget.value)}
         />
         <TextInput
           label="LinkedIn"
