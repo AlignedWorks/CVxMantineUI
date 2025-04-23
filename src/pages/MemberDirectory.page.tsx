@@ -89,7 +89,7 @@ export function MemberDirectory() {
               {user.location}
             </Text>
             <Group justify="center" mt="md">
-              <Button variant="light" color="gray" size="xs" onClick={() => handleEditClick(user)}>
+              <Button variant="outline" size="sm" mt="lg" onClick={() => handleEditClick(user)}>
                 View Profile
               </Button>
             </Group>

@@ -14,6 +14,7 @@ import { MemberDirectory } from './pages/MemberDirectory.page';
 import { UserProfile } from './pages/UserProfile.page';
 import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
 import { NotFound } from './components/404/NotFound.tsx';
+import { Dashboard } from "./pages/Dashboard.page.tsx";
 
 export default function App() {
   const [opened] = useDisclosure();
@@ -47,6 +48,7 @@ export default function App() {
               <Route path="/member-directory" element={<MemberDirectory />} />
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/create-collaborative" element={<CreateCollaborative />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </AppShell.Main>
           

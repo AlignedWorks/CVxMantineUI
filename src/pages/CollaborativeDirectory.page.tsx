@@ -88,7 +88,7 @@ export function CollaborativeDirectory() {
             <Text size="md" c="#666" mb="xs">
               Projects: <br/>{collaborative.skills.join(', ')}
             </Text>
-            <Button variant="outline" size="sm" mt="xl">View</Button>
+            <Button variant="outline" size="sm" mt="auto">View</Button>
           </Card>
         ))}
       </SimpleGrid>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Avatar, Title, Textarea, TextInput, Modal, Group, Button, SimpleGrid, } from '@mantine/core';
+import { Container, Avatar, Title, Card, Text, Textarea, TextInput, Modal, Group, Button, SimpleGrid, } from '@mantine/core';
 
 interface User {
   username: string;
@@ -75,7 +75,7 @@ export function UserProfile() {
 
   return (
     <>
-    <Container size="sm" py="xl">
+    <Container size="md" py="xl">
         <Group>
           <div>
           { user ? (
@@ -93,9 +93,33 @@ export function UserProfile() {
           </div>
         </Group>
 
+        <div style={{ background: 'linear-gradient(135deg, #6a11cb, #2575fc)', padding: '2rem 0' }}>
+          <Avatar src={user?.avatarUrl} size={120} radius={120} mx="auto" />
+          <Title order={2} align="center" color="white" mt="md">
+            {user?.firstName} {user?.lastName}
+          </Title>
+          <Text align="center" color="white" size="sm">
+            {user?.memberStatus}
+          </Text>
+        </div>
+
+        <Card shadow="sm" padding="lg" radius="md" withBorder mt="lg">
+          <Text size="sm" color="dimmed">
+            <strong>Bio:</strong> {user?.bio}
+          </Text>
+          <Text size="sm" color="dimmed">
+            <strong>Phone:</strong> {user?.phoneNumber}
+          </Text>
+
+          <Group position="center" mt="lg">
+            <Button variant="outline">Edit Profile</Button>
+            <Button variant="light">View Collaboratives</Button>
+          </Group>
+        </Card>
+
         <Group mt="xl">
           <Button variant="default" onClick={() => setModalOpened(true)}>
-            Update Profile
+            Edit Profile
           </Button>
         </Group>
     </Container>
