@@ -93,6 +93,9 @@ export function Home() {
         <Button variant="default" onClick={() => setModalOpened(true)}>
           Update Profile
         </Button>
+        <Link to="/user-profile">
+          <Button variant="default">View profile</Button>
+        </Link>
       </Group>
       <Group justify="center" mt="xl">
         <div className="p-4 max-w-md mx-auto bg-white shadow-lg rounded-lg">

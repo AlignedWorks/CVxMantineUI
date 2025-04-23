@@ -1,74 +1,153 @@
-import { Container, Paper, Avatar, Title, Text, Group, Button, Badge, SimpleGrid } from '@mantine/core';
-import { IconBrandLinkedin } from '@tabler/icons-react';
+import { useEffect, useState } from "react";
+import { Container, Avatar, Title, Textarea, TextInput, Modal, Group, Button, SimpleGrid, } from '@mantine/core';
 
-const user = {
-  id: 1,
-  name: 'Gary Hartis',
-  email: 'gerry@aligned.works',
-  description: 'Founder and visionary leader with a passion for education and non-profit sectors.',
-  avatar_url: './src/assets/Avatars/profile-pic-Gerry-Hartis.jpeg',
-  role: 'Founder',
-  location: 'Somewhere, PA soon to be SC',
-  member_since: '01-01-2023',
-  linkedin: 'https://www.linkedin.com/in/garyhartis/',
-  skills: ['Design & Creative'],
-  industry: ['Education', 'Non-Profit', 'Retail'],
-};
+interface User {
+  username: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  phoneNumber: string;
+  linkedIn: string;
+  avatarUrl: string;
+  createdAt: string;
+  memberStatus: string;
+}
 
 export function UserProfile() {
+  const [user, setUser] = useState<User | null>(null);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [formValues, setFormValues] = useState<User | null>(null); // Initialize as null
+
+  const fetchUserData = () => {
+    fetch("https://cvx.jordonbyers.com/profile", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((err) => console.error("Error fetching profile:", err));
+  };
+
+  const handleFormChange = (field: keyof User, value: string) => {
+    setFormValues((current) => ({ ...current!, [field]: value }));
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+    // Update formValues when user data is fetched
+  useEffect(() => {
+    if (user) {
+      setFormValues({
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        bio: user.bio,
+        phoneNumber: user.phoneNumber,
+        linkedIn: user.linkedIn,
+        avatarUrl: user.avatarUrl,
+        createdAt: user.createdAt,
+        memberStatus: user.memberStatus
+      });
+    }
+  }, [user]); // Run this effect when `user` changes
+
+  const handleFormSubmit = () => {
+    if (!formValues) return;
+    const { createdAt, ...payload } = formValues;
+
+    // Update the user profile here (e.g., send a PUT request to the API)
+    fetch("https://cvx.jordonbyers.com/profile", {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((updatedUser) => {
+        setUser(updatedUser); // Update the user state with the new data
+        setModalOpened(false); // Close the modal
+      })
+      .catch((err) => console.error("Error updating profile:", err));
+  };
+
   return (
+    <>
     <Container size="sm" py="xl">
-      <Paper radius="md" withBorder p="xl" shadow="md">
         <Group>
-          <Avatar src={user.avatar_url} size={120} radius={120} />
-          <Title order={2}>{user.name}</Title>
-          <Text color="dimmed">{user.role}</Text>
-          <Text color="dimmed">{user.location}</Text>
-          <Button
-            component="a"
-            href={user.linkedin}
-            target="_blank"
-            leftSection={<IconBrandLinkedin size={18} />}
-            variant="outline"
-            color="blue"
-          >
-            LinkedIn
-          </Button>
+          <div>
+          { user ? (
+            <>
+              <Avatar src={user.avatarUrl} size={120} radius={120} />
+              <Title order={2}>{user.firstName + " " + user.lastName}</Title>
+              <p>{user.bio}</p>
+              <p>{user.phoneNumber}</p>
+              <p>{user.memberStatus}</p>
+              <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
+              </>
+          ) : (
+            <p></p>
+          )}
+          </div>
         </Group>
-
-        <Text mt="md">
-          {user.description}
-        </Text>
-
-        <SimpleGrid cols={2} spacing="md" mt="xl">
-          <div>
-            <Title order={4}>Skills</Title>
-            <Group mt="xs">
-              {user.skills.map((skill) => (
-                <Badge key={skill} color="blue" variant="light">
-                  {skill}
-                </Badge>
-              ))}
-            </Group>
-          </div>
-          <div>
-            <Title order={4}>Industry</Title>
-            <Group mt="xs">
-              {user.industry.map((industry) => (
-                <Badge key={industry} color="green" variant="light">
-                  {industry}
-                </Badge>
-              ))}
-            </Group>
-          </div>
-        </SimpleGrid>
 
         <Group mt="xl">
-          <Button variant="light" color="gray">
-            Edit Profile
+          <Button variant="default" onClick={() => setModalOpened(true)}>
+            Update Profile
           </Button>
         </Group>
-      </Paper>
     </Container>
+
+    {/* Modal for editing the profile */}
+      <Modal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        title="Edit Profile"
+        centered
+      >
+        <SimpleGrid cols={2} mb="lg">
+          <TextInput
+            label="First Name"
+            value={formValues?.firstName}
+            onChange={(event) => handleFormChange('firstName', event.currentTarget.value)}
+          />
+          <TextInput
+            label="Last Name"
+            value={formValues?.lastName}
+            onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
+          />
+        </SimpleGrid>
+
+        <Textarea
+          label="Bio"
+          value={formValues?.bio}
+          onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
+          mb="lg"
+        />
+        <TextInput
+          label="Phone Number"
+          value={formValues?.phoneNumber}
+          onChange={(event) => handleFormChange('phoneNumber', event.currentTarget.value)}
+          mb="lg"
+        />
+        <TextInput
+          label="LinkedIn"
+          value={formValues?.linkedIn}
+          onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
+          mb="lg"
+        />
+        <TextInput
+          label="Avatar URL"
+          value={formValues?.avatarUrl}
+          onChange={(event) => handleFormChange('avatarUrl', event.currentTarget.value)}
+          mb="lg"
+        />
+        <Button fullWidth mt="lg" onClick={handleFormSubmit}>
+          Save Changes
+        </Button>
+      </Modal>
+    </>
   );
 }
