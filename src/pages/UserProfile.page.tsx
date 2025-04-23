@@ -95,10 +95,10 @@ export function UserProfile() {
 
         <div style={{ background: 'linear-gradient(135deg, #6a11cb, #2575fc)', padding: '2rem 0' }}>
           <Avatar src={user?.avatarUrl} size={120} radius={120} mx="auto" />
-          <Title order={2} align="center" color="white" mt="md">
+          <Title order={2} mt="md">
             {user?.firstName} {user?.lastName}
           </Title>
-          <Text align="center" color="white" size="sm">
+          <Text color="white" size="sm">
             {user?.memberStatus}
           </Text>
         </div>
@@ -111,7 +111,7 @@ export function UserProfile() {
             <strong>Phone:</strong> {user?.phoneNumber}
           </Text>
 
-          <Group position="center" mt="lg">
+          <Group mt="lg">
             <Button variant="outline">Edit Profile</Button>
             <Button variant="light">View Collaboratives</Button>
           </Group>
