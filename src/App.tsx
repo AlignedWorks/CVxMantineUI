@@ -2,6 +2,7 @@ import "@mantine/core/styles.css";
 import { MantineProvider, AppShell } from "@mantine/core";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
+import { useAuth } from './AuthContext.tsx';
 import { NavbarSimple } from './components/Navbar/Navbar';;
 // import { HeaderMegaMenu } from './components/Header/HeaderMegaMenu';
 import { HeaderTabs } from './components/Header/HeaderTabs';
@@ -18,6 +19,7 @@ import { Dashboard } from "./pages/Dashboard.page.tsx";
 
 export default function App() {
   const [opened] = useDisclosure();
+  const { user } = useAuth(); // Get the user from the AuthContext
 
   return (
     <MantineProvider theme={theme}>
@@ -40,7 +42,7 @@ export default function App() {
 
           <AppShell.Main>
           <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={user ? <Dashboard /> : <Home />} />
               <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
               <Route path="/login" element={<AuthenticationTitle />} />
               <Route path="/register" element={<RegistrationTile />} />

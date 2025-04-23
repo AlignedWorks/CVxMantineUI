@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  IconUser,
   IconChevronDown,
   IconLogout,
   IconSettings,
@@ -118,6 +119,9 @@ export function HeaderTabs() {
                   </UnstyledButton>
                 </Menu.Target>
                 <Menu.Dropdown>
+                  <Menu.Item leftSection={<IconUser size={16} stroke={1.5} />}>
+                    Profile
+                  </Menu.Item>
                   <Menu.Item leftSection={<IconSettings size={16} stroke={1.5} />}>
                     Account settings
                   </Menu.Item>

@@ -15,11 +15,15 @@ export function Dashboard() {
             </Title>
             <Group justify="center" mt="xl">
                 <Link to="/create-collaborative">
-                    <Button variant="default">Propose a Collaborative</Button>
+                    <Button variant="default">
+                        Propose a Collaborative
+                    </Button>
                 </Link>
-                <Button variant="default">
-                    Update Profile
-                </Button>
+                <Link to="/user-profile">
+                    <Button variant="default">
+                        Update Profile
+                    </Button>
+                </Link>
             </Group>
         </Container>
     );
