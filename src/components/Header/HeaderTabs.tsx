@@ -119,7 +119,11 @@ export function HeaderTabs() {
                   </UnstyledButton>
                 </Menu.Target>
                 <Menu.Dropdown>
-                  <Menu.Item leftSection={<IconUser size={16} stroke={1.5} />}>
+                  <Menu.Item
+                    component={Link}
+                    to="/user-profile"
+                    leftSection={<IconUser size={16} stroke={1.5} />}
+                  >
                     Profile
                   </Menu.Item>
                   <Menu.Item leftSection={<IconSettings size={16} stroke={1.5} />}>
@@ -144,7 +148,6 @@ export function HeaderTabs() {
               </Link>
             </>
           )}
-          
           
         </Group>
       </Container>
