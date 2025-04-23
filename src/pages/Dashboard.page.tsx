@@ -19,11 +19,7 @@ export function Dashboard() {
                         Propose a Collaborative
                     </Button>
                 </Link>
-                <Link to="/user-profile">
-                    <Button variant="default">
-                        Update Profile
-                    </Button>
-                </Link>
+
             </Group>
         </Container>
     );
