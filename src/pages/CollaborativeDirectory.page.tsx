@@ -13,8 +13,8 @@ interface CollaborativeData {
   id: number;
   name: string;
   description: string;
-  manager_email: string;
-  created_date: string;
+  LeaderEmail: string;
+  CreatedAt: string;
   skills: string[];
   experience: string[];
 }
@@ -53,7 +53,7 @@ export function CollaborativeDirectory() {
     return (
       collaborative.name.toLowerCase().includes(query) ||
       collaborative.description.toLowerCase().includes(query) ||
-      collaborative.manager_email.toLowerCase().includes(query) ||
+      collaborative.LeaderEmail.toLowerCase().includes(query) ||
       collaborative.skills.some((skill) => skill.toLowerCase().includes(query)) ||
       collaborative.experience.some((exp) => exp.toLowerCase().includes(query))
     );
@@ -82,7 +82,7 @@ export function CollaborativeDirectory() {
               {collaborative.description}
             </Text>
             <Text size="md" c="#666" mb="xs">
-              Manager: <br/>{collaborative.manager_email}
+              Leader: <br/>{collaborative.LeaderEmail}
 
             </Text>
             <Text size="md" c="#666" mb="xs">
