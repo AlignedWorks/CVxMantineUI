@@ -3,15 +3,10 @@ import { Welcome } from '../components/Welcome/Welcome';
 import { Link } from 'react-router-dom';
 import {
   Modal,
-  Text,
   TextInput,
   Textarea,
   Button,
   Group,
-  Table,
-  Avatar,
-  Badge,
-  Select,
  } from '@mantine/core';
 import { useEffect, useState } from "react";
 
