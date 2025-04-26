@@ -8,6 +8,7 @@ import {
   Button,
   TextInput,
 } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
 
 interface CollaborativeData {
   id: number;
@@ -67,7 +68,8 @@ export function CollaborativeDirectory() {
 
       {/* Search Input */}
       <TextInput
-        placeholder="Search collaboratives..."
+        placeholder="Search collaboratives"
+        leftSection={<IconSearch size={16} stroke={1.5} />}
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.currentTarget.value)}
         mb="xl"

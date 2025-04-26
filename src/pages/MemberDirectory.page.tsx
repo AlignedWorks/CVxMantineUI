@@ -14,6 +14,7 @@ import {
   MultiSelect
 } from '@mantine/core';
 import { User, users, skills, experience } from '../data.ts'
+import { IconSearch } from '@tabler/icons-react';
 
 export function MemberDirectory() {
   const [modalOpened, setModalOpened] = useState(false);
@@ -63,9 +64,11 @@ export function MemberDirectory() {
       <Title order={1} mb="md" pt="sm" pb="xl">
         Member Directory
       </Title>
+
       {/* Search Input */}
       <TextInput
-        placeholder="Search members..."
+        placeholder="Search members"
+        leftSection={<IconSearch size={16} stroke={1.5} />}
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.currentTarget.value)}
         mb="xl"
