@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Container,
   Title,
@@ -6,79 +7,127 @@ import {
   Text,
   Table,
   Avatar,
-  Badge,
   Select,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
-const data = [
+interface User {
+    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    bio: string;
+    phoneNumber: string;
+    linkedIn: string;
+    avatarUrl: string;
+    createdAt: string;
+    memberStatus: string;
+  }
+
+const mock_data = [
     {
-      avatar:
+        id: '1',
+      avatarUrl:
         'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png',
-      name: 'Robert Wolfkisser',
-      job: 'Engineer',
-      email: 'rob_wolf@gmail.com',
-      role: 'Collaborator',
-      lastActive: '2 days ago',
-      active: true,
+      lastName: 'Wolfkisser',
+      firstName: 'Robert',
+      username: 'rob_wolf@gmail.com',
+      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      phoneNumber: '123-456-7890',
+        createdAt: '2023-01-01',
+      linkedIn: 'https://www.linkedin.com/in/robertwolfkisser',
+      memberStatus: 'Applicant',
     },
     {
-      avatar:
+        id: '2',
+      avatarUrl:
         'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png',
-      name: 'Jill Jailbreaker',
-      job: 'Engineer',
-      email: 'jj@breaker.com',
-      role: 'Collaborator',
-      lastActive: '6 days ago',
-      active: true,
+      firstName: 'Jill',
+      lastName: 'Jailbreaker',
+      username: 'jj@breaker.com',
+      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      phoneNumber: '123-456-7890',
+        createdAt: '2023-01-01',
+      linkedIn: 'https://www.linkedin.com/in/jilljailbreaker',
+      memberStatus: 'Applicant',
     },
     {
-      avatar:
+        id: '3',
+      avatarUrl:
         'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-      name: 'Henry Silkeater',
-      job: 'Designer',
-      email: 'henry@silkeater.io',
-      role: 'Contractor',
-      lastActive: '2 days ago',
-      active: false,
+        firstName: 'Henry',
+        lastName: 'Silkeater',
+      username: 'henry@silkeater.io',
+      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      phoneNumber: '123-456-7890',
+        createdAt: '2023-01-01',
+      linkedIn: 'https://www.linkedin.com/in/henrysilkeater',
+      memberStatus: 'Applicant',
     },
     {
-      avatar:
+        id: '4',
+      avatarUrl:
         'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-      name: 'Bill Horsefighter',
-      job: 'Designer',
-      email: 'bhorsefighter@gmail.com',
-      role: 'Contractor',
-      lastActive: '5 days ago',
-      active: true,
+        firstName: 'Bill',
+        lastName: 'Horsefighter',
+      username: 'bhorsefighter@gmail.com',
+      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      phoneNumber: '123-456-7890',
+        createdAt: '2023-01-01',
+      linkedIn: 'https://www.linkedin.com/in/billhorsefighter',
+      role: 'Applicant',
+      memberStatus: 'Applicant',
     },
     {
-      avatar:
+        id: '5',
+      avatarUrl:
         'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-      name: 'Jeremy Footviewer',
-      job: 'Manager',
-      email: 'jeremy@foot.dev',
-      role: 'Manager',
-      lastActive: '3 days ago',
-      active: false,
+        firstName: 'Jeremy',
+        lastName: 'Footviewer',
+      username: 'jeremy@foot.dev',
+      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      phoneNumber: '123-456-7890',
+        createdAt: '2023-01-01',
+      linkedIn: 'https://www.linkedin.com/in/jeremyfootviewer',
+      memberStatus: 'Applicant',
     },
   ];
-
-  const rolesData = ['Manager', 'Collaborator', 'Contractor'];
+  
+  const rolesData = ['Applicant', 'Network Contributor', 'Network Owner', 'Applicant Denied'];
 
 export function Dashboard() {
+    const [dashboard, setDashboard] = useState<User[] | null>([]);
 
-    const rows = data.map((item) => (
-        <Table.Tr key={item.name}>
+    const fetchDashboardData = () => {
+        fetch("https://cvx.jordonbyers.com/dashboard", {
+          credentials: "include",
+        })
+          .then((res) => res.json())
+          .then((data : User[]) => {
+            if (data.length === 0) {
+                setDashboard(mock_data);
+            } else {
+                setDashboard(data);
+            }
+          })
+          .catch((err) => console.error("Error fetching profile:", err));
+      };
+    
+      useEffect(() => {
+        fetchDashboardData();
+      }, []);
+
+    const rows = dashboard?.map((item) => (
+        <Table.Tr key={item.id}>
           <Table.Td>
             <Group gap="sm">
-              <Avatar size={40} src={item.avatar} radius={40} />
+              <Avatar size={40} src={item.avatarUrl} radius={40} />
               <div>
                 <Text fz="sm" fw={500}>
-                  {item.name}
+                  {item.firstName + " " + item.lastName}
                 </Text>
                 <Text fz="xs" c="dimmed">
-                  {item.email}
+                  {item.username}
                 </Text>
               </div>
             </Group>
@@ -87,23 +136,12 @@ export function Dashboard() {
           <Table.Td>
             <Select
               data={rolesData}
-              defaultValue={item.role}
+              defaultValue="Applicant"
               variant="unstyled"
               allowDeselect={false}
             />
           </Table.Td>
-          <Table.Td>{item.lastActive}</Table.Td>
-          <Table.Td>
-            {item.active ? (
-              <Badge fullWidth variant="light">
-                Active
-              </Badge>
-            ) : (
-              <Badge color="gray" fullWidth variant="light">
-                Disabled
-              </Badge>
-            )}
-          </Table.Td>
+          <Table.Td>{item.linkedIn}</Table.Td>
         </Table.Tr>
       ));
 
@@ -119,14 +157,17 @@ export function Dashboard() {
                     </Button>
                 </Link>
             </Group>
+
+            <Title order={3} mb="md" pt="sm" pb="lg">
+                Approve users
+            </Title>
             <Table.ScrollContainer minWidth={800}>
                 <Table verticalSpacing="sm">
                     <Table.Thead>
                     <Table.Tr>
-                        <Table.Th>Employee</Table.Th>
+                        <Table.Th>User</Table.Th>
                         <Table.Th>Role</Table.Th>
-                        <Table.Th>Last active</Table.Th>
-                        <Table.Th>Status</Table.Th>
+                        <Table.Th>LinkedIn</Table.Th>
                     </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>{rows}</Table.Tbody>

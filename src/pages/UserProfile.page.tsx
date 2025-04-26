@@ -52,7 +52,7 @@ export function UserProfile() {
         memberStatus: user.memberStatus
       });
     }
-  }, [user]); // Run this effect when `user` changes
+  }, [user]); // Run this effect when 'user' changes
 
   const handleFormSubmit = () => {
     if (!formValues) return;
