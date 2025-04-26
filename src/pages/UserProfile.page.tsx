@@ -1,5 +1,24 @@
 import { useEffect, useState } from "react";
-import { Container, Avatar, Title, Card, Text, Textarea, TextInput, Modal, Group, Button, SimpleGrid, } from '@mantine/core';
+import {
+  Container,
+  Avatar,
+  Title,
+  Card,
+  Text,
+  Textarea,
+  TextInput,
+  Modal,
+  Group,
+  Button,
+  Grid,
+  SimpleGrid,
+  Stack,
+} from '@mantine/core';
+import {
+  IconAt,
+  IconBrandLinkedin,
+  IconPhoneCall,
+} from '@tabler/icons-react'
 
 interface User {
   username: string;
@@ -13,6 +32,20 @@ interface User {
   memberStatus: string;
 }
 
+const mock_user = [
+  {
+    username: 'jordonbyers@gmail.com',
+    firstName: 'Jordon',
+    lastName: 'Byers',
+    bio: 'A passionate developer and designer with a love for creating beautiful and functional applications.',
+    phoneNumber: '(717) 206-7137',
+    linkedIn: 'https://www.linkedin.com/in/jordonbyers/',
+    avatarUrl: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
+    createdAt: '01-01-2023',
+    memberStatus: 'NetworkOwner',
+  }
+]
+
 export function UserProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
@@ -23,10 +56,14 @@ export function UserProfile() {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then((data) => { 
         setUser(data);
       })
-      .catch((err) => console.error("Error fetching profile:", err));
+      .catch((err) => 
+        {
+          console.error("Error fetching profile:", err);
+          setUser(mock_user[0]);
+        });
   };
 
   const handleFormChange = (field: keyof User, value: string) => {
@@ -76,52 +113,51 @@ export function UserProfile() {
   return (
     <>
     <Container size="md" py="xl">
-        <Group>
-          <div>
-          { user ? (
-            <>
-              <Avatar src={user.avatarUrl} size={120} radius={120} />
-              <Title order={2}>{user.firstName + " " + user.lastName}</Title>
-              <p>{user.bio}</p>
-              <p>{user.phoneNumber}</p>
-              <p>{user.memberStatus}</p>
-              <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
-              </>
-          ) : (
-            <p></p>
-          )}
-          </div>
-        </Group>
-
-        <div style={{ background: 'linear-gradient(135deg, #6a11cb, #2575fc)', padding: '2rem 0' }}>
-          <Avatar src={user?.avatarUrl} size={120} radius={120} mx="auto" />
-          <Title order={2} mt="md">
-            {user?.firstName} {user?.lastName}
-          </Title>
-          <Text color="white" size="sm">
-            {user?.memberStatus}
-          </Text>
-        </div>
-
-        <Card shadow="sm" padding="lg" radius="md" withBorder mt="lg">
-          <Text size="sm" color="dimmed">
-            <strong>Bio:</strong> {user?.bio}
-          </Text>
-          <Text size="sm" color="dimmed">
-            <strong>Phone:</strong> {user?.phoneNumber}
-          </Text>
-
-          <Group mt="lg">
-            <Button variant="outline">Edit Profile</Button>
-            <Button variant="light">View Collaboratives</Button>
+      { user ? (
+          <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
+            <Grid>
+              <Grid.Col span={3}>
+                <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" />
+              </Grid.Col>
+              <Grid.Col span={9}>
+                <Stack>
+                  <Title order={2}>{user.firstName + " " + user.lastName}</Title>
+                  <Group wrap="nowrap" gap={10} mt={3}>
+                    <IconAt stroke={1.5} size={16} />
+                    <Text>
+                      {user.username}
+                    </Text>
+                  </Group>
+                  <Group wrap="nowrap" gap={10} mt={5}>
+                    <IconPhoneCall stroke={1.5} size={16} />
+                    <Text>
+                      {user.phoneNumber}
+                    </Text>
+                  </Group>
+                </Stack>
+              </Grid.Col>
+            </Grid>
+          
+          <p>
+            {user.bio}<br /><br />
+            Member since {new Date(user.createdAt).toLocaleDateString()}
+          </p>
+          <Group wrap="nowrap" gap={10} mt={5}>
+            <IconBrandLinkedin stroke={1.5} size={16} />
+            <Text>
+              {user.linkedIn}
+            </Text>
           </Group>
-        </Card>
+          </Card>
+      ) : (
+        <p></p>
+      )}
 
-        <Group mt="xl">
-          <Button variant="default" onClick={() => setModalOpened(true)}>
-            Edit Profile
-          </Button>
-        </Group>
+      <Group mt="xl">
+        <Button variant="default" onClick={() => setModalOpened(true)}>
+          Edit Profile
+        </Button>
+      </Group>
     </Container>
 
     {/* Modal for editing the profile */}
