@@ -50,7 +50,7 @@ export function CreateCollaborative() {
     }, [user]);
 
     const fetchSkillsAndExperience = async () => {
-        fetch('https://cvx.jordonbyers.com/skillsExperience', {
+        fetch('https://cvx.jordonbyers.com/skills-and-experience', {
                 credentials: "include",
             })
             .then((res) => res.json())
