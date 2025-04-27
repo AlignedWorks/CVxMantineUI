@@ -40,7 +40,6 @@ export function CollaborativeDirectory() {
           return response.json();
         })
         .then((data: CollaborativeData[]) => {
-          console.log('Fetched collaborative data:', data); // Log the data to the console
           setSortedData(data); // Set the fetched data
         })
         .catch((error) => {
