@@ -113,17 +113,16 @@ export function Dashboard() {
           .then((data) => {
             const { users, roles } = data;
 
-
-            // Set the dashboard data (users)
+            // Set the user data
             if (users.length === 0) {
                 setDashboard(mock_data);
             } else {
                 setDashboard(users);
+                setLoading(false);
             }
 
             // Set the roles data
             setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
-            setLoading(false);
           })
           .catch((err) => console.error("Error fetching profile:", err));
       };
@@ -179,7 +178,7 @@ export function Dashboard() {
           </Table.Td>
     
           <Table.Td>
-            {rolesData.length > 0 && (
+            {item.memberStatus && (
               <Select
                 data={rolesData}
                 defaultValue={item.memberStatus}
