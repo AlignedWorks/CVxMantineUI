@@ -117,6 +117,23 @@ export function Dashboard() {
         fetchDashboardData();
       }, []);
 
+      const handleRoleChange = (userId: string, newRole: string | null) => {
+        console.log(`User ID: ${userId}, New Role: ${newRole}`);
+      
+        // Example: Send the updated role to the server
+        fetch("https://cvx.jordonbyers.com/members/${userId}", {
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: userId, role: newRole }),
+        })
+          .then((res) => res.json())
+          .then((updatedUser) => {
+            console.log("Role updated successfully:", updatedUser);
+          })
+          .catch((err) => console.error("Error updating role:", err));
+      };
+
     const rows = dashboard?.map((item) => (
         <Table.Tr key={item.id}>
           <Table.Td>
@@ -139,6 +156,7 @@ export function Dashboard() {
               defaultValue="Applicant"
               variant="unstyled"
               allowDeselect={false}
+              onChange={(value) => handleRoleChange(item.id, value)} // Trigger an event on value change
             />
           </Table.Td>
           <Table.Td>{item.linkedIn}</Table.Td>
