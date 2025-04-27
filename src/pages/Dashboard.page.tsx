@@ -93,7 +93,7 @@ const mock_data = [
     },
   ];
   
-  const rolesData = ['Applicant', 'Network Contributor', 'Network Owner', 'Applicant Denied'];
+  const rolesData = ['Applicant', 'Denied Applicant', 'Network Contributor', 'Network Owner'];
 
 export function Dashboard() {
     const [dashboard, setDashboard] = useState<User[] | null>([]);
