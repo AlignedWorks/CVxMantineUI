@@ -105,8 +105,7 @@ export function Dashboard() {
     const [loading, setLoading] = useState(true);
 
     const fetchDashboardData = () => {
-        fetch(
-          `${import.meta.env.VITE_API_BASE}/dashboard`, {
+        fetch("https://cvx.jordonbyers.com/dashboard", {
           credentials: "include",
         })
           .then((res) => res.json())
