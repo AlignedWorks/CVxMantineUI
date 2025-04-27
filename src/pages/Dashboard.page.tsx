@@ -24,6 +24,11 @@ interface User {
     memberStatus: string;
   }
 
+  interface Role {
+    label: string;
+    value: string;
+  }
+
 const mock_data = [
     {
         id: '1',
@@ -92,23 +97,29 @@ const mock_data = [
       memberStatus: 'Applicant',
     },
   ];
-  
-  const rolesData = ['Applicant', 'Denied Applicant', 'Network Contributor', 'Network Owner'];
+
 
 export function Dashboard() {
     const [dashboard, setDashboard] = useState<User[] | null>([]);
+    const [rolesData, setRolesData] = useState<Role[]>([]);
 
     const fetchDashboardData = () => {
         fetch("https://cvx.jordonbyers.com/dashboard", {
           credentials: "include",
         })
           .then((res) => res.json())
-          .then((data : User[]) => {
-            if (data.length === 0) {
+          .then((data) => {
+            const { users, roles } = data;
+
+            // Set the dashboard data (users)
+            if (users.length === 0) {
                 setDashboard(mock_data);
             } else {
-                setDashboard(data);
+                setDashboard(users);
             }
+
+            // Set the roles data
+            setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
           })
           .catch((err) => console.error("Error fetching profile:", err));
       };
@@ -121,14 +132,14 @@ export function Dashboard() {
         console.log(`User ID: ${userId}, New Role: ${newRole}`);
 
         // Convert the role to the backend format (remove spaces)
-        const backendRole = newRole?.replace(/\s+/g, '');
+        // const backendRole = newRole?.replace(/\s+/g, '');
       
         // Example: Send the updated role to the server
         fetch(`https://cvx.jordonbyers.com/members/${userId}`, {
           method: "PATCH",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ role: backendRole }),
+          body: JSON.stringify({ role: newRole }),
         })
           .then((res) => res.json())
           .then((updatedUser) => {
@@ -156,7 +167,7 @@ export function Dashboard() {
           <Table.Td>
             <Select
               data={rolesData}
-              defaultValue="Applicant"
+              defaultValue={rolesData[0].label}
               variant="unstyled"
               allowDeselect={false}
               onChange={(value) => handleRoleChange(item.id, value)} // Trigger an event on value change
