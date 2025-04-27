@@ -178,7 +178,7 @@ export function Dashboard() {
           </Table.Td>
     
           <Table.Td>
-            {item.memberStatus && (
+            {rolesData.length > 0 && (
               <Select
                 data={rolesData}
                 defaultValue={item.memberStatus}
