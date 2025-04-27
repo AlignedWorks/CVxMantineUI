@@ -121,11 +121,11 @@ export function Dashboard() {
         console.log(`User ID: ${userId}, New Role: ${newRole}`);
       
         // Example: Send the updated role to the server
-        fetch("https://cvx.jordonbyers.com/members/${userId}", {
+        fetch(`https://cvx.jordonbyers.com/members/${userId}`, {
           method: "PATCH",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: userId, role: newRole }),
+          body: JSON.stringify({ role: newRole }),
         })
           .then((res) => res.json())
           .then((updatedUser) => {
