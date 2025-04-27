@@ -119,13 +119,16 @@ export function Dashboard() {
 
       const handleRoleChange = (userId: string, newRole: string | null) => {
         console.log(`User ID: ${userId}, New Role: ${newRole}`);
+
+        // Convert the role to the backend format (remove spaces)
+        const backendRole = newRole?.replace(/\s+/g, '');
       
         // Example: Send the updated role to the server
         fetch(`https://cvx.jordonbyers.com/members/${userId}`, {
           method: "PATCH",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ role: newRole }),
+          body: JSON.stringify({ role: backendRole }),
         })
           .then((res) => res.json())
           .then((updatedUser) => {
