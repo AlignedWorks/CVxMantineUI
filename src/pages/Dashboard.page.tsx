@@ -165,13 +165,15 @@ export function Dashboard() {
           </Table.Td>
     
           <Table.Td>
-            <Select
-              data={rolesData}
-              defaultValue={item.memberStatus}
-              variant="unstyled"
-              allowDeselect={false}
-              onChange={(value) => handleRoleChange(item.id, value)} // Trigger an event on value change
-            />
+            {rolesData.length > 0 && (
+              <Select
+                data={rolesData}
+                defaultValue={item.memberStatus}
+                variant="unstyled"
+                allowDeselect={false}
+                onChange={(value) => handleRoleChange(item.id, value)}
+              />
+            )}
           </Table.Td>
           <Table.Td>{item.linkedIn}</Table.Td>
         </Table.Tr>
