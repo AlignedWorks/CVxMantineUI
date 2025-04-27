@@ -102,14 +102,17 @@ const mock_data = [
 export function Dashboard() {
     const [dashboard, setDashboard] = useState<User[] | null>([]);
     const [rolesData, setRolesData] = useState<Role[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchDashboardData = () => {
-        fetch("https://cvx.jordonbyers.com/dashboard", {
+        fetch(
+          new URL("dashboard", import.meta.env.VITE_API_BASE), {
           credentials: "include",
         })
           .then((res) => res.json())
           .then((data) => {
             const { users, roles } = data;
+
 
             // Set the dashboard data (users)
             if (users.length === 0) {
@@ -120,6 +123,7 @@ export function Dashboard() {
 
             // Set the roles data
             setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
+            setLoading(false);
           })
           .catch((err) => console.error("Error fetching profile:", err));
       };
@@ -127,6 +131,16 @@ export function Dashboard() {
       useEffect(() => {
         fetchDashboardData();
       }, []);
+
+      if (loading) {
+        return (
+          <Container size="md" py="xl">
+            <Title order={1} mb="md" pt="sm" pb="lg">
+              Loading...
+            </Title>
+          </Container>
+        );
+      }
 
       const handleRoleChange = (userId: string, newRole: string | null) => {
         console.log(`User ID: ${userId}, New Role: ${newRole}`);

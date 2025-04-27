@@ -96,16 +96,18 @@ export function UserProfile() {
     const { createdAt, ...payload } = formValues;
 
     // Update the user profile here (e.g., send a PUT request to the API)
-    fetch("https://cvx.jordonbyers.com/profile", {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => res.json())
-      .then((updatedUser) => {
-        setUser(updatedUser); // Update the user state with the new data
-        setModalOpened(false); // Close the modal
+    fetch(
+      new URL("profile", import.meta.env.VITE_API_BASE),
+      {   
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then((res) => res.json())
+        .then((updatedUser) => {
+          setUser(updatedUser); // Update the user state with the new data
+          setModalOpened(false); // Close the modal
       })
       .catch((err) => console.error("Error updating profile:", err));
   };
@@ -140,6 +142,7 @@ export function UserProfile() {
           
           <p>
             {user.bio}<br /><br />
+            Member status: {user.memberStatus}<br /><br />
             Member since {new Date(user.createdAt).toLocaleDateString()}
           </p>
           <Group wrap="nowrap" gap={10} mt={5}>
