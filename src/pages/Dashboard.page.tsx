@@ -167,7 +167,7 @@ export function Dashboard() {
                     <Table.Thead>
                     <Table.Tr>
                         <Table.Th>User</Table.Th>
-                        <Table.Th>Member Status</Table.Th>
+                        <Table.Th>User Status</Table.Th>
                         <Table.Th>LinkedIn</Table.Th>
                     </Table.Tr>
                     </Table.Thead>
