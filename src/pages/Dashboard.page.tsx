@@ -167,7 +167,7 @@ export function Dashboard() {
           <Table.Td>
             <Select
               data={rolesData}
-              defaultValue={rolesData[0].label}
+              defaultValue= "Applicant"
               variant="unstyled"
               allowDeselect={false}
               onChange={(value) => handleRoleChange(item.id, value)} // Trigger an event on value change
