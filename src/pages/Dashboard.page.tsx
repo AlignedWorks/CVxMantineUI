@@ -106,7 +106,7 @@ export function Dashboard() {
 
     const fetchDashboardData = () => {
         fetch(
-          new URL("dashboard", import.meta.env.VITE_API_BASE), {
+          new URL("dashboard", process.env.VITE_API_BASE), {
           credentials: "include",
         })
           .then((res) => res.json())
