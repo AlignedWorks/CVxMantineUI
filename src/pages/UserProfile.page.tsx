@@ -52,7 +52,9 @@ export function UserProfile() {
   const [formValues, setFormValues] = useState<User | null>(null); // Initialize as null
 
   const fetchUserData = () => {
-    fetch("https://cvx.jordonbyers.com/profile", {
+    fetch(
+      new URL("profile", import.meta.env.VITE_API_BASE),
+      {
       credentials: "include",
     })
       .then((res) => res.json())

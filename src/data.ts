@@ -11,6 +11,20 @@ export interface Collaborative {
   stakingTiers: StakingTier[];
 }
 
+export interface CollaborativeData {
+  id: number;
+  name: string;
+  description: string;
+  leaderEmail: string;
+  createdAt: string;
+  revenueShare: number;
+  indirectCosts: number;
+  collabLeaderCompensation: number;
+  payoutFrequency: PayoutFrequency;
+  skills: string[];
+  experience: string[];
+}
+
 export enum PayoutFrequency {
   Monthly = 'Monthly',
   Quarterly = 'Quarterly',
@@ -77,14 +91,14 @@ export interface User {
 export const users: User[] = [
   {
     id: 1,
-    name: 'Gary Hartis',
+    name: 'Gerry Hartis',
     email: 'gerry@aligned.works',
     description: '',
     phone_number: '123-456-7890',
     avatar_url: '/assets/profile-pic-Gerry-Hartis.jpeg',
     location: 'Somewhere, PA soon to be SC',
     member_since: '01-01-2023',
-    linkedin: 'https://www.linkedin.com/in/garyhartis/',
+    linkedin: 'https://www.linkedin.com/in/gerryhartis/',
     skills: [{id: 1, value: 'Design & Creative'}],
     experience: [{id: 1, value: 'Education'},{id: 2, value: 'Non-Profit'},{id: 3, value: 'Retail'}],
   },
@@ -414,4 +428,137 @@ export const experience = [
   "Utilities",
   "Wholesale Trade",
   "Waste Management"
+];
+
+export const mock_collab_data: CollaborativeData[] = [
+  {
+    id: 1,
+    name: 'CodeForge Collective',
+    description: 'A developer-focused collaborative building open-source tools and frameworks.',
+    leaderEmail: 'alex@codeforge.com',
+    createdAt: '06-12-2023',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Monthly,
+    skills: ['Software Development', 'Open Source', 'DevOps'],
+    experience: ['Technology'],
+  },
+  {
+    id: 2,
+    name: 'GreenFuture Innovators',
+    description: 'A sustainability-driven group working on eco-friendly solutions and smart energy.',
+    leaderEmail: 'emily@greenfuture.org',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Quarterly,
+    createdAt: '09-25-2022',
+    skills: ['Renewable Energy', 'Environmental Science', 'IoT'],
+    experience: ['Clean Energy'],
+  },
+  {
+    id: 3,
+    name: 'HealthSync Alliance',
+    description: 'A collaborative focused on building seamless healthcare integration systems.',
+    leaderEmail: 'james@healthsync.com',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Yearly,
+    createdAt: '01-18-2024',
+    skills: ['Healthcare IT', 'Data Security', 'AI in Medicine'],
+    experience: ['Healthcare'],
+  },
+  {
+    id: 4,
+    name: 'NextGen Creators',
+    description: 'A creative hub for digital artists, animators, and designers working on innovative media projects.',
+    leaderEmail: 'sophia@nextgencreators.com',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Monthly,
+    createdAt: '03-14-2023',
+    skills: ['Graphic Design', 'Animation', 'Digital Art'],
+    experience: ['Creative Arts'],
+  },
+  {
+    id: 5,
+    name: 'EdTech Visionaries',
+    description: 'A team dedicated to enhancing education through technology and AI-driven learning solutions.',
+    leaderEmail: 'michael@edtechvision.com',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Quarterly,
+    createdAt: '11-30-2021',
+    skills: ['AI in Education', 'E-Learning', 'Software Development'],
+    experience: ['Education Technology'],
+  },
+  {
+    id: 6,
+    name: 'ByteSecure Collective',
+    description: 'A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.',
+    leaderEmail: 'oliver@bytesecure.net',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Yearly,
+    createdAt: '08-05-2023',
+    skills: ['Cybersecurity', 'Ethical Hacking', 'Cloud Security'],
+    experience: ['Cybersecurity'],
+  },
+  {
+    id: 7,
+    name: 'UrbanAgri Solutions',
+    description: 'An urban farming think tank developing high-tech agricultural solutions for cities.',
+    leaderEmail: 'jessica@urbanagri.com',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Monthly,
+    createdAt: '05-10-2022',
+    skills: ['Vertical Farming', 'Hydroponics', 'IoT in Agriculture'],
+    experience: ['AgTech'],
+  },
+  {
+    id: 8,
+    name: 'FinTech Pioneers',
+    description: 'A team of financial innovators building next-gen banking and investment solutions.',
+    leaderEmail: 'william@fintechpioneers.com',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Quarterly,
+    createdAt: '12-01-2023',
+    skills: ['Blockchain', 'FinTech', 'Data Analytics'],
+    experience: ['Financial Technology'],
+  },
+  {
+    id: 9,
+    name: 'GameCraft Studios',
+    description: 'An indie game development collaborative focused on immersive storytelling and gameplay.',
+    leaderEmail: 'david@gamecraftstudios.com',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Yearly,
+    createdAt: '02-20-2024',
+    skills: ['Game Development', 'Unreal Engine', 'Narrative Design'],
+    experience: ['Gaming'],
+  },
+  {
+    id: 10,
+    name: 'BuildTogether Makerspace',
+    description: 'A community of engineers, designers, and tinkerers creating hardware and robotics projects.',
+    leaderEmail: 'sarah@buildtogether.com',
+    revenueShare: 5,
+    indirectCosts: 5,
+    collabLeaderCompensation: 5,
+    payoutFrequency: PayoutFrequency.Quarterly,
+    createdAt: '07-15-2021',
+    skills: ['Robotics', '3D Printing', 'Hardware Prototyping'],
+    experience: ['Engineering & Manufacturing'],
+  },
 ];

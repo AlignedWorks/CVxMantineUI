@@ -55,7 +55,6 @@ export function CreateCollaborative() {
             })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data); // Log the data to see its structure
                 setSkills(data.skills); // Assuming the JSON has a `skills` key
                 setExperience(data.experience); // Assuming the JSON has an `experience` key
             })

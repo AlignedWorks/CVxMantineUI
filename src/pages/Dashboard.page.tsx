@@ -111,7 +111,6 @@ export function Dashboard() {
           .then((res) => res.json())
           .then((data) => {
             const { users, roles } = data;
-            console.log("Dashboard data:", data);
 
             // Set the user data
             if (users.length === 0) {
