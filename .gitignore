@@ -133,3 +133,6 @@ dist
 localhost-key.pem
 localhost.pem
 vite.config.ts
+
+# test page
+src/pages/Test.page.tsx

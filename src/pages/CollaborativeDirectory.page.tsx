@@ -40,7 +40,6 @@ export function CollaborativeDirectory() {
           return response.json();
         })
         .then((data: CollaborativeData[]) => {
-          console.log('Fetched collaborative data:', data); // Log the data to the console
           setSortedData(data); // Set the fetched data
         })
         .catch((error) => {
@@ -76,7 +75,7 @@ export function CollaborativeDirectory() {
       />
 
       {/* Grid to display collaborative data */}
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 2, xl: 3 }} spacing="xl">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredData.map((collaborative) => (
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
             <Text size="xl" mb="xl">{collaborative.name}</Text>

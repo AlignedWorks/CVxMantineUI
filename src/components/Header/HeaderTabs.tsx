@@ -41,7 +41,9 @@ export function HeaderTabs() {
 
   const handleLogout = async () => {
     try {
-        const response = await fetch('https://cvx.jordonbyers.com/logout', {
+        const response = await fetch(
+          new URL("logout", import.meta.env.VITE_API_BASE),
+        {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

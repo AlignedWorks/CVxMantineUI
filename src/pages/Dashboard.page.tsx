@@ -24,6 +24,11 @@ interface User {
     memberStatus: string;
   }
 
+  interface Role {
+    label: string;
+    value: string;
+  }
+
 const mock_data = [
     {
         id: '1',
@@ -92,23 +97,33 @@ const mock_data = [
       memberStatus: 'Applicant',
     },
   ];
-  
-  const rolesData = ['Applicant', 'Network Contributor', 'Network Owner', 'Applicant Denied'];
+
 
 export function Dashboard() {
     const [dashboard, setDashboard] = useState<User[] | null>([]);
+    const [rolesData, setRolesData] = useState<Role[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchDashboardData = () => {
-        fetch("https://cvx.jordonbyers.com/dashboard", {
+        fetch(
+          new URL("dashboard", import.meta.env.VITE_API_BASE),
+        {
           credentials: "include",
         })
           .then((res) => res.json())
-          .then((data : User[]) => {
-            if (data.length === 0) {
+          .then((data) => {
+            const { users, roles } = data;
+
+            // Set the user data
+            if (users.length === 0) {
                 setDashboard(mock_data);
             } else {
-                setDashboard(data);
+                setDashboard(users);
+                setLoading(false);
             }
+
+            // Set the roles data
+            setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
           })
           .catch((err) => console.error("Error fetching profile:", err));
       };
@@ -116,6 +131,38 @@ export function Dashboard() {
       useEffect(() => {
         fetchDashboardData();
       }, []);
+
+      if (loading) {
+        return (
+          <Container size="md" py="xl">
+            <Title order={1} mb="md" pt="sm" pb="lg">
+              Loading...
+            </Title>
+          </Container>
+        );
+      }
+
+      const handleRoleChange = (userId: string, newRole: string | null) => {
+        console.log(`User ID: ${userId}, New Role: ${newRole}`);
+
+        // Convert the role to the backend format (remove spaces)
+        // const backendRole = newRole?.replace(/\s+/g, '');
+      
+        // Example: Send the updated role to the server
+        fetch(
+          new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role: newRole }),
+        })
+          .then((res) => res.json())
+          .then((updatedUser) => {
+            console.log("Role updated successfully:", updatedUser);
+          })
+          .catch((err) => console.error("Error updating role:", err));
+      };
 
     const rows = dashboard?.map((item) => (
         <Table.Tr key={item.id}>
@@ -134,12 +181,15 @@ export function Dashboard() {
           </Table.Td>
     
           <Table.Td>
-            <Select
-              data={rolesData}
-              defaultValue="Applicant"
-              variant="unstyled"
-              allowDeselect={false}
-            />
+            {rolesData.length > 0 && (
+              <Select
+                data={rolesData}
+                defaultValue={item.memberStatus}
+                variant="unstyled"
+                allowDeselect={false}
+                onChange={(value) => handleRoleChange(item.id, value)}
+              />
+            )}
           </Table.Td>
           <Table.Td>{item.linkedIn}</Table.Td>
         </Table.Tr>
@@ -167,7 +217,7 @@ export function Dashboard() {
                     <Table.Thead>
                     <Table.Tr>
                         <Table.Th>User</Table.Th>
-                        <Table.Th>Member Status</Table.Th>
+                        <Table.Th>User Status</Table.Th>
                         <Table.Th>LinkedIn</Table.Th>
                     </Table.Tr>
                     </Table.Thead>

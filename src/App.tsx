@@ -17,6 +17,7 @@ import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
 import { NotFound } from './components/404/NotFound.tsx';
 import { Dashboard } from "./pages/Dashboard.page.tsx";
 
+
 export default function App() {
   const [opened] = useDisclosure();
   const { user } = useAuth(); // Get the user from the AuthContext
@@ -51,6 +52,7 @@ export default function App() {
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/create-collaborative" element={<CreateCollaborative />} />
               <Route path="/dashboard" element={<Dashboard />} />
+
             </Routes>
           </AppShell.Main>
           
