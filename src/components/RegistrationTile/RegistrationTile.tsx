@@ -91,7 +91,9 @@ export function RegistrationTile() {
     } else {
       const payload = { email: formData.email, password: formData.password };
 
-      const response = await fetch('https://cvx.jordonbyers.com/register', {
+      const response = await fetch(
+        new URL("register", import.meta.env.VITE_API_BASE),
+      {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

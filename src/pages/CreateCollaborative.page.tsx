@@ -50,16 +50,18 @@ export function CreateCollaborative() {
     }, [user]);
 
     const fetchSkillsAndExperience = async () => {
-        fetch('https://cvx.jordonbyers.com/skills-and-experience', {
-                credentials: "include",
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                setSkills(data.skills); // Assuming the JSON has a `skills` key
-                setExperience(data.experience); // Assuming the JSON has an `experience` key
-            })
-            .catch((err) => console.error("Error fetching profile:", err));
-        };
+        fetch(
+          new URL("skills-and-experience", import.meta.env.VITE_API_BASE),
+        {
+            credentials: "include",
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            setSkills(data.skills); // Assuming the JSON has a `skills` key
+            setExperience(data.experience); // Assuming the JSON has an `experience` key
+        })
+        .catch((err) => console.error("Error fetching profile:", err));
+      };
 
     // Fetch skills and experience from the backend
     useEffect(() => {
@@ -248,7 +250,9 @@ export function CreateCollaborative() {
       console.log('Form submitted:', payload);
 
       try {
-        const response = await fetch('https://cvx.jordonbyers.com/collaboratives', {
+        const response = await fetch(
+          new URL("collaboratives", import.meta.env.VITE_API_BASE),
+        {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

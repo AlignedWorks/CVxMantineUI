@@ -54,7 +54,7 @@ export function UserProfile() {
   const fetchUserData = () => {
     fetch(
       new URL("profile", import.meta.env.VITE_API_BASE),
-      {
+    {
       credentials: "include",
     })
       .then((res) => res.json())

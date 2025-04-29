@@ -33,7 +33,9 @@ export function AuthenticationTitle() {
 
     const loginRequest: LoginRequest = { email, password };
 
-    const response = await fetch('https://cvx.jordonbyers.com/login?useCookies=true', {
+    const response = await fetch(
+      new URL("login?useCookies=true", import.meta.env.VITE_API_BASE),
+     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +46,9 @@ export function AuthenticationTitle() {
 
     if (response.ok) {
       // Fetch user profile after login
-      const profileResponse = await fetch('https://cvx.jordonbyers.com/profile', {
+      const profileResponse = await fetch(
+        new URL("profile", import.meta.env.VITE_API_BASE),
+      {
         credentials: 'include',
       });
   

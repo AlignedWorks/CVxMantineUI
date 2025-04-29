@@ -105,7 +105,9 @@ export function Dashboard() {
     const [loading, setLoading] = useState(true);
 
     const fetchDashboardData = () => {
-        fetch("https://cvx.jordonbyers.com/dashboard", {
+        fetch(
+          new URL("dashboard", import.meta.env.VITE_API_BASE),
+        {
           credentials: "include",
         })
           .then((res) => res.json())
@@ -147,7 +149,9 @@ export function Dashboard() {
         // const backendRole = newRole?.replace(/\s+/g, '');
       
         // Example: Send the updated role to the server
-        fetch(`https://cvx.jordonbyers.com/members/${userId}`, {
+        fetch(
+          new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
+        {
           method: "PATCH",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
