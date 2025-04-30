@@ -20,7 +20,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from '../../AuthContext.tsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classes from './HeaderTabs.module.css';
 
 const tabs = [
@@ -38,6 +38,7 @@ export function HeaderTabs() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -54,6 +55,7 @@ export function HeaderTabs() {
 
         if (response.ok) {
             logout(); // Call the logout function from AuthContext
+            navigate("/login"); // Redirect to login page
             setMessage('Logout successful');
             console.log(message);
             setError(null);

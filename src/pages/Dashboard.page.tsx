@@ -102,7 +102,7 @@ const mock_data = [
 export function Dashboard() {
     const [dashboard, setDashboard] = useState<User[] | null>([]);
     const [rolesData, setRolesData] = useState<Role[]>([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
     const fetchDashboardData = () => {
         fetch(
@@ -112,14 +112,15 @@ export function Dashboard() {
         })
           .then((res) => res.json())
           .then((data) => {
-            const { users, roles } = data;
+            const { users, roles, collabsNeedingApproval } = data;
+            console.log(collabsNeedingApproval);
 
             // Set the user data
             if (users.length === 0) {
                 setDashboard(mock_data);
             } else {
                 setDashboard(users);
-                setLoading(false);
+                // setLoading(false);
             }
 
             // Set the roles data
@@ -132,6 +133,7 @@ export function Dashboard() {
         fetchDashboardData();
       }, []);
 
+      /*
       if (loading) {
         return (
           <Container size="md" py="xl">
@@ -141,6 +143,7 @@ export function Dashboard() {
           </Container>
         );
       }
+        */
 
       const handleRoleChange = (userId: string, newRole: string | null) => {
         console.log(`User ID: ${userId}, New Role: ${newRole}`);
