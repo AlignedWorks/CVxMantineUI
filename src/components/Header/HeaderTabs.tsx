@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import {
   IconUser,
   IconChevronDown,
@@ -39,6 +40,8 @@ export function HeaderTabs() {
   const [error, setError] = useState<string | null>(null);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current route
+  const { id } = useParams(); // Get the dynamic :id parameter if available
 
   const handleLogout = async () => {
     try {
@@ -77,22 +80,28 @@ export function HeaderTabs() {
     </Tabs.Tab>
   ));
 
+  // Check if the current route matches /collaboratives/:id
+  const isCollaborativeRoute = location.pathname.startsWith('/collaboratives/') && id;
+
   return (
     <div className={classes.header}>
       <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
-          <Tabs
-            defaultValue="Home"
-            variant="outline"
-            visibleFrom="sm"
-            classNames={{
-              root: classes.tabs,
-              list: classes.tabsList,
-              tab: classes.tab,
-            }}
-          >
-            <Tabs.List>{items}</Tabs.List>
-          </Tabs>
+          {/* Conditionally render the Tabs menu */}
+          {isCollaborativeRoute && (
+            <Tabs
+              defaultValue="Home"
+              variant="outline"
+              visibleFrom="sm"
+              classNames={{
+                root: classes.tabs,
+                list: classes.tabsList,
+                tab: classes.tab,
+              }}
+            >
+              <Tabs.List>{items}</Tabs.List>
+            </Tabs>
+          )}
 
           <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
           {user ? (

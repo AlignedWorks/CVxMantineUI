@@ -53,8 +53,8 @@ export default function App() {
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/create-collaborative" element={<CreateCollaborative />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              
-              <Route path="/collaborative/:id" element={<CollaborativeHome/>} />
+
+              <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
             </Routes>
           </AppShell.Main>
           
