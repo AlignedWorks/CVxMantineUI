@@ -226,7 +226,7 @@ export function Dashboard() {
                     </Table.Thead>
                     <Table.Tbody>{rows}</Table.Tbody>
                 </Table>
-            </Table.ScrollContainer>        
+            </Table.ScrollContainer>
         </Container>
         </>
     );
