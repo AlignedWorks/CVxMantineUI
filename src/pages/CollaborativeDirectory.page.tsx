@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Container,
   Title,
@@ -92,7 +93,9 @@ export function CollaborativeDirectory() {
               <Badge variant="light" color="gray">Enjoy Life</Badge>
               <Badge variant="light" color="gray">Dig Deep</Badge>
             </Text>
-            <Button variant="default" size="sm" mt="auto">View</Button>
+            <Link to={`/collaboratives/${collaborative.id}`}>
+              <Button variant="default" size="sm" mt="auto">View</Button>
+            </Link>
           </Card>
         ))}
       </SimpleGrid>

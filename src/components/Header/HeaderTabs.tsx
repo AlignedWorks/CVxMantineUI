@@ -82,6 +82,7 @@ export function HeaderTabs() {
 
   // Check if the current route matches /collaboratives/:id
   const isCollaborativeRoute = location.pathname.startsWith('/collaboratives/') && id;
+  console.log(isCollaborativeRoute);
 
   return (
     <div className={classes.header}>
