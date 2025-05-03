@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext';
-import { Container, Title, Text, Badge, SimpleGrid, Loader } from '@mantine/core';
+import {
+  Container,
+  Title,
+  Text,
+  Badge,
+  SimpleGrid,
+  Loader,
+ } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
 
 export function CollaborativeHome() {
+  const location = useLocation();
   const { id } = useParams(); // Get the 'id' parameter from the URL
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Get the "from" state or default to a fallback
+  const from = location.state?.from || '/collaborative-directory';
 
   // Set the collaborative ID in context
   useEffect(() => {
@@ -52,7 +63,7 @@ export function CollaborativeHome() {
   if (!collaborative) {
     return (
       <Container size="md" py="xl">
-        <Text size="lg" color="red">
+        <Text size="lg" c="red">
           Collaborative not found.
         </Text>
       </Container>
@@ -61,6 +72,10 @@ export function CollaborativeHome() {
 
   return (
     <Container size="md" py="xl">
+      {/* Back Link */}
+      <Link to={from} style={{ textDecoration: 'none', color: '#0077b5', fontWeight: 'bold' }}>
+        &larr; Back
+      </Link>
       <Title order={1} mb="md">
         {collaborative.name}
       </Title>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   IconUser,
+  IconUserCircle,
   IconChevronDown,
   IconLogout,
   IconSettings,
@@ -8,7 +9,6 @@ import {
 } from '@tabler/icons-react';
 import cx from 'clsx';
 import {
-  Button,
   Avatar,
   Burger,
   Container,
@@ -159,8 +159,9 @@ export function HeaderTabs() {
               </>
             ) : (
               <>
-                <Link to="/login">
-                  <Button variant="default">Log in</Button>
+                <IconUserCircle />
+                <Link to="/login" style={{ fontWeight: 'bold', textDecoration: 'none' }}>
+                  Sign In
                 </Link>
               </>
             )}

@@ -89,8 +89,10 @@ export function CollaborativeDirectory() {
             <Text size="md" c="#666" mb="xl">
               Projects: <br/>
             </Text>
-            <Link to={`/collaboratives/${collaborative.id}`}>
-              <Button variant="default" fullWidth size="sm" mt="auto">View</Button>
+            <Link
+              to={`/collaboratives/${collaborative.id}`}
+              state={{ from: location.pathname }}>
+              <Button variant="default" fullWidth size="sm" mt="auto" td="false">View</Button>
             </Link>
           </Card>
         ))}
