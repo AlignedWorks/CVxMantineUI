@@ -16,6 +16,7 @@ import {
   Tabs,
   Text,
   UnstyledButton,
+  Button,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from '../../AuthContext.tsx';
@@ -158,8 +159,10 @@ export function HeaderTabs() {
               </>
             ) : (
               <>
-                <Link to="/login" style={{ fontWeight: 'bold', textDecoration: 'none', color: 'inherit' }}>
-                  Sign In
+                <Link to="/login">
+                  <Button variant="default">
+                    Sign In
+                  </Button>
                 </Link>
               </>
             )}

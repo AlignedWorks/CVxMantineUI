@@ -10,7 +10,6 @@ import {
   Loader,
  } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
-import { IconArrowNarrowLeft } from '@tabler/icons-react';
 
 export function CollaborativeHome() {
   const location = useLocation();
@@ -74,9 +73,8 @@ export function CollaborativeHome() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <IconArrowNarrowLeft />
       <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
-        Back
+        &larr; Back
       </Link>
       <Title order={1} mb="md">
         {collaborative.name}

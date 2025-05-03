@@ -86,7 +86,7 @@ export function CollaborativeDirectory() {
             <Text size="md" mb="md">
             <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> <br/>{collaborative.leaderEmail}
             </Text>
-            <Text size="md" c="#666" mb="xl">
+            <Text size="md" c="var(--mantine-color-dimmed)" mb="xl">
               Projects: <br/>
             </Text>
             <Link
