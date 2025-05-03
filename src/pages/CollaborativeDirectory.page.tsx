@@ -89,12 +89,9 @@ export function CollaborativeDirectory() {
             </Text>
             <Text size="md" c="#666" mb="xl">
               Projects: <br/>
-              <Badge variant="light" color="gray">Create Love</Badge>
-              <Badge variant="light" color="gray">Enjoy Life</Badge>
-              <Badge variant="light" color="gray">Dig Deep</Badge>
             </Text>
             <Link to={`/collaboratives/${collaborative.id}`}>
-              <Button variant="default" size="sm" mt="auto">View</Button>
+              <Button variant="default" fullWidth size="sm" mt="auto">View</Button>
             </Link>
           </Card>
         ))}

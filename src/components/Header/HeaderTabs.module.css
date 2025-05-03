@@ -6,7 +6,7 @@
 }
 
 .mainSection {
-  padding-top: var(--mantine-spacing-sm);
+  padding-top: 0;
 }
 
 .user {

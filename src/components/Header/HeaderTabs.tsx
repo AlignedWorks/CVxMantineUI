@@ -85,81 +85,86 @@ export function HeaderTabs() {
     <div className={classes.header}>
       <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
-          {/* Conditionally render the Tabs menu */}
-          {isCollaborativeRoute && (
-            <Tabs
-              defaultValue="Home"
-              variant="outline"
-              visibleFrom="sm"
-              classNames={{
-                root: classes.tabs,
-                list: classes.tabsList,
-                tab: classes.tab,
-              }}
-            >
-              <Tabs.List>{items}</Tabs.List>
-            </Tabs>
-          )}
 
-          <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-          {user ? (
-            <>
-              <Menu
-                width={260}
-                position="bottom-end"
-                transitionProps={{ transition: 'pop-top-right' }}
-                onClose={() => setUserMenuOpened(false)}
-                onOpen={() => setUserMenuOpened(true)}
-                withinPortal
+          <div>
+            {/* Conditionally render the Tabs menu */}
+            {isCollaborativeRoute && (
+
+              <Tabs
+                defaultValue="Home"
+                variant="outline"
+                visibleFrom="sm"
+                classNames={{
+                  root: classes.tabs,
+                  list: classes.tabsList,
+                  tab: classes.tab,
+                }}
               >
-                <Menu.Target>
-                  <UnstyledButton
-                    className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-                  >
-                    <Group gap={7}>
-                      {user.avatarUrl ? (
-                        <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
-                      ) : (
-                        <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
-                      )}
-                      <Text fw={500} size="sm" lh={1} mr={3}>
-                        { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
-                      </Text>
-                      <IconChevronDown size={12} stroke={1.5} />
-                    </Group>
-                  </UnstyledButton>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item
-                    component={Link}
-                    to="/user-profile"
-                    leftSection={<IconUser size={16} stroke={1.5} />}
-                  >
-                    Profile
-                  </Menu.Item>
-                  <Menu.Item leftSection={<IconSettings size={16} stroke={1.5} />}>
-                    Account settings
-                  </Menu.Item>
-                  <Menu.Item leftSection={<IconSwitchHorizontal size={16} stroke={1.5} />}>
-                    Change account
-                  </Menu.Item>
-                  <Menu.Item
-                    leftSection={<IconLogout size={16} stroke={1.5} />}
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </>
-          ) : (
-            <>
-              <Link to="/login">
-                <Button variant="default">Log in</Button>
-              </Link>
-            </>
-          )}
-          
+                <Tabs.List>{items}</Tabs.List>
+              </Tabs>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+            {user ? (
+              <>
+                <Menu
+                  width={260}
+                  position="bottom-end"
+                  transitionProps={{ transition: 'pop-top-right' }}
+                  onClose={() => setUserMenuOpened(false)}
+                  onOpen={() => setUserMenuOpened(true)}
+                  withinPortal
+                >
+                  <Menu.Target>
+                    <UnstyledButton
+                      className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                    >
+                      <Group gap={7}>
+                        {user.avatarUrl ? (
+                          <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
+                        ) : (
+                          <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
+                        )}
+                        <Text fw={500} size="sm" lh={1} mr={3}>
+                          { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
+                        </Text>
+                        <IconChevronDown size={12} stroke={1.5} />
+                      </Group>
+                    </UnstyledButton>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      component={Link}
+                      to="/user-profile"
+                      leftSection={<IconUser size={16} stroke={1.5} />}
+                    >
+                      Profile
+                    </Menu.Item>
+                    <Menu.Item leftSection={<IconSettings size={16} stroke={1.5} />}>
+                      Account settings
+                    </Menu.Item>
+                    <Menu.Item leftSection={<IconSwitchHorizontal size={16} stroke={1.5} />}>
+                      Change account
+                    </Menu.Item>
+                    <Menu.Item
+                      leftSection={<IconLogout size={16} stroke={1.5} />}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="default">Log in</Button>
+                </Link>
+              </>
+            )}
+          </div>
         </Group>
       </Container>
     </div>

@@ -28,7 +28,7 @@ export default function App() {
       <Router>
         <AppShell
           layout="alt"
-          header={{ height: 60 }}
+          header={{ height: 49 }}
           navbar={{
             width: 250,
             breakpoint: 'sm',
