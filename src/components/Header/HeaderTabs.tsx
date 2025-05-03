@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   IconUser,
-  IconUserCircle,
   IconChevronDown,
   IconLogout,
   IconSettings,
@@ -159,8 +158,7 @@ export function HeaderTabs() {
               </>
             ) : (
               <>
-                <IconUserCircle />
-                <Link to="/login" style={{ fontWeight: 'bold', textDecoration: 'none' }}>
+                <Link to="/login" style={{ fontWeight: 'bold', textDecoration: 'none', color: 'inherit' }}>
                   Sign In
                 </Link>
               </>
