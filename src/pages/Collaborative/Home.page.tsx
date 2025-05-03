@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCollaborativeContext } from '../../CollaborativeContext';
 import { Container, Title, Text, Badge, SimpleGrid, Loader } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
 
 export function CollaborativeHome() {
   const { id } = useParams(); // Get the 'id' parameter from the URL
+  const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Set the collaborative ID in context
+  useEffect(() => {
+    setCollaborativeId(id || null);
+    return () => setCollaborativeId(null); // Clear the ID when leaving the page
+  }, [id, setCollaborativeId]);
 
   useEffect(() => {
     // Simulate fetching collaborative data by ID

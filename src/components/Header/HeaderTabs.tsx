@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
 import {
   IconUser,
   IconChevronDown,
@@ -22,6 +21,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from '../../AuthContext.tsx';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCollaborativeContext } from '../../CollaborativeContext';
 import classes from './HeaderTabs.module.css';
 
 const tabs = [
@@ -40,8 +40,9 @@ export function HeaderTabs() {
   const [error, setError] = useState<string | null>(null);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current route
-  const { id } = useParams(); // Get the dynamic :id parameter if available
+  const { collaborativeId } = useCollaborativeContext();
+  const isCollaborativeRoute = Boolean(collaborativeId);
+
 
   const handleLogout = async () => {
     try {
@@ -79,10 +80,6 @@ export function HeaderTabs() {
       {tab}
     </Tabs.Tab>
   ));
-
-  // Check if the current route matches /collaboratives/:id
-  const isCollaborativeRoute = location.pathname.startsWith('/collaboratives/') && id;
-  console.log(isCollaborativeRoute);
 
   return (
     <div className={classes.header}>
