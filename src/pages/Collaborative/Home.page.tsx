@@ -29,7 +29,6 @@ export function CollaborativeHome() {
   }, [id, setCollaborativeId]);
 
   useEffect(() => {
-    // Simulate fetching collaborative data by ID
     fetch(`https://cvx.jordonbyers.com/collaboratives/${id}`, {
       method: 'GET',
       credentials: 'include',

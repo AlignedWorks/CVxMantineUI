@@ -1,4 +1,5 @@
 import { useState, useEffect }  from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Container,
   Title,
@@ -136,9 +137,13 @@ export function MemberDirectory() {
               {user.city}, {user.state}
             </Text>
             <Group justify="center" mt="md">
-              <Button variant="outline" size="sm" mt="lg" onClick={() => handleEditClick(user)}>
-                View Profile
-              </Button>
+              <Link
+                to={`/members/${user.id}`}
+                style={{ textDecoration: 'none', color: 'inherit'}}>
+                <Button variant="outline" size="sm" mt="lg">
+                  View Profile
+                </Button>
+              </Link>
             </Group>
           </Paper>
         ))}
