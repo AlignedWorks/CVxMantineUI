@@ -242,31 +242,25 @@ export function UserProfile() {
         />
 
         <Grid>
-          <Grid.Col span={10}>
+          <Grid.Col span={9}>
             <TextInput
               label="City"
               value={formValues?.city}
               onChange={(event) => handleFormChange('city', event.currentTarget.value)}
+              mb="lg"
             />
           </Grid.Col>
-          <Grid.Col span={2}>
+          <Grid.Col span={3}>
             <Select
               label="State"
               data={us_states}
               value={formValues?.state}
               onChange={(value) => handleFormChange('state', value || '')}
               searchable
-              mt="md"
-              mb="md"
+              mb="lg"
             />
           </Grid.Col>
         </Grid>
-          
-          <TextInput
-            label="State"
-            value={formValues?.lastName}
-            onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
-          />
 
         <TextInput
           label="Phone Number"

@@ -87,10 +87,10 @@ export function CollaborativeHome() {
               {collaborative.description}
             </Text>
             <Text mb="md" mt="lg">
-                Website: www.bytesecure.net
+                Website: {collaborative.websiteUrl}
             </Text>
             <Text mb="md" mt="lg">
-                Location: Plano, TX
+                Location: {collaborative.city}, {collaborative.state}
             </Text>
         </Grid.Col>
         <Grid.Col span={4}>
