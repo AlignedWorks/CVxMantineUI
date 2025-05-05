@@ -168,9 +168,13 @@ export function UserProfile() {
                       <Group wrap="nowrap" gap={10} mt={5}>
                         <IconBrandLinkedin stroke={1.5} size={18} />
                         <Text>
+                        {user?.linkedIn ? (
                           <a href={user.linkedIn} style={{ color: '#0077b5', textDecoration: 'none' }}>
-                            {user.linkedIn.split('linkedin.com/in/')[1]}  
+                            {user.linkedIn.split('linkedin.com/in/')[1]}
                           </a>
+                        ) : (
+                          'N/A'
+                        )}
                         </Text>
                       </Group>
                       <span style={{ color: 'grey'}}>Member since:</span>  {new Date(user.createdAt).toLocaleDateString()}

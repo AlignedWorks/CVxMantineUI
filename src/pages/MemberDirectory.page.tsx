@@ -1,4 +1,4 @@
-import { useState }  from 'react';
+import { useState, useEffect }  from 'react';
 import { 
   Container,
   Title,
@@ -13,26 +13,70 @@ import {
   Textarea,
   MultiSelect
 } from '@mantine/core';
-import { User, users, skills, experience } from '../data.ts'
+import { skills, experience } from '../data.ts'
 import { IconSearch } from '@tabler/icons-react';
+
+interface User {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  city: string;
+  state: string;
+  phoneNumber: string;
+  linkedIn: string;
+  avatarUrl: string;
+  createdAt: string;
+  skills: string[];
+  experience: string[];
+  memberStatus: string;
+}
 
 export function MemberDirectory() {
   const [modalOpened, setModalOpened] = useState(false);
+  const [sortedData, setSortedData] = useState<User[]>([]); // State to hold the sorted data
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
   const [formValues, setFormValues] = useState<User>({
-    id: 0,
-    name: '',
-    email: '',
-    description: '',
-    phone_number: '',
-    avatar_url: '',
-    location: '',
-    member_since: '',
-    linkedin: '',
+    id: '',
+    username: '',
+    firstName: '',
+    lastName: '',
+    bio: '',
+    phoneNumber: '',
+    avatarUrl: '',
+    city: '',
+    state: '',
+    createdAt: '',
+    linkedIn: '',
     skills: [],
     experience: [],
+    memberStatus: '',
   });
+
+  // Fetch collaborative data from the backend
+  useEffect(() => {
+    fetch('https://cvx.jordonbyers.com/members', {
+      method: 'GET',
+      credentials: 'include', // Include cookies if needed
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch member data');
+        }
+        return response.json();
+      })
+      .then((data: User[]) => {
+        setSortedData(data); // Set the fetched data
+      })
+      .catch((error) => {
+        console.error('Error fetching member data:', error);
+      });
+  }, []); // Run only once when the component mounts
 
   const handleEditClick = (user: User) => {
     setSelectedUser(user);
@@ -50,12 +94,14 @@ export function MemberDirectory() {
   };
 
   // Filter the users based on the search query
-  const filteredUsers = users.filter((user) => {
+  const filteredUsers = sortedData.filter((user) => {
     const query = searchQuery.toLowerCase();
     return (
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query) ||
-      user.location.toLowerCase().includes(query)
+      user.firstName.toLowerCase().includes(query) ||
+      user.lastName.toLowerCase().includes(query) ||
+      user.username.toLowerCase().includes(query) ||
+      user.city.toLowerCase().includes(query) ||
+      user.state.toLowerCase().includes(query)
     );
   });
 
@@ -77,19 +123,19 @@ export function MemberDirectory() {
         {filteredUsers.map((user) => (
           <Paper key={user.id} shadow="sm" radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
             <Avatar
-              src={user.avatar_url}
+              src={user.avatarUrl}
               size={120}
               radius={120}
               mx="auto"
             />
             <Text ta="center" fz="lg" fw={500} mt="md">
-              {user.name}
+              {user.firstName} {user.lastName}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
-              {user.email}
+              {user.username}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
-              {user.location}
+              {user.city}, {user.state}
             </Text>
             <Group justify="center" mt="md">
               <Button variant="outline" size="sm" mt="lg" onClick={() => handleEditClick(user)}>
@@ -110,48 +156,45 @@ export function MemberDirectory() {
           <div>
             <TextInput
               label="Name"
-              value={formValues.name}
-              onChange={(event) => handleFormChange('name', event.currentTarget.value)}
+              value={formValues.firstName}
+              onChange={(event) => handleFormChange('firstName', event.currentTarget.value)}
+            />
+            <TextInput
+              label="Name"
+              value={formValues.lastName}
+              onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
             />
             <TextInput
               label="Email"
-              value={formValues.email}
-              onChange={(event) => handleFormChange('email', event.currentTarget.value)}
+              value={formValues.username}
+              onChange={(event) => handleFormChange('username', event.currentTarget.value)}
             />
             <Textarea
               label="Description"
-              value={formValues.description}
-              onChange={(event) => handleFormChange('description', event.currentTarget.value)}
+              value={formValues.bio}
+              onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
             />
             <TextInput
               label="Location"
-              value={formValues.location}
-              onChange={(event) => handleFormChange('location', event.currentTarget.value)}
+              value={formValues.city}
+              onChange={(event) => handleFormChange('city', event.currentTarget.value)}
+            />
+            <TextInput
+              label="Location"
+              value={formValues.state}
+              onChange={(event) => handleFormChange('state', event.currentTarget.value)}
             />
             <TextInput
               label="Member Since"
-              value={formValues.member_since}
-              onChange={(event) => handleFormChange('member_since', event.currentTarget.value)}
+              value={formValues.createdAt}
+              onChange={(event) => handleFormChange('createdAt', event.currentTarget.value)}
             />
             <TextInput
               label="LinkedIn"
-              value={formValues.linkedin}
-              onChange={(event) => handleFormChange('linkedin', event.currentTarget.value)}
+              value={formValues.linkedIn}
+              onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
             />
-            <MultiSelect
-              label="Skills"
-              data={skills} // Use the transformed grouped skills data
-              value={formValues.skills.map((skill) => skill.value)} // Extract the values from the selected skills
-              onChange={(value) => handleFormChange('skills', value)}
-              searchable
-              clearable
-            />
-            <MultiSelect
-              label="experience"
-              data={experience}
-              value={formValues.experience.map((exp) => exp.value)} // Extract the values from the selected experience
-              onChange={(value) => handleFormChange('experience', value)}
-            />
+
             <Button onClick={handleFormSubmit} mt="md">
               Save
             </Button>
