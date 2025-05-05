@@ -11,9 +11,7 @@ import {
   Modal,
   TextInput,
   Textarea,
-  MultiSelect
 } from '@mantine/core';
-import { skills, experience } from '../data.ts'
 import { IconSearch } from '@tabler/icons-react';
 
 interface User {
