@@ -1,4 +1,5 @@
-import { Text, Title } from '@mantine/core';
+import { Text } from '@mantine/core';
+// Title was big default header previously
 
 export function Welcome() {
   return (
