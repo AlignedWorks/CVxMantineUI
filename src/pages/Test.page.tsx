@@ -326,10 +326,10 @@ export function Test() {
                     <Text size="md" mb="md">
                         A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
                     </Text>
-                    <Text mb="md" mt="lg">
+                    <Text c="dimmed" mb="md" mt="lg">
                         Website: www.bytesecure.net
                     </Text>
-                    <Text mb="md" mt="lg">
+                    <Text c="dimmed" mb="md" mt="lg">
                         Location: Plano, TX
                     </Text>
                 </Grid.Col>
@@ -338,7 +338,7 @@ export function Test() {
                         Leader: Jordon Byers
                     </Text>
                     <Text c="dimmed" mb="md">
-                        Created On: 5/27/25
+                        Created: 5/27/25
                     </Text>
                     <Text c="dimmed" mb="md">
                         Skills: Design & Creative

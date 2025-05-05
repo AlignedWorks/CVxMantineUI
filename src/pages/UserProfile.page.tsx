@@ -10,14 +10,16 @@ import {
   Modal,
   Group,
   Button,
+  Badge,
   Grid,
   SimpleGrid,
   Stack,
 } from '@mantine/core';
 import {
   IconAt,
-  IconBrandLinkedinFilled,
+  IconBrandLinkedin,
   IconPhoneCall,
+  IconMapPin,
 } from '@tabler/icons-react'
 
 interface User {
@@ -52,20 +54,25 @@ export function UserProfile() {
   const [formValues, setFormValues] = useState<User | null>(null); // Initialize as null
 
   const fetchUserData = () => {
-    fetch(
-      new URL("profile", import.meta.env.VITE_API_BASE),
-    {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => { 
-        setUser(data);
+    try {
+      fetch(
+        new URL("profile", import.meta.env.VITE_API_BASE),
+      {
+        credentials: "include",
       })
-      .catch((err) => 
-        {
-          console.error("Error fetching profile:", err);
-          setUser(mock_user[0]);
-        });
+        .then((res) => res.json())
+        .then((data) => { 
+          setUser(data);
+        })
+        .catch((err) => 
+          {
+            console.error("Error fetching profile:", err);
+            setUser(mock_user[0]);
+          });
+      } catch (err) {
+        console.error("Error forming URL:", err);
+        setUser(mock_user[0]); // Fallback to mock data
+      }
   };
 
   const handleFormChange = (field: keyof User, value: string) => {
@@ -121,40 +128,73 @@ export function UserProfile() {
           <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
             <Grid>
               <Grid.Col span={3}>
-                <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" />
+                <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" ml="lg" />
               </Grid.Col>
               <Grid.Col span={9}>
                 <Stack>
                   <Title order={2}>{user.firstName + " " + user.lastName}</Title>
-                  <Group wrap="nowrap" gap={10} mt={3}>
-                    <IconAt stroke={1.5} size={16} />
-                    <Text>
-                      {user.username}
-                    </Text>
-                  </Group>
-                  <Group wrap="nowrap" gap={10} mt={5}>
-                    <IconPhoneCall stroke={1.5} size={16} />
-                    <Text>
-                      {user.phoneNumber}
-                    </Text>
-                  </Group>
+                  <SimpleGrid cols={2} mb="lg">
+                    <div>
+                      <Group wrap="nowrap" gap={10} mt={3}>
+                        <IconAt stroke={1.5} size={16} />
+                        <Text>
+                          {user.username}
+                        </Text>
+                      </Group>
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconPhoneCall stroke={1.5} size={16} />
+                        <Text>
+                          {user.phoneNumber}
+                        </Text>
+                      </Group>
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconMapPin stroke={1.5} size={16} />
+                        <Text>
+                          Plano, TX
+                        </Text>
+                      </Group>
+                    </div>
+                    <div>
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconBrandLinkedin stroke={1.5} size={18} />
+                        <Text>
+                          <a href={user.linkedIn} style={{ color: '#0077b5', textDecoration: 'none' }}>
+                            {user.linkedIn.split('linkedin.com/in/')[1]}  
+                          </a>
+                        </Text>
+                      </Group>
+                      <span style={{ color: 'grey'}}>Member since:</span>  {new Date(user.createdAt).toLocaleDateString()}
+                      <br/>
+                      <span style={{ color: 'grey'}}>Member status:</span>  {user.memberStatus}
+                    </div>
+                  </SimpleGrid>
                 </Stack>
+                <p>
+                  {user.bio}<br /><br />
+                </p>
+                <SimpleGrid cols={2} mb="lg">
+                    <div>
+                      Skills<br/>
+                      <Badge variant="light" color="blue">
+                        Design & Creative
+                      </Badge>
+                      <Badge variant="light" color="blue">
+                        Development & IT
+                      </Badge>
+                    </div>
+                    <div>
+                      Experience<br/>
+                      <Badge variant="light" color="green">
+                        Non-Profit
+                      </Badge>
+                    </div>
+                  </SimpleGrid>
               </Grid.Col>
+
             </Grid>
           
-          <p>
-            {user.bio}<br /><br />
-            Member status: {user.memberStatus}<br /><br />
-            Member since {new Date(user.createdAt).toLocaleDateString()}
-          </p>
-          <Group wrap="nowrap" gap={10} mt={5}>
-            <IconBrandLinkedinFilled stroke={1.5} size={18} />
-            <Text>
-              <a href={user.linkedIn}>
-                {user.linkedIn.split('linkedin.com/in/')[1]}  
-              </a>
-            </Text>
-          </Group>
+          
+          
           </Card>
       ) : (
         <p></p>

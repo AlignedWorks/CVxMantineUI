@@ -77,7 +77,7 @@ export function CollaborativeHome() {
       <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
-      <Text fz="40px" c="#222" mb="xl" mt="xl">
+      <Text fz="40px" c="#222" mb="xl">
         {collaborative.name}
       </Text>
       <Space h="xl" />
@@ -95,13 +95,13 @@ export function CollaborativeHome() {
         </Grid.Col>
         <Grid.Col span={4}>
             <Text c="dimmed" mb="md">
-                Leader: Jordon Byers
+                Leader: {collaborative.leaderEmail}
             </Text>
             <Text c="dimmed" mb="md">
-                Created On: {new Date(collaborative.createdAt).toLocaleDateString()}
+                Created: {new Date(collaborative.createdAt).toLocaleDateString()}
             </Text>
             <Text c="dimmed" mb="md">
-                Skills:
+                Skills<br/>
                 {collaborative.skills.map((skill, index) => (
                   <Badge key={index} variant="light" color="blue">
                     {skill}
@@ -109,7 +109,7 @@ export function CollaborativeHome() {
                 ))}
             </Text>
             <Text c="dimmed" mb="md">
-                Experience:
+                Experience<br/>
                 {collaborative.experience.map((exp, index) => (
                   <Badge key={index} variant="light" color="green">
                     {exp}

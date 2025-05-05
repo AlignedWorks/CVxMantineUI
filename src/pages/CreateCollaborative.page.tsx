@@ -341,7 +341,7 @@ export function CreateCollaborative() {
     <Container size="md" py="xl">
 
       {/* Back Link */}
-      <Link to="/dashboard">
+      <Link to="/dashboard" style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
 
