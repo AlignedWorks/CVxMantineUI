@@ -9,9 +9,7 @@ import {
   Button,
   Group,
   Avatar,
-  Modal,
   TextInput,
-  Textarea,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
