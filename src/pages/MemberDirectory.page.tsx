@@ -77,12 +77,6 @@ export function MemberDirectory() {
       });
   }, []); // Run only once when the component mounts
 
-  const handleEditClick = (user: User) => {
-    setSelectedUser(user);
-    setFormValues(user);
-    setModalOpened(true);
-  };
-
   const handleFormChange = (field: keyof User, value: any) => {
     setFormValues((current) => ({ ...current, [field]: value }));
   };
