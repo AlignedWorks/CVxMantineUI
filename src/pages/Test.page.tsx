@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
 import { 
   Container,
   Title,
   SimpleGrid,
-  Paper,
   Text,
-  TextInput,
-  Textarea,
-  Button,
-  Card,
   Grid,
   Table,
-  Flex,
   Avatar,
   Select,
   Group,
+  Card,
+  Button,
 } from '@mantine/core';
 import {
   IconBrandLinkedin,
@@ -30,7 +25,6 @@ const networkRoles = [
 ]
 
 export function Test() {
-    const [textareaVisible, setTextareaVisible] = useState(false); // State to toggle TextArea visibility
 
     return (
         <Container size="md" py="xl">
