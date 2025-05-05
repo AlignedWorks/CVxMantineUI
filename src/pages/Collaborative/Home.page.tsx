@@ -81,6 +81,7 @@ export function CollaborativeHome() {
         {collaborative.name}
       </Text>
       <Space h="xl" />
+      <Space h="lg" />
       <Grid>
         <Grid.Col span={6}>
             <Text size="md" mb="md">

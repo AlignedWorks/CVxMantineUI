@@ -79,7 +79,7 @@ export function CollaborativeDirectory() {
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredData.map((collaborative) => (
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
-            <Text size="xl" c="#45a6b7">{collaborative.name}</Text>
+            <Text size="xl">{collaborative.name}</Text>
             <Text size="md" mb="md">
               {collaborative.description}
             </Text>
