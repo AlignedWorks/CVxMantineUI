@@ -13,9 +13,6 @@ import {
   Grid,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import {
-  IconBrandLinkedinFilled,
-} from '@tabler/icons-react';
 
 interface User {
   id: string;
@@ -173,8 +170,6 @@ export function Dashboard() {
       .catch((err) => console.error("Error updating role:", err));
   };
 
-  
-
   const rows = dashboard?.map((item) => (
       <Table.Tr key={item.id}>
         <Table.Td>
@@ -249,16 +244,10 @@ export function Dashboard() {
                               {item.linkedIn.split('/').pop()} {/* Extracts the username from the URL */}
                           </a>
                       </Text>
-                      <Group wrap="nowrap" gap={10} mt={5}>
-                          <IconBrandLinkedinFilled stroke={1.5} size={18}/>
-                          <Text fz="xs" c="dimmed">
-                          +11 (876) 890 56 23
-                          </Text>
-                      </Group>
                   </Grid.Col>
                 </Grid>
 
-                <Text size="sm" c="dimmed">
+                <Text size="sm" c="dimmed" mt="lg">
                     {item.bio}
                 </Text>
                 
@@ -266,6 +255,7 @@ export function Dashboard() {
                   <Select
                     data={rolesData}
                     defaultValue={item.memberStatus}
+                    comboboxProps={{ withinPortal: true }}
                     variant="unstyled"
                     allowDeselect={false}
                     onChange={(value) => handleRoleChange(item.id, value)}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext.tsx';
 import { IconInfoCircle } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Title,
@@ -338,196 +339,202 @@ export function CreateCollaborative() {
 
   return (
     <Container size="md" py="xl">
-        <Title order={1} mb="md" pt="sm" pb="lg">
-            Propose a Collaborative
-        </Title>
 
-        <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
-            Purpose and People
-        </Title>
+      {/* Back Link */}
+      <Link to="/dashboard">
+        &larr; Back
+      </Link>
 
-        <SimpleGrid mt="xl" cols={2}>
-          <TextInput
-              label="Collaborative Name"
-              placeholder="Enter your collaborative's name"
-              value={formValues.name}
-              onChange={(event) => handleInputChange('name', event.currentTarget.value)}
-              error={errors.name} // Display validation error
-              required
-              mb="md"
-          />
-          <TextInput
-              label="Collaborative Leader"
-              disabled={true}
-              defaultValue={user ? (user.firstName ? `${user.firstName} ${user.lastName}` : user.username) : "No user logged in"}
-              mb="md"
-          />
-        </SimpleGrid>
+      <Title order={1} mb="md" pt="sm" pb="lg">
+          Propose a Collaborative
+      </Title>
 
-        <Textarea
-            label="Description"
-            placeholder="Briefly summarize the purpose and activities of your Collab"
-            value={formValues.description}
-            onChange={(event) => handleInputChange('description', event.currentTarget.value)}
-            error={errors.description} // Display validation error
-            required
-            mt="md"
-            mb="md"
-        />
+      <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
+          Purpose and People
+      </Title>
 
+      <SimpleGrid mt="xl" cols={2}>
         <TextInput
-            label="Collaborative Website URL"
-            placeholder="If your Collab has a website add its URL here"
-            value={formValues.websiteUrl}
-            onChange={(event) => handleInputChange('websiteUrl', event.currentTarget.value)}
-            mt="xl"
+            label="Collaborative Name"
+            placeholder="Enter your collaborative's name"
+            value={formValues.name}
+            onChange={(event) => handleInputChange('name', event.currentTarget.value)}
+            error={errors.name} // Display validation error
+            required
             mb="md"
         />
-
-        <SimpleGrid mt="xl" mb="lg" cols={2}>
-          <MultiSelect
-              label="Member Skills"
-              placeholder="Select the needed skills"
-              data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
-              value={formValues.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
-              onChange={(values) =>
-                handleInputChange(
-                  'skills',
-                  values.map((id) => skills.find((skill) => skill.id.toString() === id))
-                )
-              }
-              error={errors.skills} // Display validation error
-              searchable
-              clearable
-              required
-              mb="md"
-          />
-
-          <MultiSelect
-              label="Sector Experience"
-              placeholder="Select the needed experience"
-              data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
-              value={formValues.experience.map((exp) => exp.id.toString())} // Map selected experience to their IDs
-              onChange={(values) =>
-                handleInputChange(
-                  'experience',
-                  values.map((id) => experience.find((exp) => exp.id.toString() === id))
-                )
-              }
-              error={errors.experience} // Display validation error
-              searchable
-              clearable
-              required
-              mb="md"
-          />
-        </SimpleGrid>
-
-        <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
-            Revenue Sharing Pool
-        </Title>
-
-        <SimpleGrid cols={2}>
         <TextInput
-            rightSection={revenueShare}
-            label="% of Revenue to the Collab Pool"
-            placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
-            type="number"
-            value={formValues.revenueShare}
-            onChange={(event) =>
-                handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
-            }
-            error={errors.revenueShare} // Display validation error
-            required
+            label="Collaborative Leader"
+            disabled={true}
+            defaultValue={user ? (user.firstName ? `${user.firstName} ${user.lastName}` : user.username) : "No user logged in"}
             mb="md"
         />
+      </SimpleGrid>
 
-        <Select
-            label="Payout Frequency"
-            placeholder="Select payout frequency"
-            data={[
-                { value: PayoutFrequency.Monthly, label: 'Monthly' },
-                { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
-                { value: PayoutFrequency.Yearly, label: 'Yearly' },
-            ]}
-            value={formValues.payoutFrequency}
-            onChange={(value) => handleInputChange('payoutFrequency', value as PayoutFrequency)}
-            error={errors.payoutFrequency} // Display validation error
-            required
-            mb="md"
-        />
-        </SimpleGrid>
+      <Textarea
+          label="Description"
+          placeholder="Briefly summarize the purpose and activities of your Collab"
+          value={formValues.description}
+          onChange={(event) => handleInputChange('description', event.currentTarget.value)}
+          error={errors.description} // Display validation error
+          required
+          mt="md"
+          mb="md"
+      />
 
+      <TextInput
+          label="Collaborative Website URL"
+          placeholder="If your Collab has a website add its URL here"
+          value={formValues.websiteUrl}
+          onChange={(event) => handleInputChange('websiteUrl', event.currentTarget.value)}
+          mt="xl"
+          mb="md"
+      />
+
+      <SimpleGrid mt="xl" mb="lg" cols={2}>
         <MultiSelect
-            label="SharePoint Staking Tiers"
-            placeholder="Set the SharePoint Staking Tiers"
-            data={
-                formValues.payoutFrequency === PayoutFrequency.Monthly
-                ? monthlyStakingTiers
-                : formValues.payoutFrequency === PayoutFrequency.Quarterly
-                ? quarterlyStakingTiers
-                : annualStakingTiers
+            label="Member Skills"
+            placeholder="Select the needed skills"
+            data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
+            value={formValues.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
+            onChange={(values) =>
+              handleInputChange(
+                'skills',
+                values.map((id) => skills.find((skill) => skill.id.toString() === id))
+              )
             }
-            value={selectedTiers.map((t) => t.tier)}
-            onChange={handleTierChange}
-            error={errors.stakingTiers} // Display validation error
+            error={errors.skills} // Display validation error
             searchable
             clearable
             required
-            mt="lg"
             mb="md"
         />
-        <Group grow mt="xl" pt="sm" pb="lg" >
-        {selectedTiers.map((tier) => (
-            <TextInput
-                rightSection={exchangeRate}
-                key={tier.tier}
-                label={`${tier.tier} Staking Exchange Rate`}
-                placeholder="Set the Exchage Rates for Staking SharePoints"
-                type="number"
-                value={tier.exchangeRate}
-                onChange={(event) =>
-                    handleExchangeRateChange(tier.tier, parseFloat(event.currentTarget.value))
-                }
-                error={errors.exchangeRate?.[tier.tier]} // Display validation error
-                required
-                mb="md"
-            />
-        ))}
-        </Group>
 
-        <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
-            Other Financials
-        </Title>
-
-        <SimpleGrid cols={2}>
-        <TextInput
-            rightSection={indirectCosts}
-            label="% of Revenue to cover Indirect Costs (Target)"
-            placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
-            type="number"
-            value={formValues.indirectCosts}
-            onChange={(event) =>
-                handleInputChange('indirectCosts', parseFloat(event.currentTarget.value))
+        <MultiSelect
+            label="Sector Experience"
+            placeholder="Select the needed experience"
+            data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
+            value={formValues.experience.map((exp) => exp.id.toString())} // Map selected experience to their IDs
+            onChange={(values) =>
+              handleInputChange(
+                'experience',
+                values.map((id) => experience.find((exp) => exp.id.toString() === id))
+              )
             }
-            error={errors.indirectCosts} // Display validation error
+            error={errors.experience} // Display validation error
+            searchable
+            clearable
             required
             mb="md"
         />
+      </SimpleGrid>
 
-        <TextInput
-            rightSection={collabLeaderComp}
-            label="% of Revenue to Collab Leader Compensation"
-            placeholder="Enter the collaborative leader compensation % (e.g. 5.5, 7.75, 10)"
-            type="number"
-            value={formValues.collabLeaderCompensation}
-            onChange={(event) =>
-                handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
-            }
-            error={errors.collabLeaderCompensation} // Display validation error
-            required
-            mb="md"
-        />
-        </SimpleGrid>
+      <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
+          Revenue Sharing Pool
+      </Title>
+
+      <SimpleGrid cols={2}>
+      <TextInput
+          rightSection={revenueShare}
+          label="% of Revenue to the Collab Pool"
+          placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
+          type="number"
+          value={formValues.revenueShare}
+          onChange={(event) =>
+              handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
+          }
+          error={errors.revenueShare} // Display validation error
+          required
+          mb="md"
+      />
+
+      <Select
+          label="Payout Frequency"
+          placeholder="Select payout frequency"
+          data={[
+              { value: PayoutFrequency.Monthly, label: 'Monthly' },
+              { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
+              { value: PayoutFrequency.Yearly, label: 'Yearly' },
+          ]}
+          value={formValues.payoutFrequency}
+          onChange={(value) => handleInputChange('payoutFrequency', value as PayoutFrequency)}
+          error={errors.payoutFrequency} // Display validation error
+          required
+          mb="md"
+      />
+      </SimpleGrid>
+
+      <MultiSelect
+          label="SharePoint Staking Tiers"
+          placeholder="Set the SharePoint Staking Tiers"
+          data={
+              formValues.payoutFrequency === PayoutFrequency.Monthly
+              ? monthlyStakingTiers
+              : formValues.payoutFrequency === PayoutFrequency.Quarterly
+              ? quarterlyStakingTiers
+              : annualStakingTiers
+          }
+          value={selectedTiers.map((t) => t.tier)}
+          onChange={handleTierChange}
+          error={errors.stakingTiers} // Display validation error
+          searchable
+          clearable
+          required
+          mt="lg"
+          mb="md"
+      />
+      <Group grow mt="xl" pt="sm" pb="lg" >
+      {selectedTiers.map((tier) => (
+          <TextInput
+              rightSection={exchangeRate}
+              key={tier.tier}
+              label={`${tier.tier} Staking Exchange Rate`}
+              placeholder="Set the Exchage Rates for Staking SharePoints"
+              type="number"
+              value={tier.exchangeRate}
+              onChange={(event) =>
+                  handleExchangeRateChange(tier.tier, parseFloat(event.currentTarget.value))
+              }
+              error={errors.exchangeRate?.[tier.tier]} // Display validation error
+              required
+              mb="md"
+          />
+      ))}
+      </Group>
+
+      <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
+          Other Financials
+      </Title>
+
+      <SimpleGrid cols={2}>
+      <TextInput
+          rightSection={indirectCosts}
+          label="% of Revenue to cover Indirect Costs (Target)"
+          placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
+          type="number"
+          value={formValues.indirectCosts}
+          onChange={(event) =>
+              handleInputChange('indirectCosts', parseFloat(event.currentTarget.value))
+          }
+          error={errors.indirectCosts} // Display validation error
+          required
+          mb="md"
+      />
+
+      <TextInput
+          rightSection={collabLeaderComp}
+          label="% of Revenue to Collab Leader Compensation"
+          placeholder="Enter the collaborative leader compensation % (e.g. 5.5, 7.75, 10)"
+          type="number"
+          value={formValues.collabLeaderCompensation}
+          onChange={(event) =>
+              handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
+          }
+          error={errors.collabLeaderCompensation} // Display validation error
+          required
+          mb="md"
+      />
+      </SimpleGrid>
 
 
       <Group mt="xl">

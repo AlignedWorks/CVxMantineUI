@@ -10,10 +10,8 @@ import {
   Group,
   Card,
   Button,
+  Space,
 } from '@mantine/core';
-import {
-  IconBrandLinkedin,
-} from '@tabler/icons-react';
 import { mock_collab_data, users } from '../data.ts';
 import classes from './Test.module.css';
 
@@ -24,7 +22,89 @@ const networkRoles = [
     'NetworkContributor'
 ]
 
+const data = [
+    {
+      avatar:
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png',
+      name: 'Robert Wolfkisser',
+      job: 'Engineer',
+      email: 'rob_wolf@gmail.com',
+      role: 'Collaborative Leader',
+      lastActive: '2 days ago',
+      active: true,
+    },
+    {
+      avatar:
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png',
+      name: 'Jill Jailbreaker',
+      job: 'Engineer',
+      email: 'jj@breaker.com',
+      role: 'Collaborative Leader',
+      lastActive: '6 days ago',
+      active: true,
+    },
+    {
+      avatar:
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
+      name: 'Henry Silkeater',
+      job: 'Designer',
+      email: 'henry@silkeater.io',
+      role: 'Collaborative Member',
+      lastActive: '2 days ago',
+      active: false,
+    },
+    {
+      avatar:
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
+      name: 'Bill Horsefighter',
+      job: 'Designer',
+      email: 'bhorsefighter@gmail.com',
+      role: 'Collaborative Member',
+      lastActive: '5 days ago',
+      active: true,
+    },
+    {
+      avatar:
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
+      name: 'Jeremy Footviewer',
+      job: 'Manager',
+      email: 'jeremy@foot.dev',
+      role: 'Collaborative Member',
+      lastActive: '3 days ago',
+      active: false,
+    },
+];
+  
+const collabRoles = ['Collaborative Leader','Collaborative Member'];
+  
+
 export function Test() {
+
+    const rows = data.map((item) => (
+        <Table.Tr key={item.name}>
+          <Table.Td>
+            <Group gap="sm">
+              <Avatar size={40} src={item.avatar} radius={40} />
+              <div>
+                <Text fz="sm" fw={500}>
+                  {item.name}
+                </Text>
+                <Text fz="xs" c="dimmed">
+                  {item.email}
+                </Text>
+              </div>
+            </Group>
+          </Table.Td>
+          <Table.Td>
+                <Select
+                data={collabRoles}
+                defaultValue={item.role}
+                variant="unstyled"
+                allowDeselect={false}
+                />
+            </Table.Td>
+        </Table.Tr>
+      ));
 
     return (
         <Container size="md" py="xl">
@@ -140,10 +220,10 @@ export function Test() {
                 {users.map((user) => (
                     <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
                         <Grid>
-                            <Grid.Col span={4} mt="md" mb="lg">
+                            <Grid.Col span={4} mt="sm" mb="lg">
                                 <Avatar src={user.avatar_url} size={60} radius="xl" mx="auto"/>
                             </Grid.Col>
-                            <Grid.Col span={8} mt="md">
+                            <Grid.Col span={8} mt="sm">
                                 <Text size="lg" fw={500}>
                                     {user.name}
                                 </Text>
@@ -163,16 +243,13 @@ export function Test() {
                                         {user.linkedin.split('/').pop()} {/* Extracts the username from the URL */}
                                     </a>
                                 </Text>
-                                <Group wrap="nowrap" gap={10} mt={5}>
-                                    <IconBrandLinkedin stroke={1.5} size={18}/>
-                                    <Text fz="xs" c="dimmed">
-                                    +11 (876) 890 56 23
-                                    </Text>
-                                </Group>
                             </Grid.Col>
                         </Grid>
-                        <Text size="sm" c="dimmed">
-                            {user.description}
+                        <Text size="sm" c="dimmed" mt="md">
+                            {user.description.length > 100
+                                ? `${user.description.slice(0,150)}...`
+                                : user.description}
+
                         </Text>
                     <Select
                         mt="md"
@@ -182,7 +259,7 @@ export function Test() {
                         defaultValue="Applicant"
                         classNames={classes}
                     />
-                    <Button variant="outline" color="gray" size="xs" mt="sm">
+                    <Button variant="outline" color="gray" size="xs" mt="md">
                         Submit
                     </Button>
                     </Card>
@@ -239,6 +316,73 @@ export function Test() {
                     </SimpleGrid>
                 </Card>
             ))}
+
+            <Text fz="40px" c="#222" mb="xl" mt="xl">
+                ByteSecure Collective
+            </Text>
+            <Space h="xl" />
+            <Grid>
+                <Grid.Col span={6}>
+                    <Text size="md" mb="md">
+                        A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
+                    </Text>
+                    <Text mb="md" mt="lg">
+                        Website: www.bytesecure.net
+                    </Text>
+                    <Text mb="md" mt="lg">
+                        Location: Plano, TX
+                    </Text>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                    <Text c="dimmed" mb="md">
+                        Leader: Jordon Byers
+                    </Text>
+                    <Text c="dimmed" mb="md">
+                        Created On: 5/27/25
+                    </Text>
+                    <Text c="dimmed" mb="md">
+                        Skills: Design & Creative
+                    </Text>
+                    <Text c="dimmed" mb="md">
+                        Experience: Education, Non-Profit
+                    </Text>
+                </Grid.Col>
+                <Grid.Col span={2}>
+                    <Button variant="default" mb="sm">
+                        Edit Collaborative
+                    </Button>
+                    <Button variant="default" mb="sm">
+                        Add Collaborative
+                    </Button>
+                    <Button variant="default" mb="sm">
+                        Add Project
+                    </Button>
+                    <Button variant="default">
+                        Join
+                    </Button>
+                </Grid.Col>
+            </Grid>
+
+            <Grid mt="xl">
+                <Grid.Col span={6}>
+                    <Title order={4} c="#45a6b7" mb="md">Members</Title>
+                    <Table.ScrollContainer minWidth={400}>
+                        <Table verticalSpacing="sm">
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Member</Table.Th>
+                                    <Table.Th>Role</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            <Table.Tbody>{rows}</Table.Tbody>
+                        </Table>
+                    </Table.ScrollContainer>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                    <Title order={5} c="#45a6b7" mb="md">Projects</Title>
+                </Grid.Col>
+            </Grid>
+            
         </Container>
     );
 }

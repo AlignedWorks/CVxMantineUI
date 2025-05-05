@@ -150,7 +150,9 @@ export function UserProfile() {
           <Group wrap="nowrap" gap={10} mt={5}>
             <IconBrandLinkedinFilled stroke={1.5} size={18} />
             <Text>
-              {user.linkedIn.split('linkedin.com/')[1]}  
+              <a href={user.linkedIn}>
+                {user.linkedIn.split('linkedin.com/in/')[1]}  
+              </a>
             </Text>
           </Group>
           </Card>

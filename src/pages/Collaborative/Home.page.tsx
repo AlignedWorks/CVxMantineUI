@@ -6,8 +6,11 @@ import {
   Title,
   Text,
   Badge,
+  Button,
   SimpleGrid,
   Loader,
+  Space,
+  Grid,
  } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
 
@@ -76,38 +79,61 @@ export function CollaborativeHome() {
       <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
-      <Title order={1} mb="md">
+      <Text fz="40px" c="#222" mb="xl" mt="xl">
         {collaborative.name}
-      </Title>
-      <Text size="md" mb="md">
-        {collaborative.description}
       </Text>
-      <Text size="sm" c="dimmed" mb="md">
-        Leader: {collaborative.leaderEmail}
-      </Text>
-      <Text size="sm" c="dimmed" mb="md">
-        Created At: {new Date(collaborative.createdAt).toLocaleDateString()}
-      </Text>
-      <Title order={3} mt="lg" mb="sm">
-        Skills
-      </Title>
-      <SimpleGrid cols={3} spacing="sm">
-        {collaborative.skills.map((skill, index) => (
-          <Badge key={index} variant="light" color="blue">
-            {skill}
-          </Badge>
-        ))}
-      </SimpleGrid>
-      <Title order={3} mt="lg" mb="sm">
-        Experience
-      </Title>
-      <SimpleGrid cols={3} spacing="sm">
-        {collaborative.experience.map((exp, index) => (
-          <Badge key={index} variant="light" color="green">
-            {exp}
-          </Badge>
-        ))}
-      </SimpleGrid>
+      <Space h="xl" />
+      <Grid>
+        <Grid.Col span={6}>
+            <Text size="md" mb="md">
+              {collaborative.description}
+            </Text>
+            <Text mb="md" mt="lg">
+                Website: www.bytesecure.net
+            </Text>
+            <Text mb="md" mt="lg">
+                Location: Plano, TX
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={4}>
+            <Text c="dimmed" mb="md">
+                Leader: Jordon Byers
+            </Text>
+            <Text c="dimmed" mb="md">
+                Created On: {new Date(collaborative.createdAt).toLocaleDateString()}
+            </Text>
+            <Text c="dimmed" mb="md">
+                Skills:
+                {collaborative.skills.map((skill, index) => (
+                  <Badge key={index} variant="light" color="blue">
+                    {skill}
+                  </Badge>
+                ))}
+            </Text>
+            <Text c="dimmed" mb="md">
+                Experience:
+                {collaborative.experience.map((exp, index) => (
+                  <Badge key={index} variant="light" color="green">
+                    {exp}
+                  </Badge>
+                ))}
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={2}>
+            <Button variant="default" mb="sm">
+                Edit Collaborative
+            </Button>
+            <Button variant="default" mb="sm">
+                Add Collaborative
+            </Button>
+            <Button variant="default" mb="sm">
+                Add Project
+            </Button>
+            <Button variant="default">
+                Join
+            </Button>
+        </Grid.Col>
+      </Grid>
     </Container>
   );
 }
