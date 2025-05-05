@@ -70,6 +70,7 @@ export function MemberDirectory() {
       })
       .then((data: User[]) => {
         setSortedData(data); // Set the fetched data
+        console.log(data);
       })
       .catch((error) => {
         console.error('Error fetching member data:', error);
