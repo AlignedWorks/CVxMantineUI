@@ -14,6 +14,7 @@ import {
   Grid,
   SimpleGrid,
   Stack,
+  Select,
 } from '@mantine/core';
 import {
   IconAt,
@@ -21,12 +22,17 @@ import {
   IconPhoneCall,
   IconMapPin,
 } from '@tabler/icons-react'
+import {
+  us_states,
+} from '../data.ts';
 
 interface User {
   username: string;
   firstName: string;
   lastName: string;
   bio: string;
+  city: string;
+  state: string;
   phoneNumber: string;
   linkedIn: string;
   avatarUrl: string;
@@ -40,6 +46,8 @@ const mock_user = [
     firstName: 'Jordon',
     lastName: 'Byers',
     bio: 'A passionate developer and designer with a love for creating beautiful and functional applications.',
+    city: "Mechanicsburg",
+    state: "PA",
     phoneNumber: '(717) 206-7137',
     linkedIn: 'https://www.linkedin.com/in/jordonbyers/',
     avatarUrl: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
@@ -91,6 +99,8 @@ export function UserProfile() {
         firstName: user.firstName,
         lastName: user.lastName,
         bio: user.bio,
+        city: user.city,
+        state: user.state,
         phoneNumber: user.phoneNumber,
         linkedIn: user.linkedIn,
         avatarUrl: user.avatarUrl,
@@ -150,7 +160,7 @@ export function UserProfile() {
                       <Group wrap="nowrap" gap={10} mt={5}>
                         <IconMapPin stroke={1.5} size={16} />
                         <Text>
-                          Plano, TX
+                          {user.city}, {user.state}
                         </Text>
                       </Group>
                     </div>
@@ -192,9 +202,6 @@ export function UserProfile() {
               </Grid.Col>
 
             </Grid>
-          
-          
-          
           </Card>
       ) : (
         <p></p>
@@ -233,6 +240,34 @@ export function UserProfile() {
           onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
           mb="lg"
         />
+
+        <Grid>
+          <Grid.Col span={10}>
+            <TextInput
+              label="City"
+              value={formValues?.city}
+              onChange={(event) => handleFormChange('city', event.currentTarget.value)}
+            />
+          </Grid.Col>
+          <Grid.Col span={2}>
+            <Select
+              label="State"
+              data={us_states}
+              value={formValues?.state}
+              onChange={(value) => handleFormChange('state', value || '')}
+              searchable
+              mt="md"
+              mb="md"
+            />
+          </Grid.Col>
+        </Grid>
+          
+          <TextInput
+            label="State"
+            value={formValues?.lastName}
+            onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
+          />
+
         <TextInput
           label="Phone Number"
           value={formValues?.phoneNumber}

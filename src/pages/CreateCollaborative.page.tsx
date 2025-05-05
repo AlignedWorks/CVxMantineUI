@@ -14,7 +14,8 @@ import {
   Center,
   Tooltip,
   Text,
-  SimpleGrid
+  SimpleGrid,
+  Grid,
 } from '@mantine/core';
 import {
   Collaborative,
@@ -22,6 +23,7 @@ import {
   monthlyStakingTiers,
   quarterlyStakingTiers,
   annualStakingTiers,
+  us_states,
 } from '../data.ts';
 
 export function CreateCollaborative() {
@@ -37,6 +39,8 @@ export function CreateCollaborative() {
           name: '',
           description: '',
           websiteUrl: '',
+          city: '',
+          state: '',
           skills: [],
           experience: [],
           revenueShare: 0,
@@ -68,6 +72,7 @@ export function CreateCollaborative() {
     useEffect(() => {
         fetchSkillsAndExperience();
     }, []); // Empty dependency array ensures this runs only once when the component mounts
+
 
     const handleTierChange = (tiers: string[]) => {
         // Add new tiers with a default exchange rate of 1.0
@@ -106,6 +111,8 @@ export function CreateCollaborative() {
     name: '',
     description: '',
     websiteUrl: '',
+    city: '',
+    state: '',
     skills: [],
     experience: [],
     revenueShare: 0,
@@ -127,6 +134,7 @@ export function CreateCollaborative() {
     stakingTiers?: string;
     exchangeRate?: { [tier: string]: string };
   }>({});
+
 
   const handleInputChange = (field: keyof Collaborative, value: any) => {
     setFormValues((current) => ({
@@ -382,14 +390,39 @@ export function CreateCollaborative() {
           mb="md"
       />
 
-      <TextInput
-          label="Collaborative Website URL"
-          placeholder="If your Collab has a website add its URL here"
-          value={formValues.websiteUrl}
-          onChange={(event) => handleInputChange('websiteUrl', event.currentTarget.value)}
-          mt="xl"
-          mb="md"
-      />
+      <Grid>
+        <Grid.Col span={5}>
+          <TextInput
+            label="Collaborative Website URL"
+            placeholder="If your Collab has a website add its URL here"
+            value={formValues.websiteUrl}
+            onChange={(event) => handleInputChange('websiteUrl', event.currentTarget.value)}
+            mt="md"
+            mb="md"
+          />
+        </Grid.Col>
+        <Grid.Col span={5}>
+          <TextInput
+            label="City"
+            placeholder="Your Collab's city"
+            value={formValues.city}
+            onChange={(event) => handleInputChange('city', event.currentTarget.value)}
+            mt="md"
+            mb="md"
+          />
+        </Grid.Col>
+        <Grid.Col span={2}>
+          <Select
+            label="State"
+            data={us_states}
+            value={formValues.state}
+            onChange={(value) => handleInputChange('state', value)}
+            searchable
+            mt="md"
+            mb="md"
+          />
+        </Grid.Col>
+      </Grid>
 
       <SimpleGrid mt="xl" mb="lg" cols={2}>
         <MultiSelect

@@ -30,6 +30,7 @@ const data = [
       job: 'Engineer',
       email: 'rob_wolf@gmail.com',
       role: 'Collaborative Leader',
+      inviteStatus: 'Accepted',
       lastActive: '2 days ago',
       active: true,
     },
@@ -41,6 +42,7 @@ const data = [
       email: 'jj@breaker.com',
       role: 'Collaborative Leader',
       lastActive: '6 days ago',
+      inviteStatus: 'Invited',
       active: true,
     },
     {
@@ -51,6 +53,7 @@ const data = [
       email: 'henry@silkeater.io',
       role: 'Collaborative Member',
       lastActive: '2 days ago',
+      inviteStatus: 'Accepted',
       active: false,
     },
     {
@@ -61,6 +64,7 @@ const data = [
       email: 'bhorsefighter@gmail.com',
       role: 'Collaborative Member',
       lastActive: '5 days ago',
+      inviteStatus: 'Invited',
       active: true,
     },
     {
@@ -71,11 +75,13 @@ const data = [
       email: 'jeremy@foot.dev',
       role: 'Collaborative Member',
       lastActive: '3 days ago',
+      inviteStatus: 'Accepted',
       active: false,
     },
 ];
   
 const collabRoles = ['Collaborative Leader','Collaborative Member'];
+const inviteStatus = ['Invited','Accepted','Declined']
   
 
 export function Test() {
@@ -99,6 +105,14 @@ export function Test() {
                 <Select
                 data={collabRoles}
                 defaultValue={item.role}
+                variant="unstyled"
+                allowDeselect={false}
+                />
+            </Table.Td>
+            <Table.Td>
+                <Select
+                data={inviteStatus}
+                defaultValue={item.inviteStatus}
                 variant="unstyled"
                 allowDeselect={false}
                 />
@@ -363,25 +377,19 @@ export function Test() {
                 </Grid.Col>
             </Grid>
 
-            <Grid mt="xl">
-                <Grid.Col span={6}>
-                    <Title order={4} c="#45a6b7" mb="md">Members</Title>
-                    <Table.ScrollContainer minWidth={400}>
-                        <Table verticalSpacing="sm">
-                            <Table.Thead>
-                                <Table.Tr>
-                                    <Table.Th>Member</Table.Th>
-                                    <Table.Th>Role</Table.Th>
-                                </Table.Tr>
-                            </Table.Thead>
-                            <Table.Tbody>{rows}</Table.Tbody>
-                        </Table>
-                    </Table.ScrollContainer>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                    <Title order={5} c="#45a6b7" mb="md">Projects</Title>
-                </Grid.Col>
-            </Grid>
+            <Title order={4} c="#45a6b7" mb="md">Members</Title>
+            <Table.ScrollContainer minWidth={400}>
+                <Table verticalSpacing="sm">
+                    <Table.Thead>
+                        <Table.Tr>
+                            <Table.Th>Member</Table.Th>
+                            <Table.Th>Role</Table.Th>
+                            <Table.Th>Status</Table.Th>
+                        </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>{rows}</Table.Tbody>
+                </Table>
+            </Table.ScrollContainer>
             
         </Container>
     );

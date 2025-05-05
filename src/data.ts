@@ -4,6 +4,8 @@ export interface Collaborative {
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
   websiteUrl: string;
+  city: string;
+  state: string;
   revenueShare: number;
   indirectCosts: number;
   collabLeaderCompensation: number;
@@ -561,4 +563,8 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Robotics', '3D Printing', 'Hardware Prototyping'],
     experience: ['Engineering & Manufacturing'],
   },
+];
+
+export const us_states = [
+  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
 ];
