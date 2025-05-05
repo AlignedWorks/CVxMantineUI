@@ -3,11 +3,9 @@ import { useParams, useLocation, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext';
 import {
   Container,
-  Title,
   Text,
   Badge,
   Button,
-  SimpleGrid,
   Loader,
   Space,
   Grid,
