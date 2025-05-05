@@ -173,60 +173,7 @@ export function Dashboard() {
       .catch((err) => console.error("Error updating role:", err));
   };
 
-  <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
-    {dashboard?.map((item) => (
-      <Card key={item.id} shadow="sm" radius="md" mt="xl" withBorder>
-        <Grid>
-          <Grid.Col span={4} mt="md" mb="lg">
-              <Avatar src={item.avatarUrl} size={60} radius="xl" mx="auto"/>
-          </Grid.Col>
-          <Grid.Col span={8} mt="md">
-              <Text size="lg" fw={500}>
-                {item.firstName + " " + item.lastName}
-              </Text>
-              <Text size="sm" c="dimmed">
-                  {item.username}
-              </Text>
-              <Text size="sm" c="dimmed">
-                  LinkedIn: {' '}
-                  <a
-                      href={item.linkedIn}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: '#0077b5', textDecoration: 'none' }}
-                  >
-                      {item.linkedIn.split('/').pop()} {/* Extracts the username from the URL */}
-                  </a>
-              </Text>
-              <Group wrap="nowrap" gap={10} mt={5}>
-                  <IconBrandLinkedinFilled stroke={1.5} size={18}/>
-                  <Text fz="xs" c="dimmed">
-                  +11 (876) 890 56 23
-                  </Text>
-              </Group>
-          </Grid.Col>
-        </Grid>
-
-        <Text size="sm" c="dimmed">
-            {item.bio}
-        </Text>
-        
-        {rolesData.length > 0 && (
-          <Select
-            data={rolesData}
-            defaultValue={item.memberStatus}
-            variant="unstyled"
-            allowDeselect={false}
-            onChange={(value) => handleRoleChange(item.id, value)}
-          />
-        )}
-        
-        <Button variant="outline" color="gray" size="xs" mt="sm">
-            Submit
-        </Button>
-      </Card>
-    ))}
-  </SimpleGrid>
+  
 
   const rows = dashboard?.map((item) => (
       <Table.Tr key={item.id}>
@@ -276,6 +223,62 @@ export function Dashboard() {
           <Title order={3} mb="md" pt="sm" pb="lg">
               Approve users
           </Title>
+
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
+            {dashboard?.map((item) => (
+              <Card key={item.id} shadow="sm" radius="md" mt="xl" withBorder>
+                <Grid>
+                  <Grid.Col span={4} mt="md" mb="lg">
+                      <Avatar src={item.avatarUrl} size={60} radius="xl" mx="auto"/>
+                  </Grid.Col>
+                  <Grid.Col span={8} mt="md">
+                      <Text size="lg" fw={500}>
+                        {item.firstName + " " + item.lastName}
+                      </Text>
+                      <Text size="sm" c="dimmed">
+                          {item.username}
+                      </Text>
+                      <Text size="sm" c="dimmed">
+                          LinkedIn: {' '}
+                          <a
+                              href={item.linkedIn}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: '#0077b5', textDecoration: 'none' }}
+                          >
+                              {item.linkedIn.split('/').pop()} {/* Extracts the username from the URL */}
+                          </a>
+                      </Text>
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                          <IconBrandLinkedinFilled stroke={1.5} size={18}/>
+                          <Text fz="xs" c="dimmed">
+                          +11 (876) 890 56 23
+                          </Text>
+                      </Group>
+                  </Grid.Col>
+                </Grid>
+
+                <Text size="sm" c="dimmed">
+                    {item.bio}
+                </Text>
+                
+                {rolesData.length > 0 && (
+                  <Select
+                    data={rolesData}
+                    defaultValue={item.memberStatus}
+                    variant="unstyled"
+                    allowDeselect={false}
+                    onChange={(value) => handleRoleChange(item.id, value)}
+                  />
+                )}
+                
+                <Button variant="outline" color="gray" size="xs" mt="sm">
+                    Submit
+                </Button>
+              </Card>
+            ))}
+          </SimpleGrid>
+
           <Table.ScrollContainer minWidth={800}>
               <Table verticalSpacing="sm">
                   <Table.Thead>
