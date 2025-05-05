@@ -33,26 +33,8 @@ interface User {
 }
 
 export function MemberDirectory() {
-  const [modalOpened, setModalOpened] = useState(false);
   const [sortedData, setSortedData] = useState<User[]>([]); // State to hold the sorted data
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
-  const [formValues, setFormValues] = useState<User>({
-    id: '',
-    userName: '',
-    firstName: '',
-    lastName: '',
-    bio: '',
-    phoneNumber: '',
-    avatarUrl: '',
-    city: '',
-    state: '',
-    createdAt: '',
-    linkedIn: '',
-    skills: [],
-    experience: [],
-    memberStatus: '',
-  });
 
   // Fetch collaborative data from the backend
   useEffect(() => {
@@ -76,15 +58,6 @@ export function MemberDirectory() {
         console.error('Error fetching member data:', error);
       });
   }, []); // Run only once when the component mounts
-
-  const handleFormChange = (field: keyof User, value: any) => {
-    setFormValues((current) => ({ ...current, [field]: value }));
-  };
-
-  const handleFormSubmit = () => {
-    // Update the user data here
-    setModalOpened(false);
-  };
 
   // Filter the users based on the search query
   const filteredUsers = sortedData.filter((user) => {
@@ -142,63 +115,6 @@ export function MemberDirectory() {
           </Paper>
         ))}
       </SimpleGrid>
-
-      <Modal
-        opened={modalOpened}
-        onClose={() => setModalOpened(false)}
-        title="Edit User"
-        size="xl"
-      >
-        {selectedUser && (
-          <div>
-            <TextInput
-              label="Name"
-              value={formValues.firstName}
-              onChange={(event) => handleFormChange('firstName', event.currentTarget.value)}
-            />
-            <TextInput
-              label="Name"
-              value={formValues.lastName}
-              onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
-            />
-            <TextInput
-              label="Email"
-              value={formValues.userName}
-              onChange={(event) => handleFormChange('userName', event.currentTarget.value)}
-            />
-            <Textarea
-              label="Description"
-              value={formValues.bio}
-              onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
-            />
-            <TextInput
-              label="Location"
-              value={formValues.city}
-              onChange={(event) => handleFormChange('city', event.currentTarget.value)}
-            />
-            <TextInput
-              label="Location"
-              value={formValues.state}
-              onChange={(event) => handleFormChange('state', event.currentTarget.value)}
-            />
-            <TextInput
-              label="Member Since"
-              value={formValues.createdAt}
-              onChange={(event) => handleFormChange('createdAt', event.currentTarget.value)}
-            />
-            <TextInput
-              label="LinkedIn"
-              value={formValues.linkedIn}
-              onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
-            />
-
-            <Button onClick={handleFormSubmit} mt="md">
-              Save
-            </Button>
-          </div>
-        )}
-      </Modal>
-
     </Container>
   );
 }
