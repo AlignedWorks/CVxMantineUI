@@ -16,7 +16,7 @@ import { IconSearch } from '@tabler/icons-react';
 
 interface User {
   id: string;
-  username: string;
+  userName: string;
   firstName: string;
   lastName: string;
   bio: string;
@@ -38,7 +38,7 @@ export function MemberDirectory() {
   const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
   const [formValues, setFormValues] = useState<User>({
     id: '',
-    username: '',
+    userName: '',
     firstName: '',
     lastName: '',
     bio: '',
@@ -70,7 +70,6 @@ export function MemberDirectory() {
       })
       .then((data: User[]) => {
         setSortedData(data); // Set the fetched data
-        console.log(data);
       })
       .catch((error) => {
         console.error('Error fetching member data:', error);
@@ -98,7 +97,7 @@ export function MemberDirectory() {
     return (
       user.firstName.toLowerCase().includes(query) ||
       user.lastName.toLowerCase().includes(query) ||
-      user.username.toLowerCase().includes(query) ||
+      user.userName.toLowerCase().includes(query) ||
       user.city.toLowerCase().includes(query) ||
       user.state.toLowerCase().includes(query)
     );
@@ -131,7 +130,7 @@ export function MemberDirectory() {
               {user.firstName} {user.lastName}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
-              {user.username}
+              {user.userName}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
               {user.city}, {user.state}
@@ -165,8 +164,8 @@ export function MemberDirectory() {
             />
             <TextInput
               label="Email"
-              value={formValues.username}
-              onChange={(event) => handleFormChange('username', event.currentTarget.value)}
+              value={formValues.userName}
+              onChange={(event) => handleFormChange('userName', event.currentTarget.value)}
             />
             <Textarea
               label="Description"
