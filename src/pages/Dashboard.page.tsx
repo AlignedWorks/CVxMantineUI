@@ -8,226 +8,287 @@ import {
   Table,
   Avatar,
   Select,
+  SimpleGrid,
+  Card,
+  Grid,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import {
+  IconBrandLinkedinFilled,
+} from '@tabler/icons-react';
 
 interface User {
-    id: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    bio: string;
-    phoneNumber: string;
-    linkedIn: string;
-    avatarUrl: string;
-    createdAt: string;
-    memberStatus: string;
-  }
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  phoneNumber: string;
+  linkedIn: string;
+  avatarUrl: string;
+  createdAt: string;
+  memberStatus: string;
+}
 
-  interface Role {
-    label: string;
-    value: string;
-  }
+interface Role {
+  label: string;
+  value: string;
+}
 
 const mock_data = [
-    {
-        id: '1',
-      avatarUrl:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png',
-      lastName: 'Wolfkisser',
-      firstName: 'Robert',
-      username: 'rob_wolf@gmail.com',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      phoneNumber: '123-456-7890',
-        createdAt: '2023-01-01',
-      linkedIn: 'https://www.linkedin.com/in/robertwolfkisser',
-      memberStatus: 'Applicant',
-    },
-    {
-        id: '2',
-      avatarUrl:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png',
-      firstName: 'Jill',
-      lastName: 'Jailbreaker',
-      username: 'jj@breaker.com',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      phoneNumber: '123-456-7890',
-        createdAt: '2023-01-01',
-      linkedIn: 'https://www.linkedin.com/in/jilljailbreaker',
-      memberStatus: 'Applicant',
-    },
-    {
-        id: '3',
-      avatarUrl:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-        firstName: 'Henry',
-        lastName: 'Silkeater',
-      username: 'henry@silkeater.io',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      phoneNumber: '123-456-7890',
-        createdAt: '2023-01-01',
-      linkedIn: 'https://www.linkedin.com/in/henrysilkeater',
-      memberStatus: 'Applicant',
-    },
-    {
-        id: '4',
-      avatarUrl:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-        firstName: 'Bill',
-        lastName: 'Horsefighter',
-      username: 'bhorsefighter@gmail.com',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      phoneNumber: '123-456-7890',
-        createdAt: '2023-01-01',
-      linkedIn: 'https://www.linkedin.com/in/billhorsefighter',
-      role: 'Applicant',
-      memberStatus: 'Applicant',
-    },
-    {
-        id: '5',
-      avatarUrl:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-        firstName: 'Jeremy',
-        lastName: 'Footviewer',
-      username: 'jeremy@foot.dev',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      phoneNumber: '123-456-7890',
-        createdAt: '2023-01-01',
-      linkedIn: 'https://www.linkedin.com/in/jeremyfootviewer',
-      memberStatus: 'Applicant',
-    },
-  ];
+  {
+      id: '1',
+    avatarUrl:
+      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png',
+    lastName: 'Wolfkisser',
+    firstName: 'Robert',
+    username: 'rob_wolf@gmail.com',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    phoneNumber: '123-456-7890',
+      createdAt: '2023-01-01',
+    linkedIn: 'https://www.linkedin.com/in/robertwolfkisser',
+    memberStatus: 'Applicant',
+  },
+  {
+      id: '2',
+    avatarUrl:
+      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png',
+    firstName: 'Jill',
+    lastName: 'Jailbreaker',
+    username: 'jj@breaker.com',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    phoneNumber: '123-456-7890',
+      createdAt: '2023-01-01',
+    linkedIn: 'https://www.linkedin.com/in/jilljailbreaker',
+    memberStatus: 'Applicant',
+  },
+  {
+      id: '3',
+    avatarUrl:
+      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
+      firstName: 'Henry',
+      lastName: 'Silkeater',
+    username: 'henry@silkeater.io',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    phoneNumber: '123-456-7890',
+      createdAt: '2023-01-01',
+    linkedIn: 'https://www.linkedin.com/in/henrysilkeater',
+    memberStatus: 'Applicant',
+  },
+  {
+      id: '4',
+    avatarUrl:
+      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
+      firstName: 'Bill',
+      lastName: 'Horsefighter',
+    username: 'bhorsefighter@gmail.com',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    phoneNumber: '123-456-7890',
+      createdAt: '2023-01-01',
+    linkedIn: 'https://www.linkedin.com/in/billhorsefighter',
+    role: 'Applicant',
+    memberStatus: 'Applicant',
+  },
+  {
+      id: '5',
+    avatarUrl:
+      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
+      firstName: 'Jeremy',
+      lastName: 'Footviewer',
+    username: 'jeremy@foot.dev',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    phoneNumber: '123-456-7890',
+      createdAt: '2023-01-01',
+    linkedIn: 'https://www.linkedin.com/in/jeremyfootviewer',
+    memberStatus: 'Applicant',
+  },
+];
 
 
 export function Dashboard() {
-    const [dashboard, setDashboard] = useState<User[] | null>([]);
-    const [rolesData, setRolesData] = useState<Role[]>([]);
-    // const [loading, setLoading] = useState(true);
+  const [dashboard, setDashboard] = useState<User[] | null>([]);
+  const [rolesData, setRolesData] = useState<Role[]>([]);
+  // const [loading, setLoading] = useState(true);
 
-    const fetchDashboardData = () => {
-        fetch(
-          new URL("dashboard", import.meta.env.VITE_API_BASE),
-        {
-          credentials: "include",
+  const fetchDashboardData = () => {
+      fetch(
+        new URL("dashboard", import.meta.env.VITE_API_BASE),
+      {
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const { users, roles, collabsNeedingApproval } = data;
+          console.log(collabsNeedingApproval);
+
+          // Set the user data
+          if (users.length === 0) {
+              setDashboard(mock_data);
+          } else {
+              setDashboard(users);
+              // setLoading(false);
+          }
+
+          // Set the roles data
+          setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
         })
-          .then((res) => res.json())
-          .then((data) => {
-            const { users, roles, collabsNeedingApproval } = data;
-            console.log(collabsNeedingApproval);
-
-            // Set the user data
-            if (users.length === 0) {
-                setDashboard(mock_data);
-            } else {
-                setDashboard(users);
-                // setLoading(false);
-            }
-
-            // Set the roles data
-            setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
-          })
-          .catch((err) => console.error("Error fetching profile:", err));
-      };
+        .catch((err) => console.error("Error fetching profile:", err));
+    };
     
-      useEffect(() => {
-        fetchDashboardData();
-      }, []);
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
-      /*
-      if (loading) {
-        return (
-          <Container size="md" py="xl">
-            <Title order={1} mb="md" pt="sm" pb="lg">
-              Loading...
-            </Title>
-          </Container>
-        );
-      }
-        */
-
-      const handleRoleChange = (userId: string, newRole: string | null) => {
-        console.log(`User ID: ${userId}, New Role: ${newRole}`);
-
-        // Convert the role to the backend format (remove spaces)
-        // const backendRole = newRole?.replace(/\s+/g, '');
-      
-        // Example: Send the updated role to the server
-        fetch(
-          new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ role: newRole }),
-        })
-          .then((res) => res.json())
-          .then((updatedUser) => {
-            console.log("Role updated successfully:", updatedUser);
-          })
-          .catch((err) => console.error("Error updating role:", err));
-      };
-
-    const rows = dashboard?.map((item) => (
-        <Table.Tr key={item.id}>
-          <Table.Td>
-            <Group gap="sm">
-              <Avatar size={40} src={item.avatarUrl} radius={40} />
-              <div>
-                <Text fz="sm" fw={500}>
-                  {item.firstName + " " + item.lastName}
-                </Text>
-                <Text fz="xs" c="dimmed">
-                  {item.username}
-                </Text>
-              </div>
-            </Group>
-          </Table.Td>
-    
-          <Table.Td>
-            {rolesData.length > 0 && (
-              <Select
-                data={rolesData}
-                defaultValue={item.memberStatus}
-                variant="unstyled"
-                allowDeselect={false}
-                onChange={(value) => handleRoleChange(item.id, value)}
-              />
-            )}
-          </Table.Td>
-          <Table.Td>{item.linkedIn}</Table.Td>
-        </Table.Tr>
-      ));
-
+  /*
+  if (loading) {
     return (
-        <>
-        <Container size="md" py="xl">
-            <Title order={1} mb="md" pt="sm" pb="lg">
-                Dashboard
-            </Title>
-            <Group justify="center" mt="xl">
-                <Link to="/create-collaborative">
-                    <Button variant="default">
-                        Propose a Collaborative
-                    </Button>
-                </Link>
-            </Group>
-
-            <Title order={3} mb="md" pt="sm" pb="lg">
-                Approve users
-            </Title>
-            <Table.ScrollContainer minWidth={800}>
-                <Table verticalSpacing="sm">
-                    <Table.Thead>
-                    <Table.Tr>
-                        <Table.Th>User</Table.Th>
-                        <Table.Th>User Status</Table.Th>
-                        <Table.Th>LinkedIn</Table.Th>
-                    </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{rows}</Table.Tbody>
-                </Table>
-            </Table.ScrollContainer>
-        </Container>
-        </>
+      <Container size="md" py="xl">
+        <Title order={1} mb="md" pt="sm" pb="lg">
+          Loading...
+        </Title>
+      </Container>
     );
+  }
+    */
+
+  const handleRoleChange = (userId: string, newRole: string | null) => {
+    console.log(`User ID: ${userId}, New Role: ${newRole}`);
+
+    // Convert the role to the backend format (remove spaces)
+    // const backendRole = newRole?.replace(/\s+/g, '');
+  
+    // Example: Send the updated role to the server
+    fetch(
+      new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role: newRole }),
+    })
+      .then((res) => res.json())
+      .then((updatedUser) => {
+        console.log("Role updated successfully:", updatedUser);
+      })
+      .catch((err) => console.error("Error updating role:", err));
+  };
+
+  <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
+    {dashboard?.map((item) => (
+      <Card key={item.id} shadow="sm" radius="md" mt="xl" withBorder>
+        <Grid>
+          <Grid.Col span={4} mt="md" mb="lg">
+              <Avatar src={item.avatarUrl} size={60} radius="xl" mx="auto"/>
+          </Grid.Col>
+          <Grid.Col span={8} mt="md">
+              <Text size="lg" fw={500}>
+                {item.firstName + " " + item.lastName}
+              </Text>
+              <Text size="sm" c="dimmed">
+                  {item.username}
+              </Text>
+              <Text size="sm" c="dimmed">
+                  LinkedIn: {' '}
+                  <a
+                      href={item.linkedIn}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: '#0077b5', textDecoration: 'none' }}
+                  >
+                      {item.linkedIn.split('/').pop()} {/* Extracts the username from the URL */}
+                  </a>
+              </Text>
+              <Group wrap="nowrap" gap={10} mt={5}>
+                  <IconBrandLinkedinFilled stroke={1.5} size={18}/>
+                  <Text fz="xs" c="dimmed">
+                  +11 (876) 890 56 23
+                  </Text>
+              </Group>
+          </Grid.Col>
+        </Grid>
+
+        <Text size="sm" c="dimmed">
+            {item.bio}
+        </Text>
+        
+        {rolesData.length > 0 && (
+          <Select
+            data={rolesData}
+            defaultValue={item.memberStatus}
+            variant="unstyled"
+            allowDeselect={false}
+            onChange={(value) => handleRoleChange(item.id, value)}
+          />
+        )}
+        
+        <Button variant="outline" color="gray" size="xs" mt="sm">
+            Submit
+        </Button>
+      </Card>
+    ))}
+  </SimpleGrid>
+
+  const rows = dashboard?.map((item) => (
+      <Table.Tr key={item.id}>
+        <Table.Td>
+          <Group gap="sm">
+            <Avatar size={40} src={item.avatarUrl} radius={40} />
+            <div>
+              <Text fz="sm" fw={500}>
+                {item.firstName + " " + item.lastName}
+              </Text>
+              <Text fz="xs" c="dimmed">
+                {item.username}
+              </Text>
+            </div>
+          </Group>
+        </Table.Td>
+  
+        <Table.Td>
+          {rolesData.length > 0 && (
+            <Select
+              data={rolesData}
+              defaultValue={item.memberStatus}
+              variant="unstyled"
+              allowDeselect={false}
+              onChange={(value) => handleRoleChange(item.id, value)}
+            />
+          )}
+        </Table.Td>
+        <Table.Td>{item.linkedIn}</Table.Td>
+      </Table.Tr>
+    ));
+
+  return (
+      <>
+      <Container size="md" py="xl">
+          <Title order={1} mb="md" pt="sm" pb="lg">
+              Dashboard
+          </Title>
+          <Group justify="center" mt="xl">
+              <Link to="/create-collaborative">
+                  <Button variant="default">
+                      Propose a Collaborative
+                  </Button>
+              </Link>
+          </Group>
+
+          <Title order={3} mb="md" pt="sm" pb="lg">
+              Approve users
+          </Title>
+          <Table.ScrollContainer minWidth={800}>
+              <Table verticalSpacing="sm">
+                  <Table.Thead>
+                  <Table.Tr>
+                      <Table.Th>User</Table.Th>
+                      <Table.Th>User Status</Table.Th>
+                      <Table.Th>LinkedIn</Table.Th>
+                  </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>{rows}</Table.Tbody>
+              </Table>
+          </Table.ScrollContainer>
+      </Container>
+      </>
+  );
 }

@@ -1,16 +1,14 @@
 import { Text, Title } from '@mantine/core';
-import classes from './Welcome.module.css';
 
 export function Welcome() {
   return (
     <>
-      <Title className={classes.title} ta="center" mt={100}>
-        Welcome to{' '}
-        <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'yellow' }}>
-          CVx
-        </Text>
-      </Title>
-
+      <Text fz="20px" lts="5px" ta="center" mt={20}>
+        WELCOME TO THE 
+      </Text>
+      <Text fz="60px" c="#222" ta="center">
+        Collaborative Value Exchange
+      </Text>
     </>
   );
 }

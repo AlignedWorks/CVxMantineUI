@@ -5,21 +5,13 @@ import {
   Button,
   Group,
  } from '@mantine/core';
+import { Hero } from '../components/Hero/Hero'
 
 export function Home() {
 
   return (
     <>
       <Welcome />
-      <ColorSchemeToggle />
-      <Group justify="center" mt="xl">
-        <Link to="/login">
-          <Button variant="default">Log in</Button>
-        </Link>
-        <Link to="/register">
-          <Button variant="default">Register</Button>
-        </Link>
-      </Group>
     </>
   );
 }

@@ -17,7 +17,7 @@ import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
 import { NotFound } from './components/404/NotFound.tsx';
 import { Dashboard } from "./pages/Dashboard.page.tsx";
 import { CollaborativeHome } from './pages/Collaborative/Home.page.tsx';
-
+import { Test } from "./pages/Test.page.tsx";
 
 export default function App() {
   const [opened] = useDisclosure();
@@ -53,7 +53,7 @@ export default function App() {
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/create-collaborative" element={<CreateCollaborative />} />
               <Route path="/dashboard" element={<Dashboard />} />
-
+              <Route path="/test" element={<Test/>} /> {/* Test route for development */}
               <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
             </Routes>
           </AppShell.Main>

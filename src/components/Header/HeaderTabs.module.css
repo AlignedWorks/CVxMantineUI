@@ -39,7 +39,7 @@
   height: 38px;
   background-color: transparent;
   position: relative;
-  bottom: -2px;
+  bottom: -6px;
 
   &::before,
   &::after {

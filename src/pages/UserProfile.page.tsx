@@ -16,7 +16,7 @@ import {
 } from '@mantine/core';
 import {
   IconAt,
-  IconBrandLinkedin,
+  IconBrandLinkedinFilled,
   IconPhoneCall,
 } from '@tabler/icons-react'
 
@@ -148,9 +148,9 @@ export function UserProfile() {
             Member since {new Date(user.createdAt).toLocaleDateString()}
           </p>
           <Group wrap="nowrap" gap={10} mt={5}>
-            <IconBrandLinkedin stroke={1.5} size={16} />
+            <IconBrandLinkedinFilled stroke={1.5} size={18} />
             <Text>
-              {user.linkedIn}
+              {user.linkedIn.split('linkedin.com/')[1]}  
             </Text>
           </Group>
           </Card>
