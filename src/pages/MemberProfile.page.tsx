@@ -7,7 +7,6 @@ import {
   Card,
   Text,
   Group,
-  Button,
   Badge,
   Grid,
   SimpleGrid,
