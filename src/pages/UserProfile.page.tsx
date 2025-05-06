@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import {
   Container,
   Avatar,
@@ -64,6 +65,7 @@ export function UserProfile() {
   const [loading, setLoading] = useState(true); // Add a loading state
 
   const fetchUserData = () => {
+    setLoading(true);  // Set loading to true before fetching
     try {
       fetch(
         new URL("profile", import.meta.env.VITE_API_BASE),
@@ -144,6 +146,10 @@ export function UserProfile() {
   return (
     <>
     <Container size="md" py="xl">
+      {/* Back Link */}
+      <Link to="/dashboard" style={{ textDecoration: 'none', color: '#0077b5' }}>
+        &larr; Back
+      </Link>
       {loading ? ( // Show a loader while loading
         <Loader size="lg" />
       ) : user ? (
