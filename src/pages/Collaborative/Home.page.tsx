@@ -9,6 +9,7 @@ import {
   Loader,
   Space,
   Grid,
+  Tooltip,
  } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
 
@@ -118,17 +119,16 @@ export function CollaborativeHome() {
             </Text>
         </Grid.Col>
         <Grid.Col span={2}>
-            <Button variant="default" mb="sm">
-                Edit Collaborative
+          <Tooltip label="This ability is only allowed for Collab Leaders">
+            <Button data-disabled mb="md" onClick={(event) => event.preventDefault()}>
+              Edit Collaborative
             </Button>
-            <Button variant="default" mb="sm">
+          </Tooltip>
+            <Button variant="default" mb="md">
                 Add Collaborative
             </Button>
-            <Button variant="default" mb="sm">
+            <Button variant="default" mb="md">
                 Add Project
-            </Button>
-            <Button variant="default">
-                Join
             </Button>
         </Grid.Col>
       </Grid>

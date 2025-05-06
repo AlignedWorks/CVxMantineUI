@@ -15,6 +15,7 @@ import {
   SimpleGrid,
   Stack,
   Select,
+  Loader,
 } from '@mantine/core';
 import {
   IconAt,
@@ -60,6 +61,7 @@ export function UserProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
   const [formValues, setFormValues] = useState<User | null>(null); // Initialize as null
+  const [loading, setLoading] = useState(true); // Add a loading state
 
   const fetchUserData = () => {
     try {
@@ -71,15 +73,18 @@ export function UserProfile() {
         .then((res) => res.json())
         .then((data) => { 
           setUser(data);
+          setLoading(false); // Set loading to false after data is fetched
         })
         .catch((err) => 
           {
             console.error("Error fetching profile:", err);
             setUser(mock_user[0]);
+            setLoading(false); // Set loading to false even if there's an error
           });
       } catch (err) {
         console.error("Error forming URL:", err);
         setUser(mock_user[0]); // Fallback to mock data
+        setLoading(false);
       }
   };
 
@@ -114,6 +119,7 @@ export function UserProfile() {
     if (!formValues) return;
     const { createdAt, ...payload } = formValues;
 
+    setLoading(true); // Set loading to true while updating
     // Update the user profile here (e.g., send a PUT request to the API)
     fetch(
       new URL("profile", import.meta.env.VITE_API_BASE),
@@ -127,88 +133,93 @@ export function UserProfile() {
         .then((updatedUser) => {
           setUser(updatedUser); // Update the user state with the new data
           setModalOpened(false); // Close the modal
+          setLoading(false); // Set loading to false after update
       })
-      .catch((err) => console.error("Error updating profile:", err));
+      .catch((err) => {
+        console.error("Error updating profile:", err)
+        setLoading(false); // Set loading to false even if there's an error);
+      });
   };
 
   return (
     <>
     <Container size="md" py="xl">
-      { user ? (
-          <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
-            <Grid>
-              <Grid.Col span={3}>
-                <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" ml="lg" />
-              </Grid.Col>
-              <Grid.Col span={9}>
-                <Stack>
-                  <Title order={2}>{user.firstName + " " + user.lastName}</Title>
-                  <SimpleGrid cols={2} mb="lg">
-                    <div>
-                      <Group wrap="nowrap" gap={10} mt={3}>
-                        <IconAt stroke={1.5} size={16} />
-                        <Text>
-                          {user.username}
-                        </Text>
-                      </Group>
-                      <Group wrap="nowrap" gap={10} mt={5}>
-                        <IconPhoneCall stroke={1.5} size={16} />
-                        <Text>
-                          {user.phoneNumber}
-                        </Text>
-                      </Group>
-                      <Group wrap="nowrap" gap={10} mt={5}>
-                        <IconMapPin stroke={1.5} size={16} />
-                        <Text>
-                          {user.city}, {user.state}
-                        </Text>
-                      </Group>
-                    </div>
-                    <div>
-                      <Group wrap="nowrap" gap={10} mt={5}>
-                        <IconBrandLinkedin stroke={1.5} size={18} />
-                        <Text>
-                        {user?.linkedIn ? (
-                          <a href={user.linkedIn} style={{ color: '#0077b5', textDecoration: 'none' }}>
-                            {user.linkedIn.split('linkedin.com/in/')[1]}
-                          </a>
-                        ) : (
-                          'N/A'
-                        )}
-                        </Text>
-                      </Group>
-                      <span style={{ color: 'grey'}}>Member since:</span>  {new Date(user.createdAt).toLocaleDateString()}
-                      <br/>
-                      <span style={{ color: 'grey'}}>Member status:</span>  {user.memberStatus}
-                    </div>
-                  </SimpleGrid>
-                </Stack>
-                <p>
-                  {user.bio}<br /><br />
-                </p>
+      {loading ? ( // Show a loader while loading
+        <Loader size="lg" />
+      ) : user ? (
+        <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
+          <Grid>
+            <Grid.Col span={3}>
+              <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" ml="lg" />
+            </Grid.Col>
+            <Grid.Col span={9}>
+              <Stack>
+                <Title order={2}>{user.firstName + " " + user.lastName}</Title>
                 <SimpleGrid cols={2} mb="lg">
-                    <div>
-                      Skills<br/>
-                      <Badge variant="light" color="blue">
-                        Design & Creative
-                      </Badge>
-                      <Badge variant="light" color="blue">
-                        Development & IT
-                      </Badge>
-                    </div>
-                    <div>
-                      Experience<br/>
-                      <Badge variant="light" color="green">
-                        Non-Profit
-                      </Badge>
-                    </div>
-                  </SimpleGrid>
-              </Grid.Col>
-
-            </Grid>
-          </Card>
+                  <div>
+                    <Group wrap="nowrap" gap={10} mt={3}>
+                      <IconAt stroke={1.5} size={16} />
+                      <Text>
+                        {user.username}
+                      </Text>
+                    </Group>
+                    <Group wrap="nowrap" gap={10} mt={5}>
+                      <IconPhoneCall stroke={1.5} size={16} />
+                      <Text>
+                        {user.phoneNumber}
+                      </Text>
+                    </Group>
+                    <Group wrap="nowrap" gap={10} mt={5}>
+                      <IconMapPin stroke={1.5} size={16} />
+                      <Text>
+                        {user.city}, {user.state}
+                      </Text>
+                    </Group>
+                  </div>
+                  <div>
+                    <Group wrap="nowrap" gap={10} mt={5}>
+                      <IconBrandLinkedin stroke={1.5} size={18} />
+                      <Text>
+                      {user?.linkedIn ? (
+                        <a href={user.linkedIn} style={{ color: '#0077b5', textDecoration: 'none' }}>
+                          {user.linkedIn.split('linkedin.com/in/')[1]}
+                        </a>
+                      ) : (
+                        'N/A'
+                      )}
+                      </Text>
+                    </Group>
+                    <span style={{ color: 'grey'}}>Member since:</span>  {new Date(user.createdAt).toLocaleDateString()}
+                    <br/>
+                    <span style={{ color: 'grey'}}>Member status:</span>  {user.memberStatus}
+                  </div>
+                </SimpleGrid>
+              </Stack>
+              <p>
+                {user.bio}<br /><br />
+              </p>
+              <SimpleGrid cols={2} mb="lg">
+                  <div>
+                    Skills<br/>
+                    <Badge variant="light" color="blue">
+                      Design & Creative
+                    </Badge>
+                    <Badge variant="light" color="blue">
+                      Development & IT
+                    </Badge>
+                  </div>
+                  <div>
+                    Experience<br/>
+                    <Badge variant="light" color="green">
+                      Non-Profit
+                    </Badge>
+                  </div>
+                </SimpleGrid>
+            </Grid.Col>
+          </Grid>
+        </Card>
       ) : (
-        <p></p>
+        <p>No user data available.</p>
       )}
 
       <Group mt="xl">

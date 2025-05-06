@@ -3,8 +3,6 @@ import {
   IconUser,
   IconChevronDown,
   IconLogout,
-  IconSettings,
-  IconSwitchHorizontal,
 } from '@tabler/icons-react';
 import cx from 'clsx';
 import {
@@ -141,12 +139,6 @@ export function HeaderTabs() {
                       leftSection={<IconUser size={16} stroke={1.5} />}
                     >
                       Profile
-                    </Menu.Item>
-                    <Menu.Item leftSection={<IconSettings size={16} stroke={1.5} />}>
-                      Account settings
-                    </Menu.Item>
-                    <Menu.Item leftSection={<IconSwitchHorizontal size={16} stroke={1.5} />}>
-                      Change account
                     </Menu.Item>
                     <Menu.Item
                       leftSection={<IconLogout size={16} stroke={1.5} />}
