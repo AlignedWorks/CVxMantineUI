@@ -5,7 +5,6 @@ import {
   Button,
   Group,
   Text,
-  Table,
   Avatar,
   Select,
   SimpleGrid,
@@ -180,37 +179,6 @@ export function Dashboard() {
       })
       .catch((err) => console.error("Error updating role:", err));
   };
-
-  const rows = dashboard?.map((item) => (
-      <Table.Tr key={item.id}>
-        <Table.Td>
-          <Group gap="sm">
-            <Avatar size={40} src={item.avatarUrl} radius={40} />
-            <div>
-              <Text fz="sm" fw={500}>
-                {item.firstName + " " + item.lastName}
-              </Text>
-              <Text fz="xs" c="dimmed">
-                {item.username}
-              </Text>
-            </div>
-          </Group>
-        </Table.Td>
-  
-        <Table.Td>
-          {rolesData.length > 0 && (
-            <Select
-              data={rolesData}
-              defaultValue={item.memberStatus}
-              variant="unstyled"
-              allowDeselect={false}
-              onChange={(value) => handleRoleChange(item.id, value)}
-            />
-          )}
-        </Table.Td>
-        <Table.Td>{item.linkedIn}</Table.Td>
-      </Table.Tr>
-    ));
 
   return (
       <>
