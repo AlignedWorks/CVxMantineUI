@@ -107,6 +107,7 @@ export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<Role[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
+  const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
   // const [loading, setLoading] = useState(true);
 
   const fetchDashboardData = () => {
@@ -172,6 +173,10 @@ export function Dashboard() {
       .then((res) => res.json())
       .then((updatedUser) => {
         console.log("Role updated successfully:", updatedUser);
+        setSubmittedUsers((prev) => ({ ...prev, [userId]: true })); // Mark as submitted
+        setTimeout(() => {
+          setSubmittedUsers((prev) => ({ ...prev, [userId]: false })); // Reset after 3 seconds
+        }, 3000);
       })
       .catch((err) => console.error("Error updating role:", err));
   };
@@ -285,6 +290,8 @@ export function Dashboard() {
                 
                 {rolesData.length > 0 && (
                   <Select
+                    mt="md"
+                    label="User Status"
                     data={rolesData}
                     value={selectedRoles[item.id] || item.memberStatus} // Use the temporary state or fallback to the current role
                     defaultValue={item.memberStatus}
@@ -302,6 +309,11 @@ export function Dashboard() {
                 >
                   Submit
                 </Button>
+                  {submittedUsers[item.id] && (
+                  <Text size="sm" c="green" mt="xs">
+                    Role updated successfully!
+                  </Text>
+                )}
               </Card>
             ))}
           </SimpleGrid>
