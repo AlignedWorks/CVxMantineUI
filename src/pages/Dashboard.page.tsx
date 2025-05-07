@@ -230,9 +230,9 @@ export function Dashboard() {
               Approve users
           </Title>
 
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl" mt="xl">
             {dashboard?.map((item) => (
-              <Card key={item.id} shadow="sm" radius="md" mt="xl" withBorder>
+              <Card key={item.id} shadow="sm" radius="md" withBorder>
                 <Grid>
                   <Grid.Col span={4} mt="md" mb="lg">
                       <Avatar src={item.avatarUrl} size={60} radius="xl" mx="auto"/>
@@ -267,7 +267,7 @@ export function Dashboard() {
                   </Grid.Col>
                 </Grid>
 
-                <Text fw={500} mt="md">
+                <Text fw={500}>
                     Bio
                 </Text>
                 <Tooltip label={item.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
@@ -294,7 +294,7 @@ export function Dashboard() {
                     label="User Status"
                     data={rolesData}
                     value={selectedRoles[item.id] || item.memberStatus} // Use the temporary state or fallback to the current role
-                    defaultValue={item.memberStatus}
+                    defaultValue="Applicant"
                     allowDeselect={false}
                     onChange={(value) => handleRoleChange(item.id, value)}
                   />
@@ -317,19 +317,6 @@ export function Dashboard() {
               </Card>
             ))}
           </SimpleGrid>
-
-          <Table.ScrollContainer minWidth={800}>
-              <Table verticalSpacing="sm">
-                  <Table.Thead>
-                  <Table.Tr>
-                      <Table.Th>User</Table.Th>
-                      <Table.Th>User Status</Table.Th>
-                      <Table.Th>LinkedIn</Table.Th>
-                  </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>{rows}</Table.Tbody>
-              </Table>
-          </Table.ScrollContainer>
       </Container>
       </>
   );

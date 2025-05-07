@@ -267,7 +267,7 @@ export function Test() {
                                 </Text>
                             </Grid.Col>
                         </Grid>
-                        <Text fw={500} mt="sm">
+                        <Text fw={500}>
                             Bio
                         </Text>
                         <Tooltip label={user.description || 'No bio available'} multiline w={300} position="bottom" color="gray">
