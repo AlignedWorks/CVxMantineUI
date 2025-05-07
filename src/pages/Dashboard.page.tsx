@@ -181,7 +181,7 @@ export function Dashboard() {
   };
 
   return (
-      <>
+    <>
       <Container size="md" py="xl">
           <Title order={1} mb="md" pt="sm" pb="lg">
               Dashboard
@@ -262,11 +262,10 @@ export function Dashboard() {
 
                     {rolesData.length > 0 && (
                       <Select
-                        mt="md"
                         label="User Status"
                         data={rolesData}
                         value={selectedRoles[user.id] || user.memberStatus} // Use the temporary state or fallback to the current role
-                        defaultValue="Applicant"
+                        defaultValue={user.memberStatus}
                         allowDeselect={false}
                         onChange={(value) => handleRoleChange(user.id, value)}
                       />
@@ -291,94 +290,7 @@ export function Dashboard() {
             </Card>
         ))}
 
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl" mt="xl">
-            {dashboard?.map((item) => (
-              <Card key={item.id} shadow="sm" radius="md" withBorder>
-                <Grid>
-                  <Grid.Col span={4} mt="md" mb="lg">
-                      <Avatar src={item.avatarUrl} size={60} radius="xl" mx="auto"/>
-                  </Grid.Col>
-                  <Grid.Col span={8} mt="md">
-                      <Text size="lg" fw={500}>
-                        {item.firstName + " " + item.lastName}
-                      </Text>
-                      <Tooltip label={item.username} color="gray">
-                          <Text
-                              size="sm"
-                              c="dimmed"
-                              style={{
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              }}
-                          >
-                              {item.username}
-                          </Text>
-                      </Tooltip>
-                      <Text size="sm" c="dimmed">
-                        <a
-                            href={item.linkedIn}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: "#0077b5", textDecoration: "none" }}
-                        >
-                            LinkedIn
-                    </a>
-                    </Text>
-                  </Grid.Col>
-                </Grid>
-
-                <Text fw={500}>
-                    Bio
-                </Text>
-                <Tooltip label={item.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
-                    <Text
-                        size="sm"
-                        c="dimmed"
-                        style={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 3, // Limit to 3 lines
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        minHeight: '3.6em', // Ensure consistent height for 3 lines of text
-                        lineHeight: '1.2em', // Adjust line height to match the text
-                        }}
-                    >
-                        {item.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
-                    </Text>
-                </Tooltip>
-                
-                {rolesData.length > 0 && (
-                  <Select
-                    mt="md"
-                    label="User Status"
-                    data={rolesData}
-                    value={selectedRoles[item.id] || item.memberStatus} // Use the temporary state or fallback to the current role
-                    defaultValue="Applicant"
-                    allowDeselect={false}
-                    onChange={(value) => handleRoleChange(item.id, value)}
-                  />
-                )}
-                
-                <Button
-                  variant="outline"
-                  color="gray"
-                  size="sm"
-                  mt="sm"
-                  onClick={() => handleSubmitRoleChange(item.id)} // Submit the role change
-                >
-                  Submit
-                </Button>
-                  {submittedUsers[item.id] && (
-                  <Text size="sm" c="green" mt="xs">
-                    Role updated successfully!
-                  </Text>
-                )}
-              </Card>
-            ))}
-          </SimpleGrid>
       </Container>
-      </>
+    </>
   );
 }
