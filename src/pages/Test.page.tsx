@@ -15,6 +15,7 @@ import {
 } from '@mantine/core';
 import { mock_collab_data, users } from '../data.ts';
 import classes from './Test.module.css';
+import { IconEmergencyBed } from '@tabler/icons-react';
 
 const networkRoles = [
     'Applicant',
@@ -87,11 +88,11 @@ const inviteStatus = ['Invited','Accepted','Declined']
 
 export function Test() {
 
-    const rows = data.map((item) => (
+    const rows = users.map((item) => (
         <Table.Tr key={item.name}>
-          <Table.Td>
-            <Group gap="sm">
-              <Avatar size={40} src={item.avatar} radius={40} />
+          <Table.Td style={{ verticalAlign: 'top' }}>
+            <Group gap="sm" ml="lg">
+              <Avatar size={40} src={item.avatar_url} radius={40} />
               <div>
                 <Text fz="sm" fw={500}>
                   {item.name}
@@ -99,24 +100,42 @@ export function Test() {
                 <Text fz="xs" c="dimmed">
                   {item.email}
                 </Text>
+                <Text fz="xs" c="dimmed">
+                  LinkedIn
+                </Text>
               </div>
             </Group>
           </Table.Td>
-          <Table.Td>
-                <Select
-                data={collabRoles}
-                defaultValue={item.role}
-                variant="unstyled"
-                allowDeselect={false}
-                />
-            </Table.Td>
+          <Table.Td style={{ verticalAlign: 'top' }}>
+            <Text style={{ maxWidth: '300px', overflow: 'hidden' }}>
+                <Tooltip label={item.description || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                    <Text
+                        size="sm"
+                        c="dimmed"
+                        style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 4, // Limit to 4 lines
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                        lineHeight: '1.2em', // Adjust line height to match the text
+                        }}
+                    >
+                        {item.description || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+                    </Text>
+                </Tooltip>
+            </Text>
+          </Table.Td>
             <Table.Td>
                 <Select
-                data={inviteStatus}
-                defaultValue={item.inviteStatus}
-                variant="unstyled"
-                allowDeselect={false}
+                    data={['Applicant', 'Applicant Denied', 'Network Owner', 'Network Contributor']}
+                    defaultValue="Applicant"
+                    size="xs"
                 />
+                <Button variant="outline" color="gray" size="xs" mt="sm" mb="lg">
+                    Submit
+                </Button>
             </Table.Td>
         </Table.Tr>
       ));
@@ -231,6 +250,21 @@ export function Test() {
                 </Card>
             ))}
 
+
+          <Table.ScrollContainer minWidth={800} mt="xl">
+              <Table verticalSpacing="sm">
+                  <Table.Thead>
+                  <Table.Tr>
+                      <Table.Th></Table.Th>
+                      <Table.Th>User Bio</Table.Th>
+                      <Table.Th>User Status</Table.Th>
+                  </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>{rows}</Table.Tbody>
+              </Table>
+          </Table.ScrollContainer>
+
+
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {users.map((user) => (
                     <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
@@ -263,7 +297,7 @@ export function Test() {
                                         style={{ color: "#0077b5", textDecoration: "none" }}
                                     >
                                         LinkedIn
-                                </a>
+                                    </a>
                                 </Text>
                             </Grid.Col>
                         </Grid>
@@ -303,49 +337,71 @@ export function Test() {
 
             {users.map((user) => (
                 <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
-                    <SimpleGrid cols={3}>
+                    <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
                         <div>
                             <Grid>
-                                <Grid.Col span={4} mt="md" mb="lg">
+                                <Grid.Col span={4}>
                                     <Avatar src={user.avatar_url} size={60} radius="xl" mx="auto"/>
                                 </Grid.Col>
-                                <Grid.Col span={8} mt="md">
+                                <Grid.Col span={8}>
                                     <Text size="lg" fw={500}>
                                         {user.name}
                                     </Text>
+                                    <Tooltip label={user.email} color="gray">
+                                        <Text
+                                            size="sm"
+                                            c="dimmed"
+                                            style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            }}
+                                        >
+                                            {user.email}
+                                        </Text>
+                                    </Tooltip>
                                     <Text size="sm" c="dimmed">
-                                        {user.email}
+                                        <a
+                                            href={user.linkedin}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            style={{ color: "#0077b5", textDecoration: "none" }}
+                                        >
+                                            LinkedIn
+                                        </a>
                                     </Text>
-
-                                    <Text size="sm" c="dimmed">
-                                    LinkedIn: {' '}
-                                    <a
-                                        href={user.linkedin}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        style={{ color: '#0077b5', textDecoration: 'none' }}
-                                    >
-                                        {user.linkedin.split('/').pop()} {/* Extracts the username from the URL */}
-                                    </a>
-                                </Text>
                                 </Grid.Col>
                             </Grid>
                         </div>
                         <div>
-                            <Text size="sm" c="dimmed">
-                                {user.description}
+                            <Text fw={500}>
+                                Bio
                             </Text>
+                            <Tooltip label={user.description || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                                <Text
+                                    size="sm"
+                                    c="dimmed"
+                                    style={{
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 4, // Limit to 4 lines
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                                    lineHeight: '1.2em', // Adjust line height to match the text
+                                    }}
+                                >
+                                    {user.description || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+                                </Text>
+                            </Tooltip>
                         </div>
                         <div>
                         <Select
-                            mt="md"
                             label="User Status"
-                            comboboxProps={{ withinPortal: true }}
                             data={networkRoles}
                             defaultValue={networkRoles[0]}
-                            classNames={classes}
                         />
-                        <Button variant="outline" color="gray" size="xs" mt="sm">
+                        <Button variant="outline" color="gray" mt="sm">
                             Submit
                         </Button>
                         </div>        
@@ -401,12 +457,12 @@ export function Test() {
 
             <Title order={4} c="#45a6b7" mb="md">Members</Title>
             <Table.ScrollContainer minWidth={400}>
-                <Table verticalSpacing="sm">
+                <Table striped={true} verticalSpacing="sm">
                     <Table.Thead>
                         <Table.Tr>
-                            <Table.Th>Member</Table.Th>
-                            <Table.Th>Role</Table.Th>
-                            <Table.Th>Status</Table.Th>
+                            <Table.Th></Table.Th>
+                            <Table.Th>User Bio</Table.Th>
+                            <Table.Th>User Status</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>{rows}</Table.Tbody>

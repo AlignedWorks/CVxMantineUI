@@ -198,6 +198,99 @@ export function Dashboard() {
               Approve users
           </Title>
 
+          {dashboard?.map((user) => (
+            <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
+                <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
+                    <div>
+                        <Grid>
+                            <Grid.Col span={4}>
+                                <Avatar src={user.avatarUrl} size={60} radius="xl" mx="auto"/>
+                            </Grid.Col>
+                            <Grid.Col span={8}>
+                                <Text size="lg" fw={500}>
+                                  {user.firstName + " " + user.lastName}
+                                </Text>
+                                <Tooltip label={user.username} color="gray">
+                                    <Text
+                                        size="sm"
+                                        c="dimmed"
+                                        style={{
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        }}
+                                    >
+                                        {user.username}
+                                    </Text>
+                                </Tooltip>
+                                <Text size="sm" c="dimmed">
+                                    <a
+                                        href={user.linkedIn}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: "#0077b5", textDecoration: "none" }}
+                                    >
+                                        LinkedIn
+                                    </a>
+                                </Text>
+                            </Grid.Col>
+                        </Grid>
+                    </div>
+                    <div>
+                        <Text fw={500}>
+                            Bio
+                        </Text>
+                        <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                            <Text
+                                size="sm"
+                                c="dimmed"
+                                style={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 4, // Limit to 4 lines
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                                lineHeight: '1.2em', // Adjust line height to match the text
+                                }}
+                            >
+                                {user.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+                            </Text>
+                        </Tooltip>
+                    </div>
+                    <div>
+
+                    {rolesData.length > 0 && (
+                      <Select
+                        mt="md"
+                        label="User Status"
+                        data={rolesData}
+                        value={selectedRoles[user.id] || user.memberStatus} // Use the temporary state or fallback to the current role
+                        defaultValue="Applicant"
+                        allowDeselect={false}
+                        onChange={(value) => handleRoleChange(user.id, value)}
+                      />
+                    )}
+
+                    <Button
+                      variant="outline"
+                      color="gray"
+                      size="sm"
+                      mt="sm"
+                      onClick={() => handleSubmitRoleChange(user.id)} // Submit the role change
+                    >
+                      Submit
+                    </Button>
+                      {submittedUsers[user.id] && (
+                      <Text size="sm" c="green" mt="xs">
+                        Role updated successfully!
+                      </Text>
+                    )}
+                    </div>        
+                </SimpleGrid>
+            </Card>
+        ))}
+
           <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl" mt="xl">
             {dashboard?.map((item) => (
               <Card key={item.id} shadow="sm" radius="md" withBorder>
