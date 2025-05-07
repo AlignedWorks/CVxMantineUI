@@ -15,7 +15,10 @@ import {
 } from '@mantine/core';
 import { mock_collab_data, users } from '../data.ts';
 import classes from './Test.module.css';
-
+import {
+    IconAt,
+    IconMapPin,
+  } from '@tabler/icons-react'
 
 const networkRoles = [
     'Applicant',
@@ -84,124 +87,7 @@ export function Test() {
                 Dashboard
             </Title>
 
-            <Title order={3} mb="md" pt="sm" pb="lg">
-                Approve Collaboratives
-            </Title>
-            {mock_collab_data.map((collab) => (
-                <Card key={collab.id} className={classes.card} shadow="sm" radius="md" withBorder mt="lg" p="lg" bg="var(--mantine-color-body)">
-                    <SimpleGrid cols={3} spacing="xl">
-                        <div>
-                            <Text ta="left" fz="lg" fw={500} mb="lg">
-                                {collab.name}
-                            </Text>
-                            <Text ta="left" c="dimmed" fz="sm">
-                                {collab.description}
-                            </Text>
-                            <Text ta="left" fz="sm" mt="sm">
-                                <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>www.website.com
-                            </Text>
-                            <Text ta="left" fz="sm" mt="sm">
-                                <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Leader:</span><br/>{collab.leaderEmail}
-                            </Text>
-                            
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
-                            <Table variant="vertical" layout="fixed" withTableBorder>
-                                <Table.Tbody>
-
-                                    <Table.Tr>
-                                    <Table.Th>Shared Revenue</Table.Th>
-                                    <Table.Td>{collab.revenueShare}%</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>Payout Frequency</Table.Th>
-                                    <Table.Td>{collab.payoutFrequency}</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>Indirect Costs</Table.Th>
-                                    <Table.Td>{collab.indirectCosts}%</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>Leader Compensation</Table.Th>
-                                    <Table.Td>{collab.collabLeaderCompensation}%</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>Proposed On</Table.Th>
-                                    <Table.Td>{collab.createdAt}</Table.Td>
-                                    </Table.Tr>
-                                    
-                                </Table.Tbody>
-                            </Table>
-                        </div>
-                        <div>
-                            <Title order={6}>
-                            Staking Tiers
-                            </Title>
-                            
-                            <Table variant="vertical" layout="fixed" withTableBorder mt="lg">
-                                <Table.Tbody>
-
-                                    <Table.Tr>
-                                    <Table.Th>Duration</Table.Th>
-                                    <Table.Td>Exchange Rate</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>One Month</Table.Th>
-                                    <Table.Td>100%</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>Two Months</Table.Th>
-                                    <Table.Td>80%</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>One Quarter</Table.Th>
-                                    <Table.Td>70%</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>One Year</Table.Th>
-                                    <Table.Td>40%</Table.Td>
-                                    </Table.Tr>
-                                </Table.Tbody>
-                            </Table>
-                        </div>
-                        
-                    </SimpleGrid>
-                    <Grid>
-                        <Grid.Col span={4}>
-                            <SimpleGrid cols={2} mt="lg">
-                                <Button variant="default">Approve</Button>
-                                <Button variant="default">Decline</Button>
-                            </SimpleGrid>
-                        </Grid.Col>
-                        <Grid.Col span={8} mt="lg">
-                        </Grid.Col>
-                    </Grid>
-
-                </Card>
-            ))}
-
-
-          <Table.ScrollContainer minWidth={800} mt="xl">
-              <Table verticalSpacing="sm">
-                  <Table.Thead>
-                  <Table.Tr>
-                      <Table.Th></Table.Th>
-                      <Table.Th>User Bio</Table.Th>
-                      <Table.Th>User Status</Table.Th>
-                  </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>{rows}</Table.Tbody>
-              </Table>
-          </Table.ScrollContainer>
-
+            
 
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {users.map((user) => (
@@ -335,6 +221,7 @@ export function Test() {
                         </div>
                         <div>
                         <Select
+                            size="sm"
                             label="User Status"
                             data={networkRoles}
                             defaultValue={networkRoles[0]}
@@ -359,6 +246,18 @@ export function Test() {
                     <Text c="dimmed" mb="md" mt="lg">
                         Website: www.bytesecure.net
                     </Text>
+                    <Group wrap="nowrap" gap={10} mt={3}>
+                        <IconAt stroke={1.5} size={16} />
+                        <Text>
+                            www.bytesecure.net
+                        </Text>
+                    </Group>
+                    <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconMapPin stroke={1.5} size={16} />
+                        <Text>
+                            Plano, TX
+                        </Text>
+                    </Group>
                     <Text c="dimmed" mb="md" mt="lg">
                         Location: Plano, TX
                     </Text>
@@ -406,6 +305,110 @@ export function Test() {
                     <Table.Tbody>{rows}</Table.Tbody>
                 </Table>
             </Table.ScrollContainer>
+
+            <Title order={3} mb="md" pt="sm" pb="lg">
+                Approve Collaboratives
+            </Title>
+            {mock_collab_data.map((collab) => (
+                <Card key={collab.id} className={classes.card} shadow="sm" radius="md" withBorder mt="lg" p="lg" bg="var(--mantine-color-body)">
+                    <SimpleGrid cols={3} spacing="xl">
+                        <div>
+                            <Text ta="left" fz="lg" fw={500} mb="lg">
+                                {collab.name}
+                            </Text>
+                            <Text ta="left" c="dimmed" fz="sm">
+                                {collab.description}
+                            </Text>
+                            <Text ta="left" fz="sm" mt="sm">
+                                <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>www.website.com
+                            </Text>
+                            <Text ta="left" fz="sm" mt="sm">
+                                <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Leader:</span><br/>{collab.leaderEmail}
+                            </Text>
+                            
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
+                            <Table variant="vertical" layout="fixed" withTableBorder>
+                                <Table.Tbody>
+
+                                    <Table.Tr>
+                                    <Table.Th>Shared Revenue</Table.Th>
+                                    <Table.Td>{collab.revenueShare}%</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>Payout Frequency</Table.Th>
+                                    <Table.Td>{collab.payoutFrequency}</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>Indirect Costs</Table.Th>
+                                    <Table.Td>{collab.indirectCosts}%</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>Leader Compensation</Table.Th>
+                                    <Table.Td>{collab.collabLeaderCompensation}%</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>Proposed On</Table.Th>
+                                    <Table.Td>{collab.createdAt}</Table.Td>
+                                    </Table.Tr>
+                                    
+                                </Table.Tbody>
+                            </Table>
+                        </div>
+                        <div>
+                            <Title order={6}>
+                            Staking Tiers
+                            </Title>
+                            
+                            <Table variant="vertical" layout="fixed" withTableBorder mt="lg">
+                                <Table.Tbody>
+
+                                    <Table.Tr>
+                                    <Table.Th>Duration</Table.Th>
+                                    <Table.Td>Exchange Rate</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>One Month</Table.Th>
+                                    <Table.Td>100%</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>Two Months</Table.Th>
+                                    <Table.Td>80%</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>One Quarter</Table.Th>
+                                    <Table.Td>70%</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                    <Table.Th>One Year</Table.Th>
+                                    <Table.Td>40%</Table.Td>
+                                    </Table.Tr>
+                                </Table.Tbody>
+                            </Table>
+                        </div>
+                        
+                    </SimpleGrid>
+                    <Grid>
+                        <Grid.Col span={4}>
+                            <SimpleGrid cols={2} mt="lg">
+                                <Button variant="default">Approve</Button>
+                                <Button variant="default">Decline</Button>
+                            </SimpleGrid>
+                        </Grid.Col>
+                        <Grid.Col span={8} mt="lg">
+                        </Grid.Col>
+                    </Grid>
+
+                </Card>
+            ))}
             
         </Container>
     );

@@ -8,10 +8,15 @@ import {
   Button,
   Loader,
   Space,
+  Group,
   Grid,
   Tooltip,
  } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
+import {
+  IconAt,
+  IconMapPin,
+} from '@tabler/icons-react'
 
 export function CollaborativeHome() {
   const location = useLocation();
@@ -87,12 +92,21 @@ export function CollaborativeHome() {
             <Text size="md" mb="md">
               {collaborative.description}
             </Text>
-            <Text mb="md" mt="lg">
-                Website: {collaborative.websiteUrl}
-            </Text>
-            <Text mb="md" mt="lg">
-                Location: {collaborative.city}, {collaborative.state}
-            </Text>
+            <Group wrap="nowrap" gap={10} mt={3}>
+                <IconAt stroke={1.5} size={16} />
+                <a
+                  href={collaborative.websiteUrl}
+                  style={{ color: '#0077b5', textDecoration: 'none' }}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                </a>
+            </Group>
+            <Group wrap="nowrap" gap={10} mt={5}>
+                <IconMapPin stroke={1.5} size={16} />
+                <Text>
+                  {collaborative.city}, {collaborative.state}
+                </Text>
+            </Group>
         </Grid.Col>
         <Grid.Col span={4}>
             <Text c="dimmed" mb="md">

@@ -187,7 +187,11 @@ export function UserProfile() {
                       <IconBrandLinkedin stroke={1.5} size={18} />
                       <Text>
                       {user?.linkedIn ? (
-                        <a href={user.linkedIn} style={{ color: '#0077b5', textDecoration: 'none' }}>
+                        <a
+                          href={user.linkedIn}
+                          style={{ color: '#0077b5', textDecoration: 'none' }}
+                          target="_blank"
+                          rel="noopener noreferrer">
                           {user.linkedIn.split('linkedin.com/in/')[1]}
                         </a>
                       ) : (
