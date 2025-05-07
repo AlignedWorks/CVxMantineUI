@@ -99,6 +99,7 @@ export function CollaborativeHome() {
                   style={{ color: '#0077b5', textDecoration: 'none' }}
                   target="_blank"
                   rel="noopener noreferrer">
+                    {collaborative.websiteUrl}
                 </a>
             </Group>
             <Group wrap="nowrap" gap={10} mt={5}>
