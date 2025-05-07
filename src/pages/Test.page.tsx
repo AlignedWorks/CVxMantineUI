@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import { mock_collab_data, users } from '../data.ts';
 import classes from './Test.module.css';
-import { IconEmergencyBed } from '@tabler/icons-react';
+
 
 const networkRoles = [
     'Applicant',
@@ -23,68 +23,6 @@ const networkRoles = [
     'NetworkOwner',
     'NetworkContributor'
 ]
-
-const data = [
-    {
-      avatar:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png',
-      name: 'Robert Wolfkisser',
-      job: 'Engineer',
-      email: 'rob_wolf@gmail.com',
-      role: 'Collaborative Leader',
-      inviteStatus: 'Accepted',
-      lastActive: '2 days ago',
-      active: true,
-    },
-    {
-      avatar:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png',
-      name: 'Jill Jailbreaker',
-      job: 'Engineer',
-      email: 'jj@breaker.com',
-      role: 'Collaborative Leader',
-      lastActive: '6 days ago',
-      inviteStatus: 'Invited',
-      active: true,
-    },
-    {
-      avatar:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-      name: 'Henry Silkeater',
-      job: 'Designer',
-      email: 'henry@silkeater.io',
-      role: 'Collaborative Member',
-      lastActive: '2 days ago',
-      inviteStatus: 'Accepted',
-      active: false,
-    },
-    {
-      avatar:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-      name: 'Bill Horsefighter',
-      job: 'Designer',
-      email: 'bhorsefighter@gmail.com',
-      role: 'Collaborative Member',
-      lastActive: '5 days ago',
-      inviteStatus: 'Invited',
-      active: true,
-    },
-    {
-      avatar:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-      name: 'Jeremy Footviewer',
-      job: 'Manager',
-      email: 'jeremy@foot.dev',
-      role: 'Collaborative Member',
-      lastActive: '3 days ago',
-      inviteStatus: 'Accepted',
-      active: false,
-    },
-];
-  
-const collabRoles = ['Collaborative Leader','Collaborative Member'];
-const inviteStatus = ['Invited','Accepted','Declined']
-  
 
 export function Test() {
 
