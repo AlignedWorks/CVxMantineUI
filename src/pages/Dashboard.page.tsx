@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Card,
   Grid,
+  Tooltip,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
@@ -105,6 +106,7 @@ const mock_data = [
 export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<Role[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   // const [loading, setLoading] = useState(true);
 
   const fetchDashboardData = () => {
@@ -149,12 +151,16 @@ export function Dashboard() {
     */
 
   const handleRoleChange = (userId: string, newRole: string | null) => {
+    setSelectedRoles((prev) => ({
+      ...prev,
+      [userId]: newRole || "", // Update the temporary state with the selected role
+    }));
+  };
+
+  const handleSubmitRoleChange = (userId: string ) => {
+    const newRole = selectedRoles[userId];
     console.log(`User ID: ${userId}, New Role: ${newRole}`);
 
-    // Convert the role to the backend format (remove spaces)
-    // const backendRole = newRole?.replace(/\s+/g, '');
-  
-    // Example: Send the updated role to the server
     fetch(
       new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
     {
@@ -230,40 +236,71 @@ export function Dashboard() {
                       <Text size="lg" fw={500}>
                         {item.firstName + " " + item.lastName}
                       </Text>
-                      <Text size="sm" c="dimmed">
-                          {item.username}
-                      </Text>
-                      <Text size="sm" c="dimmed">
-                          LinkedIn: {' '}
-                          <a
-                              href={item.linkedIn}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{ color: '#0077b5', textDecoration: 'none' }}
+                      <Tooltip label={item.username} color="gray">
+                          <Text
+                              size="sm"
+                              c="dimmed"
+                              style={{
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              }}
                           >
-                              {item.linkedIn.split('/').pop()} {/* Extracts the username from the URL */}
-                          </a>
-                      </Text>
+                              {item.username}
+                          </Text>
+                      </Tooltip>
+                      <Text size="sm" c="dimmed">
+                        <a
+                            href={item.linkedIn}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: "#0077b5", textDecoration: "none" }}
+                        >
+                            LinkedIn
+                    </a>
+                    </Text>
                   </Grid.Col>
                 </Grid>
 
-                <Text size="sm" c="dimmed" mt="lg">
-                    {item.bio}
+                <Text fw={500} mt="md">
+                    Bio
                 </Text>
+                <Tooltip label={item.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                    <Text
+                        size="sm"
+                        c="dimmed"
+                        style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3, // Limit to 3 lines
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                        lineHeight: '1.2em', // Adjust line height to match the text
+                        }}
+                    >
+                        {item.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+                    </Text>
+                </Tooltip>
                 
                 {rolesData.length > 0 && (
                   <Select
                     data={rolesData}
+                    value={selectedRoles[item.id] || item.memberStatus} // Use the temporary state or fallback to the current role
                     defaultValue={item.memberStatus}
-                    comboboxProps={{ withinPortal: true }}
-                    variant="unstyled"
                     allowDeselect={false}
                     onChange={(value) => handleRoleChange(item.id, value)}
                   />
                 )}
                 
-                <Button variant="outline" color="gray" size="xs" mt="sm">
-                    Submit
+                <Button
+                  variant="outline"
+                  color="gray"
+                  size="sm"
+                  mt="sm"
+                  onClick={() => handleSubmitRoleChange(item.id)} // Submit the role change
+                >
+                  Submit
                 </Button>
               </Card>
             ))}

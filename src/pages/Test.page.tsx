@@ -11,6 +11,7 @@ import {
   Card,
   Button,
   Space,
+  Tooltip,
 } from '@mantine/core';
 import { mock_collab_data, users } from '../data.ts';
 import classes from './Test.module.css';
@@ -241,39 +242,59 @@ export function Test() {
                                 <Text size="lg" fw={500}>
                                     {user.name}
                                 </Text>
+                                <Tooltip label={user.email} color="gray">
+                                    <Text
+                                        size="sm"
+                                        c="dimmed"
+                                        style={{
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        }}
+                                    >
+                                        {user.email}
+                                    </Text>
+                                </Tooltip>
                                 <Text size="sm" c="dimmed">
-                                    {user.email.split('@')[0].length >= 16
-                                        ? `${user.email.split('@')[0]}<br/>${user.email.split('@')[1]}`
-                                        : user.email}
-                                </Text>
-                                <Text size="sm" c="dimmed">
-                                    LinkedIn: {' '}
                                     <a
                                         href={user.linkedin}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        style={{ color: '#0077b5', textDecoration: 'none' }}
+                                        style={{ color: "#0077b5", textDecoration: "none" }}
                                     >
-                                        {user.linkedin.split('/').pop()} {/* Extracts the username from the URL */}
-                                    </a>
+                                        LinkedIn
+                                </a>
                                 </Text>
                             </Grid.Col>
                         </Grid>
-                        <Text size="sm" c="dimmed" mt="md">
-                            {user.description.length > 100
-                                ? `${user.description.slice(0,150)}...`
-                                : user.description}
-
+                        <Text fw={500} mt="md">
+                            Bio
                         </Text>
+                        <Tooltip label={user.description || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                            <Text
+                                size="sm"
+                                c="dimmed"
+                                style={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 3, // Limit to 3 lines
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                                lineHeight: '1.2em', // Adjust line height to match the text
+                                }}
+                            >
+                                {user.description || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+                            </Text>
+                        </Tooltip>
+                        
                     <Select
                         mt="md"
                         label="User Status"
-                        comboboxProps={{ withinPortal: true }}
                         data={['Applicant', 'Applicant Denied', 'Network Owner', 'Network Contributor']}
                         defaultValue="Applicant"
-                        classNames={classes}
                     />
-                    <Button variant="outline" color="gray" size="xs" mt="md">
+                    <Button variant="outline" color="gray" size="sm" mt="md">
                         Submit
                     </Button>
                     </Card>
@@ -295,17 +316,18 @@ export function Test() {
                                     <Text size="sm" c="dimmed">
                                         {user.email}
                                     </Text>
+
                                     <Text size="sm" c="dimmed">
-                                        LinkedIn: {' '}
-                                        <a
-                                            href={user.linkedin}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            style={{ color: '#0077b5', textDecoration: 'none' }}
-                                        >
-                                            {user.linkedin.split('/').pop()} {/* Extracts the username from the URL */}
-                                        </a>
-                                    </Text>
+                                    LinkedIn: {' '}
+                                    <a
+                                        href={user.linkedin}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: '#0077b5', textDecoration: 'none' }}
+                                    >
+                                        {user.linkedin.split('/').pop()} {/* Extracts the username from the URL */}
+                                    </a>
+                                </Text>
                                 </Grid.Col>
                             </Grid>
                         </div>
