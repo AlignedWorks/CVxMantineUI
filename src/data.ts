@@ -21,6 +21,7 @@ export interface CollaborativeData {
   city: string;
   state: string;
   leaderEmail: string;
+  leaderName: string;
   createdAt: string;
   revenueShare: number;
   indirectCosts: number;
@@ -28,7 +29,25 @@ export interface CollaborativeData {
   payoutFrequency: PayoutFrequency;
   skills: string[];
   experience: string[];
+  stakingTiers: StakingTier[];
+  members: CollabMember[];
 }
+
+export interface CollabMember {
+  id: number;
+  firstName: string;
+  lastName: string
+  userName: string;
+  avatarUrl: string;
+  role: string;
+  inviteStatus: string;
+}
+
+export const inviteStatusColors: { [key: string]: string } = {
+  Invited: 'yellow',
+  Accepted: 'green',
+  Declined: 'red',
+};
 
 export enum PayoutFrequency {
   Monthly = 'Monthly',
@@ -88,6 +107,7 @@ export interface User {
   avatar_url: string;
   location: string;
   member_since: string;
+  invite_status: string;
   linkedin: string;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
@@ -103,6 +123,7 @@ export const users: User[] = [
     avatar_url: '/assets/profile-pic-Gerry-Hartis.jpeg',
     location: 'Somewhere, PA soon to be SC',
     member_since: '01-01-2023',
+    invite_status: 'Invited',
     linkedin: 'https://www.linkedin.com/in/gerryhartis',
     skills: [{id: 1, value: 'Design & Creative'}],
     experience: [{id: 1, value: 'Education'},{id: 2, value: 'Non-Profit'},{id: 3, value: 'Retail'}],
@@ -116,6 +137,7 @@ export const users: User[] = [
     avatar_url: 'assets/alignedWorksLogoCompact.png',
     location: 'Mechanicsburg, PA',
     member_since: '01/01/2023',
+    invite_status: 'Accepted',
     linkedin: 'https://www.linkedin.com/in/alignedworks',
     skills: [{id: 0, value: ''}],
     experience: [{id: 0, value: ''}],
@@ -129,6 +151,7 @@ export const users: User[] = [
     avatar_url: '/assets/David_profile_pic.JPG',
     location: 'Mechanicsburg, PA',
     member_since: '01/01/2023',
+    invite_status: 'Accepted',
     linkedin: 'https://www.linkedin.com/in/davidtvader',
     skills: [{id: 1, value: 'Design & Creative'},{id: 2, value: 'Development & IT'}],
     experience: [{id: 1, value: 'Education'},{id: 2, value: 'Non-Profit'}],
@@ -142,6 +165,7 @@ export const users: User[] = [
     avatar_url: '/assets/Profile-pic-Leif-Uptegrove.jpg',
     location: 'Somewhere, PA',
     member_since: '01/01/2023',
+    invite_status: 'Invited',
     linkedin: 'https://www.linkedin.com/in/leifuptegrove',
     skills: [{id: 2, value: 'Development & IT'}],
     experience: [{id: 0, value: ''}],
@@ -155,6 +179,7 @@ export const users: User[] = [
     avatar_url: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
     location: 'Fairfax, VA',
     member_since: '01/01/2023',
+    invite_status: 'Declined',
     linkedin: 'https://www.linkedin.com/in/petersahajian',
     skills: [{id: 2, value: 'Development & IT'},{id: 3, value: 'Engineering & Architecture'}],
     experience: [{id: 4, value: 'Telecoms'}],
@@ -168,6 +193,7 @@ export const users: User[] = [
     avatar_url: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
     location: 'Mechanicsburg, PA',
     member_since: '01/01/2023',
+    invite_status: 'Invited',
     linkedin: 'https://www.linkedin.com/in/benhuangbmj',
     skills: [{id: 1, value: 'Design & Creative'},{id: 2, value: 'Development & IT'}],
     experience: [{id: 1, value: 'Education'}],
@@ -181,6 +207,7 @@ export const users: User[] = [
     avatar_url: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
     location: 'Mechanicsburg, PA',
     member_since: '01/01/2023',
+    invite_status: 'Declined',
     linkedin: 'https://www.linkedin.com/in/jordonbyers',
     skills: [{id: 1, value: 'Design & Creative'},{id: 2, value: 'Development & IT'}],
     experience: [{id: 2, value: 'Non-Profit'}],
@@ -444,6 +471,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Los Angeles",
     state: "CA",
     leaderEmail: 'alex@codeforge.com',
+    leaderName: 'Alex BobbyFay',
     createdAt: '06-12-2023',
     revenueShare: 5,
     indirectCosts: 5,
@@ -451,6 +479,8 @@ export const mock_collab_data: CollaborativeData[] = [
     payoutFrequency: PayoutFrequency.Monthly,
     skills: ['Software Development', 'Open Source', 'DevOps'],
     experience: ['Technology'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 2,
@@ -460,6 +490,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Austin",
     state: "TX",
     leaderEmail: 'emily@greenfuture.org',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -467,6 +498,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '09-25-2022',
     skills: ['Renewable Energy', 'Environmental Science', 'IoT'],
     experience: ['Clean Energy'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 3,
@@ -476,6 +509,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Denver",
     state: "CO",
     leaderEmail: 'james@healthsync.com',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -483,6 +517,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '01-18-2024',
     skills: ['Healthcare IT', 'Data Security', 'AI in Medicine'],
     experience: ['Healthcare'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 4,
@@ -492,6 +528,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Miami",
     state: "FL",
     leaderEmail: 'sophia@nextgencreators.com',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -499,6 +536,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '03-14-2023',
     skills: ['Graphic Design', 'Animation', 'Digital Art'],
     experience: ['Creative Arts'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 5,
@@ -508,6 +547,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Seattle",
     state: "WA",
     leaderEmail: 'michael@edtechvision.com',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -515,6 +555,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '11-30-2021',
     skills: ['AI in Education', 'E-Learning', 'Software Development'],
     experience: ['Education Technology'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 6,
@@ -524,6 +566,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Chicago",
     state: "IL",
     leaderEmail: 'oliver@bytesecure.net',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -531,6 +574,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '08-05-2023',
     skills: ['Cybersecurity', 'Ethical Hacking', 'Cloud Security'],
     experience: ['Cybersecurity'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 7,
@@ -540,6 +585,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Phoenix",
     state: "AZ",
     leaderEmail: 'jessica@urbanagri.com',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -547,6 +593,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '05-10-2022',
     skills: ['Vertical Farming', 'Hydroponics', 'IoT in Agriculture'],
     experience: ['AgTech'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 8,
@@ -556,6 +604,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Boston",
     state: "MA",
     leaderEmail: 'william@fintechpioneers.com',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -563,6 +612,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '12-01-2023',
     skills: ['Blockchain', 'FinTech', 'Data Analytics'],
     experience: ['Financial Technology'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 9,
@@ -572,6 +623,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Atlanta",
     state: "GA",
     leaderEmail: 'david@gamecraftstudios.com',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -579,6 +631,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '02-20-2024',
     skills: ['Game Development', 'Unreal Engine', 'Narrative Design'],
     experience: ['Gaming'],
+    stakingTiers: [],
+    members: [],
   },
   {
     id: 10,
@@ -588,6 +642,7 @@ export const mock_collab_data: CollaborativeData[] = [
     city: "Portland",
     state: "OR",
     leaderEmail: 'sarah@buildtogether.com',
+    leaderName: 'Alex BobbyFay',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
@@ -595,6 +650,8 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '07-15-2021',
     skills: ['Robotics', '3D Printing', 'Hardware Prototyping'],
     experience: ['Engineering & Manufacturing'],
+    stakingTiers: [],
+    members: [],
   },
 ];
 

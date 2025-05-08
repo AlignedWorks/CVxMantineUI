@@ -10,7 +10,6 @@ import {
   Space,
   Group,
   Grid,
-  Tooltip,
  } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
 import {
@@ -111,7 +110,14 @@ export function CollaborativeHome() {
         </Grid.Col>
         <Grid.Col span={4}>
             <Text c="dimmed" mb="md">
-                Leader: {collaborative.leaderEmail}
+                <Group>
+                  Leader:
+                  <div>
+                  {collaborative.leaderName}<br/>
+                    {collaborative.leaderEmail}
+                  </div>
+                </Group>
+                {collaborative.leaderEmail}
             </Text>
             <Text c="dimmed" mb="md">
                 Created: {new Date(collaborative.createdAt).toLocaleDateString()}
@@ -134,11 +140,9 @@ export function CollaborativeHome() {
             </Text>
         </Grid.Col>
         <Grid.Col span={2}>
-          <Tooltip label="This ability is only allowed for Collab Leaders">
-            <Button data-disabled mb="md" onClick={(event) => event.preventDefault()}>
+            <Button>
               Edit Collaborative
             </Button>
-          </Tooltip>
             <Button variant="default" mb="md">
                 Add Collaborative
             </Button>

@@ -12,8 +12,10 @@ import {
   Button,
   Space,
   Tooltip,
+  Badge,
+  TextInput,
 } from '@mantine/core';
-import { mock_collab_data, users } from '../data.ts';
+import { mock_collab_data, users, inviteStatusColors } from '../data.ts';
 import classes from './Test.module.css';
 import {
     IconAt,
@@ -26,57 +28,42 @@ const networkRoles = [
     'NetworkOwner',
     'NetworkContributor'
 ]
+const rolesData = ['Network Owner','Network Contributor']
 
 export function Test() {
 
     const rows = users.map((item) => (
         <Table.Tr key={item.name}>
-          <Table.Td style={{ verticalAlign: 'top' }}>
-            <Group gap="sm" ml="lg">
-              <Avatar size={40} src={item.avatar_url} radius={40} />
-              <div>
-                <Text fz="sm" fw={500}>
-                  {item.name}
-                </Text>
-                <Text fz="xs" c="dimmed">
-                  {item.email}
-                </Text>
-                <Text fz="xs" c="dimmed">
-                  LinkedIn
-                </Text>
-              </div>
-            </Group>
-          </Table.Td>
-          <Table.Td style={{ verticalAlign: 'top' }}>
-            <Text style={{ maxWidth: '300px', overflow: 'hidden' }}>
-                <Tooltip label={item.description || 'No bio available'} multiline w={300} position="bottom" color="gray">
-                    <Text
-                        size="sm"
-                        c="dimmed"
-                        style={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 4, // Limit to 4 lines
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        minHeight: '3.6em', // Ensure consistent height for 3 lines of text
-                        lineHeight: '1.2em', // Adjust line height to match the text
-                        }}
-                    >
-                        {item.description || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+            <Table.Td style={{ verticalAlign: 'top' }}>
+            <Group gap="sm" ml="lg" mt="sm" mb="sm">
+                <Avatar size={40} src={item.avatar_url} radius={40} />
+                <div>
+                    <Text fz="sm" fw={500}>
+                        {item.name}
                     </Text>
-                </Tooltip>
-            </Text>
-          </Table.Td>
+                    <Text fz="xs" c="dimmed">
+                        {item.email}
+                    </Text>
+                </div>
+            </Group>
+            </Table.Td>
+            <Table.Td >
+                {item.name == 'David Vader'
+                    ? <Text>Network Contributor</Text>
+                    : <Select
+                        data={rolesData}
+                        defaultValue={'Network Contributor'}
+                        variant="unstyled"
+                        allowDeselect={false}
+                    />
+                }
+            </Table.Td>
             <Table.Td>
-                <Select
-                    data={['Applicant', 'Applicant Denied', 'Network Owner', 'Network Contributor']}
-                    defaultValue="Applicant"
-                    size="xs"
-                />
-                <Button variant="outline" color="gray" size="xs" mt="sm" mb="lg">
-                    Submit
-                </Button>
+                <Badge
+                    color={inviteStatusColors[item.invite_status] || 'gray'} // Default to 'gray' if status is unknown
+                    fullWidth variant="light">
+                    {item.invite_status}
+                </Badge>
             </Table.Td>
         </Table.Tr>
       ));
@@ -87,7 +74,15 @@ export function Test() {
                 Dashboard
             </Title>
 
-            
+                <Grid>
+                    <Grid.Col span={8}>
+                        <TextInput placeholder="Search..." />
+                    </Grid.Col>
+                    <Grid.Col span={4}>
+                    <Button>Hello</Button>
+                    </Grid.Col>
+                </Grid>
+
 
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {users.map((user) => (
@@ -263,9 +258,19 @@ export function Test() {
                     </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                    <Text c="dimmed" mb="md">
-                        Leader: Jordon Byers
-                    </Text>
+                    <Group mb="md" align="flex-start">
+                        <Text c="dimmed">
+                            Leader:
+                        </Text>
+                        <div>
+                            <Text fz="md">
+                                Jordon Byers
+                            </Text>
+                            <Text fz="sm" c="dimmed">
+                                jordonbyers@gmail.com
+                            </Text>
+                        </div>
+                    </Group>
                     <Text c="dimmed" mb="md">
                         Created: 5/27/25
                     </Text>
@@ -292,9 +297,34 @@ export function Test() {
                 </Grid.Col>
             </Grid>
 
-            <Title order={4} c="#45a6b7" mb="md">Members</Title>
+            <Title order={4} c="#45a6b7" mb="md" mt="xl">Members</Title>
+            <Grid>
+                <Grid.Col span={9}>
+                <Table.ScrollContainer minWidth={400}>
+                    <Table  verticalSpacing="sm">
+                        <Table.Thead>
+                            <Table.Tr>
+                                <Table.Th></Table.Th>
+                                <Table.Th>Role</Table.Th>
+                                <Table.Th>Status</Table.Th>
+                            </Table.Tr>
+                        </Table.Thead>
+                        <Table.Tbody>{rows}</Table.Tbody>
+                    </Table>
+                </Table.ScrollContainer>
+
+                </Grid.Col>
+                <Grid.Col span={1}>
+
+                </Grid.Col>
+                <Grid.Col span={2}>
+                    <Text>
+                        Invite Members
+                    </Text>
+                </Grid.Col>
+            </Grid>
             <Table.ScrollContainer minWidth={400}>
-                <Table striped={true} verticalSpacing="sm">
+                <Table  verticalSpacing="sm">
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th></Table.Th>
