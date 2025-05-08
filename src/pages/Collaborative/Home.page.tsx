@@ -92,6 +92,9 @@ export function CollaborativeHome() {
                 <Text fz="xs" c="dimmed">
                     {item.userName}
                 </Text>
+                <Text fz="sm">
+                  {item.role}
+                </Text>
             </div>
         </Group>
         </Table.Td>
@@ -153,10 +156,10 @@ export function CollaborativeHome() {
               </Text>
               <div>
                   <Text fz="md">
-                      {collaborative.leaderEmail}
+                      {collaborative.leaderName}
                   </Text>
                   <Text fz="sm" c="dimmed">
-                      {collaborative.leaderName}
+                      {collaborative.leaderEmail}
                   </Text>
               </div>
             </Group>
@@ -227,9 +230,7 @@ export function CollaborativeHome() {
 
         </Grid.Col>
         <Grid.Col span={2}>
-            <Text>
-                Invite Members
-            </Text>
+
         </Grid.Col>
     </Grid>
     </Container>
