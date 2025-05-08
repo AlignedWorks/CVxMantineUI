@@ -48,6 +48,7 @@ export function CollaborativeHome() {
         return response.json();
       })
       .then((data: CollaborativeData) => {
+        console.log(data);
         setCollaborative(data);
         setLoading(false);
       })
@@ -110,17 +111,22 @@ export function CollaborativeHome() {
         </Grid.Col>
         <Grid.Col span={4}>
             <Text c="dimmed" mb="md">
-                <Group>
-                  Leader:
-                  <div>
-                  {collaborative.leaderName}<br/>
-                    {collaborative.leaderEmail}
-                  </div>
-                </Group>
-                {collaborative.leaderEmail}
+              <Group mb="md" align="flex-start">
+                <Text c="dimmed">
+                    Leader:
+                </Text>
+                <div>
+                    <Text fz="md">
+                        Jordon Byers
+                    </Text>
+                    <Text fz="sm" c="dimmed">
+                        jordonbyers@gmail.com
+                    </Text>
+                </div>
+              </Group>
             </Text>
             <Text c="dimmed" mb="md">
-                Created: {new Date(collaborative.createdAt).toLocaleDateString()}
+                Created: {collaborative.createdAt}
             </Text>
             <Text c="dimmed" mb="md">
                 Skills<br/>

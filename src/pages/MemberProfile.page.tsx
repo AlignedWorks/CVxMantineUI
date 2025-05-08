@@ -135,7 +135,7 @@ export function MemberProfile() {
                         )}
                         </Text>
                       </Group>
-                      <span style={{ color: 'grey'}}>Member since:</span>  {new Date(user.createdAt).toLocaleDateString()}
+                      <span style={{ color: 'grey'}}>Member since:</span>  {user.createdAt}
                       <br/>
                       <span style={{ color: 'grey'}}>Member status:</span>  {user.memberStatus}
                     </div>
