@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { 
   Container,
   Title,
@@ -14,8 +15,10 @@ import {
   Tooltip,
   Badge,
   TextInput,
+  Modal,
+  Loader,
 } from '@mantine/core';
-import { mock_collab_data, users, inviteStatusColors } from '../data.ts';
+import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import classes from './Test.module.css';
 import {
     IconAt,
@@ -31,6 +34,60 @@ const networkRoles = [
 const rolesData = ['Network Owner','Network Contributor']
 
 export function Test() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [allUsers, setAllUsers] = useState<User[]>([]); // Store all users
+    const [loadingUsers, setLoadingUsers] = useState(false); // Track loading state
+    const [searchQuery, setSearchQuery] = useState(''); // For the search input
+    const [selectedUser, setSelectedUser] = useState<User>(); // For the selected user
+    const [selectedRole, setSelectedRole] = useState(''); // For the selected role
+    const [successMessage, setSuccessMessage] = useState(''); // For the success message
+
+    const fetchAllUsers = async () => {
+        setLoadingUsers(true);
+        try {
+          const response = await fetch('https://cvx.jordonbyers.com/members', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          if (!response.ok) {
+            setAllUsers(users);
+            throw new Error('Failed to fetch users');
+
+          }
+          const data = await response.json();
+            setAllUsers(data);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            setAllUsers(users);
+        } finally {
+            setLoadingUsers(false);
+        }
+      };
+
+      const filteredUsers = allUsers.filter((user) =>
+        `${user.name} ${user.email}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+
+      const handleAddMember = () => {
+        if (!selectedUser || !selectedRole) return;
+      
+        // Simulate adding the user to the collaborative
+        console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
+      
+        // Show success message
+        setSuccessMessage(
+          `${selectedUser.name} has been added as a ${selectedRole}.`
+        );
+      
+        // Reset selections
+        setSelectedUser(undefined);
+        setSelectedRole('');
+      };
 
     const rows = users.map((item) => (
         <Table.Tr key={item.name}>
@@ -74,15 +131,14 @@ export function Test() {
                 Dashboard
             </Title>
 
-                <Grid>
-                    <Grid.Col span={8}>
-                        <TextInput placeholder="Search..." />
-                    </Grid.Col>
-                    <Grid.Col span={4}>
+            <Grid>
+                <Grid.Col span={8}>
+                    <TextInput placeholder="Search..." />
+                </Grid.Col>
+                <Grid.Col span={4}>
                     <Button>Hello</Button>
-                    </Grid.Col>
-                </Grid>
-
+                </Grid.Col>
+            </Grid>
 
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {users.map((user) => (
@@ -303,17 +359,119 @@ export function Test() {
             </Grid>
 
             <Title order={4} c="#45a6b7" mb="md" mt="xl">Members</Title>
+
+            <Button
+                variant="default"
+                onClick={() => {
+                    setIsModalOpen(true);
+                    if (allUsers.length === 0) {
+                    fetchAllUsers(); // Fetch users only if not already loaded
+                    }
+                }}
+                >
+                Add Member
+            </Button>
+
+            <Modal
+                opened={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Add Members"
+                size="lg"
+                >
+                {loadingUsers ? (
+                    <Loader size="lg" />
+                ) : (
+                    <div>
+                        {/* Searchable Input */}
+                        <TextInput
+                            placeholder="Search users"
+                            mb="md"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+
+                        {/* User List with Selection */}
+                        <div>
+                            {filteredUsers.map((user) => (
+                            <Group
+                                key={user.id}
+                                mb="sm"
+                                onClick={() => setSelectedUser(user)} // Set the selected user
+                                style={{
+                                cursor: 'pointer',
+                                backgroundColor: selectedUser?.id === user.id ? '#f0f0f0' : 'transparent',
+                                padding: '8px',
+                                borderRadius: '4px',
+                                }}
+                            >
+                                <Avatar src={user.avatar_url} size={40} radius="xl" />
+                                <div>
+                                <Text fz="sm" fw={500}>
+                                    {user.name}
+                                </Text>
+                                <Text fz="xs" c="dimmed">
+                                    {user.email}
+                                </Text>
+                                </div>
+                            </Group>
+                            ))}
+                        </div>
+
+                        {/* Select for Roles */}
+                        <Select
+                            label="Role"
+                            data={['Collaborative Leader', 'Collaborative Member']}
+                            value={selectedRole}
+                            onChange={(value) => setSelectedRole(value || '')}
+                            placeholder="Select a role"
+                            mb="md"
+                        />
+
+                        {/* Submit Button */}
+                        <Button
+                            variant="default"
+                            onClick={handleAddMember}
+                            disabled={!selectedUser || !selectedRole} // Disable if no user or role is selected
+                            mb="md"
+                        >
+                            Submit
+                        </Button>
+
+                        {/* Success Message */}
+                        {successMessage && (
+                            <Text color="green" mb="md">
+                            {successMessage}
+                            </Text>
+                        )}
+
+                        {/* Done Button */}
+                        <Button
+                            variant="default"
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                            Done
+                        </Button>
+                    </div>
+                )}
+                </Modal>
+
+            <Grid>
+                <Grid.Col span={10}>
+                    <Group grow>
+                        <TextInput placeholder="Search members"/>
+                        <Select
+                            data={['Collaborarative Leader','Collaborative Member']}
+                            defaultValue={'Collaborative Member'}
+                        ></Select>
+                    </Group>
+                </Grid.Col>
+                <Grid.Col span={2}>
+                    <Button variant="default">Invite Member</Button>
+                </Grid.Col>
+            </Grid>
+
             <Grid>
                 <Grid.Col span={9}>
-                <Grid>
-                    <Grid.Col span={10}>
-                        <TextInput placeholder="Search members" />
-                    </Grid.Col>
-                    <Grid.Col span={2}>
-                        <Button variant="default">Add Member</Button>
-                    </Grid.Col>
-                </Grid>
-                
                 <Table.ScrollContainer minWidth={400}>
                     <Table verticalSpacing="sm">
                         <Table.Thead>

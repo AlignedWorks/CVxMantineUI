@@ -13,7 +13,6 @@ import {
   Table,
   Avatar,
   Select,
-  TextInput,
  } from '@mantine/core';
 import { CollaborativeData, collabRoles, inviteStatusColors } from '../../data.ts';
 import {
@@ -92,19 +91,20 @@ export function CollaborativeHome() {
                 <Text fz="xs" c="dimmed">
                     {item.userName}
                 </Text>
-                <Text fz="sm">
-                  {item.role}
-                </Text>
             </div>
         </Group>
         </Table.Td>
         <Table.Td >
+          {item.role ? (
             <Select
-                data={collabRoles}
-                value={item.role}
-                variant="unstyled"
-                allowDeselect={false}
+              data={collabRoles}
+              value={item.role}
+              variant="unstyled"
+              allowDeselect={false}
             />
+          ) : (
+            <Loader size="sm" /> // Show a loader or placeholder while waiting for the value
+          )}
         </Table.Td>
         <Table.Td>
             <Badge
@@ -204,14 +204,6 @@ export function CollaborativeHome() {
       </Grid>
       <Grid>
         <Grid.Col span={9}>
-        <Grid mt="xl">
-            <Grid.Col span={10}>
-                <TextInput placeholder="Search members" />
-            </Grid.Col>
-            <Grid.Col span={2}>
-                <Button variant="default">Add Member</Button>
-            </Grid.Col>
-        </Grid>
         <Table.ScrollContainer minWidth={400} mt="xl">
             <Table  verticalSpacing="sm">
                 <Table.Thead>
