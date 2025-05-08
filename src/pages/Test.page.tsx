@@ -271,9 +271,14 @@ export function Test() {
                             </Text>
                         </div>
                     </Group>
-                    <Text c="dimmed" mb="md">
-                        Created: 5/27/25
+                    <Group mb="md">
+                    <Text c="dimmed">
+                        Created:
                     </Text>
+                    <Text>
+                        March 25, 2025
+                    </Text>
+                </Group>
                     <Text c="dimmed" mb="md">
                         Skills: Design & Creative
                     </Text>
@@ -300,8 +305,17 @@ export function Test() {
             <Title order={4} c="#45a6b7" mb="md" mt="xl">Members</Title>
             <Grid>
                 <Grid.Col span={9}>
+                <Grid>
+                    <Grid.Col span={10}>
+                        <TextInput placeholder="Search members" />
+                    </Grid.Col>
+                    <Grid.Col span={2}>
+                        <Button variant="default">Add Member</Button>
+                    </Grid.Col>
+                </Grid>
+                
                 <Table.ScrollContainer minWidth={400}>
-                    <Table  verticalSpacing="sm">
+                    <Table verticalSpacing="sm">
                         <Table.Thead>
                             <Table.Tr>
                                 <Table.Th></Table.Th>
@@ -318,13 +332,11 @@ export function Test() {
 
                 </Grid.Col>
                 <Grid.Col span={2}>
-                    <Text>
-                        Invite Members
-                    </Text>
+                    
                 </Grid.Col>
             </Grid>
             <Table.ScrollContainer minWidth={400}>
-                <Table  verticalSpacing="sm">
+                <Table verticalSpacing="sm">
                     <Table.Thead>
                         <Table.Tr>
                             <Table.Th></Table.Th>

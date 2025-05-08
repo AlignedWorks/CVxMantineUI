@@ -13,6 +13,7 @@ import {
   Table,
   Avatar,
   Select,
+  TextInput,
  } from '@mantine/core';
 import { CollaborativeData, collabRoles, inviteStatusColors } from '../../data.ts';
 import {
@@ -97,7 +98,7 @@ export function CollaborativeHome() {
         <Table.Td >
             <Select
                 data={collabRoles}
-                defaultValue={'Network Contributor'}
+                value={item.role}
                 variant="unstyled"
                 allowDeselect={false}
             />
@@ -152,16 +153,23 @@ export function CollaborativeHome() {
               </Text>
               <div>
                   <Text fz="md">
-                      Jordon Byers
+                      {collaborative.leaderEmail}
                   </Text>
                   <Text fz="sm" c="dimmed">
-                      jordonbyers@gmail.com
+                      {collaborative.leaderName}
                   </Text>
               </div>
             </Group>
-            <Text c="dimmed" mb="md">
-                Created: {collaborative.createdAt}
-            </Text>
+            <Group mb="md">
+              <Text c="dimmed">
+                  Created:
+              </Text>
+              <div>
+                  <Text>
+                    {collaborative.createdAt}
+                  </Text>
+              </div>
+            </Group>
             <Text c="dimmed" mb="md">
                 Skills<br/>
                 {collaborative.skills.map((skill, index) => (
@@ -193,6 +201,14 @@ export function CollaborativeHome() {
       </Grid>
       <Grid>
         <Grid.Col span={9}>
+        <Grid mt="xl">
+            <Grid.Col span={10}>
+                <TextInput placeholder="Search members" />
+            </Grid.Col>
+            <Grid.Col span={2}>
+                <Button variant="default">Add Member</Button>
+            </Grid.Col>
+        </Grid>
         <Table.ScrollContainer minWidth={400} mt="xl">
             <Table  verticalSpacing="sm">
                 <Table.Thead>
