@@ -12,9 +12,8 @@ import {
   Grid,
   Table,
   Avatar,
-  Select,
  } from '@mantine/core';
-import { CollaborativeData, collabRoles, inviteStatusColors } from '../../data.ts';
+import { CollaborativeData, inviteStatusColors } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
@@ -95,16 +94,9 @@ export function CollaborativeHome() {
         </Group>
         </Table.Td>
         <Table.Td >
-          {item.role ? (
-            <Select
-              data={collabRoles}
-              value={item.role}
-              variant="unstyled"
-              allowDeselect={false}
-            />
-          ) : (
-            <Loader size="sm" /> // Show a loader or placeholder while waiting for the value
-          )}
+          <Text>
+            {item.role}
+          </Text>
         </Table.Td>
         <Table.Td>
             <Badge
