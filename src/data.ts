@@ -43,6 +43,8 @@ export interface CollabMember {
   inviteStatus: string;
 }
 
+export const collabRoles = ['Network Owner','Network Contributor']
+
 export const inviteStatusColors: { [key: string]: string } = {
   Invited: 'yellow',
   Accepted: 'green',

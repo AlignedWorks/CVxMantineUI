@@ -10,8 +10,11 @@ import {
   Space,
   Group,
   Grid,
+  Table,
+  Avatar,
+  Select,
  } from '@mantine/core';
-import { CollaborativeData } from '../../data.ts';
+import { CollaborativeData, collabRoles, inviteStatusColors } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
@@ -76,6 +79,39 @@ export function CollaborativeHome() {
     );
   }
 
+  const rows = collaborative.members.map((item) => (
+    <Table.Tr key={item.id}>
+        <Table.Td style={{ verticalAlign: 'top' }}>
+        <Group gap="sm" ml="lg" mt="sm" mb="sm">
+            <Avatar size={40} src={item.avatarUrl} radius={40} />
+            <div>
+                <Text fz="sm" fw={500}>
+                    {item.firstName} {item.lastName}
+                </Text>
+                <Text fz="xs" c="dimmed">
+                    {item.userName}
+                </Text>
+            </div>
+        </Group>
+        </Table.Td>
+        <Table.Td >
+            <Select
+                data={collabRoles}
+                defaultValue={'Network Contributor'}
+                variant="unstyled"
+                allowDeselect={false}
+            />
+        </Table.Td>
+        <Table.Td>
+            <Badge
+                color={inviteStatusColors[item.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
+                fullWidth variant="light">
+                {item.inviteStatus}
+            </Badge>
+        </Table.Td>
+    </Table.Tr>
+  ));
+
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
@@ -110,21 +146,19 @@ export function CollaborativeHome() {
             </Group>
         </Grid.Col>
         <Grid.Col span={4}>
-            <Text c="dimmed" mb="md">
-              <Group mb="md" align="flex-start">
-                <Text c="dimmed">
-                    Leader:
-                </Text>
-                <div>
-                    <Text fz="md">
-                        Jordon Byers
-                    </Text>
-                    <Text fz="sm" c="dimmed">
-                        jordonbyers@gmail.com
-                    </Text>
-                </div>
-              </Group>
-            </Text>
+            <Group mb="md" align="flex-start">
+              <Text c="dimmed">
+                  Leader:
+              </Text>
+              <div>
+                  <Text fz="md">
+                      Jordon Byers
+                  </Text>
+                  <Text fz="sm" c="dimmed">
+                      jordonbyers@gmail.com
+                  </Text>
+              </div>
+            </Group>
             <Text c="dimmed" mb="md">
                 Created: {collaborative.createdAt}
             </Text>
@@ -146,7 +180,7 @@ export function CollaborativeHome() {
             </Text>
         </Grid.Col>
         <Grid.Col span={2}>
-            <Button>
+            <Button variant="default" mb="md">
               Edit Collaborative
             </Button>
             <Button variant="default" mb="md">
@@ -157,6 +191,31 @@ export function CollaborativeHome() {
             </Button>
         </Grid.Col>
       </Grid>
+      <Grid>
+        <Grid.Col span={9}>
+        <Table.ScrollContainer minWidth={400} mt="xl">
+            <Table  verticalSpacing="sm">
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>Members</Table.Th>
+                        <Table.Th>Role</Table.Th>
+                        <Table.Th>Status</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>{rows}</Table.Tbody>
+            </Table>
+        </Table.ScrollContainer>
+
+        </Grid.Col>
+        <Grid.Col span={1}>
+
+        </Grid.Col>
+        <Grid.Col span={2}>
+            <Text>
+                Invite Members
+            </Text>
+        </Grid.Col>
+    </Grid>
     </Container>
   );
 }

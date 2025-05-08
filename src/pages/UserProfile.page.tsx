@@ -29,7 +29,7 @@ import {
 } from '../data.ts';
 
 interface User {
-  username: string;
+  userName: string;
   firstName: string;
   lastName: string;
   bio: string;
@@ -44,7 +44,7 @@ interface User {
 
 const mock_user = [
   {
-    username: 'jordonbyers@gmail.com',
+    userName: 'jordonbyers@gmail.com',
     firstName: 'Jordon',
     lastName: 'Byers',
     bio: 'A passionate developer and designer with a love for creating beautiful and functional applications.',
@@ -102,7 +102,7 @@ export function UserProfile() {
   useEffect(() => {
     if (user) {
       setFormValues({
-        username: user.username,
+        userName: user.userName,
         firstName: user.firstName,
         lastName: user.lastName,
         bio: user.bio,
@@ -166,7 +166,7 @@ export function UserProfile() {
                     <Group wrap="nowrap" gap={10} mt={3}>
                       <IconAt stroke={1.5} size={16} />
                       <Text>
-                        {user.username}
+                        {user.userName}
                       </Text>
                     </Group>
                     <Group wrap="nowrap" gap={10} mt={5}>
