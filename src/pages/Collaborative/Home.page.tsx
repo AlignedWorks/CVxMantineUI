@@ -100,7 +100,9 @@ export function CollaborativeHome() {
 
   const fetchAllUsers = async () => {
     setLoadingUsers(true);
-    const response = await fetch('https://cvx.jordonbyers.com/members', {
+    await fetch(
+      new URL("members", import.meta.env.VITE_API_BASE),
+    {
       method: 'GET',
       credentials: 'include',
       headers: {
