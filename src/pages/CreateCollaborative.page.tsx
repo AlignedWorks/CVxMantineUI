@@ -73,7 +73,6 @@ export function CreateCollaborative() {
         fetchSkillsAndExperience();
     }, []); // Empty dependency array ensures this runs only once when the component mounts
 
-
     const handleTierChange = (tiers: string[]) => {
         // Add new tiers with a default exchange rate of 1.0
         const updatedTiers = tiers.map((tier) => {

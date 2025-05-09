@@ -16,6 +16,7 @@ import {
   SimpleGrid,
   Stack,
   Select,
+  MultiSelect,
   Loader,
 } from '@mantine/core';
 import {
@@ -40,29 +41,18 @@ interface User {
   avatarUrl: string;
   createdAt: string;
   memberStatus: string;
-}
+  skills: { id: number; value: string }[];
+  experience: { id: number; value: string }[];
 
-const mock_user = [
-  {
-    userName: 'jordonbyers@gmail.com',
-    firstName: 'Jordon',
-    lastName: 'Byers',
-    bio: 'A passionate developer and designer with a love for creating beautiful and functional applications.',
-    city: "Mechanicsburg",
-    state: "PA",
-    phoneNumber: '(717) 206-7137',
-    linkedIn: 'https://www.linkedin.com/in/jordonbyers/',
-    avatarUrl: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-    createdAt: '01-01-2023',
-    memberStatus: 'NetworkOwner',
-  }
-]
+}
 
 export function UserProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [modalOpened, setModalOpened] = useState(false);
   const [formValues, setFormValues] = useState<User | null>(null); // Initialize as null
   const [loading, setLoading] = useState(true); // Add a loading state
+  const [skills, setSkills] = useState<{ id: number; value: string }[]>([]); // State for skills
+  const [experience, setExperience] = useState<{ id: number; value: string }[]>([]); // State for experience
 
   const fetchUserData = () => {
     setLoading(true);  // Set loading to true before fetching
@@ -80,17 +70,15 @@ export function UserProfile() {
         .catch((err) => 
           {
             console.error("Error fetching profile:", err);
-            setUser(mock_user[0]);
             setLoading(false); // Set loading to false even if there's an error
           });
       } catch (err) {
         console.error("Error forming URL:", err);
-        setUser(mock_user[0]); // Fallback to mock data
         setLoading(false);
       }
   };
 
-  const handleFormChange = (field: keyof User, value: string) => {
+  const handleFormChange = (field: keyof User, value: any) => {
     setFormValues((current) => ({ ...current!, [field]: value }));
   };
 
@@ -98,7 +86,26 @@ export function UserProfile() {
     fetchUserData();
   }, []);
 
-    // Update formValues when user data is fetched
+  const fetchSkillsAndExperience = async () => {
+    fetch(
+      new URL("skills-and-experience", import.meta.env.VITE_API_BASE),
+    {
+        credentials: "include",
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        setSkills(data.skills); // Assuming the JSON has a `skills` key
+        setExperience(data.experience); // Assuming the JSON has an `experience` key
+    })
+    .catch((err) => console.error("Error fetching profile:", err));
+  };
+
+  // Fetch skills and experience from the backend
+  useEffect(() => {
+      fetchSkillsAndExperience();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+  // Update formValues when user data is fetched
   useEffect(() => {
     if (user) {
       setFormValues({
@@ -112,7 +119,9 @@ export function UserProfile() {
         linkedIn: user.linkedIn,
         avatarUrl: user.avatarUrl,
         createdAt: user.createdAt,
-        memberStatus: user.memberStatus
+        memberStatus: user.memberStatus,
+        skills: user.skills,
+        experience: user.experience,
       });
     }
   }, [user]); // Run this effect when 'user' changes
@@ -304,6 +313,39 @@ export function UserProfile() {
           value={formValues?.avatarUrl}
           onChange={(event) => handleFormChange('avatarUrl', event.currentTarget.value)}
           mb="lg"
+        />
+        <MultiSelect
+            label="Member Skills"
+            placeholder="Select the needed skills"
+            data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
+            value={formValues?.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
+            onChange={(values) =>
+              handleFormChange(
+                'skills',
+                values.map((id) => skills.find((skill) => skill.id.toString() === id))
+              )
+            }
+            searchable
+            clearable
+            required
+            mb="md"
+        />
+
+        <MultiSelect
+            label="Sector Experience"
+            placeholder="Select the needed experience"
+            data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
+            value={formValues?.experience.map((exp) => exp.id.toString()) || []} // Map selected experience to their IDs
+            onChange={(values) =>
+              handleFormChange(
+                'experience',
+                values.map((id) => experience.find((exp) => exp.id.toString() === id))
+              )
+            }
+            searchable
+            clearable
+            required
+            mb="md"
         />
         <Button fullWidth mt="lg" onClick={handleFormSubmit}>
           Save Changes
