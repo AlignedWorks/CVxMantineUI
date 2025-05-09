@@ -32,6 +32,12 @@ export function CollaborativeHome() {
   // Get the "from" state or default to a fallback
   const from = location.state?.from || '/collaborative-directory';
 
+  if (user) {
+    console.log(user.username);
+  } else {
+    console.log('User is null');
+  }
+
   // Set the collaborative ID in context
   useEffect(() => {
     setCollaborativeId(id || null);
