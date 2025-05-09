@@ -325,6 +325,18 @@ export function CollaborativeHome() {
         </Grid.Col>
     </Grid>
 
+    <Button
+        variant="default"
+        onClick={() => {
+            setIsModalOpen(true);
+            if (allUsers.length === 0) {
+            fetchAllUsers(); // Fetch users only if not already loaded
+            }
+        }}
+        >
+        Add Member
+    </Button>
+
     <Modal
       opened={isModalOpen}
       onClose={() => setIsModalOpen(false)}
