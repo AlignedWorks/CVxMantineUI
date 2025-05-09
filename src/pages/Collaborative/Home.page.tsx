@@ -17,11 +17,28 @@ import {
   Select,
   Modal,
  } from '@mantine/core';
-import { CollaborativeData, collabRoles, inviteStatusColors, User } from '../../data.ts';
+import { CollaborativeData, collabRoles, inviteStatusColors } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
 } from '@tabler/icons-react'
+
+interface User {
+  id: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  city: string;
+  state: string;
+  phoneNumber: string;
+  linkedIn: string;
+  avatarUrl: string;
+  createdAt: string;
+  skills: string[];
+  experience: string[];
+  memberStatus: string;
+}
 
 export function CollaborativeHome() {
   const location = useLocation();
@@ -125,7 +142,7 @@ export function CollaborativeHome() {
   };
 
   const filteredUsers = allUsers.filter((user) =>
-    `${user.name} ${user.email}`
+    `${user.firstName} ${user.lastName} ${user.userName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
@@ -138,7 +155,7 @@ export function CollaborativeHome() {
   
     // Show success message
     setSuccessMessage(
-      `${selectedUser.name} has been added as a ${selectedRole}.`
+      `${selectedUser.firstName} ${selectedUser.lastName} has been added as a ${selectedRole}.`
     );
   
     // Reset selections
@@ -369,13 +386,13 @@ export function CollaborativeHome() {
                       borderRadius: '4px',
                       }}
                   >
-                      <Avatar src={user.avatar_url} size={40} radius="xl" />
+                      <Avatar src={user.avatarUrl} size={40} radius="xl" />
                       <div>
                       <Text fz="sm" fw={500}>
-                          {user.name}
+                          {user.firstName} {user.lastName}
                       </Text>
                       <Text fz="xs" c="dimmed">
-                          {user.email}
+                          {user.userName}
                       </Text>
                       </div>
                   </Group>
