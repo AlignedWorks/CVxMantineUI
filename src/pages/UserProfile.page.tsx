@@ -65,6 +65,7 @@ export function UserProfile() {
         .then((res) => res.json())
         .then((data) => { 
           setUser(data);
+          console.log(data);
           setLoading(false); // Set loading to false after data is fetched
         })
         .catch((err) => 
