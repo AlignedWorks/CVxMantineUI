@@ -261,7 +261,7 @@ export function Dashboard() {
                     </div>
                     <div>
 
-                    {rolesData.length > 0 && (
+                    {user.memberStatus.length > 0 && (
                       <Select
                         label="User Status"
                         data={rolesData}
