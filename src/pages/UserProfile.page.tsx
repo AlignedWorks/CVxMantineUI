@@ -122,8 +122,8 @@ export function UserProfile() {
         avatarUrl: user.avatarUrl,
         createdAt: user.createdAt,
         memberStatus: user.memberStatus,
-        skills: [],
-        experience: [],
+        skills: user.skills,
+        experience: user.experience,
       });
     }
   }, [user]); // Run this effect when 'user' changes
