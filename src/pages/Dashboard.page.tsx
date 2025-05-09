@@ -27,11 +27,6 @@ interface User {
   memberStatus: string;
 }
 
-interface Role {
-  label: string;
-  value: string;
-}
-
 const mock_data = [
   {
       id: '1',
@@ -104,7 +99,7 @@ const mock_data = [
 
 export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
-  const [rolesData, setRolesData] = useState<Role[]>([]);
+  const [rolesData, setRolesData] = useState<string[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
   // const [loading, setLoading] = useState(true);
@@ -130,7 +125,7 @@ export function Dashboard() {
           }
 
           // Set the roles data
-          setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
+          setRolesData(roles);
         })
         .catch((err) => console.error("Error fetching profile:", err));
     };
@@ -266,7 +261,6 @@ export function Dashboard() {
                         label="User Status"
                         data={rolesData}
                         value={selectedRoles[user.id] || user.memberStatus} // Use the temporary state or fallback to the current role
-                        defaultValue={user.memberStatus}
                         allowDeselect={false}
                         onChange={(value) => handleRoleChange(user.id, value)}
                       />
