@@ -130,6 +130,7 @@ export function Dashboard() {
 
           // Set the roles data
           setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
+          console.log(roles);
           console.log(rolesData);
           console.log("selected roles: " + selectedRoles);
         })

@@ -57,7 +57,7 @@ export function CollaborativeDirectory() {
     return (
       collaborative.name.toLowerCase().includes(query) ||
       collaborative.description.toLowerCase().includes(query) ||
-      collaborative.leaderEmail.toLowerCase().includes(query)
+      collaborative.leaderName.toLowerCase().includes(query)
     );
   });
 
@@ -85,8 +85,7 @@ export function CollaborativeDirectory() {
               {collaborative.description}
             </Text>
             <Text size="md" mb="md">
-              <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> <br/>{collaborative.leaderEmail}
-              {collaborative.leaderName}
+              <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> <br/>{collaborative.leaderName}
             </Text>
             <Text size="md" c="var(--mantine-color-dimmed)" mb="xl">
               Projects: <br/>
