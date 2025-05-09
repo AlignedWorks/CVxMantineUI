@@ -133,7 +133,12 @@ export function CollaborativeHome() {
         return response.json();
       })
       .then((data: User[]) => {
-        setAllUsers(data); // Set the fetched data
+        // Filter out users who are already members of the collaborative
+        const filteredUsers = data.filter(user => 
+          !collaborative.members.some(member => member.id === user.id)
+        );
+  
+        setAllUsers(filteredUsers); // Set the filtered data
       })
       .catch((error) => {
         console.error('Error fetching member data:', error);

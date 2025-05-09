@@ -34,7 +34,7 @@ export interface CollaborativeData {
 }
 
 export interface CollabMember {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string
   userName: string;
