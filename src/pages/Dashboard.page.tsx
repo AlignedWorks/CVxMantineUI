@@ -125,14 +125,12 @@ export function Dashboard() {
               setDashboard(mock_data);
           } else {
               setDashboard(users);
+              console.log(users);
               // setLoading(false);
           }
 
           // Set the roles data
           setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
-          console.log(roles);
-          console.log(rolesData);
-          console.log("selected roles: " + selectedRoles);
         })
         .catch((err) => console.error("Error fetching profile:", err));
     };
