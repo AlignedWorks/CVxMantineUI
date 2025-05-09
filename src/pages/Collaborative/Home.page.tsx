@@ -5,6 +5,7 @@ import { useCollaborativeContext } from '../../CollaborativeContext';
 import {
   Container,
   Text,
+  TextInput,
   Badge,
   Button,
   Loader,
@@ -14,8 +15,9 @@ import {
   Table,
   Avatar,
   Select,
+  Modal,
  } from '@mantine/core';
-import { CollaborativeData, collabRoles, inviteStatusColors } from '../../data.ts';
+import { CollaborativeData, collabRoles, inviteStatusColors, User } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
@@ -28,6 +30,13 @@ export function CollaborativeHome() {
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [allUsers, setAllUsers] = useState<User[]>([]); // Store all users
+  const [loadingUsers, setLoadingUsers] = useState(false); // Track loading state
+  const [searchQuery, setSearchQuery] = useState(''); // For the search input
+  const [selectedUser, setSelectedUser] = useState<User>(); // For the selected user
+  const [selectedRole, setSelectedRole] = useState(''); // For the selected role
+  const [successMessage, setSuccessMessage] = useState(''); // For the success message
 
   // Get the "from" state or default to a fallback
   const from = location.state?.from || '/collaborative-directory';
@@ -45,7 +54,9 @@ export function CollaborativeHome() {
   }, [id, setCollaborativeId]);
 
   useEffect(() => {
-    fetch(`https://cvx.jordonbyers.com/collaboratives/${id}`, {
+    fetch(
+      new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+    {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -86,6 +97,52 @@ export function CollaborativeHome() {
       </Container>
     );
   }
+
+  const fetchAllUsers = async () => {
+    setLoadingUsers(true);
+    const response = await fetch('https://cvx.jordonbyers.com/members', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch member data');
+        }
+        return response.json();
+      })
+      .then((data: User[]) => {
+        setAllUsers(data); // Set the fetched data
+      })
+      .catch((error) => {
+        console.error('Error fetching member data:', error);
+      })
+      .finally(() => setLoadingUsers(false));
+  };
+
+  const filteredUsers = allUsers.filter((user) =>
+    `${user.name} ${user.email}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
+
+  const handleAddMember = () => {
+    if (!selectedUser || !selectedRole) return;
+  
+    // Simulate adding the user to the collaborative
+    console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
+  
+    // Show success message
+    setSuccessMessage(
+      `${selectedUser.name} has been added as a ${selectedRole}.`
+    );
+  
+    // Reset selections
+    setSelectedUser(undefined);
+    setSelectedRole('');
+  };
 
   const rows = collaborative.members.map((item) => (
     <Table.Tr key={item.id}>
@@ -227,8 +284,16 @@ export function CollaborativeHome() {
                   <Button variant="disabled" mb="md">
                       Add Project
                   </Button>
-                  <Button variant="disabled" mb="md">
-                      Add Members
+                  <Button
+                      variant="default"
+                      onClick={() => {
+                          setIsModalOpen(true);
+                          if (allUsers.length === 0) {
+                          fetchAllUsers(); // Fetch users only if not already loaded
+                          }
+                      }}
+                      >
+                      Add Member
                   </Button>
                 </>
               )}
@@ -257,6 +322,90 @@ export function CollaborativeHome() {
 
         </Grid.Col>
     </Grid>
+
+    <Modal
+      opened={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      title="Add Members"
+      size="lg"
+      >
+      {loadingUsers ? (
+          <Loader size="lg" />
+      ) : (
+          <div>
+              {/* Searchable Input */}
+              <TextInput
+                  placeholder="Search users"
+                  mb="md"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+              />
+
+              {/* User List with Selection */}
+              <div>
+                  {filteredUsers.map((user) => (
+                  <Group
+                      key={user.id}
+                      mb="sm"
+                      onClick={() => setSelectedUser(user)} // Set the selected user
+                      style={{
+                      cursor: 'pointer',
+                      backgroundColor: selectedUser?.id === user.id ? '#f0f0f0' : 'transparent',
+                      padding: '8px',
+                      borderRadius: '4px',
+                      }}
+                  >
+                      <Avatar src={user.avatar_url} size={40} radius="xl" />
+                      <div>
+                      <Text fz="sm" fw={500}>
+                          {user.name}
+                      </Text>
+                      <Text fz="xs" c="dimmed">
+                          {user.email}
+                      </Text>
+                      </div>
+                  </Group>
+                  ))}
+              </div>
+
+              {/* Select for Roles */}
+              <Select
+                  label="Role"
+                  data={['Collaborative Leader', 'Collaborative Member']}
+                  value={selectedRole}
+                  onChange={(value) => setSelectedRole(value || '')}
+                  placeholder="Select a role"
+                  mb="md"
+              />
+
+              {/* Submit Button */}
+              <Button
+                  variant="default"
+                  onClick={handleAddMember}
+                  disabled={!selectedUser || !selectedRole} // Disable if no user or role is selected
+                  mb="md"
+              >
+                  Submit
+              </Button>
+
+              {/* Success Message */}
+              {successMessage && (
+                  <Text color="green" mb="md">
+                  {successMessage}
+                  </Text>
+              )}
+
+              {/* Done Button */}
+              <Button
+                  variant="default"
+                  onClick={() => setIsModalOpen(false)}
+              >
+                  Done
+              </Button>
+          </div>
+      )}
+      </Modal>
+
     </Container>
   );
 }
