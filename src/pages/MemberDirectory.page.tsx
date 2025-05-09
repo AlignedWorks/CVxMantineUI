@@ -34,9 +34,11 @@ export function MemberDirectory() {
   const [sortedData, setSortedData] = useState<User[]>([]); // State to hold the sorted data
   const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
 
-  // Fetch collaborative data from the backend
+  // Fetch members data from the backend
   useEffect(() => {
-    fetch('https://cvx.jordonbyers.com/members', {
+    fetch(
+      new URL("members", import.meta.env.VITE_API_BASE),
+    {
       method: 'GET',
       credentials: 'include', // Include cookies if needed
       headers: {

@@ -202,6 +202,9 @@ export function CollaborativeHome() {
             <Button variant="default" mb="md">
                 Add Project
             </Button>
+            <Button variant="default" mb="md">
+                Add Members
+            </Button>
         </Grid.Col>
       </Grid>
       <Grid>

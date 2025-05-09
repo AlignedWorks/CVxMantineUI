@@ -353,7 +353,7 @@ export function Test() {
                         Add Project
                     </Button>
                     <Button variant="default">
-                        Join
+                        Add Members
                     </Button>
                 </Grid.Col>
             </Grid>

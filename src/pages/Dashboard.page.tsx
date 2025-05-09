@@ -130,6 +130,8 @@ export function Dashboard() {
 
           // Set the roles data
           setRolesData(roles.map((role: Role) => ({ label: role.label, value: role.value })));
+          console.log(rolesData);
+          console.log("selected roles: " + selectedRoles);
         })
         .catch((err) => console.error("Error fetching profile:", err));
     };
@@ -281,10 +283,10 @@ export function Dashboard() {
                       Submit
                     </Button>
                       {submittedUsers[user.id] && (
-                      <Text size="sm" c="green" mt="xs">
-                        Role updated successfully!
-                      </Text>
-                    )}
+                        <Text size="sm" c="green" mt="xs">
+                          Role updated successfully!
+                        </Text>
+                      )}
                     </div>        
                 </SimpleGrid>
             </Card>

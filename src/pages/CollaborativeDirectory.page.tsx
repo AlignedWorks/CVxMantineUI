@@ -16,9 +16,10 @@ interface CollaborativeData {
   name: string;
   description: string;
   leaderEmail: string;
+  leaderName: string;
   createdAt: string;
-  skills: string[];
-  experience: string[];
+  city: string;
+  state: string;
 }
 
 export function CollaborativeDirectory() {
@@ -27,7 +28,9 @@ export function CollaborativeDirectory() {
 
   // Fetch collaborative data from the backend
      useEffect(() => {
-      fetch('https://cvx.jordonbyers.com/collaboratives', {
+      fetch(
+        new URL("collaboratives", import.meta.env.VITE_API_BASE),
+      {
         method: 'GET',
         credentials: 'include', // Include cookies if needed
         headers: {
@@ -54,9 +57,7 @@ export function CollaborativeDirectory() {
     return (
       collaborative.name.toLowerCase().includes(query) ||
       collaborative.description.toLowerCase().includes(query) ||
-      collaborative.leaderEmail.toLowerCase().includes(query) ||
-      collaborative.skills.some((skill) => skill.toLowerCase().includes(query)) ||
-      collaborative.experience.some((exp) => exp.toLowerCase().includes(query))
+      collaborative.leaderEmail.toLowerCase().includes(query)
     );
   });
 
@@ -84,7 +85,8 @@ export function CollaborativeDirectory() {
               {collaborative.description}
             </Text>
             <Text size="md" mb="md">
-            <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> <br/>{collaborative.leaderEmail}
+              <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> <br/>{collaborative.leaderEmail}
+              {collaborative.leaderName}
             </Text>
             <Text size="md" c="var(--mantine-color-dimmed)" mb="xl">
               Projects: <br/>

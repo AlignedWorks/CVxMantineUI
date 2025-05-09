@@ -43,7 +43,7 @@ export interface CollabMember {
   inviteStatus: string;
 }
 
-export const collabRoles = ['CollaborativeLeader','CollaborativeMember']
+export const collabRoles = ['Collaborative Leader','Collaborative Member']
 
 export const inviteStatusColors: { [key: string]: string } = {
   Invited: 'yellow',
