@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../AuthContext.tsx';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext';
 import {
@@ -23,6 +24,7 @@ import {
 export function CollaborativeHome() {
   const location = useLocation();
   const { id } = useParams(); // Get the 'id' parameter from the URL
+  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -193,18 +195,37 @@ export function CollaborativeHome() {
             </Text>
         </Grid.Col>
         <Grid.Col span={2}>
-            <Button variant="default" mb="md">
-              Edit Collaborative
-            </Button>
-            <Button variant="default" mb="md">
-                Add Collaborative
-            </Button>
-            <Button variant="default" mb="md">
-                Add Project
-            </Button>
-            <Button variant="default" mb="md">
-                Add Members
-            </Button>
+              {collaborative.leaderEmail === user?.username ? (
+                <>
+                  <Button variant="default" mb="md">
+                    Edit Collaborative
+                  </Button>
+                  <Button variant="default" mb="md">
+                      Add Collaborative
+                  </Button>
+                  <Button variant="default" mb="md">
+                      Add Project
+                  </Button>
+                  <Button variant="default" mb="md">
+                      Add Members
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="disabled" mb="md">
+                    Edit Collaborative
+                  </Button>
+                  <Button variant="disabled" mb="md">
+                      Add Collaborative
+                  </Button>
+                  <Button variant="disabled" mb="md">
+                      Add Project
+                  </Button>
+                  <Button variant="disabled" mb="md">
+                      Add Members
+                  </Button>
+                </>
+              )}
         </Grid.Col>
       </Grid>
       <Grid>

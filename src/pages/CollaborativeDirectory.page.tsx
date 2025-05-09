@@ -85,7 +85,7 @@ export function CollaborativeDirectory() {
               {collaborative.description}
             </Text>
             <Text size="md" mb="md">
-              <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> <br/>{collaborative.leaderName}
+              <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> {collaborative.leaderName}
             </Text>
             <Text size="md" c="var(--mantine-color-dimmed)" mb="xl">
               Projects: <br/>
