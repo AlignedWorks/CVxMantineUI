@@ -129,7 +129,11 @@ export function UserProfile() {
 
   const handleFormSubmit = () => {
     if (!formValues) return;
-    const { createdAt, ...payload } = formValues;
+    const payload = {
+      ...formValues,
+      skills: formValues.skills.map((skill) => skill.id), // Map skills to their IDs
+      experience: formValues.experience.map((exp) => exp.id), // Map experience to their IDs
+    }
 
     setLoading(true); // Set loading to true while updating
     // Update the user profile here (e.g., send a PUT request to the API)
@@ -328,7 +332,6 @@ export function UserProfile() {
             }
             searchable
             clearable
-            required
             mb="md"
         />
 
@@ -345,7 +348,6 @@ export function UserProfile() {
             }
             searchable
             clearable
-            required
             mb="md"
         />
         <Button fullWidth mt="lg" onClick={handleFormSubmit}>
