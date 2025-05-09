@@ -319,12 +319,7 @@ export function UserProfile() {
             placeholder="Select the needed skills"
             data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
             value={formValues?.skills.map((skill) => skill.id.toString())} // Map selected skills to their IDs
-            onChange={(values) =>
-              handleFormChange(
-                'skills',
-                values.map((id) => skills.find((skill) => skill.id.toString() === id))
-              )
-            }
+
             searchable
             clearable
             required
@@ -336,12 +331,7 @@ export function UserProfile() {
             placeholder="Select the needed experience"
             data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
             value={formValues?.experience.map((exp) => exp.id.toString()) || []} // Map selected experience to their IDs
-            onChange={(values) =>
-              handleFormChange(
-                'experience',
-                values.map((id) => experience.find((exp) => exp.id.toString() === id))
-              )
-            }
+
             searchable
             clearable
             required
