@@ -226,18 +226,39 @@ export function UserProfile() {
               <SimpleGrid cols={2} mb="lg">
                   <div>
                     Skills<br/>
-                    <Badge variant="light" color="blue">
-                      Design & Creative
-                    </Badge>
-                    <Badge variant="light" color="blue">
-                      Development & IT
-                    </Badge>
+                    {user.skills && user.skills.length > 0 ? (
+                      <Group gap="xs" mt="xs">
+                        {user.skills.map((skill) => (
+                          <Badge
+                            key={skill.id}
+                            variant="light"
+                            color="blue"
+                          >
+                            {skill.value}
+                          </Badge>
+                        ))}
+                      </Group>
+                    ) : (
+                      <Text size="sm" c="dimmed">No skills listed</Text>
+                    )}
                   </div>
                   <div>
                     Experience<br/>
-                    <Badge variant="light" color="green">
-                      Non-Profit
-                    </Badge>
+                    {user.experience && user.experience.length > 0 ? (
+                      <Group gap="xs" mt="xs">
+                        {user.experience.map((exp) => (
+                          <Badge
+                            key={exp.id}
+                            variant="light"
+                            color="green"
+                          >
+                            {exp.value}
+                          </Badge>
+                        ))}
+                      </Group>
+                    ) : (
+                      <Text size="sm" c="dimmed">No experience listed</Text>
+                    )}
                   </div>
                 </SimpleGrid>
             </Grid.Col>
