@@ -31,23 +31,9 @@ interface User {
   avatarUrl: string;
   createdAt: string;
   memberStatus: string;
+  skills: { id: number; value: string }[];
+  experience: { id: number; value: string }[];
 }
-
-const mock_user = [
-  {
-    userName: 'jordonbyers@gmail.com',
-    firstName: 'Jordon',
-    lastName: 'Byers',
-    bio: 'A passionate developer and designer with a love for creating beautiful and functional applications.',
-    city: "Mechanicsburg",
-    state: "PA",
-    phoneNumber: '(717) 206-7137',
-    linkedIn: 'https://www.linkedin.com/in/jordonbyers/',
-    avatarUrl: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-    createdAt: '01-01-2023',
-    memberStatus: 'NetworkOwner',
-  }
-]
 
 export function MemberProfile() {
     const { id } = useParams(); // Get the 'id' parameter from the URL
@@ -69,11 +55,9 @@ export function MemberProfile() {
         .catch((err) => 
           {
             console.error("Error fetching profile:", err);
-            setUser(mock_user[0]);
           });
       } catch (err) {
         console.error("Error forming URL:", err);
-        setUser(mock_user[0]); // Fallback to mock data
       }
   };
 
@@ -147,22 +131,42 @@ export function MemberProfile() {
                 <SimpleGrid cols={2} mb="lg">
                     <div>
                       Skills<br/>
-                      <Badge variant="light" color="blue">
-                        Design & Creative
-                      </Badge>
-                      <Badge variant="light" color="blue">
-                        Development & IT
-                      </Badge>
+                      {user.skills && user.skills.length > 0 ? (
+                        <Group gap="xs" mt="xs">
+                          {user.skills.map((skill) => (
+                            <Badge
+                              key={skill.id}
+                              variant="light"
+                              color="blue"
+                            >
+                              {skill.value}
+                            </Badge>
+                          ))}
+                        </Group>
+                      ) : (
+                        <Text size="sm" c="dimmed">No skills listed</Text>
+                      )}
                     </div>
                     <div>
                       Experience<br/>
-                      <Badge variant="light" color="green">
-                        Non-Profit
-                      </Badge>
+                      {user.experience && user.experience.length > 0 ? (
+                        <Group gap="xs" mt="xs">
+                          {user.experience.map((exp) => (
+                            <Badge
+                              key={exp.id}
+                              variant="light"
+                              color="green"
+                            >
+                              {exp.value}
+                            </Badge>
+                          ))}
+                        </Group>
+                      ) : (
+                        <Text size="sm" c="dimmed">No experience listed</Text>
+                      )}
                     </div>
                   </SimpleGrid>
               </Grid.Col>
-
             </Grid>
           </Card>
       ) : (

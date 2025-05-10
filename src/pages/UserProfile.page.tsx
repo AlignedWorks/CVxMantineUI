@@ -43,7 +43,6 @@ interface User {
   memberStatus: string;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
-
 }
 
 export function UserProfile() {
@@ -149,6 +148,7 @@ export function UserProfile() {
         .then((res) => res.json())
         .then((updatedUser) => {
           setUser(updatedUser); // Update the user state with the new data
+          setFormValues(updatedUser)
           setModalOpened(false); // Close the modal
           setLoading(false); // Set loading to false after update
       })
@@ -157,6 +157,13 @@ export function UserProfile() {
         setLoading(false); // Set loading to false even if there's an error);
       });
   };
+
+  useEffect(() => {
+    // When modal closes, refresh user data
+    if (!modalOpened) {
+      fetchUserData();
+    }
+  }, [modalOpened]);
 
   return (
     <>
