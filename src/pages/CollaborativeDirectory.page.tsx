@@ -8,7 +8,8 @@ import {
   Text,
   Button,
   TextInput,
-  Group,
+  Stack,
+  Grid,
 } from '@mantine/core';
 import { IconSearch, IconCircles } from '@tabler/icons-react';
 
@@ -80,18 +81,30 @@ export function CollaborativeDirectory() {
       {/* Grid to display collaborative data */}
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredData.map((collaborative) => (
-          <Card key={collaborative.id} shadow="sm" padding="xl" radius="md" withBorder
-            style={{ backgroundImage: 'linear-gradient( #f0f0f0, #ffffff)' }}>
-            <Group>
-                <IconCircles color="#45a6b7"></IconCircles>
-                <Title order={3} c="#45a6b7">{collaborative.name}</Title>
-            </Group>
-            <Text size="md" mb="md" mt="xl">
-              {collaborative.description}
+          <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
+            <Stack align="center">
+                <img src='./assets/EmptyLogo.png' alt="Collaborative Logo" height={90} />
+                <Text ta="center" fz="lg" fw={500} >
+                    {collaborative.name}
+                </Text>
+            </Stack>
+            <Text ta="center" c="dimmed" size="sm" mb="lg">
+                Formed on {collaborative.createdAt}
             </Text>
-            <Text size="md" mb="md">
-              Leader: {collaborative.leaderName}
-            </Text>
+            <Grid>
+                <Grid.Col span={6}>
+                    <Text ta="center" c="dimmed" fz="sm" mb="xs">
+                        Projects
+                    </Text>
+                    <Title order={3} c="dimmed" ta="center">5</Title>
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <Text ta="center" c="dimmed" fz="sm" mb="xs">
+                        Members
+                    </Text>
+                    <Title order={3} c="dimmed" ta="center">5</Title>
+                </Grid.Col>
+            </Grid>
             <Link
               to={`/collaboratives/${collaborative.id}`}
               state={{ from: location.pathname }}

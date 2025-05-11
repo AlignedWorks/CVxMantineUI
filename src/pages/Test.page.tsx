@@ -12,28 +12,23 @@ import {
   Card,
   Button,
   Space,
-  Tooltip,
   Badge,
   TextInput,
   Modal,
   Loader,
   Divider,
+  Stack,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import classes from './Test.module.css';
 import {
     IconAt,
-    IconCircles,
     IconMapPin,
   } from '@tabler/icons-react'
 
-const networkRoles = [
-    'Applicant',
-    'ApplicantDenied',
-    'NetworkOwner',
-    'NetworkContributor'
-]
 const rolesData = ['Network Owner','Network Contributor']
+
+const testCollab = mock_collab_data[0]
 
 export function Test() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -129,179 +124,81 @@ export function Test() {
 
     return (
         <Container size="md" py="xl">
-            <Title order={1} mb="sm" pt="sm" pb="xl">
-                Dashboard
-            </Title>
+            <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
+                <Grid>
+                    <Grid.Col span={2}>
+                        <img src={testCollab.logoUrl} width={80}/>
+                    </Grid.Col>
+                    <Grid.Col span={10}>
+                    <Stack>
+                        <Title order={2} mt="xs" mb="md">{testCollab.name}</Title>
+                        <SimpleGrid cols={2} mb="md">
+                        <div>
+                            <Group wrap="nowrap" gap={10} mt={3}>
+                            <IconAt stroke={1.5} size={16} />
+                            <Text>
+                                {testCollab.websiteUrl}
+                            </Text>
+                            </Group>
+                            <Group wrap="nowrap" gap={10} mt={5}>
+                            <IconMapPin stroke={1.5} size={16} />
+                            <Text>
+                                {testCollab.city}, {testCollab.state}
+                            </Text>
+                            </Group>
+                        </div>
+                        <div>
+                            <span style={{ color: 'grey'}}>Leader:</span>  {testCollab.leaderName}
+                            <br/>
+                            <span style={{ color: 'grey'}}>Created On:</span>  {testCollab.createdAt}
+                        </div>
+                        </SimpleGrid> 
+                    </Stack>
+                    <p>
+                        {testCollab.description}<br /><br />
+                    </p>
+                    
+                    </Grid.Col>
+                </Grid>
+            </Card>
 
             {/* Grid to display collaborative data */}
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {mock_collab_data.map((collaborative) => (
-                    <Card key={collaborative.id} shadow="sm" padding="xl" radius="md" withBorder
-                        style={{ backgroundImage: 'linear-gradient( #f0f0f0, #ffffff)' }}>
-                        <Group>
-                            <IconCircles color="#45a6b7"></IconCircles>
-                            <Title order={3} c="#45a6b7">{collaborative.name}</Title>
-                        </Group>
-                        <Text size="md" mb="md" mt="xl">
-                            {collaborative.description}
+                    <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
+                        <Stack align="center">
+                            <img src={collaborative.logoUrl} alt="Collaborative Logo" height={90} />
+                            <Text ta="center" fz="lg" fw={500} >
+                                {collaborative.name}
+                            </Text>
+                            
+                        </Stack>
+                        <Text ta="center" c="dimmed" size="sm" mb="lg">
+                            Formed on {collaborative.createdAt}
                         </Text>
-                        <Text size="md" mb="xl">
-                            Leader: {collaborative.leaderName}
-                        </Text>
-                        <Button variant="default" fullWidth size="sm" mt="auto">View</Button>
-                    </Card>
-                ))}
-            </SimpleGrid>
-
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
-                {users.map((user) => (
-                    <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
                         <Grid>
-                            <Grid.Col span={4} mt="sm" mb="lg">
-                                <Avatar src={user.avatar_url} size={60} radius="xl" mx="auto"/>
+                            <Grid.Col span={6}>
+                                <Text ta="center" c="dimmed" fz="sm" mb="xs">
+                                    Projects
+                                </Text>
+                                <Title order={3} c="dimmed" ta="center">5</Title>
                             </Grid.Col>
-                            <Grid.Col span={8} mt="sm">
-                                <Text size="lg" fw={500}>
-                                    {user.name}
+                            <Grid.Col span={6}>
+                                <Text ta="center" c="dimmed" fz="sm" mb="xs">
+                                    Members
                                 </Text>
-                                <Tooltip label={user.email} color="gray">
-                                    <Text
-                                        size="sm"
-                                        c="dimmed"
-                                        style={{
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        }}
-                                    >
-                                        {user.email}
-                                    </Text>
-                                </Tooltip>
-                                <Text size="sm" c="dimmed">
-                                    <a
-                                        href={user.linkedin}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        style={{ color: "#0077b5", textDecoration: "none" }}
-                                    >
-                                        LinkedIn
-                                    </a>
-                                </Text>
+                                <Title order={3} c="dimmed" ta="center">5</Title>
                             </Grid.Col>
                         </Grid>
-                        <Text fw={500}>
-                            Bio
-                        </Text>
-                        <Tooltip label={user.description || 'No bio available'} multiline w={300} position="bottom" color="gray">
-                            <Text
-                                size="sm"
-                                c="dimmed"
-                                style={{
-                                display: '-webkit-box',
-                                WebkitLineClamp: 3, // Limit to 3 lines
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                minHeight: '3.6em', // Ensure consistent height for 3 lines of text
-                                lineHeight: '1.2em', // Adjust line height to match the text
-                                }}
-                            >
-                                {user.description || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
-                            </Text>
-                        </Tooltip>
-                        
-                    <Select
-                        mt="md"
-                        label="User Status"
-                        data={['Applicant', 'Applicant Denied', 'Network Owner', 'Network Contributor']}
-                        defaultValue="Applicant"
-                    />
-                    <Button variant="outline" color="gray" size="sm" mt="md">
-                        Submit
-                    </Button>
+                        <Button variant="default" fullWidth size="sm" mt="lg">View</Button>
                     </Card>
                 ))}
             </SimpleGrid>
 
-            {users.map((user) => (
-                <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
-                    <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
-                        <div>
-                            <Grid>
-                                <Grid.Col span={4}>
-                                    <Avatar src={user.avatar_url} size={60} radius="xl" mx="auto"/>
-                                </Grid.Col>
-                                <Grid.Col span={8}>
-                                    <Text size="lg" fw={500}>
-                                        {user.name}
-                                    </Text>
-                                    <Tooltip label={user.email} color="gray">
-                                        <Text
-                                            size="sm"
-                                            c="dimmed"
-                                            style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            }}
-                                        >
-                                            {user.email}
-                                        </Text>
-                                    </Tooltip>
-                                    <Text size="sm" c="dimmed">
-                                        <a
-                                            href={user.linkedin}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            style={{ color: "#0077b5", textDecoration: "none" }}
-                                        >
-                                            LinkedIn
-                                        </a>
-                                    </Text>
-                                </Grid.Col>
-                            </Grid>
-                        </div>
-                        <div>
-                            <Text fw={500}>
-                                Bio
-                            </Text>
-                            <Tooltip label={user.description || 'No bio available'} multiline w={300} position="bottom" color="gray">
-                                <Text
-                                    size="sm"
-                                    c="dimmed"
-                                    style={{
-                                    display: '-webkit-box',
-                                    WebkitLineClamp: 4, // Limit to 4 lines
-                                    WebkitBoxOrient: 'vertical',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    minHeight: '3.6em', // Ensure consistent height for 3 lines of text
-                                    lineHeight: '1.2em', // Adjust line height to match the text
-                                    }}
-                                >
-                                    {user.description || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
-                                </Text>
-                            </Tooltip>
-                        </div>
-                        <div>
-                        <Select
-                            size="sm"
-                            label="User Status"
-                            data={networkRoles}
-                            defaultValue={networkRoles[0]}
-                        />
-                        <Button variant="outline" color="gray" mt="sm">
-                            Submit
-                        </Button>
-                        </div>        
-                    </SimpleGrid>
-                </Card>
-            ))}
-
             <Group mt="xl">
-                <IconCircles size={55} stroke={1.5} color="#45a6b7" />
-                <Text fz="50px" c="#45a6b7" mr="xl" mb="xl" mt="xl">
-                    ByteSecure Collective
+                <img src={testCollab.logoUrl} alt="Collaborative Logo" width={60} />
+                <Text fz="50px" c="#222" mr="xl" mb="xl" mt="xl">
+                    {testCollab.name}
                 </Text>
             </Group>
             
@@ -313,7 +210,7 @@ export function Test() {
                         <Grid>
                             <Grid.Col span={10}>
                                 <Text fz="h3" fs="italic" mb="xl" c="#222">
-                                    A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
+                                    {testCollab.description}
                                 </Text>
                                 
                             </Grid.Col>
@@ -326,13 +223,13 @@ export function Test() {
                             <Group wrap="nowrap" gap={10} mt={3}>
                                     <IconAt stroke={1.5} size={16} />
                                     <Text>
-                                        www.bytesecure.net
+                                        {testCollab.websiteUrl}
                                     </Text>
                                 </Group>
                                 <Group wrap="nowrap" gap={10} mt={25}>
                                     <IconMapPin stroke={1.5} size={16} />
                                     <Text>
-                                        Plano, TX
+                                    {testCollab.city}, {testCollab.state}
                                     </Text>
                                 </Group>
                             </Grid.Col>
@@ -343,10 +240,10 @@ export function Test() {
                                     </Text>
                                     <div>
                                         <Text fz="md">
-                                            Jordon Byers
+                                            {testCollab.leaderName}
                                         </Text>
                                         <Text fz="sm">
-                                            jordonbyers@gmail.com
+                                            {testCollab.leaderEmail}
                                         </Text>
                                     </div>
                                 </Group>
@@ -355,7 +252,7 @@ export function Test() {
                                         Created:
                                     </Text>
                                     <Text>
-                                        March 25, 2025
+                                        {testCollab.createdAt}
                                     </Text>
                                 </Group>
                             </Grid.Col>

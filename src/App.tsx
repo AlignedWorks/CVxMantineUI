@@ -43,7 +43,7 @@ export default function App() {
 
           <AppShell.Navbar><NavbarSimple /></AppShell.Navbar>
 
-          <AppShell.Main>
+          <AppShell.Main bg="#f8f8f8">
           <Routes>
               <Route path="/" element={user ? <Dashboard /> : <Home />} />
               <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
