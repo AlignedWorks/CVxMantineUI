@@ -301,8 +301,8 @@ export function Test() {
             ))}
 
             <Group mt="xl">
-                <IconCircles size={55} stroke={1.5} color="#222" />
-                <Text fz="50px" c="#222" mr="xl" mb="xl" mt="xl">
+                <IconCircles size={55} stroke={1.5} color="#45a6b7" />
+                <Text fz="50px" c="#45a6b7" mr="xl" mb="xl" mt="xl">
                     ByteSecure Collective
                 </Text>
             </Group>
@@ -314,7 +314,7 @@ export function Test() {
 
                         <Grid>
                             <Grid.Col span={10}>
-                                <Text fz="h3" fs="italic" mb="xl" c="#45a6b7">
+                                <Text fz="h3" fs="italic" mb="xl" c="#222">
                                     A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
                                 </Text>
                                 

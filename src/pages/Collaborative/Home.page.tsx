@@ -216,8 +216,8 @@ export function CollaborativeHome() {
         &larr; Back
       </Link>
       <Group>
-          <IconCircles size={55} stroke={1.5} color="#222" />
-          <Text fz="50px" c="#222" mr="xl" mb="xl" mt="xl">
+          <IconCircles size={55} stroke={1.5} color="#45a6b7" />
+          <Text fz="50px" c="#45a6b7" mr="xl" mb="xl">
             {collaborative.name}
           </Text>
       </Group>
@@ -228,7 +228,7 @@ export function CollaborativeHome() {
         <Grid.Col span={10}>
           <Grid>
             <Grid.Col span={10}>
-              <Text fz="h3" fs="italic" mb="xl" c="#45a6b7">
+              <Text fz="h3" fs="italic" mb="xl" c="#222">
                 {collaborative.description}
               </Text>
             </Grid.Col>

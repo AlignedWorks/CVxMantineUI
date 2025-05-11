@@ -91,9 +91,6 @@ export function CollaborativeDirectory() {
             <Text size="md" mb="md">
               Leader: {collaborative.leaderName}
             </Text>
-            <Text size="md" mb="xl">
-              Projects: <br/>
-            </Text>
             <Link
               to={`/collaboratives/${collaborative.id}`}
               state={{ from: location.pathname }}
