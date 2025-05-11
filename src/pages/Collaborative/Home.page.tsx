@@ -215,115 +215,122 @@ export function CollaborativeHome() {
       <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
-      <Group mt="xl">
-                <IconCircles size={55} stroke={1.5} color="#222" />
-                <Text fz="50px" c="#222" mr="xl" mb="xl" mt="xl">
-                    ByteSecure Collective
+      <Group>
+          <IconCircles size={55} stroke={1.5} color="#222" />
+          <Text fz="50px" c="#222" mr="xl" mb="xl" mt="xl">
+            {collaborative.name}
+          </Text>
+      </Group>
+            
+      <Space h="xl" />
+      
+      <Grid mt="xl" mb="xl">
+        <Grid.Col span={10}>
+          <Grid>
+            <Grid.Col span={10}>
+              <Text fz="h3" fs="italic" mb="xl" c="#45a6b7">
+                {collaborative.description}
+              </Text>
+            </Grid.Col>
+            <Grid.Col span={2}>
+            </Grid.Col>
+          </Grid>
+          <Divider my="sm" variant="dashed" />
+          <Grid mt="lg">
+            <Grid.Col span={6}>
+              <Group wrap="nowrap" gap={10} mt={3}>
+                <IconAt stroke={1.5} size={16} />
+                <a
+                  href={collaborative.websiteUrl}
+                  style={{ color: '#0077b5', textDecoration: 'none' }}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                    {collaborative.websiteUrl}
+                </a>
+              </Group>
+              <Group wrap="nowrap" gap={10} mt={25}>
+                <IconMapPin stroke={1.5} size={16} />
+                <Text>
+                  {collaborative.city}, {collaborative.state}
                 </Text>
-            </Group>
-            
-            <Space h="xl" />
-            
-            <Grid mt="xl" mb="xl">
-              <Grid.Col span={10}>
-                <Grid>
-                    <Grid.Col span={10}>
-                        <Text fz="h3" fs="italic" mb="xl" c="#45a6b7">
-                            A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
-                        </Text>
-                        
-                    </Grid.Col>
-                    <Grid.Col span={2}>
-                    </Grid.Col>
-                </Grid>
-                <Divider my="sm" variant="dashed" />
-              <Grid mt="lg">
-                  <Grid.Col span={6}>
-                  <Group wrap="nowrap" gap={10} mt={3}>
-                          <IconAt stroke={1.5} size={16} />
-                          <Text>
-                              www.bytesecure.net
-                          </Text>
-                      </Group>
-                      <Group wrap="nowrap" gap={10} mt={25}>
-                          <IconMapPin stroke={1.5} size={16} />
-                          <Text>
-                              Plano, TX
-                          </Text>
-                      </Group>
-                  </Grid.Col>
-                  <Grid.Col span={6}>
-                  <Group mb="md" align="flex-start">
-                          <Text>
-                              Leader:
-                          </Text>
-                          <div>
-                              <Text fz="md">
-                                  Jordon Byers
-                              </Text>
-                              <Text fz="sm">
-                                  jordonbyers@gmail.com
-                              </Text>
-                          </div>
-                      </Group>
-                      <Group mb="md">
-                          <Text>
-                              Created:
-                          </Text>
-                          <Text>
-                              March 25, 2025
-                          </Text>
-                      </Group>
-                  </Grid.Col>
-              </Grid>
-              <Grid>
-                  <Grid.Col span={6}>
-                      Skills<br/>
-                      <Badge variant="light" color="green">
-                          Design & Creative
-                      </Badge>
-                  </Grid.Col>
-                  <Grid.Col span={6}>
-                      Experience<br/>
-                      <Badge variant="light" color="blue">
-                      Education
-                      </Badge>
-                      <Badge variant="light" color="blue">
-                      Non-Profit
-                      </Badge>
-                  </Grid.Col>
-              </Grid>
-          </Grid.Col>
-          <Grid.Col span={2}>
-              <Button variant="default" mb="sm">
-                  Edit Collaborative
-              </Button>
-              <Button variant="default" mb="sm">
-                  Add Collaborative
-              </Button>
-              <Button variant="default" mb="sm">
-                  Add Project
-              </Button>
-              <Button variant="default">
-                  Add Members
-              </Button>
-          </Grid.Col>
+              </Group>
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <Group mb="md" align="flex-start">
+                <Text>
+                  Leader:
+                </Text>
+                <div>
+                <Text fz="md">
+                      {collaborative.leaderName}
+                  </Text>
+                  <Text fz="sm" c="dimmed">
+                      {collaborative.leaderEmail}
+                  </Text>
+                </div>
+              </Group>
+              <Group mb="md">
+                <Text>
+                    Created:
+                </Text>
+                <Text>
+                  {collaborative.createdAt}
+                </Text>
+              </Group>
+            </Grid.Col>
+          </Grid>
+          <Grid>
+            <Grid.Col span={6}>
+              <Text c="dimmed" mb="md">
+                  Skills<br/>
+                  {collaborative.skills.map((skill, index) => (
+                    <Badge key={index} variant="light" color="blue">
+                      {skill}
+                    </Badge>
+                  ))}
+              </Text>
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <Text c="dimmed" mb="md">
+                  Experience<br/>
+                  {collaborative.experience.map((exp, index) => (
+                    <Badge key={index} variant="light" color="green">
+                      {exp}
+                    </Badge>
+                  ))}
+              </Text>
+            </Grid.Col>
+          </Grid>
+        </Grid.Col>
+        <Grid.Col span={2}>
+          <Button variant="default" mb="sm">
+              Edit Collaborative
+          </Button>
+          <Button variant="default" mb="sm">
+              Add Collaborative
+          </Button>
+          <Button variant="default" mb="sm">
+              Add Project
+          </Button>
+          <Button variant="default">
+              Add Members
+          </Button>
+        </Grid.Col>
       </Grid>
       <Grid>
         <Grid.Col span={9}>
-        <Table.ScrollContainer minWidth={400} mt="xl">
-            <Table  verticalSpacing="sm">
-                <Table.Thead>
-                    <Table.Tr>
-                        <Table.Th>Members</Table.Th>
-                        <Table.Th>Role</Table.Th>
-                        <Table.Th>Status</Table.Th>
-                    </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>{rows}</Table.Tbody>
+          <Table.ScrollContainer minWidth={400} mt="xl">
+            <Table verticalSpacing="sm">
+              <Table.Thead>
+                <Table.Tr>
+                    <Table.Th>Members</Table.Th>
+                    <Table.Th>Role</Table.Th>
+                    <Table.Th>Status</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>{rows}</Table.Tbody>
             </Table>
-        </Table.ScrollContainer>
-
+          </Table.ScrollContainer>
         </Grid.Col>
         <Grid.Col span={1}>
 

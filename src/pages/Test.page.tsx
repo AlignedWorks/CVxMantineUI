@@ -147,11 +147,8 @@ export function Test() {
                         <Text size="md" mb="md" mt="xl">
                             {collaborative.description}
                         </Text>
-                        <Text size="md" mb="md">
-                            Leader: {collaborative.leaderName}
-                        </Text>
                         <Text size="md" mb="xl">
-                            Projects: <br/>
+                            Leader: {collaborative.leaderName}
                         </Text>
                         <Button variant="default" fullWidth size="sm" mt="auto">View</Button>
                     </Card>

@@ -85,7 +85,7 @@ export function CollaborativeDirectory() {
                 <IconCircles></IconCircles>
                 <Title order={3}>{collaborative.name}</Title>
             </Group>
-            <Text size="md" mb="md">
+            <Text size="md" mb="md" mt="xl">
               {collaborative.description}
             </Text>
             <Text size="md" mb="md">
