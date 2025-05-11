@@ -137,13 +137,11 @@ export function Test() {
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {mock_collab_data.map((collaborative) => (
                     <Card key={collaborative.id} shadow="sm" padding="xl" radius="md" withBorder
-                        
-                    style={{ backgroundImage: 'linear-gradient( #f0f0f0, #ffffff)' }}>
+                        style={{ backgroundImage: 'linear-gradient( #f0f0f0, #ffffff)' }}>
                         <Group>
-                            <IconCircles></IconCircles>
-                            <Title order={3}>{collaborative.name}</Title>
+                            <IconCircles color="#45a6b7"></IconCircles>
+                            <Title order={3} c="#45a6b7">{collaborative.name}</Title>
                         </Group>
-                        
                         <Text size="md" mb="md" mt="xl">
                             {collaborative.description}
                         </Text>
