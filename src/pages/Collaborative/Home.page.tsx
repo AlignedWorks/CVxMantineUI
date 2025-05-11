@@ -218,66 +218,68 @@ export function CollaborativeHome() {
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
-            <Grid.Col span={2}>
-                <img src='./assets/EmptyLogo.png' width={80}/>
-            </Grid.Col>
-            <Grid.Col span={10}>
-            <Stack>
-                <Title order={2} mt="xs" mb="md">
-                  {collaborative.name}
-                </Title>
-                <SimpleGrid cols={2} mb="md">
-                  <div>
-                      <Group wrap="nowrap" gap={10} mt={3}>
-                        <IconAt stroke={1.5} size={16} />
-                        <Text>
-                          {collaborative.websiteUrl}
-                        </Text>
-                      </Group>
-                      <Group wrap="nowrap" gap={10} mt={5}>
-                        <IconMapPin stroke={1.5} size={16} />
-                        <Text>
-                            {collaborative.city}, {collaborative.state}
-                        </Text>
-                      </Group>
-                  </div>
-                  <div>
-                      Leader: {collaborative.leaderName}
-                      <br/>
-                      Created On: {collaborative.createdAt}
-                  </div>
-                </SimpleGrid> 
-                <Grid>
-                  <Grid.Col span={6}>
-                    <Text mb="md">
-                        Skills<br/>
-                        {collaborative.skills.map((skill, index) => (
-                          <Badge key={index} variant="light" color="blue">
-                            {skill}
-                          </Badge>
-                        ))}
+          <Grid.Col span={2}>
+              <img src='/assets/EmptyLogo.png' width={80}/>
+          </Grid.Col>
+          <Grid.Col span={10}>
+          <Stack>
+            <Title order={2} mt="xs" mb="md">
+              {collaborative.name}
+            </Title>
+            <SimpleGrid cols={2} mb="md">
+              <div>
+                  <Group wrap="nowrap" gap={10} mt={3}>
+                    <IconAt stroke={1.5} size={16} />
+                    <a
+                      href={collaborative.websiteUrl}
+                      style={{ color: '#0077b5', textDecoration: 'none' }}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                        {collaborative.websiteUrl}
+                    </a>
+                  </Group>
+                  <Group wrap="nowrap" gap={10} mt={5}>
+                    <IconMapPin stroke={1.5} size={16} />
+                    <Text>
+                        {collaborative.city}, {collaborative.state}
                     </Text>
-                  </Grid.Col>
-                  <Grid.Col span={6}>
-                    <Text mb="md">
-                        Experience<br/>
-                        {collaborative.experience.map((exp, index) => (
-                          <Badge key={index} variant="light" color="green">
-                            {exp}
-                          </Badge>
-                        ))}
-                    </Text>
-                  </Grid.Col>
-                </Grid>
-            </Stack>
+                  </Group>
+              </div>
+              <div>
+                  Leader: {collaborative.leaderName}
+                  <br/>
+                  Created On: {collaborative.createdAt}
+              </div>
+            </SimpleGrid>
             <p>
                 {collaborative.description}<br /><br />
             </p>
-            
-            </Grid.Col>
-          </Grid>
+            <Grid>
+              <Grid.Col span={6}>
+                <Text mb="md">
+                  Skills<br/>
+                  {collaborative.skills.map((skill, index) => (
+                    <Badge key={index} variant="light" color="blue">
+                      {skill}
+                    </Badge>
+                  ))}
+                </Text>
+              </Grid.Col>
+              <Grid.Col span={6}>
+                <Text mb="md">
+                  Experience<br/>
+                  {collaborative.experience.map((exp, index) => (
+                    <Badge key={index} variant="light" color="green">
+                      {exp}
+                    </Badge>
+                  ))}
+                </Text>
+              </Grid.Col>
+            </Grid>
+            </Stack>
+          </Grid.Col>
+        </Grid>
       </Card>
-      
       <Grid>
         <Grid.Col span={9}>
           <Table.ScrollContainer minWidth={400} mt="xl">

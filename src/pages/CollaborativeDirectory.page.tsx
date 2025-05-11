@@ -83,7 +83,7 @@ export function CollaborativeDirectory() {
         {filteredData.map((collaborative) => (
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
             <Stack align="center">
-                <img src='./assets/EmptyLogo.png' alt="Collaborative Logo" height={90} />
+                <img src='/assets/EmptyLogo.png' alt="Collaborative Logo" height={90} />
                 <Text ta="center" fz="lg" fw={500} >
                     {collaborative.name}
                 </Text>
@@ -109,7 +109,7 @@ export function CollaborativeDirectory() {
               to={`/collaboratives/${collaborative.id}`}
               state={{ from: location.pathname }}
               style={{ textDecoration: 'none', color: 'inherit'}}>
-              <Button variant="default" fullWidth size="sm" mt="auto">View</Button>
+              <Button variant="default" fullWidth size="sm" mt="lg">View</Button>
             </Link>
           </Card>
         ))}
