@@ -17,11 +17,13 @@ import {
   TextInput,
   Modal,
   Loader,
+  Divider,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import classes from './Test.module.css';
 import {
     IconAt,
+    IconCircles,
     IconMapPin,
   } from '@tabler/icons-react'
 
@@ -131,14 +133,30 @@ export function Test() {
                 Dashboard
             </Title>
 
-            <Grid>
-                <Grid.Col span={8}>
-                    <TextInput placeholder="Search..." />
-                </Grid.Col>
-                <Grid.Col span={4}>
-                    <Button>Hello</Button>
-                </Grid.Col>
-            </Grid>
+            {/* Grid to display collaborative data */}
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
+                {mock_collab_data.map((collaborative) => (
+                    <Card key={collaborative.id} shadow="sm" padding="xl" radius="md" withBorder
+                        
+                    style={{ backgroundImage: 'linear-gradient( #f0f0f0, #ffffff)' }}>
+                        <Group>
+                            <IconCircles></IconCircles>
+                            <Title order={3}>{collaborative.name}</Title>
+                        </Group>
+                        
+                        <Text size="md" mb="md" mt="xl">
+                            {collaborative.description}
+                        </Text>
+                        <Text size="md" mb="md">
+                            Leader: {collaborative.leaderName}
+                        </Text>
+                        <Text size="md" mb="xl">
+                            Projects: <br/>
+                        </Text>
+                        <Button variant="default" fullWidth size="sm" mt="auto">View</Button>
+                    </Card>
+                ))}
+            </SimpleGrid>
 
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {users.map((user) => (
@@ -285,62 +303,86 @@ export function Test() {
                 </Card>
             ))}
 
-            <Text fz="40px" c="#222" mb="xl" mt="xl">
-                ByteSecure Collective
-            </Text>
+            <Group mt="xl">
+                <IconCircles size={55} stroke={1.5} color="#222" />
+                <Text fz="50px" c="#222" mr="xl" mb="xl" mt="xl">
+                    ByteSecure Collective
+                </Text>
+            </Group>
+            
             <Space h="xl" />
-            <Grid>
-                <Grid.Col span={6}>
-                    <Text size="md" mb="md">
-                        A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
-                    </Text>
-                    <Text c="dimmed" mb="md" mt="lg">
-                        Website: www.bytesecure.net
-                    </Text>
-                    <Group wrap="nowrap" gap={10} mt={3}>
-                        <IconAt stroke={1.5} size={16} />
-                        <Text>
-                            www.bytesecure.net
-                        </Text>
-                    </Group>
-                    <Group wrap="nowrap" gap={10} mt={5}>
-                        <IconMapPin stroke={1.5} size={16} />
-                        <Text>
-                            Plano, TX
-                        </Text>
-                    </Group>
-                    <Text c="dimmed" mb="md" mt="lg">
-                        Location: Plano, TX
-                    </Text>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                    <Group mb="md" align="flex-start">
-                        <Text c="dimmed">
-                            Leader:
-                        </Text>
-                        <div>
-                            <Text fz="md">
-                                Jordon Byers
-                            </Text>
-                            <Text fz="sm" c="dimmed">
-                                jordonbyers@gmail.com
-                            </Text>
-                        </div>
-                    </Group>
-                    <Group mb="md">
-                    <Text c="dimmed">
-                        Created:
-                    </Text>
-                    <Text>
-                        March 25, 2025
-                    </Text>
-                </Group>
-                    <Text c="dimmed" mb="md">
-                        Skills: Design & Creative
-                    </Text>
-                    <Text c="dimmed" mb="md">
-                        Experience: Education, Non-Profit
-                    </Text>
+            
+            <Grid mt="xl" mb="xl">
+                <Grid.Col span={10}>
+
+                        <Grid>
+                            <Grid.Col span={10}>
+                                <Text fz="h3" fs="italic" mb="xl" c="#45a6b7">
+                                    A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
+                                </Text>
+                                
+                            </Grid.Col>
+                            <Grid.Col span={2}>
+                            </Grid.Col>
+                        </Grid>
+                        <Divider my="sm" variant="dashed" />
+                        <Grid mt="lg">
+                            <Grid.Col span={6}>
+                            <Group wrap="nowrap" gap={10} mt={3}>
+                                    <IconAt stroke={1.5} size={16} />
+                                    <Text>
+                                        www.bytesecure.net
+                                    </Text>
+                                </Group>
+                                <Group wrap="nowrap" gap={10} mt={25}>
+                                    <IconMapPin stroke={1.5} size={16} />
+                                    <Text>
+                                        Plano, TX
+                                    </Text>
+                                </Group>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                            <Group mb="md" align="flex-start">
+                                    <Text>
+                                        Leader:
+                                    </Text>
+                                    <div>
+                                        <Text fz="md">
+                                            Jordon Byers
+                                        </Text>
+                                        <Text fz="sm">
+                                            jordonbyers@gmail.com
+                                        </Text>
+                                    </div>
+                                </Group>
+                                <Group mb="md">
+                                    <Text>
+                                        Created:
+                                    </Text>
+                                    <Text>
+                                        March 25, 2025
+                                    </Text>
+                                </Group>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid>
+                            <Grid.Col span={6}>
+                                Skills<br/>
+                                <Badge variant="light" color="green">
+                                    Design & Creative
+                                </Badge>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                Experience<br/>
+                                <Badge variant="light" color="blue">
+                                Education
+                                </Badge>
+                                <Badge variant="light" color="blue">
+                                Non-Profit
+                                </Badge>
+                            </Grid.Col>
+                        </Grid>
+
                 </Grid.Col>
                 <Grid.Col span={2}>
                     <Button variant="default" mb="sm">
@@ -493,24 +535,12 @@ export function Test() {
                     
                 </Grid.Col>
             </Grid>
-            <Table.ScrollContainer minWidth={400}>
-                <Table verticalSpacing="sm">
-                    <Table.Thead>
-                        <Table.Tr>
-                            <Table.Th></Table.Th>
-                            <Table.Th>User Bio</Table.Th>
-                            <Table.Th>User Status</Table.Th>
-                        </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{rows}</Table.Tbody>
-                </Table>
-            </Table.ScrollContainer>
 
             <Title order={3} mb="md" pt="sm" pb="lg">
                 Approve Collaboratives
             </Title>
             {mock_collab_data.map((collab) => (
-                <Card key={collab.id} className={classes.card} shadow="sm" radius="md" withBorder mt="lg" p="lg" bg="var(--mantine-color-body)">
+                <Card key={collab.id} className={classes.card} shadow="sm" radius="md" withBorder mt="lg" p="xl" bg="var(--mantine-color-body)">
                     <SimpleGrid cols={3} spacing="xl">
                         <div>
                             <Text ta="left" fz="lg" fw={500} mb="lg">

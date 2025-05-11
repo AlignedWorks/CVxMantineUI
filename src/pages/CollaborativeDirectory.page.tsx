@@ -8,8 +8,9 @@ import {
   Text,
   Button,
   TextInput,
+  Group,
 } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
+import { IconSearch, IconCircles } from '@tabler/icons-react';
 
 interface CollaborativeData {
   id: number;
@@ -79,15 +80,18 @@ export function CollaborativeDirectory() {
       {/* Grid to display collaborative data */}
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredData.map((collaborative) => (
-          <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
-            <Text size="xl" mb="xl">{collaborative.name}</Text>
+          <Card key={collaborative.id} shadow="sm" padding="xl" radius="md" withBorder>
+            <Group>
+                <IconCircles></IconCircles>
+                <Title order={3}>{collaborative.name}</Title>
+            </Group>
             <Text size="md" mb="md">
               {collaborative.description}
             </Text>
             <Text size="md" mb="md">
-              <span style={{ color: "var(--mantine-color-dimmed)" }}>Leader:</span> {collaborative.leaderName}
+              Leader: {collaborative.leaderName}
             </Text>
-            <Text size="md" c="var(--mantine-color-dimmed)" mb="xl">
+            <Text size="md" mb="xl">
               Projects: <br/>
             </Text>
             <Link

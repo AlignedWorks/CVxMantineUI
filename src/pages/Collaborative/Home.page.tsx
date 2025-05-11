@@ -16,11 +16,13 @@ import {
   Avatar,
   Select,
   Modal,
+  Divider,
  } from '@mantine/core';
 import { CollaborativeData, collabRoles, inviteStatusColors } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
+  IconCircles,
 } from '@tabler/icons-react'
 
 interface User {
@@ -213,115 +215,99 @@ export function CollaborativeHome() {
       <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
-      <Text fz="40px" c="#222" mb="xl">
-        {collaborative.name}
-      </Text>
-      <Space h="xl" />
-      <Space h="lg" />
-      <Grid>
-        <Grid.Col span={6}>
-            <Text size="md" mb="md">
-              {collaborative.description}
-            </Text>
-            <Group wrap="nowrap" gap={10} mt={3}>
-                <IconAt stroke={1.5} size={16} />
-                <a
-                  href={collaborative.websiteUrl}
-                  style={{ color: '#0077b5', textDecoration: 'none' }}
-                  target="_blank"
-                  rel="noopener noreferrer">
-                    {collaborative.websiteUrl}
-                </a>
-            </Group>
-            <Group wrap="nowrap" gap={10} mt={5}>
-                <IconMapPin stroke={1.5} size={16} />
-                <Text>
-                  {collaborative.city}, {collaborative.state}
+      <Group mt="xl">
+                <IconCircles size={55} stroke={1.5} color="#222" />
+                <Text fz="50px" c="#222" mr="xl" mb="xl" mt="xl">
+                    ByteSecure Collective
                 </Text>
             </Group>
-        </Grid.Col>
-        <Grid.Col span={4}>
-            <Group mb="md" align="flex-start">
-              <Text c="dimmed">
-                  Leader:
-              </Text>
-              <div>
-                  <Text fz="md">
-                      {collaborative.leaderName}
-                  </Text>
-                  <Text fz="sm" c="dimmed">
-                      {collaborative.leaderEmail}
-                  </Text>
-              </div>
-            </Group>
-            <Group mb="md">
-              <Text c="dimmed">
-                  Created:
-              </Text>
-              <div>
-                  <Text>
-                    {collaborative.createdAt}
-                  </Text>
-              </div>
-            </Group>
-            <Text c="dimmed" mb="md">
-                Skills<br/>
-                {collaborative.skills.map((skill, index) => (
-                  <Badge key={index} variant="light" color="blue">
-                    {skill}
-                  </Badge>
-                ))}
-            </Text>
-            <Text c="dimmed" mb="md">
-                Experience<br/>
-                {collaborative.experience.map((exp, index) => (
-                  <Badge key={index} variant="light" color="green">
-                    {exp}
-                  </Badge>
-                ))}
-            </Text>
-        </Grid.Col>
-        <Grid.Col span={2}>
-              {collaborative.leaderEmail === user?.username ? (
-                <>
-                  <Button variant="default" mb="md">
-                    Edit Collaborative
-                  </Button>
-                  <Button variant="default" mb="md">
-                      Add Collaborative
-                  </Button>
-                  <Button variant="default" mb="md">
-                      Add Project
-                  </Button>
-                  <Button variant="default" mb="md">
-                      Add Members
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button variant="disabled" mb="md">
-                    Edit Collaborative
-                  </Button>
-                  <Button variant="disabled" mb="md">
-                      Add Collaborative
-                  </Button>
-                  <Button variant="disabled" mb="md">
-                      Add Project
-                  </Button>
-                  <Button
-                      variant="default"
-                      onClick={() => {
-                          setIsModalOpen(true);
-                          if (allUsers.length === 0) {
-                          fetchAllUsers(); // Fetch users only if not already loaded
-                          }
-                      }}
-                      >
-                      Add Member
-                  </Button>
-                </>
-              )}
-        </Grid.Col>
+            
+            <Space h="xl" />
+            
+            <Grid mt="xl" mb="xl">
+              <Grid.Col span={10}>
+                <Grid>
+                    <Grid.Col span={10}>
+                        <Text fz="h3" fs="italic" mb="xl" c="#45a6b7">
+                            A cybersecurity-focused group tackling modern threats with cutting-edge defense strategies.
+                        </Text>
+                        
+                    </Grid.Col>
+                    <Grid.Col span={2}>
+                    </Grid.Col>
+                </Grid>
+                <Divider my="sm" variant="dashed" />
+              <Grid mt="lg">
+                  <Grid.Col span={6}>
+                  <Group wrap="nowrap" gap={10} mt={3}>
+                          <IconAt stroke={1.5} size={16} />
+                          <Text>
+                              www.bytesecure.net
+                          </Text>
+                      </Group>
+                      <Group wrap="nowrap" gap={10} mt={25}>
+                          <IconMapPin stroke={1.5} size={16} />
+                          <Text>
+                              Plano, TX
+                          </Text>
+                      </Group>
+                  </Grid.Col>
+                  <Grid.Col span={6}>
+                  <Group mb="md" align="flex-start">
+                          <Text>
+                              Leader:
+                          </Text>
+                          <div>
+                              <Text fz="md">
+                                  Jordon Byers
+                              </Text>
+                              <Text fz="sm">
+                                  jordonbyers@gmail.com
+                              </Text>
+                          </div>
+                      </Group>
+                      <Group mb="md">
+                          <Text>
+                              Created:
+                          </Text>
+                          <Text>
+                              March 25, 2025
+                          </Text>
+                      </Group>
+                  </Grid.Col>
+              </Grid>
+              <Grid>
+                  <Grid.Col span={6}>
+                      Skills<br/>
+                      <Badge variant="light" color="green">
+                          Design & Creative
+                      </Badge>
+                  </Grid.Col>
+                  <Grid.Col span={6}>
+                      Experience<br/>
+                      <Badge variant="light" color="blue">
+                      Education
+                      </Badge>
+                      <Badge variant="light" color="blue">
+                      Non-Profit
+                      </Badge>
+                  </Grid.Col>
+              </Grid>
+          </Grid.Col>
+          <Grid.Col span={2}>
+              <Button variant="default" mb="sm">
+                  Edit Collaborative
+              </Button>
+              <Button variant="default" mb="sm">
+                  Add Collaborative
+              </Button>
+              <Button variant="default" mb="sm">
+                  Add Project
+              </Button>
+              <Button variant="default">
+                  Add Members
+              </Button>
+          </Grid.Col>
       </Grid>
       <Grid>
         <Grid.Col span={9}>
