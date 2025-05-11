@@ -11,6 +11,7 @@ import {
   Stack,
   Grid,
 } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
 
 interface CollaborativeData {
   id: number;
