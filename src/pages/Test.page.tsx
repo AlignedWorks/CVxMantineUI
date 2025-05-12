@@ -126,7 +126,7 @@ export function Test() {
         <Container size="md" py="xl">
             <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
                 <Grid>
-                    <Grid.Col span={2}>
+                    <Grid.Col span={2} align="center">
                         <img src={testCollab.logoUrl} width={80}/>
                     </Grid.Col>
                     <Grid.Col span={10}>
@@ -148,9 +148,27 @@ export function Test() {
                             </Group>
                         </div>
                         <div>
-                            <span style={{ color: 'grey'}}>Leader:</span>  {testCollab.leaderName}
-                            <br/>
-                            <span style={{ color: 'grey'}}>Created On:</span>  {testCollab.createdAt}
+                            <Group mb="md" align="flex-start">
+                                <Text>
+                                    Leader:
+                                </Text>
+                                <div>
+                                <Text fz="md">
+                                    {testCollab.leaderName}
+                                </Text>
+                                <Text fz="sm" c="dimmed">
+                                    {testCollab.leaderEmail}
+                                </Text>
+                                </div>
+                            </Group>
+                            <Group mb="md">
+                                <Text>
+                                    Created:
+                                </Text>
+                                <Text>
+                                    {testCollab.createdAt}
+                                </Text>
+                            </Group>
                         </div>
                         </SimpleGrid> 
                     </Stack>
@@ -161,6 +179,21 @@ export function Test() {
                     </Grid.Col>
                 </Grid>
             </Card>
+
+            <Group align="center">
+                <Button variant="default" mb="sm">
+                    Edit Collaborative
+                </Button>
+                <Button variant="default" mb="sm">
+                    Add Collaborative
+                </Button>
+                <Button variant="default" mb="sm">
+                    Add Project
+                </Button>
+                <Button variant="default" mb="sm">
+                    Add Members
+                </Button>
+            </Group>
 
             {/* Grid to display collaborative data */}
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
