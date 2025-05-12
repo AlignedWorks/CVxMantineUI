@@ -422,7 +422,16 @@ export function Test() {
                     <Button variant="default" mb="sm">
                         Add Project
                     </Button>
-                    <Button variant="default">
+                    <Button
+                        mb="sm"
+                        variant="default"
+                        onClick={() => {
+                            setIsModalOpen(true);
+                            if (allUsers.length === 0) {
+                            fetchAllUsers(); // Fetch users only if not already loaded
+                            }
+                        }}
+                        >
                         Add Members
                     </Button>
                 </Grid.Col>
