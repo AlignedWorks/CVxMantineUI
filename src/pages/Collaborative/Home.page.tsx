@@ -211,7 +211,7 @@ export function CollaborativeHome() {
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
           <Grid.Col span={2}>
-              <Center>
+              <Center mt="xs">
                 <img src='/assets/EmptyLogo.png' width={80}/>
               </Center>
           </Grid.Col>
@@ -222,7 +222,7 @@ export function CollaborativeHome() {
               </Title>
               <SimpleGrid cols={2} mb="md">
                 <div>
-                    <Group wrap="nowrap" align="flex=start" gap={10}>
+                    <Group wrap="nowrap" gap={10}>
                       <IconAt stroke={1.5} size={16} />
                       <a
                         href={collaborative.websiteUrl}
@@ -253,7 +253,7 @@ export function CollaborativeHome() {
                       </Text>
                     </div>
                   </Group>
-                  <Group mb="md">
+                  <Group>
                     <Text>
                         Created:
                     </Text>
@@ -263,9 +263,7 @@ export function CollaborativeHome() {
                   </Group>
                 </div>
               </SimpleGrid>
-              <p>
-                  {collaborative.description}<br /><br />
-              </p>
+                {collaborative.description}<br /><br />
               <Grid>
                 <Grid.Col span={6}>
                   <Text mb="md">
@@ -297,14 +295,22 @@ export function CollaborativeHome() {
         <Button variant="default" mb="sm">
             Edit Collaborative
         </Button>
-        <Button variant="default" mb="sm">
-            Add Collaborative
+        <Button
+          variant="default"
+          onClick={() => {
+              setIsModalOpen(true);
+              if (allUsers.length === 0) {
+              fetchAllUsers(); // Fetch users only if not already loaded
+              }
+          }}
+          >
+          Add Member
         </Button>
         <Button variant="default" mb="sm">
             Add Project
         </Button>
         <Button variant="default" mb="sm">
-            Add Members
+            Add Collaborative
         </Button>
       </Group>
 
@@ -329,18 +335,6 @@ export function CollaborativeHome() {
         <Grid.Col span={1}>
         </Grid.Col>
       </Grid>
-
-    <Button
-        variant="default"
-        onClick={() => {
-            setIsModalOpen(true);
-            if (allUsers.length === 0) {
-            fetchAllUsers(); // Fetch users only if not already loaded
-            }
-        }}
-        >
-        Add Member
-    </Button>
 
     <Modal
       opened={isModalOpen}
