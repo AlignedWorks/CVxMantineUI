@@ -122,7 +122,8 @@ export function Dashboard() {
         .then((data) => {
           const { users, roles, collabsNeedingApproval, collabInvites } = data;
 
-          console.log(collabsNeedingApproval)
+          console.log(collabsNeedingApproval);
+          console.log(collabInvites);
           setCollabInvites(collabInvites); // Set the collab invites data
 
           // Set the user data
