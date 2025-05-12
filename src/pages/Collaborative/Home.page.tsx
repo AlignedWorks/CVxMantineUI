@@ -19,6 +19,7 @@ import {
   Stack,
   SimpleGrid,
   Title,
+  Center,
  } from '@mantine/core';
 import { CollaborativeData, inviteStatusColors } from '../../data.ts';
 import {
@@ -209,8 +210,10 @@ export function CollaborativeHome() {
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
-          <Grid.Col span={2} align="center">
-              <img src='/assets/EmptyLogo.png' width={80}/>
+          <Grid.Col span={2}>
+              <Center>
+                <img src='/assets/EmptyLogo.png' width={80}/>
+              </Center>
           </Grid.Col>
           <Grid.Col span={10}>
             <Stack>
@@ -290,7 +293,7 @@ export function CollaborativeHome() {
         </Grid>
       </Card>
 
-      <Group align="center">
+      <Group justify="center">
         <Button variant="default" mb="sm">
             Edit Collaborative
         </Button>

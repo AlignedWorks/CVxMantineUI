@@ -18,6 +18,7 @@ import {
   Loader,
   Divider,
   Stack,
+  Center,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import classes from './Test.module.css';
@@ -126,8 +127,10 @@ export function Test() {
         <Container size="md" py="xl">
             <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
                 <Grid>
-                    <Grid.Col span={2} align="center">
-                        <img src={testCollab.logoUrl} width={80}/>
+                    <Grid.Col span={2}>
+                        <Center>
+                            <img src={testCollab.logoUrl} width={80}/>
+                        </Center>
                     </Grid.Col>
                     <Grid.Col span={10}>
                     <Stack>
@@ -180,7 +183,7 @@ export function Test() {
                 </Grid>
             </Card>
 
-            <Group align="center">
+            <Group justify="center">
                 <Button variant="default" mb="sm">
                     Edit Collaborative
                 </Button>
