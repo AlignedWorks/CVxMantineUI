@@ -556,7 +556,7 @@ export function CreateCollaborative() {
       <TextInput
           rightSection={collabLeaderComp}
           label="% of Revenue to Collab Leader Compensation"
-          placeholder="Enter the collaborative leader compensation % (e.g. 5.5, 7.75, 10)"
+          placeholder="Set compensation for the Collab Leader as a % of Collab-wide revenue."
           type="number"
           value={formValues.collabLeaderCompensation}
           onChange={(event) =>

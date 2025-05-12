@@ -183,7 +183,7 @@ export function CollaborativeHome() {
     setSelectedRole('');
   };
 
-  const rows = collaborative.members.map((item) => (
+  const memberRows = collaborative.members.map((item) => (
     <Table.Tr key={item.id}>
         <Table.Td style={{ verticalAlign: 'top' }}>
         <Group gap="sm" ml="lg" mt="sm" mb="sm">
@@ -209,6 +209,17 @@ export function CollaborativeHome() {
                 fullWidth variant="light">
                 {item.inviteStatus}
             </Badge>
+        </Table.Td>
+    </Table.Tr>
+  ));
+  
+  const stakingTierRows = collaborative.stakingTiers.map((item) => (
+    <Table.Tr>
+        <Table.Td>
+          {item.tier}
+        </Table.Td>
+        <Table.Td>
+          {item.exchangeRate}
         </Table.Td>
     </Table.Tr>
   ));
@@ -336,11 +347,52 @@ export function CollaborativeHome() {
                     <Table.Th>Status</Table.Th>
                 </Table.Tr>
               </Table.Thead>
-              <Table.Tbody>{rows}</Table.Tbody>
+              <Table.Tbody>{memberRows}</Table.Tbody>
             </Table>
           </Table.ScrollContainer>
         </Grid.Col>
       </Grid>
+
+      <Card shadow="sm" padding="lg" radius="md" mt="xl" mb="xl" withBorder>
+        <Title order={4} mb="xl">
+            Revenue Sharing Pool
+        </Title>
+        <Grid>
+          <Grid.Col span={4}>
+              <Text fz="md" fw={500}>
+                  Revenue Share %
+              </Text>
+              <Text fz="xl" c="#222" mb="lg">
+                {collaborative.revenueShare}
+              </Text>
+              <Text fz="md" fw={500}>
+                  Payout Frequency
+              </Text>
+              <Text fz="xl" c="#222" mb="lg">
+                  {collaborative.payoutFrequency}
+              </Text>
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Table variant="vertical" layout="fixed" withTableBorder>
+             <Table.Thead>
+              <Table.Tr>
+                  <Table.Th>Duration</Table.Th>
+                  <Table.Th>Exchange Rate</Table.Th>
+              </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>{stakingTierRows}</Table.Tbody>
+            </Table>
+          </Grid.Col>
+          <Grid.Col span={4}>
+              <Button variant="default" ml="xl" mb="sm">
+                  Edit Revenue Share %
+              </Button>
+              <Button variant="default" ml="xl" mb="sm">
+                  Edit Exchange Rates
+              </Button>
+          </Grid.Col>
+      </Grid>
+    </Card>
 
     <Modal
       opened={isModalOpen}

@@ -183,21 +183,6 @@ export function Test() {
                 </Grid>
             </Card>
 
-            <Group justify="center">
-                <Button variant="default" mb="sm">
-                    Edit Collaborative
-                </Button>
-                <Button variant="default" mb="sm">
-                    Add Collaborative
-                </Button>
-                <Button variant="default" mb="sm">
-                    Add Project
-                </Button>
-                <Button variant="default" mb="sm">
-                    Add Members
-                </Button>
-            </Group>
-
             {/* Grid to display collaborative data */}
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {mock_collab_data.map((collaborative) => (
@@ -230,6 +215,68 @@ export function Test() {
                     </Card>
                 ))}
             </SimpleGrid>
+
+            <Card shadow="sm" padding="lg" radius="md" mt="xl" mb="xl" withBorder>
+                <Title order={4} mb="xl">
+                    Revenue Sharing Pool
+                </Title>
+                <Grid>
+                    
+                    <Grid.Col span={4}>
+                        <Text fz="md" fw={500}>
+                            Revenue Share %
+                        </Text>
+                        <Text fz="xl" c="#222" mb="lg">
+                            50%
+                        </Text>
+                        <Text fz="md" fw={500}>
+                            Payout Frequency
+                        </Text>
+                        <Text fz="xl" c="#222" mb="lg">
+                            Annual
+                        </Text>
+                    </Grid.Col>
+                    <Grid.Col span={4}>
+                    <Table variant="vertical" layout="fixed" withTableBorder>
+                        <Table.Tbody>
+
+                            <Table.Tr>
+                            <Table.Th>Duration</Table.Th>
+                            <Table.Td>Exchange Rate</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>One Month</Table.Th>
+                            <Table.Td>100%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>Two Months</Table.Th>
+                            <Table.Td>80%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>One Quarter</Table.Th>
+                            <Table.Td>70%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>One Year</Table.Th>
+                            <Table.Td>40%</Table.Td>
+                            </Table.Tr>
+                        </Table.Tbody>
+                        </Table>
+                    </Grid.Col>
+                    <Grid.Col span={4}>
+                        <Button variant="default" ml="xl" mb="sm">
+                            Edit Revenue Share %
+                        </Button>
+                        <Button variant="default" ml="xl" mb="sm">
+                            Edit Exchange Rates
+                        </Button>
+                    </Grid.Col>
+                </Grid>
+            </Card>
 
             <Group mt="xl">
                 <img src={testCollab.logoUrl} alt="Collaborative Logo" width={60} />
