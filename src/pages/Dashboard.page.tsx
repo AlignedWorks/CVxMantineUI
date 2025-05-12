@@ -32,6 +32,7 @@ interface CollabInvite {
   collabId: number;
   collabName: string;
   inviteStatus: string;
+  role: string;
 }
 
 const mock_data = [
@@ -250,7 +251,7 @@ export function Dashboard() {
                 <Group justify="space-between">
                     <img src='/assets/EmptyLogo.png' alt="Collaborative Logo" width={60} />
                     <Text>
-                        You've been invited to join the collaborative<br/><strong>{invite.collabName}</strong> as a <strong>invite.inviteStatus</strong>.
+                        You've been invited to join the collaborative<br/><strong>{invite.collabName}</strong> as a <strong>{invite.role}</strong>.
                     </Text>
                     <div>
                         <Button
