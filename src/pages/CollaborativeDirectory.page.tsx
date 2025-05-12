@@ -97,7 +97,7 @@ export function CollaborativeDirectory() {
                     <Text ta="center" c="dimmed" fz="sm" mb="xs">
                         Projects
                     </Text>
-                    <Title order={3} c="dimmed" ta="center">5</Title>
+                    <Title order={3} c="dimmed" ta="center">0</Title>
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <Text ta="center" c="dimmed" fz="sm" mb="xs">

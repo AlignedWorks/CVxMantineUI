@@ -27,6 +27,13 @@ interface User {
   memberStatus: string;
 }
 
+interface CollabInvite {
+  userId: string;
+  collabId: number;
+  collabName: string;
+  inviteStatus: string;
+}
+
 const mock_data = [
   {
       id: '1',
@@ -100,6 +107,7 @@ const mock_data = [
 export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
+  const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
   // const [loading, setLoading] = useState(true);
@@ -112,8 +120,9 @@ export function Dashboard() {
       })
         .then((res) => res.json())
         .then((data) => {
-          const { users, roles, collabsNeedingApproval } = data;
-          console.log(collabsNeedingApproval);
+          const { users, roles, collabsNeedingApproval, collabInvites } = data;
+
+          setCollabInvites(collabInvites); // Set the collab invites data
 
           // Set the user data
           if (users.length === 0) {
@@ -176,6 +185,43 @@ export function Dashboard() {
       .catch((err) => console.error("Error updating role:", err));
   };
 
+  const handleCollabInvite = (collabId: number, userId: string, action: 'accept' | 'decline') => {
+    // Determine the new status based on the action
+    const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
+    
+    fetch(
+      new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          userId: userId,
+          inviteStatus: newStatus 
+        }),
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(`Invitation ${action}ed successfully:`, data);
+        
+        // Update the local state to remove the invitation
+        setCollabInvites(prevInvites => 
+          prevInvites.filter(invite => 
+            !(invite.collabId === collabId && invite.userId === userId)
+          )
+        );
+      })
+      .catch((err) => {
+        console.error(`Error ${action}ing invitation:`, err);
+        // Optionally show an error message to the user
+      });
+  };
+
   return (
     <>
       <Container size="md" py="xl">
@@ -189,6 +235,37 @@ export function Dashboard() {
                   </Button>
               </Link>
           </Group>
+
+          {collabInvites?.map((invite) => (
+            <Card 
+              key={`${invite.userId}-${invite.collabId}`}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+              mt="lg"
+              mb="lg">
+                <Group justify="space-between">
+                    <img src='/assets/EmptyLogo.png' alt="Collaborative Logo" width={60} />
+                    <Text>
+                        You've been invited to join the collaborative<br/><strong>{invite.collabName}</strong> as a <strong>invite.inviteStatus</strong>.
+                    </Text>
+                    <div>
+                        <Button
+                          variant="default"
+                          onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
+                            Accept Invitation
+                        </Button>
+                        <Button
+                          variant="default"
+                          onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
+                          ml="md">
+                            Decline Invitation
+                        </Button>
+                    </div>
+                </Group>
+            </Card>
+          ))}
 
           <Title order={3} mb="md" pt="sm" pb="lg">
               Approve users

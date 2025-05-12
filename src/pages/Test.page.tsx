@@ -183,6 +183,23 @@ export function Test() {
                 </Grid>
             </Card>
 
+            <Card shadow="sm" padding="lg" radius="md" withBorder mt="lg" mb="lg">
+                <Group justify="space-between">
+                    <img src={testCollab.logoUrl} alt="Collaborative Logo" width={60} />
+                    <Text>
+                        You've been invited to join the collaborative<br/><strong>{testCollab.name}</strong> as a <strong>Collaborative Leader</strong>.
+                    </Text>
+                    <div>
+                        <Button variant="default">
+                            Accept Invitation
+                        </Button>
+                        <Button variant="default" ml="md">
+                            Decline Invitation
+                        </Button>
+                    </div>
+                </Group>
+            </Card>
+
             {/* Grid to display collaborative data */}
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {mock_collab_data.map((collaborative) => (
