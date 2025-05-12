@@ -22,6 +22,7 @@ interface CollaborativeData {
   createdAt: string;
   city: string;
   state: string;
+  sumMembers: number;
 }
 
 export function CollaborativeDirectory() {
@@ -102,7 +103,7 @@ export function CollaborativeDirectory() {
                     <Text ta="center" c="dimmed" fz="sm" mb="xs">
                         Members
                     </Text>
-                    <Title order={3} c="dimmed" ta="center">5</Title>
+                    <Title order={3} c="dimmed" ta="center">{collaborative.sumMembers}</Title>
                 </Grid.Col>
             </Grid>
             <Link
