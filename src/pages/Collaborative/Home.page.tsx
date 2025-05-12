@@ -169,6 +169,20 @@ export function CollaborativeHome() {
 
   const handleAddMember = () => {
     if (!selectedUser || !selectedRole) return;
+
+    fetch(
+      new URL(`collaboratives/${collaborative.id}`, import.meta.env.VITE_API_BASE),
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: selectedUser.id, userRole: selectedRole }),
+    })
+      .then((res) => res.json())
+      .then((updatedUser) => {
+        console.log("Role updated successfully:", updatedUser);
+      })
+      .catch((err) => console.error("Error updating role:", err));
   
     // Simulate adding the user to the collaborative
     console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
@@ -219,7 +233,7 @@ export function CollaborativeHome() {
           {item.tier}
         </Table.Td>
         <Table.Td>
-          {item.exchangeRate}
+          {(Number(item.exchangeRate) * 100).toFixed(0)}%
         </Table.Td>
     </Table.Tr>
   ));
@@ -454,14 +468,13 @@ export function CollaborativeHome() {
                   variant="default"
                   onClick={handleAddMember}
                   disabled={!selectedUser || !selectedRole} // Disable if no user or role is selected
-                  mb="md"
               >
                   Submit
               </Button>
 
               {/* Success Message */}
               {successMessage && (
-                  <Text color="green" mb="md">
+                  <Text c="green" mb="md">
                   {successMessage}
                   </Text>
               )}
