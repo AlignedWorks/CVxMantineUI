@@ -68,6 +68,17 @@ export function CollaborativeHome() {
     console.log('User is null');
   }
 
+  const getDisplayUrl = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      // Return just the hostname, removing www. if present
+      return urlObj.hostname.replace(/^www\./, '');
+    } catch (e) {
+      // If URL parsing fails, return the original
+      return url;
+    }
+  };
+
   // Set the collaborative ID in context
   useEffect(() => {
     setCollaborativeId(id || null);
@@ -229,7 +240,7 @@ export function CollaborativeHome() {
                         style={{ color: '#0077b5', textDecoration: 'none' }}
                         target="_blank"
                         rel="noopener noreferrer">
-                          {collaborative.websiteUrl}
+                          {getDisplayUrl(collaborative.websiteUrl)}
                       </a>
                     </Group>
                     <Group wrap="nowrap" gap={10}>
@@ -291,33 +302,30 @@ export function CollaborativeHome() {
         </Grid>
       </Card>
 
-      <Group justify="center">
-        <Button variant="default" mb="sm">
-            Edit Collaborative
-        </Button>
-        <Button
-          variant="default"
-          onClick={() => {
-              setIsModalOpen(true);
-              if (allUsers.length === 0) {
-              fetchAllUsers(); // Fetch users only if not already loaded
-              }
-          }}
-          >
-          Add Member
-        </Button>
-        <Button variant="default" mb="sm">
-            Add Project
-        </Button>
-        <Button variant="default" mb="sm">
-            Add Collaborative
-        </Button>
-      </Group>
-
       <Grid>
-      <Grid.Col span={2}>
-
-      </Grid.Col>
+        <Grid.Col span={3}>
+            <Button variant="default" mt="xl" mb="sm">
+                Edit Collaborative
+            </Button>
+            <Button
+              mb="sm"
+              variant="default"
+              onClick={() => {
+                  setIsModalOpen(true);
+                  if (allUsers.length === 0) {
+                  fetchAllUsers(); // Fetch users only if not already loaded
+                  }
+              }}
+              >
+              Add Members
+            </Button>
+            <Button variant="default" mb="sm">
+                Add Project
+            </Button>
+            <Button variant="default" mb="sm">
+                Add Collaborative
+            </Button>
+        </Grid.Col>
         <Grid.Col span={9}>
           <Table.ScrollContainer minWidth={400} mt="xl">
             <Table verticalSpacing="sm">
@@ -331,8 +339,6 @@ export function CollaborativeHome() {
               <Table.Tbody>{rows}</Table.Tbody>
             </Table>
           </Table.ScrollContainer>
-        </Grid.Col>
-        <Grid.Col span={1}>
         </Grid.Col>
       </Grid>
 

@@ -328,20 +328,6 @@ export function Test() {
                 </Grid.Col>
             </Grid>
 
-            <Title order={4} c="#45a6b7" mb="md" mt="xl">Members</Title>
-
-            <Button
-                variant="default"
-                onClick={() => {
-                    setIsModalOpen(true);
-                    if (allUsers.length === 0) {
-                    fetchAllUsers(); // Fetch users only if not already loaded
-                    }
-                }}
-                >
-                Add Member
-            </Button>
-
             <Modal
                 opened={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
@@ -426,27 +412,26 @@ export function Test() {
                 </Modal>
 
             <Grid>
-                <Grid.Col span={10}>
-                    <Group grow>
-                        <TextInput placeholder="Search members"/>
-                        <Select
-                            data={['Collaborarative Leader','Collaborative Member']}
-                            defaultValue={'Collaborative Member'}
-                        ></Select>
-                    </Group>
+                <Grid.Col span={3}>
+                    <Button variant="default" mt="xl" mb="sm">
+                        Edit Collaborative
+                    </Button>
+                    <Button variant="default" mb="sm">
+                        Add Collaborative
+                    </Button>
+                    <Button variant="default" mb="sm">
+                        Add Project
+                    </Button>
+                    <Button variant="default">
+                        Add Members
+                    </Button>
                 </Grid.Col>
-                <Grid.Col span={2}>
-                    <Button variant="default">Invite Member</Button>
-                </Grid.Col>
-            </Grid>
-
-            <Grid>
                 <Grid.Col span={9}>
                 <Table.ScrollContainer minWidth={400}>
                     <Table verticalSpacing="sm">
                         <Table.Thead>
                             <Table.Tr>
-                                <Table.Th></Table.Th>
+                                <Table.Th>Members</Table.Th>
                                 <Table.Th>Role</Table.Th>
                                 <Table.Th>Status</Table.Th>
                             </Table.Tr>
@@ -454,14 +439,7 @@ export function Test() {
                         <Table.Tbody>{rows}</Table.Tbody>
                     </Table>
                 </Table.ScrollContainer>
-
-                </Grid.Col>
-                <Grid.Col span={1}>
-
-                </Grid.Col>
-                <Grid.Col span={2}>
-                    
-                </Grid.Col>
+                </Grid.Col>      
             </Grid>
 
             <Title order={3} mb="md" pt="sm" pb="lg">
