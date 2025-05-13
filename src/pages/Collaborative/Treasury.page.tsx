@@ -111,10 +111,10 @@ export function CollaborativeTreasury() {
           </Grid.Col>
           <Grid.Col span={9}>
             <Stack>
-              <Title order={2} mt="xs" mb="md">
+              <Title order={2} mt="xs" mb="xl">
                 {collaborative.name}
               </Title>
-              <Title order={4} mb="xl">
+              <Title order={4} mb="md">
                   Revenue Sharing Pool
               </Title>
               <SimpleGrid cols={2} mb="md">
@@ -151,53 +151,12 @@ export function CollaborativeTreasury() {
         </Grid>
       </Card>
 
-      <Button variant="default" ml="xl" mb="sm">
+      <Button variant="default" mb="sm">
           Edit Revenue Share %
       </Button>
       <Button variant="default" ml="xl" mb="sm">
           Edit Exchange Rates
       </Button>
-
-      <Card shadow="sm" padding="lg" radius="md" mt="xl" mb="xl" withBorder>
-              <Title order={4} mb="xl">
-                  Revenue Sharing Pool
-              </Title>
-              <Grid>
-                <Grid.Col span={4}>
-                    <Text fz="md" fw={500}>
-                        Revenue Share %
-                    </Text>
-                    <Text fz="xl" c="#222" mb="lg">
-                      {collaborative.revenueShare}
-                    </Text>
-                    <Text fz="md" fw={500}>
-                        Payout Frequency
-                    </Text>
-                    <Text fz="xl" c="#222" mb="lg">
-                        {collaborative.payoutFrequency}
-                    </Text>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                  <Table variant="vertical" layout="fixed" withTableBorder>
-                   <Table.Thead>
-                    <Table.Tr>
-                        <Table.Th>Duration</Table.Th>
-                        <Table.Th>Exchange Rate</Table.Th>
-                    </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{stakingTierRows}</Table.Tbody>
-                  </Table>
-                </Grid.Col>
-                <Grid.Col span={4}>
-                    <Button variant="default" ml="xl" mb="sm">
-                        Edit Revenue Share %
-                    </Button>
-                    <Button variant="default" ml="xl" mb="sm">
-                        Edit Exchange Rates
-                    </Button>
-                </Grid.Col>
-              </Grid>
-            </Card>
 
     </Container>
   );
