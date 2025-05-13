@@ -17,6 +17,7 @@ import { IconSearch } from '@tabler/icons-react';
 interface CollaborativeData {
   id: number;
   name: string;
+  logoUrl: string;
   description: string;
   leaderEmail: string;
   leaderName: string;
@@ -85,7 +86,7 @@ export function CollaborativeDirectory() {
         {filteredData.map((collaborative) => (
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
             <Stack align="center">
-                <img src='/assets/logos/Empty.png' alt="Collaborative Logo" height={90} />
+                <img src={collaborative.logoUrl} alt="Collaborative Logo" height={90} />
                 <Text ta="center" fz="lg" fw={500} >
                     {collaborative.name}
                 </Text>
