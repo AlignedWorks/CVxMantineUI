@@ -39,6 +39,14 @@ export interface CollaborativeDataWithMembers {
   members: CollabMember[];
 }
 
+export interface CollaborativeDataTreasury {
+  id: number;
+  name: string;
+  revenueShare: number;
+  payoutFrequency: PayoutFrequency;
+  stakingTiers: StakingTier[];
+}
+
 export interface CollabMember {
   id: string;
   firstName: string;

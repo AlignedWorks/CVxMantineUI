@@ -103,6 +103,7 @@ export function Dashboard() {
       .then((res) => res.json())
       .then((updatedUser) => {
         console.log("Role updated successfully:", updatedUser);
+        
         setSubmittedUsers((prev) => ({ ...prev, [userId]: true })); // Mark as submitted
 
         // If the role is changed to Network Owner or Network Contributor, refresh the dashboard data
@@ -281,7 +282,6 @@ export function Dashboard() {
 
                     <Button
                       variant="outline"
-                      color="gray"
                       size="sm"
                       mt="sm"
                       onClick={() => handleSubmitRoleChange(user.id)} // Submit the role change

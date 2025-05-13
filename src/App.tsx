@@ -10,16 +10,23 @@ import { theme } from "./theme";
 import { Home } from './pages/Home.page';
 import { AuthenticationTitle } from './components/AuthenticationTitle/AuthenticationTitle';
 import { RegistrationTile } from './components/RegistrationTile/RegistrationTile';
+
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
-import { MemberDirectory } from './pages/MemberDirectory.page';
-import { UserProfile } from './pages/UserProfile.page';
 import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
-import { NotFound } from './components/404/NotFound.tsx';
-import { Dashboard } from "./pages/Dashboard.page.tsx";
+
+import { MemberDirectory } from './pages/MemberDirectory.page';
+import { MemberProfile } from "./pages/MemberProfile.page.tsx";
+import { UserProfile } from './pages/UserProfile.page';
+
 import { CollaborativeHome } from './pages/Collaborative/Home.page.tsx';
 import { CollaborativeMembers } from './pages/Collaborative/Members.page.tsx';
+import { CollaborativeTreasury } from "./pages/Collaborative/Treasury.page.tsx";
+
 import { Test } from "./pages/Test.page.tsx";
-import { MemberProfile } from "./pages/MemberProfile.page.tsx";
+import { NotFound } from './components/404/NotFound.tsx';
+import { Dashboard } from "./pages/Dashboard.page.tsx";
+
+
 
 export default function App() {
   const [opened] = useDisclosure();
@@ -58,6 +65,7 @@ export default function App() {
               <Route path="/test" element={<Test/>} /> {/* Test route for development */}
               <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
               <Route path="/collaboratives/:id/members" element={<CollaborativeMembers/>} />
+              <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
               <Route path="/members/:id" element={<MemberProfile/>} />
             </Routes>
           </AppShell.Main>
