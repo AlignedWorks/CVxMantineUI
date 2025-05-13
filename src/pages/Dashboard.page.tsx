@@ -29,81 +29,12 @@ interface User {
 
 interface CollabInvite {
   userId: string;
+  userRole: string;
   collabId: number;
   collabName: string;
   inviteStatus: string;
-  role: string;
+  
 }
-
-const mock_data = [
-  {
-      id: '1',
-    avatarUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png',
-    lastName: 'Wolfkisser',
-    firstName: 'Robert',
-    username: 'rob_wolf@gmail.com',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    phoneNumber: '123-456-7890',
-      createdAt: '2023-01-01',
-    linkedIn: 'https://www.linkedin.com/in/robertwolfkisser',
-    memberStatus: 'Applicant',
-  },
-  {
-      id: '2',
-    avatarUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png',
-    firstName: 'Jill',
-    lastName: 'Jailbreaker',
-    username: 'jj@breaker.com',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    phoneNumber: '123-456-7890',
-      createdAt: '2023-01-01',
-    linkedIn: 'https://www.linkedin.com/in/jilljailbreaker',
-    memberStatus: 'Applicant',
-  },
-  {
-      id: '3',
-    avatarUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-      firstName: 'Henry',
-      lastName: 'Silkeater',
-    username: 'henry@silkeater.io',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    phoneNumber: '123-456-7890',
-      createdAt: '2023-01-01',
-    linkedIn: 'https://www.linkedin.com/in/henrysilkeater',
-    memberStatus: 'Applicant',
-  },
-  {
-      id: '4',
-    avatarUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-      firstName: 'Bill',
-      lastName: 'Horsefighter',
-    username: 'bhorsefighter@gmail.com',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    phoneNumber: '123-456-7890',
-      createdAt: '2023-01-01',
-    linkedIn: 'https://www.linkedin.com/in/billhorsefighter',
-    role: 'Applicant',
-    memberStatus: 'Applicant',
-  },
-  {
-      id: '5',
-    avatarUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-      firstName: 'Jeremy',
-      lastName: 'Footviewer',
-    username: 'jeremy@foot.dev',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    phoneNumber: '123-456-7890',
-      createdAt: '2023-01-01',
-    linkedIn: 'https://www.linkedin.com/in/jeremyfootviewer',
-    memberStatus: 'Applicant',
-  },
-];
-
 
 export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
@@ -126,15 +57,7 @@ export function Dashboard() {
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
           setCollabInvites(collabInvites); // Set the collab invites data
-
-          // Set the user data
-          if (users.length === 0) {
-              setDashboard(mock_data);
-          } else {
-              setDashboard(users);
-              console.log(users);
-              // setLoading(false);
-          }
+          setDashboard(users);
 
           // Set the roles data
           setRolesData(roles);
@@ -251,7 +174,7 @@ export function Dashboard() {
                 <Group justify="space-between">
                     <img src='/assets/EmptyLogo.png' alt="Collaborative Logo" width={60} />
                     <Text>
-                        You've been invited to join the collaborative<br/><strong>{invite.collabName}</strong> as a <strong>{invite.role}</strong>.
+                        You've been invited to join the collaborative<br/><strong>{invite.collabName}</strong> as a <strong>{invite.userRole}</strong>.
                     </Text>
                     <div>
                         <Button
@@ -319,7 +242,6 @@ export function Dashboard() {
                         <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
                             <Text
                                 size="sm"
-                                c="dimmed"
                                 style={{
                                 display: '-webkit-box',
                                 WebkitLineClamp: 4, // Limit to 4 lines
