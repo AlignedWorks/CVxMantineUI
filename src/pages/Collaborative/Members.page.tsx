@@ -214,7 +214,7 @@ export function CollaborativeMembers() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
+      <Link to="/collaboratives/{:id}" style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
@@ -224,13 +224,13 @@ export function CollaborativeMembers() {
                 <img src='/assets/EmptyLogo.png' width={80}/>
               </Center>
           </Grid.Col>
-          <Grid.Col span={10}>
+          <Grid.Col span={9}>
             <Stack>
               <Title order={2} mt="xs" mb="md">
                 {collaborative.name}
               </Title>
               <Table.ScrollContainer minWidth={400} mt="xl">
-                <Table verticalSpacing="sm" mr="lg">
+                <Table verticalSpacing="sm">
                   <Table.Thead>
                     <Table.Tr>
                         <Table.Th>Members</Table.Th>
@@ -244,6 +244,8 @@ export function CollaborativeMembers() {
             </Stack>
           </Grid.Col>
         </Grid>
+        <Grid.Col span={1}>
+        </Grid.Col>
       </Card>
 
       <Button
