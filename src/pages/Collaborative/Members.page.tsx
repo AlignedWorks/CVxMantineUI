@@ -230,7 +230,7 @@ export function CollaborativeMembers() {
                 {collaborative.name}
               </Title>
               <Table.ScrollContainer minWidth={400} mt="xl">
-                <Table verticalSpacing="sm">
+                <Table verticalSpacing="sm" mr="lg">
                   <Table.Thead>
                     <Table.Tr>
                         <Table.Th>Members</Table.Th>

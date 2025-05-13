@@ -22,12 +22,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext';
 import classes from './HeaderTabs.module.css';
 
-const tabs = [
-  'Home',
-  'Projects',
-  'Members',
-  'Treasury',
-  'Wallet',
+// Define tab data with paths
+const tabsData = [
+  { key: 'Home', path: '' },
+  { key: 'Projects', path: '/projects' },
+  { key: 'Members', path: '/members' },
+  { key: 'Treasury', path: '/treasury' },
+  { key: 'Wallet', path: '/wallet' },
 ];
 
 export function HeaderTabs() {
@@ -41,6 +42,17 @@ export function HeaderTabs() {
   const { collaborativeId } = useCollaborativeContext();
   const isCollaborativeRoute = Boolean(collaborativeId);
 
+  // Determine active tab based on current path
+  const getActiveTab = () => {
+    if (!collaborativeId) return 'Home';
+    
+    const currentPath = location.pathname;
+    const foundTab = tabsData.find(tab => 
+      currentPath.includes(`/collaboratives/${collaborativeId}${tab.path}`)
+    );
+    
+    return foundTab?.key || 'Home';
+  };
 
   const handleLogout = async () => {
     try {
@@ -73,9 +85,22 @@ export function HeaderTabs() {
     }
 };
 
-  const items = tabs.map((tab) => (
-    <Tabs.Tab value={tab} key={tab}>
-      {tab}
+  // Function to navigate to the tab's URL
+  const handleTabChange = (value: string | null) => {
+    if (!value) return; // Handle null case gracefully
+    const tab = tabsData.find(t => t.key === value);
+    if (tab && collaborativeId) {
+      // For Home tab, navigate to base collaborative path
+      const path = tab.key === 'Home' 
+        ? `/collaboratives/${collaborativeId}`
+        : `/collaboratives/${collaborativeId}${tab.path}`;
+      navigate(path);
+    }
+  };
+
+  const items = tabsData.map((tab) => (
+    <Tabs.Tab value={tab.key} key={tab.key}>
+      {tab.key}
     </Tabs.Tab>
   ));
 
@@ -89,7 +114,8 @@ export function HeaderTabs() {
             {isCollaborativeRoute && (
 
               <Tabs
-                defaultValue="Home"
+                value={getActiveTab()}
+                onChange={handleTabChange}
                 variant="outline"
                 visibleFrom="sm"
                 classNames={{
