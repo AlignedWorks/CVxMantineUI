@@ -131,7 +131,7 @@ export function CollaborativeHome() {
                           {getDisplayUrl(collaborative.websiteUrl)}
                       </a>
                     </Group>
-                    <Group wrap="nowrap" gap={10}>
+                    <Group wrap="nowrap" gap={10} mt="xl">
                       <IconMapPin stroke={1.5} size={16} />
                       <Text>
                           {collaborative.city}, {collaborative.state}

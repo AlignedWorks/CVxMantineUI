@@ -10,6 +10,7 @@ import {
   TextInput,
   Stack,
   Grid,
+  Center,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
@@ -106,12 +107,14 @@ export function CollaborativeDirectory() {
                     <Title order={3} c="dimmed" ta="center">{collaborative.sumMembers}</Title>
                 </Grid.Col>
             </Grid>
-            <Link
-              to={`/collaboratives/${collaborative.id}`}
-              state={{ from: location.pathname }}
-              style={{ textDecoration: 'none', color: 'inherit'}}>
-              <Button variant="outline" size="sm" mt="lg">View</Button>
-            </Link>
+            <Center>
+              <Link
+                to={`/collaboratives/${collaborative.id}`}
+                state={{ from: location.pathname }}
+                style={{ textDecoration: 'none', color: 'inherit'}}>
+                <Button variant="outline" size="sm" mt="lg">View</Button>
+              </Link>
+            </Center>
           </Card>
         ))}
       </SimpleGrid>
