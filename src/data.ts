@@ -34,6 +34,12 @@ export interface CollaborativeData {
   members: CollabMember[];
 }
 
+export interface CollaborativeDataWithMembers {
+  id: number;
+  name: string;
+  members: CollabMember[];
+}
+
 export interface CollabMember {
   id: string;
   firstName: string;
