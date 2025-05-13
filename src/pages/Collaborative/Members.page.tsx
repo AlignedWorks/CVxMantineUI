@@ -243,9 +243,9 @@ export function CollaborativeMembers() {
               </Table.ScrollContainer>
             </Stack>
           </Grid.Col>
+          <Grid.Col span={1}>
+          </Grid.Col>
         </Grid>
-        <Grid.Col span={1}>
-        </Grid.Col>
       </Card>
 
       <Button
