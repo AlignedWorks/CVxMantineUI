@@ -104,6 +104,17 @@ export function Dashboard() {
       .then((updatedUser) => {
         console.log("Role updated successfully:", updatedUser);
         setSubmittedUsers((prev) => ({ ...prev, [userId]: true })); // Mark as submitted
+
+        // If the role is changed to Network Owner or Network Contributor, refresh the dashboard data
+        if (newRole === "Network Owner" || newRole === "Network Contributor") {
+          // Update the user in the dashboard array with the new role
+          setDashboard(prevDashboard => 
+            prevDashboard?.map(user => 
+              user.id === userId ? { ...user, memberStatus: newRole } : user
+            ) || null
+          );
+        }
+
         setTimeout(() => {
           setSubmittedUsers((prev) => ({ ...prev, [userId]: false })); // Reset after 3 seconds
         }, 3000);
