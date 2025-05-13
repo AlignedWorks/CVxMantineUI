@@ -214,7 +214,7 @@ export function CollaborativeMembers() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <Link to="/collaboratives/{:id}" style={{ textDecoration: 'none', color: '#0077b5' }}>
+      <Link to={`/collaboratives/${id}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">

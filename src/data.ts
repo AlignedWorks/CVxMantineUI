@@ -31,7 +31,6 @@ export interface CollaborativeData {
   skills: string[];
   experience: string[];
   stakingTiers: StakingTier[];
-  members: CollabMember[];
 }
 
 export interface CollaborativeDataWithMembers {
