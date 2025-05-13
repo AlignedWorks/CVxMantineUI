@@ -32,8 +32,8 @@ interface CollabInvite {
   userRole: string;
   collabId: number;
   collabName: string;
+  collabLogoUrl: string;
   inviteStatus: string;
-  
 }
 
 export function Dashboard() {
@@ -184,7 +184,7 @@ export function Dashboard() {
               mt="lg"
               mb="lg">
                 <Group justify="space-between">
-                    <img src='/assets/EmptyLogo.png' alt="Collaborative Logo" width={60} />
+                    <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
                     <Text>
                         You've been invited to join the collaborative<br/><strong>{invite.collabName}</strong> as a <strong>{invite.userRole}</strong>.
                     </Text>
