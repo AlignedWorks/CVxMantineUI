@@ -221,7 +221,7 @@ export function CollaborativeMembers() {
         <Grid>
           <Grid.Col span={2}>
               <Center mt="xs">
-                <img src='/assets/EmptyLogo.png' width={80}/>
+                <img src={collaborative.logoUrl} width={80}/>
               </Center>
           </Grid.Col>
           <Grid.Col span={9}>

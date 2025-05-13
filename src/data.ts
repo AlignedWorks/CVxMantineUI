@@ -35,12 +35,14 @@ export interface CollaborativeData {
 export interface CollaborativeDataWithMembers {
   id: number;
   name: string;
+  logoUrl: string;
   members: CollabMember[];
 }
 
 export interface CollaborativeDataTreasury {
   id: number;
   name: string;
+  logoUrl: string;
   revenueShare: number;
   payoutFrequency: PayoutFrequency;
   stakingTiers: StakingTier[];
@@ -483,7 +485,7 @@ export const mock_collab_data: CollaborativeData[] = [
     name: 'Breadcoin PA Capital region',
     description: 'Breadcoin destigmatizes hunger and bridges divides. The same coin used in Harrisburg is the same coin used in Mechanicsburg. Breadcoin makes sure everyone is included at the table. We are proud to partner with many local organizations and churches throughout central Pennsylvania.',
     websiteUrl: 'https://breadcoin.org/locations/pa/',
-    logoUrl: '/assets/BreadcoinLogo.png',
+    logoUrl: '/assets/logos/ByteSecure.png',
     city: "Harrisburg",
     state: "PA",
     leaderEmail: 'david@aligned.works',
@@ -501,7 +503,7 @@ export const mock_collab_data: CollaborativeData[] = [
     name: '717 Tacos',
     description: 'We believe that a balanced diet, is a taco in each hand.',
     websiteUrl: 'https://717tacos.com/',
-    logoUrl: '/assets/717Logo.png',
+    logoUrl: '/assets/logos/717.png',
     city: "Harrisburg",
     state: "PA",
     leaderEmail: 'alex@codeforge.com',
@@ -519,7 +521,7 @@ export const mock_collab_data: CollaborativeData[] = [
     name: 'SCC Tattoos',
     description: 'Established by award-winning artist Dre Ceja, SCC TATTOOS has quickly become a popular destination for custom tattooing in Downtown Harrisburg. The private studio provides a friendly, professional, and hygienic setting for both newcomers and experienced tattoo enthusiasts.',
     websiteUrl: 'https://scctattoos.com/',
-    logoUrl: '/assets/SCClogo.png',
+    logoUrl: '/assets/logos/SCC.png',
     city: "Harrisburg",
     state: "PA",
     leaderEmail: 'alex@codeforge.com',
