@@ -489,7 +489,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Software Development', 'Open Source', 'DevOps'],
     experience: ['Technology'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 2,
@@ -509,7 +508,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Software Development', 'Open Source', 'DevOps'],
     experience: ['Technology'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 3,
@@ -529,7 +527,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Software Development', 'Open Source', 'DevOps'],
     experience: ['Technology'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 11,
@@ -549,7 +546,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Software Development', 'Open Source', 'DevOps'],
     experience: ['Technology'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 12,
@@ -569,7 +565,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Renewable Energy', 'Environmental Science', 'IoT'],
     experience: ['Clean Energy'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 13,
@@ -589,7 +584,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Healthcare IT', 'Data Security', 'AI in Medicine'],
     experience: ['Healthcare'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 4,
@@ -609,7 +603,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Graphic Design', 'Animation', 'Digital Art'],
     experience: ['Creative Arts'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 5,
@@ -629,7 +622,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['AI in Education', 'E-Learning', 'Software Development'],
     experience: ['Education Technology'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 6,
@@ -649,7 +641,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Cybersecurity', 'Ethical Hacking', 'Cloud Security'],
     experience: ['Cybersecurity'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 7,
@@ -669,7 +660,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Vertical Farming', 'Hydroponics', 'IoT in Agriculture'],
     experience: ['AgTech'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 8,
@@ -689,7 +679,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Blockchain', 'FinTech', 'Data Analytics'],
     experience: ['Financial Technology'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 9,
@@ -709,7 +698,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Game Development', 'Unreal Engine', 'Narrative Design'],
     experience: ['Gaming'],
     stakingTiers: [],
-    members: [],
   },
   {
     id: 10,
@@ -729,7 +717,6 @@ export const mock_collab_data: CollaborativeData[] = [
     skills: ['Robotics', '3D Printing', 'Hardware Prototyping'],
     experience: ['Engineering & Manufacturing'],
     stakingTiers: [],
-    members: [],
   },
 ];
 
