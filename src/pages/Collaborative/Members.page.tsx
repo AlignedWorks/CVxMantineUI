@@ -55,7 +55,7 @@ export function CollaborativeMembers() {
   const [successMessage, setSuccessMessage] = useState(''); // For the success message
 
   // Get the "from" state or default to a fallback
-  const from = location.state?.from || '/collaborative-directory';
+  // const from = location.state?.from || '/collaborative-directory';
 
   if (user) {
     console.log(user.username);
