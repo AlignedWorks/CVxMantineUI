@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useSessionTimeout({
     isLoggedIn: !!user,            // Convert user to boolean - true if user exists, false otherwise
     logoutFunction: logout,        // Pass the logout function
-    timeoutMs: 7 * 60 * 1000,      // 8 minutes in milliseconds
+    timeoutMs: 59 * 60 * 1000,      // 59 minutes in milliseconds (cookie expires at 60 minutes)
     loginTime: loginTime           // Pass the login timestamp
   });
 
