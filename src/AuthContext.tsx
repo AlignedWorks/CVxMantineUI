@@ -1,4 +1,5 @@
 import React, { createContext, useState, ReactNode } from 'react';
+import { useSessionTimeout } from "./SessionTimeout.tsx";
 
 interface User {
   username: string;
@@ -29,15 +30,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
+  // Track when the user logged in
+  const [loginTime, setLoginTime] = useState<number | null>(null);
+
   const login = (user: User) => {
     setUser(user);
     localStorage.setItem('user', JSON.stringify(user));
+    setLoginTime(Date.now()); // Set login time
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    setLoginTime(null); // Reset login time
   };
+
+  // Use the session timeout hook at the component level
+  useSessionTimeout({
+    isLoggedIn: !!user,            // Convert user to boolean - true if user exists, false otherwise
+    logoutFunction: logout,        // Pass the logout function
+    timeoutMs: 7 * 60 * 1000,      // 8 minutes in milliseconds
+    loginTime: loginTime           // Pass the login timestamp
+  });
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
