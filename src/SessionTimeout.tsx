@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 interface SessionTimeoutProps {
   isLoggedIn: boolean;
@@ -14,7 +13,6 @@ export function useSessionTimeout({
   timeoutMs,
   loginTime
 }: SessionTimeoutProps) {
-  const navigate = useNavigate();
   const timeoutRef = useRef<number | null>(null);
   
   useEffect(() => {
@@ -29,10 +27,6 @@ export function useSessionTimeout({
       timeoutRef.current = window.setTimeout(() => {
         console.log('Session timeout reached. Logging out user.');
         logoutFunction();
-        // clear session and redirect to login
-        console.log("Session expired. Redirecting to login...");
-        localStorage.clear();
-        navigate('/login');
       }, timeoutMs);
       
       // Log when the session will expire
@@ -46,5 +40,5 @@ export function useSessionTimeout({
         window.clearTimeout(timeoutRef.current);
       }
     };
-  }, [isLoggedIn, logoutFunction, timeoutMs, loginTime, navigate]);
+  }, [isLoggedIn, logoutFunction, timeoutMs, loginTime]);
 };
