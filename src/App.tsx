@@ -25,12 +25,12 @@ import { CollaborativeTreasury } from "./pages/Collaborative/Treasury.page.tsx";
 import { Test } from "./pages/Test.page.tsx";
 import { NotFound } from './components/404/NotFound.tsx';
 import { Dashboard } from "./pages/Dashboard.page.tsx";
-
-
+import { useSessionTimeout } from "./components/SessionTimeout.tsx";
 
 export default function App() {
   const [opened] = useDisclosure();
   const { user } = useAuth(); // Get the user from the AuthContext
+  useSessionTimeout(8 * 60 * 1000); // Set session timeout
 
   return (
     <MantineProvider theme={theme}>
