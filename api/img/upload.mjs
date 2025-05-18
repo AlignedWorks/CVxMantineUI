@@ -1,9 +1,7 @@
-import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
+import { handleUpload } from '@vercel/blob/client';
  
-export default async function (request: Request) {
-  console.log('Request to /api/img/upload');
-  const body = (await request.json()) as HandleUploadBody;
-  console.log('Request body:', body);
+export default async function (request) {
+  const body = await request.json();
  
   try {
     const jsonResponse = await handleUpload({
@@ -48,7 +46,7 @@ export default async function (request: Request) {
   } catch (error) {
     console.error('Error in /api/img/upload:', error);
     return Response.json(
-      { error: (error as Error).message },
+      { error: error.message },
       { status: 400 }, // The webhook will retry 5 times waiting for a 200
     );
   }
