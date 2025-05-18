@@ -1,20 +1,18 @@
 import { handleUpload } from '@vercel/blob/client';
  
-export default async function (request) {
-  const body = await request.json();
- 
+export default async function (req, res) {
   try {
+    console.log('Processing upload request');
+    // Use req.body directly in Node.js environment
+    const body = req.body;
+    
+    // Note: 'request' is not defined - we need to use 'req' instead
     const jsonResponse = await handleUpload({
       body,
-      request,
-      onBeforeGenerateToken: async (
-        pathname,
-        /* clientPayload */
-      ) => {
-        // Generate a client token for the browser to upload the file
-        // ⚠️ Authenticate and authorize users before generating the token.
-        // Otherwise, you're allowing anonymous uploads.
- 
+      request: req,  // Use req instead of request
+      onBeforeGenerateToken: async (pathname, clientPayload) => {
+        console.log('Generating token for:', pathname);
+        
         return {
           allowedContentTypes: ['image/jpeg', 'image/png', 'image/gif'],
           addRandomSuffix: true,
@@ -26,10 +24,6 @@ export default async function (request) {
       },
 
       onUploadCompleted: async ({ blob, tokenPayload }) => {
-        // Get notified of client upload completion
-        // ⚠️ This will not work on `localhost` websites,
-        // Use ngrok or similar to get the full upload flow
- 
         console.log('blob upload completed', blob, tokenPayload);
  
         try {
@@ -37,17 +31,16 @@ export default async function (request) {
           // const { userId } = JSON.parse(tokenPayload);
           // await db.update({ avatar: blob.url, userId });
         } catch (error) {
+          console.error('Error updating after upload:', error);
           throw new Error('Could not update user');
         }
       },
     });
  
-    return Response.json(jsonResponse);
+    // Use res.json in a Node.js environment
+    return res.status(200).json(jsonResponse);
   } catch (error) {
     console.error('Error in /api/img/upload:', error);
-    return Response.json(
-      { error: error.message },
-      { status: 400 }, // The webhook will retry 5 times waiting for a 200
-    );
+    return res.status(400).json({ error: error.message });
   }
 }
