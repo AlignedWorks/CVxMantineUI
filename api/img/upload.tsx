@@ -1,4 +1,8 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
+
+export const config = {
+  runtime: 'edge',
+};
  
 export default async function (request: Request) {
   console.log('Request to /api/img/upload');
