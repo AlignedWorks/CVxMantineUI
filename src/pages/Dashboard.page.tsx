@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { put } from "@vercel/blob";
+import { IconUpload } from "@tabler/icons-react";
 
 interface User {
   id: string;
@@ -180,6 +181,11 @@ export function Dashboard() {
                   <Button variant="default" onClick={() => handleTestBlobStorage()}>
                       Test blob storage
                   </Button>
+                  <Link to="/upload-image">
+                    <Button variant="default" leftSection={<IconUpload size={16} />}>
+                      Upload Images
+                    </Button>
+                  </Link>
               </Link>
           </Group>
 
