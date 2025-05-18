@@ -64,7 +64,6 @@ export function UserProfile() {
         .then((res) => res.json())
         .then((data) => { 
           setUser(data);
-          console.log(data);
           setLoading(false); // Set loading to false after data is fetched
         })
         .catch((err) => 
@@ -94,9 +93,8 @@ export function UserProfile() {
     })
     .then((res) => res.json())
     .then((data) => {
-        console.log(data);
-        setSkills(data.skills); // Assuming the JSON has a `skills` key
-        setExperience(data.experience); // Assuming the JSON has an `experience` key
+        setSkills(data.skills);
+        setExperience(data.experience);
     })
     .catch((err) => console.error("Error fetching profile:", err));
   };

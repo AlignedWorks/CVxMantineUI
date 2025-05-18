@@ -1,7 +1,9 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
  
 export default async function (request: Request) {
+  console.log('Request to /api/img/upload');
   const body = (await request.json()) as HandleUploadBody;
+  console.log('Request body:', body);
  
   try {
     const jsonResponse = await handleUpload({
@@ -24,6 +26,7 @@ export default async function (request: Request) {
           }),
         };
       },
+
       onUploadCompleted: async ({ blob, tokenPayload }) => {
         // Get notified of client upload completion
         // ⚠️ This will not work on `localhost` websites,
@@ -43,6 +46,7 @@ export default async function (request: Request) {
  
     return Response.json(jsonResponse);
   } catch (error) {
+    console.error('Error in /api/img/upload:', error);
     return Response.json(
       { error: (error as Error).message },
       { status: 400 }, // The webhook will retry 5 times waiting for a 200

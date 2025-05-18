@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { useSessionTimeout } from "./SessionTimeout.tsx";
 
 interface User {
@@ -30,12 +30,33 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
+  useEffect(() => {
+  if (user) {
+    const storedLoginTime = localStorage.getItem('loginTime');
+    if (storedLoginTime) {
+      const loginTimestamp = parseInt(storedLoginTime, 10);
+      const currentTime = Date.now();
+      const timeElapsed = currentTime - loginTimestamp;
+      
+      // If more than the timeout period has passed, log them out
+      if (timeElapsed > 59 * 60 * 1000) {
+        logout();
+      } else {
+        // Otherwise update the login time state and set a new timeout
+        // for the remaining time
+        setLoginTime(loginTimestamp);
+      }
+    }
+  }
+}, []);
+
   // Track when the user logged in
   const [loginTime, setLoginTime] = useState<number | null>(null);
 
   const login = (user: User) => {
     setUser(user);
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('loginTime', Date.now().toString()); // Store login time
     setLoginTime(Date.now()); // Set login time
   };
 
