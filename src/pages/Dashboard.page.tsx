@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { put } from "@vercel/blob";
 
 interface User {
   id: string;
@@ -160,6 +161,11 @@ export function Dashboard() {
       });
   };
 
+  const handleTestBlobStorage = async () => {
+    const { url } = await put('articles/blob.txt', 'Hello World!', { access: 'public' });
+    console.log(url);
+  }
+
   return (
     <>
       <Container size="md" py="xl">
@@ -170,6 +176,9 @@ export function Dashboard() {
               <Link to="/create-collaborative">
                   <Button variant="default">
                       Propose a Collaborative
+                  </Button>
+                  <Button variant="default" onClick={() => handleTestBlobStorage()}>
+                      Test blob storage
                   </Button>
               </Link>
           </Group>
