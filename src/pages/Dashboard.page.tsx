@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../AuthContext.tsx";
 import {
   Container,
   Title,
@@ -44,6 +45,7 @@ export function Dashboard() {
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
+  const { user } = useAuth();
   // const [loading, setLoading] = useState(true);
 
   const fetchDashboardData = () => {
@@ -170,149 +172,151 @@ export function Dashboard() {
   return (
     <>
       <Container size="md" py="xl">
-          <Title order={1} mb="md" pt="sm" pb="lg">
-              Dashboard
-          </Title>
-          <Group justify="center" mt="xl">
-              <Link to="/create-collaborative">
-                  <Button variant="default">
-                      Propose a Collaborative
+        <Title order={2} lts="4px" c="dimmed">
+            COLLABORATIVE VALUE EXCHANGE
+        </Title>
+        <Title order={1} mb="md" pt="sm" pb="lg">
+            {user ? user.firstName + "'s " : ""}Dashboard
+        </Title>
+        <Group justify="center" mt="xl">
+            <Link to="/create-collaborative">
+                <Button variant="default">
+                    Propose a Collaborative
+                </Button>
+                <Button variant="default" onClick={() => handleTestBlobStorage()}>
+                    Test blob storage
+                </Button>
+                <Link to="/upload-image">
+                  <Button variant="default" leftSection={<IconUpload size={16} />}>
+                    Upload Images
                   </Button>
-                  <Button variant="default" onClick={() => handleTestBlobStorage()}>
-                      Test blob storage
-                  </Button>
-                  <Link to="/upload-image">
-                    <Button variant="default" leftSection={<IconUpload size={16} />}>
-                      Upload Images
-                    </Button>
-                  </Link>
-              </Link>
-          </Group>
+                </Link>
+            </Link>
+        </Group>
 
-          {collabInvites?.map((invite) => (
-            <Card 
-              key={`${invite.userId}-${invite.collabId}`}
-              shadow="sm"
-              padding="lg"
-              radius="md"
-              withBorder
-              mt="lg"
-              mb="lg">
-                <Group justify="space-between">
-                    <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                    <Text>
-                        You've been invited to join the collaborative<br/><strong>{invite.collabName}</strong> as a <strong>{invite.userRole}</strong>.
-                    </Text>
-                    <div>
-                        <Button
-                          variant="default"
-                          onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
-                            Accept Invitation
-                        </Button>
-                        <Button
-                          variant="default"
-                          onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
-                          ml="md">
-                            Decline Invitation
-                        </Button>
-                    </div>
-                </Group>
-            </Card>
-          ))}
-
-          <Title order={3} mb="md" pt="sm" pb="lg">
-              Approve users
-          </Title>
-
-          {dashboard?.map((user) => (
-            <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
-                <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
-                    <div>
-                        <Grid>
-                            <Grid.Col span={4}>
-                                <Avatar src={user.avatarUrl} size={60} radius="xl" mx="auto"/>
-                            </Grid.Col>
-                            <Grid.Col span={8}>
-                                <Text size="lg" fw={500}>
-                                  {user.firstName + " " + user.lastName}
-                                </Text>
-                                <Tooltip label={user.username} color="gray">
-                                    <Text
-                                        size="sm"
-                                        c="dimmed"
-                                        style={{
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        }}
-                                    >
-                                        {user.username}
-                                    </Text>
-                                </Tooltip>
-                                <Text size="sm" c="dimmed">
-                                    <a
-                                        href={user.linkedIn}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        style={{ color: "#0077b5", textDecoration: "none" }}
-                                    >
-                                        LinkedIn
-                                    </a>
-                                </Text>
-                            </Grid.Col>
-                        </Grid>
-                    </div>
-                    <div>
-                        <Text fw={500}>
-                            Bio
-                        </Text>
-                        <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
-                            <Text
-                                size="sm"
-                                style={{
-                                display: '-webkit-box',
-                                WebkitLineClamp: 4, // Limit to 4 lines
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                minHeight: '3.6em', // Ensure consistent height for 3 lines of text
-                                lineHeight: '1.2em', // Adjust line height to match the text
-                                }}
-                            >
-                                {user.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
-                            </Text>
-                        </Tooltip>
-                    </div>
-                    <div>
-
-                    {user.memberStatus.length > 0 && (
-                      <Select
-                        label="User Status"
-                        data={rolesData}
-                        value={selectedRoles[user.id] || user.memberStatus} // Use the temporary state or fallback to the current role
-                        allowDeselect={false}
-                        onChange={(value) => handleRoleChange(user.id, value)}
-                      />
-                    )}
-
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      mt="sm"
-                      onClick={() => handleSubmitRoleChange(user.id)} // Submit the role change
-                    >
-                      Submit
-                    </Button>
-                      {submittedUsers[user.id] && (
-                        <Text size="sm" c="green" mt="xs">
-                          Role updated successfully!
-                        </Text>
-                      )}
-                    </div>        
-                </SimpleGrid>
-            </Card>
+        {collabInvites?.map((invite) => (
+          <Card 
+            key={`${invite.userId}-${invite.collabId}`}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            mt="lg"
+            mb="lg">
+              <Group justify="space-between">
+                  <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  <Text>
+                      You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: 'inherit'}}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                  </Text>
+                  <div>
+                      <Button
+                        variant="default"
+                        onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
+                          Accept Invitation
+                      </Button>
+                      <Button
+                        variant="default"
+                        onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
+                        ml="md">
+                          Decline Invitation
+                      </Button>
+                  </div>
+              </Group>
+          </Card>
         ))}
 
+        <Title order={3} mb="md" pt="sm" pb="lg">
+            Approve users
+        </Title>
+
+        {dashboard?.map((user) => (
+          <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
+              <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
+                  <div>
+                      <Grid>
+                          <Grid.Col span={4}>
+                              <Avatar src={user.avatarUrl} size={60} radius="xl" mx="auto"/>
+                          </Grid.Col>
+                          <Grid.Col span={8}>
+                              <Text size="lg" fw={500}>
+                                {user.firstName + " " + user.lastName}
+                              </Text>
+                              <Tooltip label={user.username} color="gray">
+                                  <Text
+                                      size="sm"
+                                      c="dimmed"
+                                      style={{
+                                      whiteSpace: 'nowrap',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      }}
+                                  >
+                                      {user.username}
+                                  </Text>
+                              </Tooltip>
+                              <Text size="sm" c="dimmed">
+                                  <a
+                                      href={user.linkedIn}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{ color: "#0077b5", textDecoration: "none" }}
+                                  >
+                                      LinkedIn
+                                  </a>
+                              </Text>
+                          </Grid.Col>
+                      </Grid>
+                  </div>
+                  <div>
+                      <Text fw={500}>
+                          Bio
+                      </Text>
+                      <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                          <Text
+                              size="sm"
+                              style={{
+                              display: '-webkit-box',
+                              WebkitLineClamp: 4, // Limit to 4 lines
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                              lineHeight: '1.2em', // Adjust line height to match the text
+                              }}
+                          >
+                              {user.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+                          </Text>
+                      </Tooltip>
+                  </div>
+                  <div>
+
+                  {user.memberStatus.length > 0 && (
+                    <Select
+                      label="User Status"
+                      data={rolesData}
+                      value={selectedRoles[user.id] || user.memberStatus} // Use the temporary state or fallback to the current role
+                      allowDeselect={false}
+                      onChange={(value) => handleRoleChange(user.id, value)}
+                    />
+                  )}
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    mt="sm"
+                    onClick={() => handleSubmitRoleChange(user.id)} // Submit the role change
+                  >
+                    Submit
+                  </Button>
+                    {submittedUsers[user.id] && (
+                      <Text size="sm" c="green" mt="xs">
+                        Role updated successfully!
+                      </Text>
+                    )}
+                  </div>        
+              </SimpleGrid>
+          </Card>
+        ))}
       </Container>
     </>
   );

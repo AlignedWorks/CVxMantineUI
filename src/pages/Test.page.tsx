@@ -18,7 +18,7 @@ import {
   Loader,
   Divider,
   Stack,
-  Center,
+  Center
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import classes from './Test.module.css';
@@ -125,6 +125,10 @@ export function Test() {
 
     return (
         <Container size="md" py="xl">
+            <Title order={2} lts="4px" c="dimmed">
+                COLLABORATIVE VALUE EXCHANGE
+            </Title>
+
             <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
                 <Grid>
                     <Grid.Col span={2}>
