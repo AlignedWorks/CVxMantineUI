@@ -172,7 +172,7 @@ export function Dashboard() {
         <Title order={1} mb="md" pt="sm" pb="lg">
             {user ? user.firstName + "'s " : ""}Dashboard
         </Title>
-        <Group justify="center" mt="xl">
+        <Group justify="flex-start" mt="xl">
           <Link to="/create-collaborative">
             <Button variant="default">
                 Propose a Collaborative
@@ -195,7 +195,7 @@ export function Dashboard() {
             withBorder
             mt="lg"
             mb="lg">
-              <Group justify="flex-start">
+              <Group justify="space-between">
                   <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
                   <Text>
                       You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.

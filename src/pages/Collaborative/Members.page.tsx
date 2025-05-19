@@ -199,8 +199,17 @@ export function CollaborativeMembers() {
                 >
                 {item.firstName} {item.lastName}
               </Text>
-              <Text fz="xs" c="dimmed">
-                  {item.userName}
+              <Text 
+                fz="xs" 
+                c="dimmed"
+                component="a"
+                href={`mailto:${item.userName}`}
+                style={{
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease'
+                }}
+              >
+                {item.userName}
               </Text>
             </div>
         </Group>
