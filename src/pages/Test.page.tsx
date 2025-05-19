@@ -191,7 +191,7 @@ export function Test() {
                 <Group justify="space-between">
                     <img src={testCollab.logoUrl} alt="Collaborative Logo" width={60} />
                     <Text>
-                        You've been invited to join the collaborative<br/><strong>{testCollab.name}</strong> as a <strong>Collaborative Leader</strong>.
+                        You've been invited to join the collaborative<br/><span color="blue"><strong>{testCollab.name}</strong></span> as a <strong>Collaborative Leader</strong>.
                     </Text>
                     <div>
                         <Button variant="default">

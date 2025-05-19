@@ -106,6 +106,7 @@ export function MemberDirectory() {
             <Group justify="center" mt="md">
               <Link
                 to={`/members/${user.id}`}
+                state={{ from: location.pathname }}
                 style={{ textDecoration: 'none', color: 'inherit'}}>
                 <Button variant="outline" size="sm" mt="lg">
                   View Profile

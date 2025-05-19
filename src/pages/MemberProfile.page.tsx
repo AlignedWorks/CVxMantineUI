@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import {
   Container,
   Avatar,
@@ -36,8 +36,12 @@ interface User {
 }
 
 export function MemberProfile() {
-    const { id } = useParams(); // Get the 'id' parameter from the URL
-    const [user, setUser] = useState<User | null>(null);
+  const location = useLocation();
+  const { id } = useParams(); // Get the 'id' parameter from the URL
+  const [user, setUser] = useState<User | null>(null);
+
+  // Get the "from" state or default to a fallback
+  const from = location.state?.from || '/member-directory';
 
   const fetchMemberData = () => {
     try {
@@ -69,7 +73,7 @@ export function MemberProfile() {
     <>
     <Container size="md" py="xl">
         {/* Back Link */}
-        <Link to="/member-directory" style={{ textDecoration: 'none', color: '#0077b5' }}>
+        <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
             &larr; Back
         </Link>
       { user ? (

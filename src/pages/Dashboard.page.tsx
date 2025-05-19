@@ -180,7 +180,7 @@ export function Dashboard() {
           </Link>
           <Link
             to="/upload-image">
-            <Button variant="disabled" leftSection={<IconUpload size={16} />}>
+            <Button data-disabled leftSection={<IconUpload size={16} />}>
               Upload Images
             </Button>
           </Link>
@@ -198,7 +198,7 @@ export function Dashboard() {
               <Group justify="flex-start">
                   <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
                   <Text>
-                      You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                      You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
                   </Text>
                   <div>
                       <Button
