@@ -164,11 +164,6 @@ export function Dashboard() {
       });
   };
 
-  const handleTestBlobStorage = async () => {
-    const { url } = await put('articles/blob.txt', 'Hello World!', { access: 'public' });
-    console.log(url);
-  }
-
   return (
     <>
       <Container size="md" py="xl">
@@ -179,19 +174,17 @@ export function Dashboard() {
             {user ? user.firstName + "'s " : ""}Dashboard
         </Title>
         <Group justify="center" mt="xl">
-            <Link to="/create-collaborative">
-                <Button variant="default">
-                    Propose a Collaborative
-                </Button>
-                <Button variant="default" onClick={() => handleTestBlobStorage()}>
-                    Test blob storage
-                </Button>
-                <Link to="/upload-image">
-                  <Button variant="default" leftSection={<IconUpload size={16} />}>
-                    Upload Images
-                  </Button>
-                </Link>
-            </Link>
+          <Link to="/create-collaborative">
+            <Button variant="default">
+                Propose a Collaborative
+            </Button>
+          </Link>
+          <Link
+            to="/upload-image">
+            <Button variant="disabled" leftSection={<IconUpload size={16} />}>
+              Upload Images
+            </Button>
+          </Link>
         </Group>
 
         {collabInvites?.map((invite) => (
@@ -203,10 +196,10 @@ export function Dashboard() {
             withBorder
             mt="lg"
             mb="lg">
-              <Group justify="space-between">
+              <Group justify="flex-start">
                   <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
                   <Text>
-                      You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: 'inherit'}}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                      You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
                   </Text>
                   <div>
                       <Button

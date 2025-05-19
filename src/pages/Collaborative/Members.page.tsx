@@ -187,12 +187,21 @@ export function CollaborativeMembers() {
         <Group gap="sm" ml="lg" mt="sm" mb="sm">
             <Avatar size={40} src={item.avatarUrl} radius={40} />
             <div>
-                <Text fz="sm" fw={500}>
-                    {item.firstName} {item.lastName}
-                </Text>
-                <Text fz="xs" c="dimmed">
-                    {item.userName}
-                </Text>
+              <Text fz="sm" fw={500} 
+                style={{ 
+                  color: '#0077b5', 
+                  cursor: 'pointer',
+                  textDecoration: 'none'
+                }}
+                component={Link}
+                to={`/members/${item.id}`}
+                state={{ from: location.pathname }}
+                >
+                {item.firstName} {item.lastName}
+              </Text>
+              <Text fz="xs" c="dimmed">
+                  {item.userName}
+              </Text>
             </div>
         </Group>
         </Table.Td>
