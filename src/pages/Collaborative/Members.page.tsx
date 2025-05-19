@@ -199,6 +199,7 @@ export function CollaborativeMembers() {
                 >
                 {item.firstName} {item.lastName}
               </Text>
+              <br/>
               <Text 
                 fz="xs" 
                 c="dimmed"
