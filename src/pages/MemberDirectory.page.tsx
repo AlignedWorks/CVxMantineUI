@@ -10,6 +10,7 @@ import {
   Group,
   Avatar,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
@@ -97,12 +98,11 @@ export function MemberDirectory() {
             <Text ta="center" fz="lg" fw={500} mt="md">
               {user.firstName} {user.lastName}
             </Text>
-            <Text ta="center" c="dimmed" fz="sm">
-              {user.userName}
-            </Text>
-            <Text ta="center" c="dimmed" fz="sm">
-              {user.city}, {user.state}
-            </Text>
+            <Tooltip label={user.bio || 'No user bio available'} multiline w={300} color="gray">
+              <Text lineClamp={3} ta="center" c="dimmed" fz="sm">
+                {user.bio}
+              </Text>
+            </Tooltip>
             <Group justify="center" mt="md">
               <Link
                 to={`/members/${user.id}`}

@@ -104,7 +104,7 @@ export function CollaborativeDirectory() {
                 to={`/collaboratives/${collaborative.id}`}
                 state={{ from: location.pathname }}
                 style={{ textDecoration: 'none', color: 'inherit'}}>
-                <Button variant="outline" size="sm" mt="lg">View Collaborative</Button>
+                <Button variant="outline" size="sm">View Collaborative</Button>
               </Link>
             </Stack>
           </Card>
