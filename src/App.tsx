@@ -21,7 +21,9 @@ import { UserProfile } from './pages/UserProfile.page';
 
 import { CollaborativeHome } from './pages/Collaborative/Home.page.tsx';
 import { CollaborativeMembers } from './pages/Collaborative/Members.page.tsx';
+import { CollaborativeProjects } from './pages/Collaborative/Projects.page.tsx';
 import { CollaborativeTreasury } from "./pages/Collaborative/Treasury.page.tsx";
+import { CollaborativeMemberWallet } from './pages/Collaborative/Wallet.page.tsx';
 
 import { Test } from "./pages/Test.page.tsx";
 import { NotFound } from './components/404/NotFound.tsx';
@@ -36,7 +38,7 @@ export default function App() {
       <Router>
         <AppShell
           layout="alt"
-          header={{ height: 49 }}
+          header={{ height: 58 }}
           navbar={{
             width: 250,
             breakpoint: 'sm',
@@ -48,7 +50,9 @@ export default function App() {
             <HeaderTabs />
           </AppShell.Header>
 
-          <AppShell.Navbar><NavbarSimple /></AppShell.Navbar>
+          <AppShell.Navbar>
+            <NavbarSimple />
+          </AppShell.Navbar>
 
           <AppShell.Main bg="#f8f8f8">
           <Routes>
@@ -64,7 +68,10 @@ export default function App() {
               <Route path="/test" element={<Test/>} /> {/* Test route for development */}
               <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
               <Route path="/collaboratives/:id/members" element={<CollaborativeMembers/>} />
+              <Route path="/collaboratives/:id/projects" element={<CollaborativeProjects/>} />
               <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
+              <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
+              <Route path="/collaboratives/:id/wallet" element={<CollaborativeMemberWallet/>} />
               <Route path="/members/:id" element={<MemberProfile/>} />
               <Route path="/upload-image" element={<ImageUpload />} />
             </Routes>

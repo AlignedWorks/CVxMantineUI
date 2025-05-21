@@ -1,8 +1,6 @@
 .header {
   padding-top: var(--mantine-spacing-sm);
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-  border-bottom: 1px solid light-dark(var(--mantine-color-gray-2), transparent);
-  margin-bottom: 120px;
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
 }
 
 .mainSection {
@@ -39,7 +37,7 @@
   height: 38px;
   background-color: transparent;
   position: relative;
-  bottom: -7px;
+  bottom: -8px;
 
   &::before,
   &::after {
@@ -54,7 +52,7 @@
   }
 
   &[data-active] {
-    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+    background-color: light-dark(#f8f8f8, var(--mantine-color-dark-7));
     border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
     border-bottom-color: transparent;
   }
