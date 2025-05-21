@@ -9,7 +9,6 @@ import {
   Button,
   TextInput,
   Stack,
-  Center,
   Tooltip,
   Badge,
 } from '@mantine/core';
@@ -101,9 +100,12 @@ export function CollaborativeDirectory() {
               <Badge c="green" variant="light" size="md" mb="md">
                   Seeking new members
               </Badge>
-              <Button variant="default" fullWidth size="sm">
-                View Collaborative
-              </Button>
+              <Link
+                to={`/collaboratives/${collaborative.id}`}
+                state={{ from: location.pathname }}
+                style={{ textDecoration: 'none', color: 'inherit'}}>
+                <Button variant="outline" size="sm" mt="lg">View Collaborative</Button>
+              </Link>
             </Stack>
           </Card>
         ))}
