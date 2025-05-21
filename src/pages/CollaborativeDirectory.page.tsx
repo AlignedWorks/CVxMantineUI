@@ -97,17 +97,14 @@ export function CollaborativeDirectory() {
                     {collaborative.description}
                 </Text>
             </Tooltip>
-            <Center>
+            <Stack align="center">
               <Badge c="green" variant="light" size="md" mb="md">
                   Seeking new members
               </Badge>
-              <Link
-                to={`/collaboratives/${collaborative.id}`}
-                state={{ from: location.pathname }}
-                style={{ textDecoration: 'none', color: 'inherit'}}>
-                <Button variant="outline" size="sm" mt="lg">View Collaborative</Button>
-              </Link>
-            </Center>
+              <Button variant="default" fullWidth size="sm">
+                View Collaborative
+              </Button>
+            </Stack>
           </Card>
         ))}
       </SimpleGrid>

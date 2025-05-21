@@ -221,13 +221,12 @@ export function Test() {
                                 {collaborative.description}
                             </Text>
                         </Tooltip>
-                        <Center>
+                        <Stack align="center">
                             <Badge c="green" variant="light" size="md" mb="md">
                                 Seeking new members
                             </Badge>
-                        </Center>
-
-                        <Button variant="default" fullWidth size="sm" mt="lg">View Collaborative</Button>
+                            <Button variant="default" fullWidth size="sm">View Collaborative</Button>
+                        </Stack>
                     </Card>
                 ))}
             </SimpleGrid>
