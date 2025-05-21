@@ -189,10 +189,12 @@ export function CollaborativeHome() {
           </Grid.Col>
         </Grid>
       </Card>
-
-      <Button variant="default" mb="sm">
+      
+      <Group justify="right">
+        <Button variant="default" mb="sm">
           Edit Collaborative
-      </Button>
+        </Button>
+      </Group>
 
     </Container>
   );

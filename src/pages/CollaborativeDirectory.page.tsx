@@ -9,8 +9,9 @@ import {
   Button,
   TextInput,
   Stack,
-  Grid,
   Center,
+  Tooltip,
+  Badge,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
@@ -91,29 +92,20 @@ export function CollaborativeDirectory() {
                     {collaborative.name}
                 </Text>
             </Stack>
-            <Text ta="center" c="dimmed" size="sm" mb="lg">
-                Formed on {collaborative.createdAt}
-            </Text>
-            <Grid>
-                <Grid.Col span={6}>
-                    <Text ta="center" c="dimmed" fz="sm" mb="xs">
-                        Projects
-                    </Text>
-                    <Title order={3} c="dimmed" ta="center">0</Title>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <Text ta="center" c="dimmed" fz="sm" mb="xs">
-                        Members
-                    </Text>
-                    <Title order={3} c="dimmed" ta="center">{collaborative.sumMembers}</Title>
-                </Grid.Col>
-            </Grid>
+            <Tooltip label={collaborative.description || 'No description available'} multiline w={300} color="gray">
+                <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
+                    {collaborative.description}
+                </Text>
+            </Tooltip>
             <Center>
+              <Badge c="green" variant="light" size="md" mb="md">
+                  Seeking new members
+              </Badge>
               <Link
                 to={`/collaboratives/${collaborative.id}`}
                 state={{ from: location.pathname }}
                 style={{ textDecoration: 'none', color: 'inherit'}}>
-                <Button variant="outline" size="sm" mt="lg">View</Button>
+                <Button variant="outline" size="sm" mt="lg">View Collaborative</Button>
               </Link>
             </Center>
           </Card>

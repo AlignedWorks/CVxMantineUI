@@ -18,7 +18,8 @@ import {
   Loader,
   Divider,
   Stack,
-  Center
+  Center,
+  Tooltip,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import classes from './Test.module.css';
@@ -215,24 +216,18 @@ export function Test() {
                             </Text>
                             
                         </Stack>
-                        <Text ta="center" c="dimmed" size="sm" mb="lg">
-                            Formed on {collaborative.createdAt}
-                        </Text>
-                        <Grid>
-                            <Grid.Col span={6}>
-                                <Text ta="center" c="dimmed" fz="sm" mb="xs">
-                                    Projects
-                                </Text>
-                                <Title order={3} c="dimmed" ta="center">5</Title>
-                            </Grid.Col>
-                            <Grid.Col span={6}>
-                                <Text ta="center" c="dimmed" fz="sm" mb="xs">
-                                    Members
-                                </Text>
-                                <Title order={3} c="dimmed" ta="center">5</Title>
-                            </Grid.Col>
-                        </Grid>
-                        <Button variant="default" fullWidth size="sm" mt="lg">View</Button>
+                        <Tooltip label={collaborative.description || 'No description available'} multiline w={300} position="bottom" color="gray">
+                            <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
+                                {collaborative.description}
+                            </Text>
+                        </Tooltip>
+                        <Center>
+                            <Badge c="green" variant="light" size="md" mb="md">
+                                Seeking new members
+                            </Badge>
+                        </Center>
+
+                        <Button variant="default" fullWidth size="sm" mt="lg">View Collaborative</Button>
                     </Card>
                 ))}
             </SimpleGrid>

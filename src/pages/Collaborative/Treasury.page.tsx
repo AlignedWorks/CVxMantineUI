@@ -14,6 +14,7 @@ import {
   Title,
   Center,
   SimpleGrid,
+  Group,
  } from '@mantine/core';
 import { CollaborativeDataTreasury } from '../../data.ts';
 
@@ -151,12 +152,14 @@ export function CollaborativeTreasury() {
         </Grid>
       </Card>
 
-      <Button variant="default" mb="sm">
+      <Group justify="right">
+        <Button variant="default" mb="sm">
           Edit Revenue Share %
-      </Button>
-      <Button variant="default" ml="xl" mb="sm">
+        </Button>
+        <Button variant="default" ml="xl" mb="sm">
           Edit Exchange Rates
-      </Button>
+        </Button>
+      </Group>
 
     </Container>
   );

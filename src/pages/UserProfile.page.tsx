@@ -273,7 +273,7 @@ export function UserProfile() {
         <p>No user data available.</p>
       )}
 
-      <Group mt="xl">
+      <Group justify="right" mt="xl">
         <Button variant="default" onClick={() => setModalOpened(true)}>
           Edit Profile
         </Button>
