@@ -18,6 +18,7 @@ import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
 import { MemberDirectory } from './pages/MemberDirectory.page';
 import { MemberProfile } from "./pages/MemberProfile.page.tsx";
 import { UserProfile } from './pages/UserProfile.page';
+import { EditUserProfile } from "./pages/EditUserProfile.page.tsx";
 
 import { CollaborativeHome } from './pages/Collaborative/Home.page.tsx';
 import { CollaborativeMembers } from './pages/Collaborative/Members.page.tsx';
@@ -63,6 +64,7 @@ export default function App() {
               <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
               <Route path="/member-directory" element={<MemberDirectory />} />
               <Route path="/user-profile" element={<UserProfile />} />
+              <Route path="/user-profile/edit" element={<EditUserProfile />} />
               <Route path="/create-collaborative" element={<CreateCollaborative />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/test" element={<Test/>} /> {/* Test route for development */}

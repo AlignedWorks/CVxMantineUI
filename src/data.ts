@@ -11,6 +11,7 @@ export interface Collaborative {
   collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
   stakingTiers: StakingTier[];
+  logoUrl: string;
 }
 
 export interface CollaborativeData {

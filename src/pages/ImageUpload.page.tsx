@@ -15,7 +15,12 @@ import {
 } from '@mantine/core';
 import { IconUpload, IconAlertCircle, IconCheck } from '@tabler/icons-react';
 
-export function ImageUpload() {
+interface ImageUploadProps {
+  onSuccess?: (url: string) => void;
+  onCancel?: () => void;
+}
+
+export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -46,9 +51,11 @@ export function ImageUpload() {
 
       // Set the uploaded URL for display and later use
       setUploadedUrl(blob.url);
+      onSuccess?.(blob.url);
       console.log('Upload complete:', blob);
     } catch (err) {
       console.error('Upload failed:', err);
+      onCancel?.();
       setError(err instanceof Error ? err.message : 'Upload failed');
     } finally {
       setUploading(false);

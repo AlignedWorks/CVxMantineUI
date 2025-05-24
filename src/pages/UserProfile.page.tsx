@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { ImageField } from "../ImageField.tsx";
 import {
   Container,
   Avatar,
@@ -274,9 +275,11 @@ export function UserProfile() {
       )}
 
       <Group justify="right" mt="xl">
-        <Button variant="default" onClick={() => setModalOpened(true)}>
-          Edit Profile
-        </Button>
+        <Link to="/user-profile/edit" style={{ textDecoration: 'none' }}>
+          <Button variant="default">
+            Edit Profile
+          </Button>
+        </Link>
       </Group>
     </Container>
 
@@ -340,12 +343,21 @@ export function UserProfile() {
           onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
           mb="lg"
         />
+
         <TextInput
           label="Avatar URL"
           value={formValues?.avatarUrl}
           onChange={(event) => handleFormChange('avatarUrl', event.currentTarget.value)}
           mb="lg"
         />
+
+        <ImageField 
+          label="Collaborative Logo"
+          initialImageUrl={formValues?.avatarUrl}
+          onImageSelected={(url) =>  handleFormChange('avatarUrl', url)}
+          mb="lg"
+        />
+
         <MultiSelect
             label="Member Skills"
             placeholder="Select the needed skills"

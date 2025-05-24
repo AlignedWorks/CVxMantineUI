@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext.tsx';
 import { IconInfoCircle } from '@tabler/icons-react';
+import { DropzoneButton } from '../components/Dropzone/DropzoneButton.tsx';
+import { ImageField } from '../ImageField.tsx';
 import { Link } from 'react-router-dom';
 import {
   Container,
@@ -48,6 +50,7 @@ export function CreateCollaborative() {
           collabLeaderCompensation: 0,
           payoutFrequency: PayoutFrequency.Monthly,
           stakingTiers: [],
+          logoUrl: '',
         });
         setErrors({});
         setSelectedTiers([]);
@@ -110,6 +113,7 @@ export function CreateCollaborative() {
     name: '',
     description: '',
     websiteUrl: '',
+    logoUrl: '',
     city: '',
     state: '',
     skills: [],
@@ -423,7 +427,7 @@ export function CreateCollaborative() {
         </Grid.Col>
       </Grid>
 
-      <SimpleGrid mt="xl" mb="lg" cols={2}>
+      <SimpleGrid mt="xl" mb="xl" cols={2}>
         <MultiSelect
             label="Member Skills"
             placeholder="Select the needed skills"
@@ -439,7 +443,7 @@ export function CreateCollaborative() {
             searchable
             clearable
             required
-            mb="md"
+            mb="lg"
         />
 
         <MultiSelect
@@ -457,43 +461,53 @@ export function CreateCollaborative() {
             searchable
             clearable
             required
-            mb="md"
+            mb="lg"
         />
       </SimpleGrid>
 
-      <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
+      <DropzoneButton
+        imgType="Collaborative's logo"
+        />
+
+      <ImageField 
+        label="Collaborative Logo"
+        initialImageUrl="this is a placeholder"
+        onImageSelected={(url) => handleInputChange('logoUrl', url)}
+      />
+
+      <Title order={2} mt="xl" mb="md" pt="xl" pb="xl" ta="center">
           Revenue Sharing Pool
       </Title>
 
       <SimpleGrid cols={2}>
-      <TextInput
-          rightSection={revenueShare}
-          label="% of Revenue to the Collab Pool"
-          placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
-          type="number"
-          value={formValues.revenueShare}
-          onChange={(event) =>
-              handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
-          }
-          error={errors.revenueShare} // Display validation error
-          required
-          mb="md"
-      />
+        <TextInput
+            rightSection={revenueShare}
+            label="% of Revenue to the Collab Pool"
+            placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
+            type="number"
+            value={formValues.revenueShare}
+            onChange={(event) =>
+                handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
+            }
+            error={errors.revenueShare} // Display validation error
+            required
+            mb="md"
+        />
 
-      <Select
-          label="Payout Frequency"
-          placeholder="Select payout frequency"
-          data={[
-              { value: PayoutFrequency.Monthly, label: 'Monthly' },
-              { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
-              { value: PayoutFrequency.Yearly, label: 'Yearly' },
-          ]}
-          value={formValues.payoutFrequency}
-          onChange={(value) => handleInputChange('payoutFrequency', value as PayoutFrequency)}
-          error={errors.payoutFrequency} // Display validation error
-          required
-          mb="md"
-      />
+        <Select
+            label="Payout Frequency"
+            placeholder="Select payout frequency"
+            data={[
+                { value: PayoutFrequency.Monthly, label: 'Monthly' },
+                { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
+                { value: PayoutFrequency.Yearly, label: 'Yearly' },
+            ]}
+            value={formValues.payoutFrequency}
+            onChange={(value) => handleInputChange('payoutFrequency', value as PayoutFrequency)}
+            error={errors.payoutFrequency} // Display validation error
+            required
+            mb="md"
+        />
       </SimpleGrid>
 
       <MultiSelect
@@ -539,35 +553,34 @@ export function CreateCollaborative() {
       </Title>
 
       <SimpleGrid cols={2}>
-      <TextInput
-          rightSection={indirectCosts}
-          label="% of Revenue to cover Indirect Costs (Target)"
-          placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
-          type="number"
-          value={formValues.indirectCosts}
-          onChange={(event) =>
-              handleInputChange('indirectCosts', parseFloat(event.currentTarget.value))
-          }
-          error={errors.indirectCosts} // Display validation error
-          required
-          mb="md"
-      />
+        <TextInput
+            rightSection={indirectCosts}
+            label="% of Revenue to cover Indirect Costs (Target)"
+            placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
+            type="number"
+            value={formValues.indirectCosts}
+            onChange={(event) =>
+                handleInputChange('indirectCosts', parseFloat(event.currentTarget.value))
+            }
+            error={errors.indirectCosts} // Display validation error
+            required
+            mb="md"
+        />
 
-      <TextInput
-          rightSection={collabLeaderComp}
-          label="% of Revenue to Collab Leader Compensation"
-          placeholder="Set compensation for the Collab Leader as a % of Collab-wide revenue."
-          type="number"
-          value={formValues.collabLeaderCompensation}
-          onChange={(event) =>
-              handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
-          }
-          error={errors.collabLeaderCompensation} // Display validation error
-          required
-          mb="md"
-      />
+        <TextInput
+            rightSection={collabLeaderComp}
+            label="% of Revenue to Collab Leader Compensation"
+            placeholder="Set compensation for the Collab Leader as a % of Collab-wide revenue."
+            type="number"
+            value={formValues.collabLeaderCompensation}
+            onChange={(event) =>
+                handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
+            }
+            error={errors.collabLeaderCompensation} // Display validation error
+            required
+            mb="md"
+        />
       </SimpleGrid>
-
 
       <Group mt="xl">
         <Button onClick={handleSubmit}>Propose Collaborative</Button>
