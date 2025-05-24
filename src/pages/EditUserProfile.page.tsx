@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Container, TextInput, Textarea, Grid, Select, MultiSelect, 
-  Button, Group, Paper, Title, SimpleGrid, Text
+  Button, Group, Paper, Title, SimpleGrid,
 } from '@mantine/core';
 import { ImageField } from '../ImageField.tsx';
 import { us_states } from '../data.ts';
@@ -116,6 +116,7 @@ export function EditUserProfile() {
         }
 
         setLoading(true); // Set loading to true while updating
+        console.log(loading); // add this for now so loading is used and doesn't trigger TS error
         // Update the user profile here (e.g., send a PUT request to the API)
         fetch(
             new URL("profile", import.meta.env.VITE_API_BASE),
