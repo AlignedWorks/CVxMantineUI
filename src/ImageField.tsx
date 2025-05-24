@@ -18,6 +18,8 @@ export function ImageField({
 }: ImageFieldProps) {
   const [showUploader, setShowUploader] = useState(!initialImageUrl);
   const [imageUrl, setImageUrl] = useState<string | null>(initialImageUrl || null);
+
+  console.log(`showUpLoader: ${showUploader}, imageUrl: ${imageUrl}`);
   
   const handleImageUploaded = (url: string) => {
     setImageUrl(url);

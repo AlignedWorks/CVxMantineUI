@@ -168,6 +168,8 @@ export function EditUserProfile() {
             label="Bio"
             value={formValues?.bio}
             onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
+            minRows={3}
+            maxRows={5}
             mb="lg"
         />
 
@@ -207,17 +209,10 @@ export function EditUserProfile() {
           />
         </SimpleGrid>
 
-        <TextInput
-            label="Avatar URL"
-            value={formValues?.avatarUrl}
-            onChange={(event) => handleFormChange('avatarUrl', event.currentTarget.value)}
-            mb="lg"
-        />
-
         <ImageField 
             label="Your profile picture"
             initialImageUrl={formValues?.avatarUrl}
-            onImageSelected={(url) =>  handleFormChange('avatarUrl', url)}
+            onImageSelected={(url) => handleFormChange('avatarUrl', url)}
             mb="lg"
         />
 
@@ -253,7 +248,7 @@ export function EditUserProfile() {
             mb="md"
         />
         <Button variant="default" onClick={handleCancel}>Cancel</Button>
-        <Button mt="lg" onClick={handleFormSubmit}>
+        <Button variant="outline" onClick={handleFormSubmit}>
             Save Changes
         </Button>
     
