@@ -108,7 +108,7 @@ export function MemberDirectory() {
                 to={`/members/${user.id}`}
                 state={{ from: location.pathname }}
                 style={{ textDecoration: 'none', color: 'inherit'}}>
-                <Button variant="outline" size="sm" mt="lg">
+                <Button variant="outline" size="sm" mt="auto">
                   View Profile
                 </Button>
               </Link>

@@ -191,9 +191,11 @@ export function CollaborativeHome() {
       </Card>
       
       <Group justify="right">
-        <Button variant="default" mb="sm">
-          Edit Collaborative
-        </Button>
+        <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
+          <Button variant="default" mb="sm">
+            Edit Collaborative Info
+          </Button>
+        </Link>
       </Group>
 
     </Container>

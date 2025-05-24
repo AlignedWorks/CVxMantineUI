@@ -14,6 +14,7 @@ import { RegistrationTile } from './components/RegistrationTile/RegistrationTile
 
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
+import { EditCollaborative } from './pages/EditCollaborative.page.tsx';
 
 import { MemberDirectory } from './pages/MemberDirectory.page';
 import { MemberProfile } from "./pages/MemberProfile.page.tsx";
@@ -69,6 +70,7 @@ export default function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/test" element={<Test/>} /> {/* Test route for development */}
               <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
+              <Route path="/collaboratives/:id/edit" element={<EditCollaborative />} />
               <Route path="/collaboratives/:id/members" element={<CollaborativeMembers/>} />
               <Route path="/collaboratives/:id/projects" element={<CollaborativeProjects/>} />
               <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />

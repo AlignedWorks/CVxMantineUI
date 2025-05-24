@@ -247,10 +247,12 @@ export function EditUserProfile() {
             clearable
             mb="md"
         />
-        <Button variant="default" onClick={handleCancel}>Cancel</Button>
-        <Button variant="outline" onClick={handleFormSubmit}>
+        <Group justify="flex-end" gap="md" mt="xl">
+          <Button variant="default" onClick={handleCancel}>Cancel</Button>
+          <Button variant="outline" onClick={handleFormSubmit}>
             Save Changes
-        </Button>
+          </Button>
+        </Group>
     
       </Paper>
     </Container>
