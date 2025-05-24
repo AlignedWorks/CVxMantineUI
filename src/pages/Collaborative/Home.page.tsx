@@ -169,7 +169,7 @@ export function CollaborativeHome() {
                     Skills<br/>
                     {collaborative.skills.map((skill, index) => (
                       <Badge key={index} variant="light" color="blue">
-                        {skill}
+                        {skill.value}
                       </Badge>
                     ))}
                   </Text>
@@ -179,7 +179,7 @@ export function CollaborativeHome() {
                     Experience<br/>
                     {collaborative.experience.map((exp, index) => (
                       <Badge key={index} variant="light" color="green">
-                        {exp}
+                        {exp.value}
                       </Badge>
                     ))}
                   </Text>

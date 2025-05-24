@@ -19,6 +19,7 @@ import { IconArrowLeft } from '@tabler/icons-react';
 import { ImageField } from '../ImageField.tsx';
 import {
   us_states,
+  CollaborativeData,
 } from '../data.ts';
 
 export function EditCollaborative() {
@@ -26,7 +27,7 @@ export function EditCollaborative() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [formValues, setFormValues] = useState<any>(null);
+  const [formValues, setFormValues] = useState<CollaborativeData | null>(null);
   const [skills, setSkills] = useState<{ id: number; value: string }[]>([]);
   const [experience, setExperience] = useState<{ id: number; value: string }[]>([]);
 
@@ -45,6 +46,7 @@ export function EditCollaborative() {
         // Initialize form values with fetched data
         console.log("Fetched collaborative data:", data);
         setFormValues({
+          id: data.id,
           name: data.name,
           description: data.description,
           websiteUrl: data.websiteUrl || '',
@@ -53,6 +55,13 @@ export function EditCollaborative() {
           state: data.state || '',
           skills: data.skills || [],
           experience: data.experience || [],
+          leaderEmail: data.leaderEmail || '',
+          leaderName: data.leaderName || '',
+          createdAt: data.createdAt || '',
+          revenueShare: data.revenueShare || 0,
+          indirectCosts: data.indirectCosts || 0,
+          collabLeaderCompensation: data.collabLeaderCompensation || 0,
+          payoutFrequency: data.payoutFrequency || '',
         });
         setLoading(false);
       })
@@ -201,7 +210,7 @@ export function EditCollaborative() {
             label="Skills"
             placeholder="Select skills"
             data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
-            value={formValues?.skills?.map((skill: any) => skill.id) || []}
+            value={formValues?.skills?.map((skill) => skill.id.toString()) || []}
             onChange={(value) => {
               const selectedSkills = skills.filter((skill) => value.includes(skill.id.toString()));
               handleFormChange('skills', selectedSkills);
@@ -214,7 +223,7 @@ export function EditCollaborative() {
             label="Experience Levels"
             placeholder="Select experience levels"
             data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
-            value={formValues?.experience?.map((exp: any) => exp.id) || []}
+            value={formValues?.experience?.map((exp) => exp.id.toString()) || []}
             onChange={(value) => {
               const selectedExperience = experience.filter((exp) => value.includes(exp.id.toString()));
               handleFormChange('experience', selectedExperience);

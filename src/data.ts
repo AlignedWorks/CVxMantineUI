@@ -29,8 +29,8 @@ export interface CollaborativeData {
   indirectCosts: number;
   collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
-  skills: string[];
-  experience: string[];
+  skills: { id: number; value: string }[];
+  experience: { id: number; value: string }[];
 }
 
 export interface CollaborativeDataWithMembers {
