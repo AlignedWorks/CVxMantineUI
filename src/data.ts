@@ -496,8 +496,14 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    skills: ['Software Development', 'Open Source', 'DevOps'],
-    experience: ['Technology'],
+    skills: [
+      { id: 101, value: 'Software Development' },
+      { id: 102, value: 'Open Source' },
+      { id: 103, value: 'DevOps' }
+    ],
+    experience: [
+      { id: 201, value: 'Technology' }
+    ],
   },
   {
     id: 2,
@@ -514,8 +520,14 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    skills: ['Software Development', 'Open Source', 'DevOps'],
-    experience: ['Technology'],
+    skills: [
+      { id: 104, value: 'Software Development' },
+      { id: 105, value: 'Open Source' },
+      { id: 106, value: 'DevOps' }
+    ],
+    experience: [
+      { id: 202, value: 'Technology' }
+    ],
   },
   {
     id: 3,
@@ -532,8 +544,14 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    skills: ['Software Development', 'Open Source', 'DevOps'],
-    experience: ['Technology'],
+    skills: [
+      { id: 107, value: 'Software Development' },
+      { id: 108, value: 'Open Source' },
+      { id: 109, value: 'DevOps' }
+    ],
+    experience: [
+      { id: 203, value: 'Technology' }
+    ],
   },
   {
     id: 11,
@@ -550,8 +568,14 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    skills: ['Software Development', 'Open Source', 'DevOps'],
-    experience: ['Technology'],
+    skills: [
+      { id: 110, value: 'Software Development' },
+      { id: 111, value: 'Open Source' },
+      { id: 112, value: 'DevOps' }
+    ],
+    experience: [
+      { id: 204, value: 'Technology' }
+    ],
   },
   {
     id: 12,
@@ -563,13 +587,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "TX",
     leaderEmail: 'emily@greenfuture.org',
     leaderName: 'Alex BobbyFay',
+    createdAt: '09-25-2022',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    createdAt: '09-25-2022',
-    skills: ['Renewable Energy', 'Environmental Science', 'IoT'],
-    experience: ['Clean Energy'],
+    skills: [
+      { id: 113, value: 'Renewable Energy' },
+      { id: 114, value: 'Environmental Science' },
+      { id: 115, value: 'IoT' }
+    ],
+    experience: [
+      { id: 205, value: 'Clean Energy' }
+    ],
   },
   {
     id: 13,
@@ -581,13 +611,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "CO",
     leaderEmail: 'james@healthsync.com',
     leaderName: 'Alex BobbyFay',
+    createdAt: '01-18-2024',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    createdAt: '01-18-2024',
-    skills: ['Healthcare IT', 'Data Security', 'AI in Medicine'],
-    experience: ['Healthcare'],
+    skills: [
+      { id: 116, value: 'Healthcare IT' },
+      { id: 117, value: 'Data Security' },
+      { id: 118, value: 'AI in Medicine' }
+    ],
+    experience: [
+      { id: 206, value: 'Healthcare' }
+    ],
   },
   {
     id: 4,
@@ -599,13 +635,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "FL",
     leaderEmail: 'sophia@nextgencreators.com',
     leaderName: 'Alex BobbyFay',
+    createdAt: '03-14-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    createdAt: '03-14-2023',
-    skills: ['Graphic Design', 'Animation', 'Digital Art'],
-    experience: ['Creative Arts'],
+    skills: [
+      { id: 119, value: 'Graphic Design' },
+      { id: 120, value: 'Animation' },
+      { id: 121, value: 'Digital Art' }
+    ],
+    experience: [
+      { id: 207, value: 'Creative Arts' }
+    ],
   },
   {
     id: 5,
@@ -617,13 +659,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "WA",
     leaderEmail: 'michael@edtechvision.com',
     leaderName: 'Alex BobbyFay',
+    createdAt: '11-30-2021',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
-    createdAt: '11-30-2021',
-    skills: ['AI in Education', 'E-Learning', 'Software Development'],
-    experience: ['Education Technology'],
+    skills: [
+      { id: 122, value: 'AI in Education' },
+      { id: 123, value: 'E-Learning' },
+      { id: 124, value: 'Software Development' }
+    ],
+    experience: [
+      { id: 208, value: 'Education Technology' }
+    ],
   },
   {
     id: 6,
@@ -635,13 +683,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "IL",
     leaderEmail: 'oliver@bytesecure.net',
     leaderName: 'Alex BobbyFay',
+    createdAt: '08-05-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Yearly,
-    createdAt: '08-05-2023',
-    skills: ['Cybersecurity', 'Ethical Hacking', 'Cloud Security'],
-    experience: ['Cybersecurity'],
+    skills: [
+      { id: 125, value: 'Cybersecurity' },
+      { id: 126, value: 'Ethical Hacking' },
+      { id: 127, value: 'Cloud Security' }
+    ],
+    experience: [
+      { id: 209, value: 'Cybersecurity' }
+    ],
   },
   {
     id: 7,
@@ -653,13 +707,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "AZ",
     leaderEmail: 'jessica@urbanagri.com',
     leaderName: 'Alex BobbyFay',
+    createdAt: '05-10-2022',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    createdAt: '05-10-2022',
-    skills: ['Vertical Farming', 'Hydroponics', 'IoT in Agriculture'],
-    experience: ['AgTech'],
+    skills: [
+      { id: 128, value: 'Vertical Farming' },
+      { id: 129, value: 'Hydroponics' },
+      { id: 130, value: 'IoT in Agriculture' }
+    ],
+    experience: [
+      { id: 210, value: 'AgTech' }
+    ],
   },
   {
     id: 8,
@@ -671,13 +731,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "MA",
     leaderEmail: 'william@fintechpioneers.com',
     leaderName: 'Alex BobbyFay',
+    createdAt: '12-01-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
-    createdAt: '12-01-2023',
-    skills: ['Blockchain', 'FinTech', 'Data Analytics'],
-    experience: ['Financial Technology'],
+    skills: [
+      { id: 131, value: 'Blockchain' },
+      { id: 132, value: 'FinTech' },
+      { id: 133, value: 'Data Analytics' }
+    ],
+    experience: [
+      { id: 211, value: 'Financial Technology' }
+    ],
   },
   {
     id: 9,
@@ -689,13 +755,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "GA",
     leaderEmail: 'david@gamecraftstudios.com',
     leaderName: 'Alex BobbyFay',
+    createdAt: '02-20-2024',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Yearly,
-    createdAt: '02-20-2024',
-    skills: ['Game Development', 'Unreal Engine', 'Narrative Design'],
-    experience: ['Gaming'],
+    skills: [
+      { id: 134, value: 'Game Development' },
+      { id: 135, value: 'Unreal Engine' },
+      { id: 136, value: 'Narrative Design' }
+    ],
+    experience: [
+      { id: 212, value: 'Gaming' }
+    ],
   },
   {
     id: 10,
@@ -707,13 +779,19 @@ export const mock_collab_data: CollaborativeData[] = [
     state: "OR",
     leaderEmail: 'sarah@buildtogether.com',
     leaderName: 'Alex BobbyFay',
+    createdAt: '07-15-2021',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
-    createdAt: '07-15-2021',
-    skills: ['Robotics', '3D Printing', 'Hardware Prototyping'],
-    experience: ['Engineering & Manufacturing'],
+    skills: [
+      { id: 137, value: 'Robotics' },
+      { id: 138, value: '3D Printing' },
+      { id: 139, value: 'Hardware Prototyping' }
+    ],
+    experience: [
+      { id: 213, value: 'Engineering & Manufacturing' }
+    ],
   },
 ];
 
