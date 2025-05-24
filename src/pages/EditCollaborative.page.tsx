@@ -16,10 +16,10 @@ import {
   Loader,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { ImageField } from '../ImageField';
+import { ImageField } from '../ImageField.tsx';
 import {
   us_states,
-} from '../data';
+} from '../data.ts';
 
 export function EditCollaborative() {
   const { id } = useParams();
@@ -43,15 +43,16 @@ export function EditCollaborative() {
       })
       .then((data) => {
         // Initialize form values with fetched data
+        console.log("Fetched collaborative data:", data);
         setFormValues({
           name: data.name,
           description: data.description,
           websiteUrl: data.websiteUrl || '',
+          logoUrl: data.logoUrl || '',
           city: data.city || '',
           state: data.state || '',
           skills: data.skills || [],
           experience: data.experience || [],
-          logoUrl: data.logoUrl || '',
         });
         setLoading(false);
       })
@@ -69,6 +70,7 @@ export function EditCollaborative() {
     })
     .then((res) => res.json())
     .then((data) => {
+        console.log("Fetched skills and experience data:", data);
         setSkills(data.skills);
         setExperience(data.experience);
     })
