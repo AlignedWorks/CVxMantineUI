@@ -152,20 +152,13 @@ export function EditCollaborative() {
         style={{ textDecoration: 'none', color: '#0077b5', display: 'flex', alignItems: 'center', marginBottom: '20px' }}
       >
         <IconArrowLeft size={16} style={{ marginRight: '5px' }} />
-        <Text>Back to Collaborative</Text>
+        <Text>Back</Text>
       </Link>
 
       <Paper p="lg" withBorder>
         <Title order={2} mb="xl">Edit Collaborative</Title>
 
         <Stack>
-          <ImageField
-            label="Collaborative Logo"
-            initialImageUrl={formValues?.logoUrl}
-            onImageSelected={(url) => handleFormChange('logoUrl', url)}
-            mb="lg"
-          />
-
           <TextInput
             label="Collaborative Name"
             placeholder="Enter name"
@@ -216,6 +209,13 @@ export function EditCollaborative() {
             </Grid.Col>
           </Grid>
 
+          <ImageField
+            label="Collaborative Logo"
+            initialImageUrl={formValues?.logoUrl}
+            onImageSelected={(url) => handleFormChange('logoUrl', url)}
+            mb="md"
+          />
+
           <MultiSelect
             label="Skills"
             placeholder="Select skills"
@@ -242,7 +242,7 @@ export function EditCollaborative() {
             mb="md"
           />
 
-          <Group justify="flex-end" gap="md" mt="xl">
+          <Group justify="flex-end" gap="md">
             <Button 
               variant="default" 
               onClick={() => navigate(`/collaboratives/${id}`)}

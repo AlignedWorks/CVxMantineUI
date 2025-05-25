@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   Container, TextInput, Textarea, Grid, Select, MultiSelect, 
-  Button, Group, Paper, Title, SimpleGrid,
+  Button, Group, Paper, Title, SimpleGrid, Text
 } from '@mantine/core';
 import { ImageField } from '../ImageField.tsx';
+import { IconArrowLeft } from '@tabler/icons-react';
 import { us_states } from '../data.ts';
 
 interface User {
@@ -43,6 +44,7 @@ export function EditUserProfile() {
         .then((data) => { 
           setUser(data);
           setLoading(false); // Set loading to false after data is fetched
+          console.log("Fetched user data:", data);
         })
         .catch((err) => 
           {
@@ -104,6 +106,7 @@ export function EditUserProfile() {
             skills: user.skills,
             experience: user.experience,
         });
+        console.log(`avatarUrl: ${formValues?.avatarUrl}`)
         }
     }, [user]); // Run this effect when 'user' changes
 
@@ -145,10 +148,16 @@ export function EditUserProfile() {
   
   return (
     <Container size="md" py="xl">
+      <Link 
+        to={"/user-profile"}
+        style={{ textDecoration: 'none', color: '#0077b5', display: 'flex', alignItems: 'center', marginBottom: '20px' }}
+      >
+        <IconArrowLeft size={16} style={{ marginRight: '5px' }} />
+        <Text>Back</Text>
+      </Link>
       <Paper p="lg" withBorder>
         <Group justify="flex-start" mb="xl">
           <Title order={2}>Edit Profile</Title>
-          <Button variant="subtle" onClick={handleCancel}>Cancel</Button>
         </Group>
         
         <SimpleGrid cols={2} mb="lg">
@@ -247,7 +256,7 @@ export function EditUserProfile() {
             clearable
             mb="md"
         />
-        <Group justify="flex-end" gap="md" mt="xl">
+        <Group justify="flex-end" gap="md">
           <Button variant="default" onClick={handleCancel}>Cancel</Button>
           <Button variant="outline" onClick={handleFormSubmit}>
             Save Changes

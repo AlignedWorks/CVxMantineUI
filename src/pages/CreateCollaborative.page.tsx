@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext.tsx';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { DropzoneButton } from '../components/Dropzone/DropzoneButton.tsx';
 import { ImageField } from '../ImageField.tsx';
 import { Link } from 'react-router-dom';
 import {
@@ -465,13 +464,9 @@ export function CreateCollaborative() {
         />
       </SimpleGrid>
 
-      <DropzoneButton
-        imgType="Collaborative's logo"
-        />
-
       <ImageField 
         label="Collaborative Logo"
-        initialImageUrl="this is a placeholder"
+        initialImageUrl=""
         onImageSelected={(url) => handleInputChange('logoUrl', url)}
       />
 
@@ -481,70 +476,70 @@ export function CreateCollaborative() {
 
       <SimpleGrid cols={2}>
         <TextInput
-            rightSection={revenueShare}
-            label="% of Revenue to the Collab Pool"
-            placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
-            type="number"
-            value={formValues.revenueShare}
-            onChange={(event) =>
-                handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
-            }
-            error={errors.revenueShare} // Display validation error
-            required
-            mb="md"
+          rightSection={revenueShare}
+          label="% of Revenue to the Collab Pool"
+          placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
+          type="number"
+          value={formValues.revenueShare}
+          onChange={(event) =>
+              handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
+          }
+          error={errors.revenueShare} // Display validation error
+          required
+          mb="md"
         />
 
         <Select
-            label="Payout Frequency"
-            placeholder="Select payout frequency"
-            data={[
-                { value: PayoutFrequency.Monthly, label: 'Monthly' },
-                { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
-                { value: PayoutFrequency.Yearly, label: 'Yearly' },
-            ]}
-            value={formValues.payoutFrequency}
-            onChange={(value) => handleInputChange('payoutFrequency', value as PayoutFrequency)}
-            error={errors.payoutFrequency} // Display validation error
-            required
-            mb="md"
+          label="Payout Frequency"
+          placeholder="Select payout frequency"
+          data={[
+              { value: PayoutFrequency.Monthly, label: 'Monthly' },
+              { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
+              { value: PayoutFrequency.Yearly, label: 'Yearly' },
+          ]}
+          value={formValues.payoutFrequency}
+          onChange={(value) => handleInputChange('payoutFrequency', value as PayoutFrequency)}
+          error={errors.payoutFrequency} // Display validation error
+          required
+          mb="md"
         />
       </SimpleGrid>
 
       <MultiSelect
-          label="SharePoint Staking Tiers"
-          placeholder="Set the SharePoint Staking Tiers"
-          data={
-              formValues.payoutFrequency === PayoutFrequency.Monthly
-              ? monthlyStakingTiers
-              : formValues.payoutFrequency === PayoutFrequency.Quarterly
-              ? quarterlyStakingTiers
-              : annualStakingTiers
-          }
-          value={selectedTiers.map((t) => t.tier)}
-          onChange={handleTierChange}
-          error={errors.stakingTiers} // Display validation error
-          searchable
-          clearable
-          required
-          mt="lg"
-          mb="md"
+        label="SharePoint Staking Tiers"
+        placeholder="Set the SharePoint Staking Tiers"
+        data={
+            formValues.payoutFrequency === PayoutFrequency.Monthly
+            ? monthlyStakingTiers
+            : formValues.payoutFrequency === PayoutFrequency.Quarterly
+            ? quarterlyStakingTiers
+            : annualStakingTiers
+        }
+        value={selectedTiers.map((t) => t.tier)}
+        onChange={handleTierChange}
+        error={errors.stakingTiers} // Display validation error
+        searchable
+        clearable
+        required
+        mt="lg"
+        mb="md"
       />
       <Group grow mt="xl" pt="sm" pb="lg" >
       {selectedTiers.map((tier) => (
-          <TextInput
-              rightSection={exchangeRate}
-              key={tier.tier}
-              label={`${tier.tier} Staking Exchange Rate`}
-              placeholder="Set the Exchage Rates for Staking SharePoints"
-              type="number"
-              value={tier.exchangeRate}
-              onChange={(event) =>
-                  handleExchangeRateChange(tier.tier, parseFloat(event.currentTarget.value))
-              }
-              error={errors.exchangeRate?.[tier.tier]} // Display validation error
-              required
-              mb="md"
-          />
+        <TextInput
+          rightSection={exchangeRate}
+          key={tier.tier}
+          label={`${tier.tier} Staking Exchange Rate`}
+          placeholder="Set the Exchage Rates for Staking SharePoints"
+          type="number"
+          value={tier.exchangeRate}
+          onChange={(event) =>
+              handleExchangeRateChange(tier.tier, parseFloat(event.currentTarget.value))
+          }
+          error={errors.exchangeRate?.[tier.tier]} // Display validation error
+          required
+          mb="md"
+        />
       ))}
       </Group>
 
