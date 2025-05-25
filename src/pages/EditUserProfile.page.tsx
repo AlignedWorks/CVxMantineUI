@@ -216,12 +216,14 @@ export function EditUserProfile() {
           />
         </SimpleGrid>
 
+        {formValues && (
         <ImageField 
             label="Your profile picture"
             initialImageUrl={formValues?.avatarUrl || user?.avatarUrl || ''}
             onImageSelected={(url) => handleFormChange('avatarUrl', url)}
             mb="lg"
         />
+        )}
 
         <MultiSelect
             label="Member Skills"
