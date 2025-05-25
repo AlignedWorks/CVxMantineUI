@@ -44,7 +44,6 @@ export function EditUserProfile() {
         .then((data) => { 
           setUser(data);
           setLoading(false); // Set loading to false after data is fetched
-          console.log("Fetched user data:", data);
         })
         .catch((err) => 
           {
@@ -106,10 +105,6 @@ export function EditUserProfile() {
             skills: user.skills,
             experience: user.experience,
         });
-        console.log(`avatarUrl: ${formValues?.avatarUrl}`)
-        console.log(`userName: ${formValues?.userName}`)
-        console.log(`firstName: ${formValues?.firstName}`)
-        console.log(`avatarUrl: ${user.avatarUrl}`)
         }
     }, [user]); // Run this effect when 'user' changes
 
@@ -223,7 +218,7 @@ export function EditUserProfile() {
 
         <ImageField 
             label="Your profile picture"
-            initialImageUrl={formValues?.avatarUrl}
+            initialImageUrl={formValues?.avatarUrl || user?.avatarUrl || ''}
             onImageSelected={(url) => handleFormChange('avatarUrl', url)}
             mb="lg"
         />
