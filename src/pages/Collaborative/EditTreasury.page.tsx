@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
@@ -8,7 +7,6 @@ import {
   Button,
   Loader,
   Paper,
-  Stack,
   Title,
   SimpleGrid,
   Group,
@@ -24,7 +22,6 @@ import { CollaborativeDataTreasury, PayoutFrequency } from '../../data.ts';
 export function EditCollaborativeTreasury() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeDataTreasury | null>(null);
   const [loading, setLoading] = useState(true);
