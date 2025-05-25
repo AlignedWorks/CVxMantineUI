@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Group, Image, Button, Paper, Title, Text, Box, BoxProps } from '@mantine/core';
+import { Group, Image, Button, Paper, Text, Box, BoxProps } from '@mantine/core';
 import { IconEdit } from '@tabler/icons-react';
 import { ImageUpload } from './pages/ImageUpload.page.tsx';
 
