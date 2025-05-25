@@ -164,7 +164,6 @@ export function EditCollaborative() {
             placeholder="Enter name"
             value={formValues?.name || ''}
             onChange={(e) => handleFormChange('name', e.target.value)}
-            required
             mb="md"
           />
 
@@ -178,16 +177,17 @@ export function EditCollaborative() {
             mb="md"
           />
 
-          <TextInput
-            label="Website URL"
-            placeholder="https://example.com"
-            value={formValues?.websiteUrl || ''}
-            onChange={(e) => handleFormChange('websiteUrl', e.target.value)}
-            mb="md"
-          />
+          
 
           <Grid>
             <Grid.Col span={6}>
+              <TextInput
+                label="Website URL"
+                placeholder="https://example.com"
+                value={formValues?.websiteUrl || ''}
+                onChange={(e) => handleFormChange('websiteUrl', e.target.value)}
+                mb="md"
+              />
               <TextInput
                 label="City"
                 placeholder="Enter city"
@@ -195,8 +195,6 @@ export function EditCollaborative() {
                 onChange={(e) => handleFormChange('city', e.target.value)}
                 mb="md"
               />
-            </Grid.Col>
-            <Grid.Col span={6}>
               <Select
                 label="State"
                 placeholder="Select state"
@@ -207,14 +205,15 @@ export function EditCollaborative() {
                 mb="md"
               />
             </Grid.Col>
+            <Grid.Col span={6}>
+              <ImageField
+                label="Collaborative Logo"
+                initialImageUrl={formValues?.logoUrl}
+                onImageSelected={(url) => handleFormChange('logoUrl', url)}
+                mb="md"
+              />
+            </Grid.Col>
           </Grid>
-
-          <ImageField
-            label="Collaborative Logo"
-            initialImageUrl={formValues?.logoUrl}
-            onImageSelected={(url) => handleFormChange('logoUrl', url)}
-            mb="md"
-          />
 
           <MultiSelect
             label="Member Skills"

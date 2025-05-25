@@ -38,9 +38,9 @@ export function HeaderTabs() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const { collaborativeId } = useCollaborativeContext();
   const isCollaborativeRoute = Boolean(collaborativeId);
+  const navigate = useNavigate();
 
   // Determine active tab based on current path
   const getActiveTab = () => {
@@ -48,7 +48,7 @@ export function HeaderTabs() {
     
     const currentPath = location.pathname;
     const foundTab = tabsData.find(tab => 
-      currentPath.includes(`/collaboratives/${collaborativeId}${tab.path}`)
+      currentPath.includes(`/collaboratives/${collaborativeId}/${tab.path}`)
     );
     
     return foundTab?.key || 'Home';

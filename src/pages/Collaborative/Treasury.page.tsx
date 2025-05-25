@@ -121,10 +121,10 @@ export function CollaborativeTreasury() {
               <SimpleGrid cols={2} mb="md">
                 <div>
                   <Text fz="md" fw={500}>
-                      Revenue Share %
+                      Revenue Share
                   </Text>
                   <Text fz="xl" c="#222" mb="lg">
-                    {collaborative.revenueShare}
+                    {collaborative.revenueShare}%
                   </Text>
                   <Text fz="md" fw={500}>
                       Payout Frequency
@@ -133,16 +133,16 @@ export function CollaborativeTreasury() {
                     {collaborative.payoutFrequency}
                   </Text>
                   <Text fz="md" fw={500}>
-                      Indirect Costs %
+                      Indirect Costs
                   </Text>
                   <Text fz="xl" c="#222" mb="lg">
-                    {collaborative.indirectCosts}
+                    {collaborative.indirectCosts}%
                   </Text>
                   <Text fz="md" fw={500}>
-                      Collaborative Leader Compensation %
+                      Collaborative Leader Compensation
                   </Text>
                   <Text fz="xl" c="#222" mb="lg">
-                    {collaborative.collabLeaderCompensation}
+                    {collaborative.collabLeaderCompensation}%
                   </Text>
                 </div>
                 <div>
@@ -162,17 +162,6 @@ export function CollaborativeTreasury() {
           <Grid.Col span={1}>
           </Grid.Col>
         </Grid>
-        <Group gap="lg">
-          <div>
-            <Text fz="md" fw={500}>
-                Revenue Share %
-            </Text>
-            <Text fz="xl" c="#222" mb="lg">
-              {collaborative.revenueShare}
-            </Text>
-          </div>
-
-        </Group>
       </Card>
 
       <Group justify="right">
