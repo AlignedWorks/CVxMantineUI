@@ -10,7 +10,6 @@ import {
   TextInput,
   Stack,
   Tooltip,
-  Badge,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
