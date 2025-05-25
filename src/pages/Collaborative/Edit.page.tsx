@@ -177,8 +177,6 @@ export function EditCollaborative() {
             mb="md"
           />
 
-          
-
           <Grid>
             <Grid.Col span={6}>
               <TextInput
@@ -206,12 +204,14 @@ export function EditCollaborative() {
               />
             </Grid.Col>
             <Grid.Col span={6}>
-              <ImageField
-                label="Collaborative Logo"
-                initialImageUrl={formValues?.logoUrl}
-                onImageSelected={(url) => handleFormChange('logoUrl', url)}
-                mb="md"
-              />
+              <Stack h="100%" justify="flex-end">
+                <ImageField
+                  label="Collaborative Logo"
+                  initialImageUrl={formValues?.logoUrl}
+                  onImageSelected={(url) => handleFormChange('logoUrl', url)}
+                  mb="md"
+                />
+              </Stack>
             </Grid.Col>
           </Grid>
 

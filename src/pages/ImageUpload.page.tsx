@@ -71,9 +71,7 @@ export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
 
   return (
     <Container size="md" py="xl">
-      <Title order={2} mb="lg">Image Upload</Title>
 
-      <Paper p="lg" withBorder>
         <Stack>
           {error && (
             <Alert icon={<IconAlertCircle size={16} />} title="Upload Error" color="red">
@@ -138,7 +136,6 @@ export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
             </>
           )}
         </Stack>
-      </Paper>
     </Container>
   );
 }
