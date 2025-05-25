@@ -224,7 +224,7 @@ export function EditUserProfile() {
         
         <MultiSelect
             label="Member Skills"
-            placeholder="Select the needed skills"
+            placeholder="Select your skills"
             data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
             value={formValues?.skills?.map((skill) => skill.id.toString()) || []} // Map selected skills to their IDs
             onChange={(values) =>
@@ -240,7 +240,7 @@ export function EditUserProfile() {
 
         <MultiSelect
             label="Sector Experience"
-            placeholder="Select the needed experience"
+            placeholder="Select your experience"
             data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
             value={formValues?.experience?.map((exp) => exp.id.toString()) || []} // Map selected experience to their IDs
             onChange={(values) =>

@@ -25,6 +25,7 @@ import { CollaborativeHome } from './pages/Collaborative/Home.page.tsx';
 import { CollaborativeMembers } from './pages/Collaborative/Members.page.tsx';
 import { CollaborativeProjects } from './pages/Collaborative/Projects.page.tsx';
 import { CollaborativeTreasury } from "./pages/Collaborative/Treasury.page.tsx";
+import { EditCollaborativeTreasury } from './pages/Collaborative/EditTreasury.page';
 import { CollaborativeMemberWallet } from './pages/Collaborative/Wallet.page.tsx';
 
 import { Test } from "./pages/Test.page.tsx";
@@ -74,6 +75,7 @@ export default function App() {
               <Route path="/collaboratives/:id/members" element={<CollaborativeMembers/>} />
               <Route path="/collaboratives/:id/projects" element={<CollaborativeProjects/>} />
               <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
+              <Route path="/collaboratives/:id/treasury/edit" element={<EditCollaborativeTreasury />} />
               <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
               <Route path="/collaboratives/:id/wallet" element={<CollaborativeMemberWallet/>} />
               <Route path="/members/:id" element={<MemberProfile/>} />

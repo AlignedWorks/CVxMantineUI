@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../AuthContext.tsx';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
   Container,
@@ -22,6 +22,7 @@ export function CollaborativeTreasury() {
   // const location = useLocation();
   const { id } = useParams(); // Get the 'id' parameter from the URL
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeDataTreasury | null>(null);
   const [loading, setLoading] = useState(true);
@@ -165,7 +166,11 @@ export function CollaborativeTreasury() {
       </Card>
 
       <Group justify="right">
-        <Button variant="default" mb="sm">
+        <Button 
+          variant="default" 
+          mb="sm"
+          onClick={() => navigate(`/collaboratives/${id}/treasury/edit`)}
+        >
           Edit Treasury Info
         </Button>
       </Group>

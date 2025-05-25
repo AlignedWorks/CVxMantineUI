@@ -161,7 +161,7 @@ export function EditCollaborative() {
 
         <Stack>
           <TextInput
-            label="Collaborative Name"
+            label="Name"
             placeholder="Enter name"
             value={formValues?.name || ''}
             onChange={(e) => handleFormChange('name', e.target.value)}
@@ -206,7 +206,7 @@ export function EditCollaborative() {
             </Grid.Col>
             <Grid.Col span={6}>
               <ImageField
-                label="Collaborative Logo"
+                label="Logo"
                 initialImageUrl={formValues?.logoUrl}
                 onImageSelected={(url) => handleFormChange('logoUrl', url)}
                 mb="md"
