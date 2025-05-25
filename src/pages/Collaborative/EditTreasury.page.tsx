@@ -129,7 +129,7 @@ export function EditCollaborativeTreasury() {
     setSaving(true);
     try {
       const response = await fetch(
-        new URL(`collaboratives/${id}/treasury`, import.meta.env.VITE_API_BASE),
+        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
         {
           method: 'PATCH',
           credentials: 'include',
@@ -160,7 +160,7 @@ export function EditCollaborativeTreasury() {
     <Container size="md" py="xl">
       {/* Back Link */}
       <Link to={`/collaboratives/${id}/treasury`} style={{ textDecoration: 'none', color: '#0077b5' }}>
-        &larr; Back to Treasury
+        &larr; Back
       </Link>
       
       <Paper p="lg" withBorder mt="md">
