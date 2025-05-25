@@ -29,7 +29,7 @@ export function ImageField({
   return (
     <Box {...others}>
       <Paper withBorder p="md" mb="md">
-        <Title order={5} mb="md">{label}</Title>
+        <Title order={4} mb="md">{label}</Title>
         
         {(!showUploader && imageUrl) ? (
           <Group>

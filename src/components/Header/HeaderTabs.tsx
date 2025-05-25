@@ -48,7 +48,7 @@ export function HeaderTabs() {
     
     const currentPath = location.pathname;
     const foundTab = tabsData.find(tab => 
-      currentPath.includes(`/collaboratives/${collaborativeId}/${tab.path}`)
+      currentPath.includes(`/collaboratives/${collaborativeId}${tab.path}`)
     );
 
     console.log('foundTab:', foundTab);
