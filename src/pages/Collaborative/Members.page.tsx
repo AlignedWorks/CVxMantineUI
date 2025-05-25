@@ -334,17 +334,27 @@ export function CollaborativeMembers() {
                   value={selectedRole}
                   onChange={(value) => setSelectedRole(value || '')}
                   placeholder="Select a role"
-                  mb="md"
+                  mb="lg"
               />
 
+              <Group gap="lg">
               {/* Submit Button */}
-              <Button
-                  variant="default"
-                  onClick={handleAddMember}
-                  disabled={!selectedUser || !selectedRole} // Disable if no user or role is selected
-              >
-                  Submit
-              </Button>
+                <Button
+                    variant="default"
+                    onClick={handleAddMember}
+                    disabled={!selectedUser || !selectedRole} // Disable if no user or role is selected
+                >
+                    Submit
+                </Button>
+
+                {/* Done Button */}
+                <Button
+                    variant="default"
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    Done
+                </Button>
+              </Group>
 
               {/* Success Message */}
               {successMessage && (
@@ -352,14 +362,6 @@ export function CollaborativeMembers() {
                   {successMessage}
                   </Text>
               )}
-
-              {/* Done Button */}
-              <Button
-                  variant="default"
-                  onClick={() => setIsModalOpen(false)}
-              >
-                  Done
-              </Button>
           </div>
       )}
       </Modal>

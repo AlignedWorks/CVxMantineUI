@@ -97,9 +97,6 @@ export function CollaborativeDirectory() {
                 </Text>
             </Tooltip>
             <Stack align="center">
-              <Badge c="green" variant="light" size="md" mb="md">
-                  Seeking new members
-              </Badge>
               <Link
                 to={`/collaboratives/${collaborative.id}`}
                 state={{ from: location.pathname }}

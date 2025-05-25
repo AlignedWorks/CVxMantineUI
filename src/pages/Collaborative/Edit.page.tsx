@@ -217,8 +217,8 @@ export function EditCollaborative() {
           />
 
           <MultiSelect
-            label="Skills"
-            placeholder="Select skills"
+            label="Member Skills"
+            placeholder="Select the needed skills"
             data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
             value={formValues?.skills?.map((skill) => skill.id.toString()) || []}
             onChange={(value) => {
@@ -230,8 +230,8 @@ export function EditCollaborative() {
           />
 
           <MultiSelect
-            label="Experience Levels"
-            placeholder="Select experience levels"
+            label="Sector Experience"
+            placeholder="Select the needed experience"
             data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
             value={formValues?.experience?.map((exp) => exp.id.toString()) || []}
             onChange={(value) => {

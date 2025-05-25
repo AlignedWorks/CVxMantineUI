@@ -47,6 +47,8 @@ export interface CollaborativeDataTreasury {
   revenueShare: number;
   payoutFrequency: PayoutFrequency;
   stakingTiers: StakingTier[];
+  indirectCosts: number;
+  collabLeaderCompensation: number;
 }
 
 export interface CollabMember {

@@ -100,7 +100,7 @@ export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
             <>
               <FileInput
                 label="Select image to upload"
-                placeholder="Click to select or drop image file"
+                placeholder="Click to select an image from your device to upload"
                 accept="image/jpeg,image/png,image/gif"
                 value={file}
                 onChange={setFile}

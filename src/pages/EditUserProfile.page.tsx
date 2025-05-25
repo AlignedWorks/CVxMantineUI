@@ -175,6 +175,7 @@ export function EditUserProfile() {
             label="Bio"
             value={formValues?.bio}
             onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
+            autosize
             minRows={3}
             maxRows={5}
             mb="lg"
@@ -219,7 +220,7 @@ export function EditUserProfile() {
         {formValues && (
         <ImageField 
             label="Your profile picture"
-            initialImageUrl={formValues?.avatarUrl || user?.avatarUrl || ''}
+            initialImageUrl={formValues?.avatarUrl}
             onImageSelected={(url) => handleFormChange('avatarUrl', url)}
             mb="lg"
         />

@@ -132,6 +132,18 @@ export function CollaborativeTreasury() {
                   <Text fz="xl" c="#222" mb="lg">
                     {collaborative.payoutFrequency}
                   </Text>
+                  <Text fz="md" fw={500}>
+                      Indirect Costs %
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.indirectCosts}
+                  </Text>
+                  <Text fz="md" fw={500}>
+                      Collaborative Leader Compensation %
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.collabLeaderCompensation}
+                  </Text>
                 </div>
                 <div>
                   <Table variant="vertical" layout="fixed" withTableBorder>
@@ -150,14 +162,22 @@ export function CollaborativeTreasury() {
           <Grid.Col span={1}>
           </Grid.Col>
         </Grid>
+        <Group gap="lg">
+          <div>
+            <Text fz="md" fw={500}>
+                Revenue Share %
+            </Text>
+            <Text fz="xl" c="#222" mb="lg">
+              {collaborative.revenueShare}
+            </Text>
+          </div>
+
+        </Group>
       </Card>
 
       <Group justify="right">
         <Button variant="default" mb="sm">
-          Edit Revenue Share %
-        </Button>
-        <Button variant="default" ml="xl" mb="sm">
-          Edit Exchange Rates
+          Edit Treasury Info
         </Button>
       </Group>
 
