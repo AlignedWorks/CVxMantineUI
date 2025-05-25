@@ -28,8 +28,8 @@ export function ImageField({
   // Wrap everything in a Box component that will handle the margin props
   return (
     <Box {...others}>
-      <Paper withBorder p="md" mb="md">
-        <Title order={4} mb="md">{label}</Title>
+      <Paper withBorder p="sm" mb="sm">
+        <Title order={3} mb="sm">{label}</Title>
         
         {(!showUploader && imageUrl) ? (
           <Group>

@@ -63,10 +63,6 @@ export function HeaderTabs() {
             (tab.path !== '' && pathSuffix.startsWith(`${tab.path}/`));
     });
     
-    console.log('foundTab:', foundTab);
-    console.log('currentPath:', currentPath);
-    console.log('pathSuffix:', pathSuffix);
-    
     return foundTab?.key || 'Home';
   };
 
