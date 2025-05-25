@@ -98,6 +98,7 @@ export function EditCollaborative() {
       ...prev,
       [field]: value,
     }));
+    console.log("Form values updated:", formValues?.logoUrl);
   };
 
   const handleSubmit = async () => {
