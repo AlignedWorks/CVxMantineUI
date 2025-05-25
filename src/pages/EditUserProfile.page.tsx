@@ -107,6 +107,9 @@ export function EditUserProfile() {
             experience: user.experience,
         });
         console.log(`avatarUrl: ${formValues?.avatarUrl}`)
+        console.log(`userName: ${formValues?.userName}`)
+        console.log(`firstName: ${formValues?.firstName}`)
+        console.log(`avatarUrl: ${user.avatarUrl}`)
         }
     }, [user]); // Run this effect when 'user' changes
 
