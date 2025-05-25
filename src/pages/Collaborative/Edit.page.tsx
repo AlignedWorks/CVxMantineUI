@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
   Container,
   Title,
@@ -35,11 +36,18 @@ interface CollaborativeFormData {
 export function EditCollaborative() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { setCollaborativeId } = useCollaborativeContext();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [formValues, setFormValues] = useState<CollaborativeFormData | null>(null);
   const [skills, setSkills] = useState<{ id: number; value: string }[]>([]);
   const [experience, setExperience] = useState<{ id: number; value: string }[]>([]);
+
+  // Set the collaborative ID in context
+  useEffect(() => {
+    setCollaborativeId(id || null);
+    return () => setCollaborativeId(null);
+  }, [id, setCollaborativeId]);
 
   // Fetch collaborative data
   useEffect(() => {

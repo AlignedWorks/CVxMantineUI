@@ -165,10 +165,7 @@ export function EditCollaborativeTreasury() {
       
       <Paper p="lg" withBorder mt="md">
         <Title order={2} mb="xl">
-          Edit Treasury Settings
-        </Title>
-        <Title order={4} mb="md">
-          Revenue Sharing Pool
+          Edit Treasury
         </Title>
         
         <SimpleGrid cols={2} mb="md">
@@ -306,7 +303,8 @@ export function EditCollaborativeTreasury() {
           <Button variant="default" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button 
+          <Button
+            variant="outline"
             onClick={handleSubmit} 
             loading={saving}
             disabled={saving}
