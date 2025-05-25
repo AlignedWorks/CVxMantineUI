@@ -14,7 +14,7 @@ import { RegistrationTile } from './components/RegistrationTile/RegistrationTile
 
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
-import { EditCollaborative } from './pages/EditCollaborative.page.tsx';
+import { EditCollaborative } from './pages/Collaborative/Edit.page.tsx';
 
 import { MemberDirectory } from './pages/MemberDirectory.page';
 import { MemberProfile } from "./pages/MemberProfile.page.tsx";

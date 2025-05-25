@@ -16,18 +16,28 @@ import {
   Loader,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { ImageField } from '../ImageField.tsx';
+import { ImageField } from '../../ImageField.tsx';
 import {
   us_states,
-  CollaborativeData,
-} from '../data.ts';
+} from '../../data.ts';
+
+interface CollaborativeFormData {
+    name: string;
+    description: string;
+    websiteUrl: string;
+    logoUrl: string;
+    city: string;
+    state: string;
+    skills: { id: number; value: string }[];
+    experience: { id: number; value: string }[];
+}
 
 export function EditCollaborative() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [formValues, setFormValues] = useState<CollaborativeData | null>(null);
+  const [formValues, setFormValues] = useState<CollaborativeFormData | null>(null);
   const [skills, setSkills] = useState<{ id: number; value: string }[]>([]);
   const [experience, setExperience] = useState<{ id: number; value: string }[]>([]);
 
@@ -46,7 +56,6 @@ export function EditCollaborative() {
         // Initialize form values with fetched data
         console.log("Fetched collaborative data:", data);
         setFormValues({
-          id: data.id,
           name: data.name,
           description: data.description,
           websiteUrl: data.websiteUrl || '',
@@ -55,13 +64,6 @@ export function EditCollaborative() {
           state: data.state || '',
           skills: data.skills || [],
           experience: data.experience || [],
-          leaderEmail: data.leaderEmail || '',
-          leaderName: data.leaderName || '',
-          createdAt: data.createdAt || '',
-          revenueShare: data.revenueShare || 0,
-          indirectCosts: data.indirectCosts || 0,
-          collabLeaderCompensation: data.collabLeaderCompensation || 0,
-          payoutFrequency: data.payoutFrequency || '',
         });
         setLoading(false);
       })
@@ -103,6 +105,14 @@ export function EditCollaborative() {
 
     setSubmitting(true);
     try {
+        // Create a modified payload for the API
+        const payload = {
+        ...formValues,
+        // Transform skills and experience to just arrays of IDs
+        skills: formValues.skills.map(skill => skill.id),
+        experience: formValues.experience.map(exp => exp.id)
+        };
+
       const response = await fetch(
         new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
         {
@@ -111,7 +121,7 @@ export function EditCollaborative() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify(formValues),
+          body: JSON.stringify(payload),
         }
       );
 
@@ -232,15 +242,16 @@ export function EditCollaborative() {
             mb="md"
           />
 
-          <Group justify="flex-start" gap="md" mt="xl">
+          <Group justify="flex-end" gap="md" mt="xl">
             <Button 
-              variant="outline" 
+              variant="default" 
               onClick={() => navigate(`/collaboratives/${id}`)}
               disabled={submitting}
             >
               Cancel
             </Button>
             <Button 
+              variant="outline"
               onClick={handleSubmit}
               loading={submitting}
               disabled={submitting}
