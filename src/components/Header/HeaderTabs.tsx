@@ -47,12 +47,25 @@ export function HeaderTabs() {
     if (!collaborativeId) return 'Home';
     
     const currentPath = location.pathname;
-    const foundTab = tabsData.find(tab => 
-      currentPath.includes(`/collaboratives/${collaborativeId}${tab.path}`)
-    );
-
+    const collaborativeBasePath = `/collaboratives/${collaborativeId}`;
+    
+    // Special case for the Home tab (which has an empty path)
+    if (currentPath === collaborativeBasePath) {
+      return 'Home';
+    }
+    
+    // For other tabs, extract the part after the collaborative ID
+    const pathSuffix = currentPath.slice(collaborativeBasePath.length);
+    
+    const foundTab = tabsData.find(tab => {
+      // Match exact paths or paths that start with the tab path followed by a slash
+      return pathSuffix === tab.path || 
+            (tab.path !== '' && pathSuffix.startsWith(`${tab.path}/`));
+    });
+    
     console.log('foundTab:', foundTab);
     console.log('currentPath:', currentPath);
+    console.log('pathSuffix:', pathSuffix);
     
     return foundTab?.key || 'Home';
   };
