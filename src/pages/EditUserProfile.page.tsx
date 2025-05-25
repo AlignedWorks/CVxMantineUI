@@ -182,15 +182,13 @@ export function EditUserProfile() {
         />
 
         <Grid>
-            <Grid.Col span={9}>
+            <Grid.Col span={6}>
                 <TextInput
                     label="City"
                     value={formValues?.city}
                     onChange={(event) => handleFormChange('city', event.currentTarget.value)}
                     mb="lg"
                 />
-            </Grid.Col>
-            <Grid.Col span={3}>
                 <Select
                     label="State"
                     data={us_states}
@@ -199,33 +197,31 @@ export function EditUserProfile() {
                     searchable
                     mb="lg"
                 />
+                <TextInput
+                  label="Phone Number"
+                  value={formValues?.phoneNumber}
+                  onChange={(event) => handleFormChange('phoneNumber', event.currentTarget.value)}
+                  mb="lg"
+                />
+                <TextInput
+                    label="LinkedIn"
+                    value={formValues?.linkedIn}
+                    onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
+                    mb="lg"
+                />
+            </Grid.Col>
+            <Grid.Col span={6}>
+                {formValues && (
+                  <ImageField 
+                      label="Profile Picture"
+                      initialImageUrl={formValues?.avatarUrl}
+                      onImageSelected={(url) => handleFormChange('avatarUrl', url)}
+                      mb="lg"
+                  />
+                )}
             </Grid.Col>
         </Grid>
-
-        <SimpleGrid cols={2} mb="lg">
-          <TextInput
-            label="Phone Number"
-            value={formValues?.phoneNumber}
-            onChange={(event) => handleFormChange('phoneNumber', event.currentTarget.value)}
-            mb="lg"
-          />
-          <TextInput
-              label="LinkedIn"
-              value={formValues?.linkedIn}
-              onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
-              mb="lg"
-          />
-        </SimpleGrid>
-
-        {formValues && (
-        <ImageField 
-            label="Your profile picture"
-            initialImageUrl={formValues?.avatarUrl}
-            onImageSelected={(url) => handleFormChange('avatarUrl', url)}
-            mb="lg"
-        />
-        )}
-
+        
         <MultiSelect
             label="Member Skills"
             placeholder="Select the needed skills"

@@ -38,7 +38,8 @@ export function ImageField({
               width={100} 
               height={100} 
               radius="md" 
-              alt={label} 
+              alt={label}
+              ml="lg"
             />
             <Button 
               variant="subtle" 
