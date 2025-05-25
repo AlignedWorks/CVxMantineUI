@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Group, Image, Button, Paper, Title, Box, BoxProps } from '@mantine/core';
+import { Group, Image, Button, Paper, Title, Text, Box, BoxProps } from '@mantine/core';
 import { IconEdit } from '@tabler/icons-react';
 import { ImageUpload } from './pages/ImageUpload.page.tsx';
 
@@ -28,9 +28,9 @@ export function ImageField({
   // Wrap everything in a Box component that will handle the margin props
   return (
     <Box {...others}>
-      <Paper withBorder p="sm" mb="sm">
-        <Title order={3} mb="sm">{label}</Title>
-        
+      <Text fw={500} fz="sm" mb={5}>{label}</Text>
+      <Paper withBorder p="sm">
+
         {(!showUploader && imageUrl) ? (
           <Group>
             <Image 
