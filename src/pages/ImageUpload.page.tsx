@@ -2,12 +2,10 @@ import { useState, useRef } from 'react';
 import { upload } from '@vercel/blob/client';
 import {
   Container,
-  Title,
   Text,
   Group,
   Button,
   Image,
-  Paper,
   FileInput,
   Progress,
   Stack,
