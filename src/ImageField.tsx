@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Group, Image, Button, Paper, Text, Box, BoxProps } from '@mantine/core';
 import { IconEdit } from '@tabler/icons-react';
-import { ImageUpload } from './pages/ImageUpload.page.tsx';
+import { ImageUpload } from './components/ImageUpload.page.tsx';
 
 // Extend the props to include Mantine's BoxProps (which includes margin/padding props)
 interface ImageFieldProps extends BoxProps {

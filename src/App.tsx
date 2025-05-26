@@ -1,7 +1,8 @@
 import "@mantine/core/styles.css";
 import { MantineProvider, AppShell } from "@mantine/core";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ImageUpload } from './pages/ImageUpload.page';
+import { ImageUpload } from './components/ImageUpload.page.tsx';
+import { FileUpload } from './components/FileUpload.page.tsx';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from './AuthContext.tsx';
 import { NavbarSimple } from './components/Navbar/Navbar';;
@@ -80,6 +81,7 @@ export default function App() {
               <Route path="/collaboratives/:id/wallet" element={<CollaborativeMemberWallet/>} />
               <Route path="/members/:id" element={<MemberProfile/>} />
               <Route path="/upload-image" element={<ImageUpload />} />
+              <Route path="/upload-file" element={<FileUpload />} />
             </Routes>
           </AppShell.Main>
           

@@ -40,7 +40,7 @@ export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
       // Call the Vercel Blob client upload function
       const blob = await upload(file.name, file, {
         access: 'public',
-        handleUploadUrl: '/api/img/upload',
+        handleUploadUrl: '/api/upload?type=image',
         onUploadProgress: (progressEvent) => {
           // Update progress as the file uploads
           setUploadProgress(Math.round(progressEvent.percentage * 100));
@@ -120,7 +120,13 @@ export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
                 </Stack>
               )}
 
-              <Group justify="flex-end">
+              <Group justify="space-between">
+                <Text>
+                  The image should ideally be<br/>
+                  1) roughly square<br/>
+                  2) tightly cropped and<br/>
+                  3) set against an either white or transparent background for best results.
+                </Text>
                 <Button 
                   onClick={handleUpload} 
                   leftSection={<IconUpload size={16} />}
