@@ -6,6 +6,15 @@ export default async function (req, res) {
     // Use req.body directly in Node.js environment
     const body = req.body;
     const fileType = req.query.type || 'generic'; // 'image', 'document', 'pdf'
+    console.log('File type:', fileType);
+
+    // Content type mapping
+    const contentTypeMap = {
+      'image': ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'],
+      'document': ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.oasis.opendocument.text'],
+      'pdf': ['application/pdf'],
+      'generic': ['application/octet-stream', 'image/jpeg', 'image/png', 'application/pdf']
+    };
 
     // Note: 'request' is not defined - we need to use 'req' instead
     const jsonResponse = await handleUpload({
@@ -13,9 +22,10 @@ export default async function (req, res) {
       request: req,  // Use req instead of request
       onBeforeGenerateToken: async (pathname, clientPayload) => {
         console.log('Generating token for:', pathname);
+        console.log('contentTypeMap:', contentTypeMap[fileType]);
         
         return {
-          allowedContentTypes: ['application/pdf'],
+          allowedContentTypes: contentTypeMap[fileType] || contentTypeMap.generic,
           addRandomSuffix: true,
           tokenPayload: JSON.stringify({
             fileType,
