@@ -46,7 +46,7 @@ export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocum
         </Button>
         <Button 
           onClick={goToNextPage}
-          disabled={pageNumber >= numPages}
+          disabled={numPages === null || pageNumber >= numPages}
         >
           Next
         </Button>
