@@ -23,7 +23,7 @@ interface FileUploadProps {
 export function FileUpload({
   onSuccess, 
   onCancel, 
-  fileType = 'document',
+  fileType = 'pdf',
   maxSizeMB = 10
 }: FileUploadProps) {
   const [file, setFile] = useState<File | null>(null);
