@@ -23,7 +23,7 @@ export default async function (req, res) {
         console.log('Generating token for:', pathname);
         
         return {
-          allowedContentTypes: contentTypeMap[fileType] || contentTypeMap.generic,
+          allowedContentTypes: ['application/pdf'],
           addRandomSuffix: true,
           tokenPayload: JSON.stringify({
             fileType,
