@@ -67,6 +67,7 @@ export function MemberDirectory() {
       user.firstName.toLowerCase().includes(query) ||
       user.lastName.toLowerCase().includes(query) ||
       user.userName.toLowerCase().includes(query) ||
+      user.bio.toLowerCase().includes(query) ||
       user.city.toLowerCase().includes(query) ||
       user.state.toLowerCase().includes(query)
     );

@@ -21,6 +21,7 @@ import { ImageField } from '../../ImageField.tsx';
 import {
   us_states,
 } from '../../data.ts';
+import { FileUpload } from '../../components/uploads/FileUpload.tsx';
 
 interface CollaborativeFormData {
     name: string;
@@ -31,6 +32,7 @@ interface CollaborativeFormData {
     state: string;
     skills: { id: number; value: string }[];
     experience: { id: number; value: string }[];
+    CSAdocUrl?: string;
 }
 
 export function EditCollaborative() {
@@ -72,6 +74,7 @@ export function EditCollaborative() {
           state: data.state || '',
           skills: data.skills || [],
           experience: data.experience || [],
+          CSAdocUrl: data.CSAdocUrl || '',
         });
         setLoading(false);
       })
@@ -246,6 +249,10 @@ export function EditCollaborative() {
             }}
             searchable
             mb="md"
+          />
+
+          <FileUpload
+            onSuccess={(url) => handleFormChange('CSAdocUrl', url)}
           />
 
           <Group justify="flex-end" gap="md">
