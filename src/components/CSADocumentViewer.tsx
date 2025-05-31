@@ -1,7 +1,6 @@
 import { Document, Page } from 'react-pdf';
 import { useState } from 'react';
 import { Button } from '@mantine/core';
-import 'pdfjs-dist/build/pdf.worker.entry';
 
 interface CSADocumentViewerProps {
   documentUrl: string;
