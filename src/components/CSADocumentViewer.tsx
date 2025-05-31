@@ -10,7 +10,7 @@ interface CSADocumentViewerProps {
 }
 
 export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocumentViewerProps) {
-  const [numPages, setNumPages] = useState<number | null>(null);
+  const [numPages, setNumPages] = useState<number>(1);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hasReadAll, setHasReadAll] = useState<boolean>(false);
 
