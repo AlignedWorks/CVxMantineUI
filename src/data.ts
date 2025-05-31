@@ -20,6 +20,7 @@ export interface CollaborativeData {
   description: string;
   websiteUrl: string;
   logoUrl: string;
+  CSAdocUrl?: string;
   city: string;
   state: string;
   leaderEmail: string;

@@ -191,6 +191,13 @@ export function CollaborativeHome() {
       </Card>
       
       <Group justify="right">
+        <Button 
+          component={Link} 
+          to={`/collaboratives/${collaborative.id}/agreement?docUrl=${encodeURIComponent(collaborative.CSAdocUrl ?? '')}`}
+          variant="outline"
+        >
+          View Service Agreement
+        </Button>
         <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
           <Button variant="default" mb="sm">
             Edit Collaborative Info

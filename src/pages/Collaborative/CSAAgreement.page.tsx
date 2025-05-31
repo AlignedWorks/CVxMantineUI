@@ -1,12 +1,15 @@
 // src/pages/CSAAgreement.page.tsx
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Container, Title, Text, Group, Button, Paper, Modal } from '@mantine/core';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
 export function CSAAgreement() {
   const { id } = useParams(); // Collaborative ID
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const docUrl = searchParams.get('docUrl');
+  
   const [hasAgreed, setHasAgreed] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   
@@ -44,7 +47,7 @@ export function CSAAgreement() {
       
       <Paper withBorder>
         <CSADocumentViewer 
-          documentUrl={`${import.meta.env.VITE_API_BASE}/collaboratives/${id}/csa-document`}
+          documentUrl={docUrl || '/default-csa.pdf'} // Fallback URL if none provided
           onAgreementComplete={handleAgreementComplete}
         />
       </Paper>
