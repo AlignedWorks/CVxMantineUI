@@ -4,8 +4,6 @@ import { Button } from '@mantine/core';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-console.log(pdfjs.GlobalWorkerOptions.workerSrc);
-
 interface CSADocumentViewerProps {
   documentUrl: string;
   onAgreementComplete: () => void;
@@ -28,6 +26,8 @@ export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocum
       }
     }
   }
+
+  console.log(`numPages: ${numPages}, pageNumber: ${pageNumber}, hasReadAll: ${hasReadAll}`);
 
   return (
     <div className="pdf-viewer">
