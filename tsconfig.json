@@ -19,6 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "public/pdf.worker.mjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
