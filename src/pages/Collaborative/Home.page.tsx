@@ -193,7 +193,7 @@ export function CollaborativeHome() {
       <Group justify="right">
         <Button 
           component={Link} 
-          to={`/collaboratives/${collaborative.id}/agreement?docUrl=${encodeURIComponent(collaborative.csaDocUrl ?? '')}`}
+          to={`/collaboratives/${collaborative.id}/csa-agreement?docUrl=${encodeURIComponent(collaborative.csaDocUrl ?? '')}`}
           variant="default"
           mb="sm"
         >
