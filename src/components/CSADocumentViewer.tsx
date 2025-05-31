@@ -2,7 +2,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { useState } from 'react';
 import { Button } from '@mantine/core';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 console.log(pdfjs.GlobalWorkerOptions.workerSrc);
 
