@@ -2,8 +2,9 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { useState } from 'react';
 import { Button } from '@mantine/core';
 
-// Use the worker from the package instead of CDN
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+console.log(pdfjs.GlobalWorkerOptions.workerSrc);
 
 interface CSADocumentViewerProps {
   documentUrl: string;
