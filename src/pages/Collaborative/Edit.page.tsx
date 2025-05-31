@@ -32,7 +32,7 @@ interface CollaborativeFormData {
     state: string;
     skills: { id: number; value: string }[];
     experience: { id: number; value: string }[];
-    CSAdocUrl?: string;
+    csaDocUrl?: string;
 }
 
 export function EditCollaborative() {
@@ -74,7 +74,7 @@ export function EditCollaborative() {
           state: data.state || '',
           skills: data.skills || [],
           experience: data.experience || [],
-          CSAdocUrl: data.CSAdocUrl || '',
+          csaDocUrl: data.csaDocUrl || '',
         });
         setLoading(false);
       })
@@ -252,7 +252,7 @@ export function EditCollaborative() {
           />
 
           <FileUpload
-            onSuccess={(url) => handleFormChange('CSAdocUrl', url)}
+            onSuccess={(url) => handleFormChange('csaDocUrl', url)}
           />
 
           <Group justify="flex-end" gap="md">
