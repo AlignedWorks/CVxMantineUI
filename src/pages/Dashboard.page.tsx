@@ -69,6 +69,7 @@ export function Dashboard() {
 
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
+          console.log(csaApprovalRequests);
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
           setDashboard(users);
