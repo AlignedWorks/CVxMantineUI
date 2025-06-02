@@ -38,10 +38,20 @@ interface CollabInvite {
   inviteStatus: string;
 }
 
+interface CollabApprovalRequest {
+  userId: string;
+  collabId: number;
+  collabName: string;
+  collabLogoUrl: string;
+  currentCSA: string;
+  currentCSAUrl: string;
+}
+
 export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
+  const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
   const { user } = useAuth();
@@ -55,11 +65,12 @@ export function Dashboard() {
       })
         .then((res) => res.json())
         .then((data) => {
-          const { users, roles, collabsNeedingApproval, collabInvites } = data;
+          const { users, roles, collabsNeedingApproval, collabInvites, csaApprovalRequests } = data;
 
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
           setCollabInvites(collabInvites); // Set the collab invites data
+          setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
           setDashboard(users);
 
           // Set the roles data
@@ -209,6 +220,37 @@ export function Dashboard() {
                       <Button
                         variant="default"
                         onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
+                        ml="md">
+                          Decline Invitation
+                      </Button>
+                  </div>
+              </Group>
+          </Card>
+        ))}
+
+        {csaApprovalRequests?.map((csaAR) => (
+          <Card 
+            key={`${csaAR.userId}-${csaAR.collabId}`}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            mt="lg"
+            mb="lg">
+              <Group justify="space-between">
+                  <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  <Text>
+                      Please read and accept the CSA with ID # {csaAR.currentCSA} and URL {csaAR.currentCSAUrl}
+                  </Text>
+                  <div>
+                      <Button
+                        variant="default"
+                        onClick={() => handleCollabInvite(csaAR.collabId, csaAR.userId, 'accept')}>
+                          Accept Invitation
+                      </Button>
+                      <Button
+                        variant="default"
+                        onClick={() => handleCollabInvite(csaAR.collabId, csaAR.userId, 'decline')}
                         ml="md">
                           Decline Invitation
                       </Button>

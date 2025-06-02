@@ -19,8 +19,10 @@ import {
   Stack,
   Title,
   Center,
+  ThemeIcon,
  } from '@mantine/core';
 import { CollaborativeDataWithMembers, inviteStatusColors } from '../../data.ts';
+import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
 
 interface User {
   id: string;
@@ -227,6 +229,22 @@ export function CollaborativeMembers() {
                 {item.inviteStatus}
             </Badge>
         </Table.Td>
+        <Table.Td>
+        <Group justify="center">
+          <ThemeIcon
+            size="sm"
+            variant="light"
+            color={item.isActive ? 'green' : 'red'}
+            radius="xl"
+          >
+            {item.isActive ? (
+              <IconCheck size={14} />
+            ) : (
+              <IconX size={14} />
+            )}
+          </ThemeIcon>
+        </Group>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -255,6 +273,7 @@ export function CollaborativeMembers() {
                         <Table.Th>Members</Table.Th>
                         <Table.Th>Role</Table.Th>
                         <Table.Th>Status</Table.Th>
+                        <Table.Th>Active</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>{memberRows}</Table.Tbody>

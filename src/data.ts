@@ -60,6 +60,7 @@ export interface CollabMember {
   avatarUrl: string;
   role: string;
   inviteStatus: string;
+  isActive: boolean;
 }
 
 export const collabRoles = ['Collaborative Leader','Collaborative Member']

@@ -159,6 +159,7 @@ export function FileUpload({
               leftSection={<IconUpload size={16} />}
               loading={uploading}
               disabled={!file}
+              variant="outline"
             >
               {uploading ? 'Uploading...' : `Upload ${fileTypeDisplay}`}
             </Button>

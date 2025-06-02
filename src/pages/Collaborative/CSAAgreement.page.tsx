@@ -1,17 +1,26 @@
 // src/pages/CSAAgreement.page.tsx
-import { useState } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { Container, Title, Text, Group, Button, Paper, Modal } from '@mantine/core';
+import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
+import { IconArrowLeft } from '@tabler/icons-react';
 
 export function CSAAgreement() {
   const { id } = useParams(); // Collaborative ID
   const navigate = useNavigate();
+  const { setCollaborativeId } = useCollaborativeContext();
   const [searchParams] = useSearchParams();
   const docUrl = searchParams.get('docUrl');
   
   const [hasAgreed, setHasAgreed] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  // Set the collaborative ID in context
+  useEffect(() => {
+    setCollaborativeId(id || null);
+    return () => setCollaborativeId(null);
+  }, [id, setCollaborativeId]);
   
   const handleAgreementComplete = () => {
     setHasAgreed(true);
@@ -40,6 +49,13 @@ export function CSAAgreement() {
   
   return (
     <Container size="md" py="xl">
+      <Link 
+        to={`/collaboratives/${id}`} 
+        style={{ textDecoration: 'none', color: '#0077b5', display: 'flex', alignItems: 'center', marginBottom: '20px' }}
+      >
+        <IconArrowLeft size={16} style={{ marginRight: '5px' }} />
+        <Text>Back</Text>
+      </Link>
       <Title order={2} mb="lg">Collaborative Service Agreement</Title>
       <Text mb="lg">
         Please read the entire document carefully before agreeing to the terms.
