@@ -18,7 +18,6 @@ export function CSAAgreement() {
   const { setCollaborativeId } = useCollaborativeContext();
   const [csaData, setCsaData] = useState<CSAData | null>(null);
   const [searchParams] = useSearchParams();
-  const docUrl = searchParams.get('docUrl');
   const userId = searchParams.get('userId');
   
   const [hasAgreed, setHasAgreed] = useState(false);
@@ -35,8 +34,6 @@ export function CSAAgreement() {
 
         console.log(data);
         setCsaData(data); // Set the collab invites data
-        console.log("CSA Data fetched successfully:", csaData);
-
       })
       .catch((err) => console.error("Error fetching CSA data:", err));
   };
@@ -55,15 +52,22 @@ export function CSAAgreement() {
     setHasAgreed(true);
   };
   
+  const CSAfeedback = {
+    csaId: csaData?.csaId || 0,
+    userId: userId || "",
+    csaaAcceptedStatus: hasAgreed,
+  }
+
   const confirmAgreement = async () => {
     try {
       // Send agreement confirmation to API
       const response = await fetch(
-        new URL(`collaboratives/${id}/members/agreement`, import.meta.env.VITE_API_BASE),
+        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
         {
-          method: "POST",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
+          body: JSON.stringify(CSAfeedback),
         }
       );
       
@@ -93,7 +97,7 @@ export function CSAAgreement() {
       
       <Paper withBorder>
         <CSADocumentViewer 
-          documentUrl={docUrl || '/default-csa.pdf'} // Fallback URL if none provided
+          documentUrl={csaData?.csaUrl || '/default-csa.pdf'} // Fallback URL if none provided
           onAgreementComplete={handleAgreementComplete}
         />
       </Paper>
@@ -114,8 +118,6 @@ export function CSAAgreement() {
         <Text>
           By clicking "Confirm", you acknowledge that you have read, understood, 
           and agree to be bound by the Collaborative Service Agreement.<br/>
-          User Id: {userId}<br/>
-          Collaborative Id: {id}
         </Text>
         <Group justify="flex-start" mt="md">
           <Button variant="outline" onClick={() => setShowConfirmation(false)}>Cancel</Button>
