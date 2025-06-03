@@ -85,7 +85,9 @@ export function CSAAgreement() {
       >
         <Text>
           By clicking "Confirm", you acknowledge that you have read, understood, 
-          and agree to be bound by the Collaborative Service Agreement.
+          and agree to be bound by the Collaborative Service Agreement.<br/>
+          User Id: {userId}<br/>
+          Collaborative Id: {id}
         </Text>
         <Group justify="flex-start" mt="md">
           <Button variant="outline" onClick={() => setShowConfirmation(false)}>Cancel</Button>

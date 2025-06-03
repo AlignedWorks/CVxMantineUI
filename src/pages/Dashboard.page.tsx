@@ -241,22 +241,18 @@ export function Dashboard() {
               <Group justify="space-between">
                   <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
                   <Text>
-                      To become an active member of the <strong>{csaAR.collabName}</strong> collaborative<br/><strong>{csaAR.collabName}</strong> please click the button on the left.
+                      To become an active member of the <strong>{csaAR.collabName}</strong> collaborative please click the button on the left.
                   </Text>
                   <div>
-                    <Link
-                      to="/collaboratives/{csaAR.collabId}/csa-agreement"
-                      >
-                      <Button 
-                        component={Link} 
-                        to={`/collaboratives/${csaAR.collabId}/csa-agreement?docUrl=${encodeURIComponent(csaAR.currentCSAUrl ?? '')}?userId=${csaAR.userId}`}
-                        state={{ from: location.pathname }}
-                        variant="default"
-                        mb="sm"
-                      >
-                        Read and Accept CSA
-                      </Button>
-                    </Link>
+                    <Button 
+                      component={Link} 
+                      to={`/collaboratives/${csaAR.collabId}/csa-agreement?docUrl=${encodeURIComponent(csaAR.currentCSAUrl ?? '')}&userId=${csaAR.userId}`}
+                      state={{ from: location.pathname }}
+                      variant="default"
+                      mb="sm"
+                    >
+                      Read and Accept CSA
+                    </Button>
                   </div>
               </Group>
           </Card>
