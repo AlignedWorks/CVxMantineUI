@@ -241,7 +241,7 @@ export function Dashboard() {
               <Group justify="space-between">
                   <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
                   <Text>
-                      To become an active member of the <strong>{csaAR.collabName}</strong> collaborative please click the button on the left.
+                      To become an active member of the <strong>{csaAR.collabName}</strong><br/>collaborative please click the button on the left.
                   </Text>
                   <div>
                     <Button 
