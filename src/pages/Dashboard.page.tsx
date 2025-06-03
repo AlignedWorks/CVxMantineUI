@@ -208,23 +208,23 @@ export function Dashboard() {
             mt="lg"
             mb="lg">
               <Group justify="space-between">
-                  <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                  <Text>
-                      You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
-                  </Text>
-                  <div>
-                      <Button
-                        variant="default"
-                        onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
-                          Accept Invitation
-                      </Button>
-                      <Button
-                        variant="default"
-                        onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
-                        ml="md">
-                          Decline Invitation
-                      </Button>
-                  </div>
+                <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                <Text>
+                    You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                </Text>
+                <div>
+                  <Button
+                    variant="default"
+                    onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
+                      Accept Invitation
+                  </Button>
+                  <Button
+                    variant="default"
+                    onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
+                    ml="md">
+                      Decline Invitation
+                  </Button>
+                </div>
               </Group>
           </Card>
         ))}
@@ -241,20 +241,22 @@ export function Dashboard() {
               <Group justify="space-between">
                   <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
                   <Text>
-                      Please read and accept the CSA with ID # {csaAR.currentCSA} and URL {csaAR.currentCSAUrl}
+                      To become an active member of the <strong>{csaAR.collabName}</strong> collaborative<br/><strong>{csaAR.collabName}</strong> please click the button on the left.
                   </Text>
                   <div>
-                      <Button
+                    <Link
+                      to="/collaboratives/{csaAR.collabId}/csa-agreement"
+                      >
+                      <Button 
+                        component={Link} 
+                        to={`/collaboratives/${csaAR.collabId}/csa-agreement?docUrl=${encodeURIComponent(csaAR.currentCSAUrl ?? '')}?userId=${csaAR.userId}`}
+                        state={{ from: location.pathname }}
                         variant="default"
-                        onClick={() => handleCollabInvite(csaAR.collabId, csaAR.userId, 'accept')}>
-                          Accept Invitation
+                        mb="sm"
+                      >
+                        Read and Accept CSA
                       </Button>
-                      <Button
-                        variant="default"
-                        onClick={() => handleCollabInvite(csaAR.collabId, csaAR.userId, 'decline')}
-                        ml="md">
-                          Decline Invitation
-                      </Button>
+                    </Link>
                   </div>
               </Group>
           </Card>

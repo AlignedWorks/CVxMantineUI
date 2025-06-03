@@ -12,6 +12,7 @@ export function CSAAgreement() {
   const { setCollaborativeId } = useCollaborativeContext();
   const [searchParams] = useSearchParams();
   const docUrl = searchParams.get('docUrl');
+  const userId = searchParams.get('userId'); // Optional user ID if needed
   
   const [hasAgreed, setHasAgreed] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -58,7 +59,8 @@ export function CSAAgreement() {
       </Link>
       <Title order={2} mb="lg">Collaborative Service Agreement</Title>
       <Text mb="lg">
-        Please read the entire document carefully before agreeing to the terms.
+        Please read the entire document carefully before agreeing to the terms.<br/>
+        {userId}
       </Text>
       
       <Paper withBorder>
