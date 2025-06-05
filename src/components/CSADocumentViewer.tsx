@@ -37,7 +37,7 @@ export function CSADocumentViewer({ documentUrl, allPagesRead }: CSADocumentView
       >
         <Page pageNumber={pageNumber} />
       </Document>
-      <div className="controls" style={{ marginLeft: '20px' }}>
+      <div className="controls" style={{ marginLeft: '20px', marginBottom: '20px' }}>
         <p>
           Page {pageNumber} of {numPages}
         </p>

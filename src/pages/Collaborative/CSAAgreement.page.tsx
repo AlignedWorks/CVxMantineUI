@@ -25,7 +25,7 @@ export function CSAAgreement() {
   // Determine mode based on userId presence
   const isAcceptanceMode = !!userId;
   
-  const [hasAgreed, setHasAgreed] = useState(false);
+  const [hasReadDoc, setHasReadDoc] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const fetchCSAData = async () => {
@@ -61,17 +61,45 @@ export function CSAAgreement() {
   }, [id, setCollaborativeId]);
   
   const handleAgreementComplete = () => {
-    setHasAgreed(true);
+    setHasReadDoc(true);
   };
   
   const CSAfeedback = {
     csaId: csaData?.csaId || 0,
     userId: userId || "",
-    csaAcceptedStatus: hasAgreed,
+    csaAcceptedStatus: "NotAccepted",
   }
 
   const confirmAgreement = async () => {
     try {
+
+      CSAfeedback.csaAcceptedStatus = "Accepted";
+
+      // Send agreement confirmation to API
+      const response = await fetch(
+        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(CSAfeedback),
+        }
+      );
+      
+      if (!response.ok) throw new Error("Failed to record agreement");
+      
+      // Navigate back to collaborative home
+      navigate(`/collaboratives/${id}`);
+    } catch (error) {
+      console.error("Error confirming agreement:", error);
+    }
+  };
+
+  const declineAgreement = async () => {
+    try {
+      
+      CSAfeedback.csaAcceptedStatus = "Declined";
+
       // Send agreement confirmation to API
       const response = await fetch(
         new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
@@ -101,14 +129,15 @@ export function CSAAgreement() {
         <IconArrowLeft size={16} style={{ marginRight: '5px' }} />
         <Text>Back</Text>
       </Link>
-      <Title order={2} mb="lg">{csaData?.collabName} <Text component="span" c="dimmed">Collaborative Service Agreement</Text></Title>
+      <Title order={2} mb="lg">
+        {csaData?.collabName} <Text component="span" c="dimmed">Collaborative Service Agreement</Text>
+      </Title>
 
-      <Text mb="lg">
-        {isAcceptanceMode 
-          ? 'Please read the entire document carefully before agreeing to the terms to become an active member.'
-          : 'Review the Collaborative Service Agreement document below.'
-        }
-      </Text>
+      {isAcceptanceMode &&
+        <Text mb="lg">
+          Please read the entire document carefully before agreeing to the terms to become an active member.
+        </Text>
+      }
       
       <Paper withBorder>
         {loading ? (
@@ -130,13 +159,24 @@ export function CSAAgreement() {
       
       {isAcceptanceMode && (
         <>
-          <Button
-            mt="xl"
-            disabled={!hasAgreed}
-            onClick={() => setShowConfirmation(true)}
-          >
-            I Agree to the Terms and Conditions
-          </Button>
+          <Group gap="md">
+            <Button
+              mt="xl"
+              variant="outline"
+              disabled={!hasReadDoc}
+              onClick={() => setShowConfirmation(true)}
+            >
+              I accept this Collaborative Service Agreement
+            </Button>
+            <Button
+              mt="xl"
+              variant="outline"
+              disabled={!hasReadDoc}
+              onClick={() => declineAgreement()}
+            >
+              I decline this Collaborative Service Agreement
+            </Button>
+          </Group>
           
           <Modal
             opened={showConfirmation}
