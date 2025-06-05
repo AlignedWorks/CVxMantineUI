@@ -9,13 +9,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.vers
 
 interface CSADocumentViewerProps {
   documentUrl: string;
-  onAgreementComplete: () => void;
+  allPagesRead: () => void;
 }
 
-export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocumentViewerProps) {
+export function CSADocumentViewer({ documentUrl, allPagesRead }: CSADocumentViewerProps) {
   const [numPages, setNumPages] = useState<number>(1);
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [hasReadAll, setHasReadAll] = useState<boolean>(false);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -25,12 +24,10 @@ export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocum
     if (numPages !== null && pageNumber < numPages) {
       setPageNumber(pageNumber + 1);
       if (pageNumber + 1 === numPages) {
-        setHasReadAll(true);
+        allPagesRead();
       }
     }
   }
-
-  console.log(`numPages: ${numPages}, pageNumber: ${pageNumber}, hasReadAll: ${hasReadAll}`);
 
   return (
     <div className="pdf-viewer">
@@ -40,18 +37,20 @@ export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocum
       >
         <Page pageNumber={pageNumber} />
       </Document>
-      <div className="controls">
+      <div className="controls" style={{ marginLeft: '20px' }}>
         <p>
           Page {pageNumber} of {numPages}
         </p>
         <Group gap="md">
-          <Button 
+          <Button
+            variant="outline"
             onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
             disabled={pageNumber <= 1}
           >
             Previous
           </Button>
-          <Button 
+          <Button
+            variant="outline"
             onClick={goToNextPage}
             disabled={numPages === null || pageNumber >= numPages}
           >
@@ -59,14 +58,6 @@ export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocum
           </Button>
         </Group>
       </div>
-      <Button
-        disabled={!hasReadAll}
-        onClick={onAgreementComplete}
-        mt="lg"
-        fullWidth
-      >
-        I have read and agree to the terms
-      </Button>
     </div>
   );
 }

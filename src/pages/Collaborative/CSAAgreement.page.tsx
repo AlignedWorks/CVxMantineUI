@@ -101,10 +101,7 @@ export function CSAAgreement() {
         <IconArrowLeft size={16} style={{ marginRight: '5px' }} />
         <Text>Back</Text>
       </Link>
-      {isAcceptanceMode && (
-        <Title order={2} mb="lg">{csaData?.collabName}</Title>
-      )}
-      <Title order={2} mb="lg">Collaborative Service Agreement</Title>
+      <Title order={2} mb="lg">{csaData?.collabName} <Text component="span" c="dimmed">Collaborative Service Agreement</Text></Title>
 
       <Text mb="lg">
         {isAcceptanceMode 
@@ -122,7 +119,7 @@ export function CSAAgreement() {
         ) : csaData?.csaUrl ? (
           <CSADocumentViewer 
             documentUrl={csaData?.csaUrl || ""}
-            onAgreementComplete={handleAgreementComplete}
+            allPagesRead={handleAgreementComplete}
           />
         ) : (
           <Center p="xl">
