@@ -190,12 +190,6 @@ export function Dashboard() {
                 Propose a Collaborative
             </Button>
           </Link>
-          <Link
-            to="/upload-image">
-            <Button data-disabled leftSection={<IconUpload size={16} />}>
-              Upload Images
-            </Button>
-          </Link>
         </Group>
 
         {collabInvites?.map((invite) => (

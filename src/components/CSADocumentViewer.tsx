@@ -1,6 +1,6 @@
 import { Document, Page, pdfjs } from 'react-pdf';
 import { useState } from 'react';
-import { Button } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 // Add these CSS imports for proper text layer styling
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -44,18 +44,20 @@ export function CSADocumentViewer({ documentUrl, onAgreementComplete }: CSADocum
         <p>
           Page {pageNumber} of {numPages}
         </p>
-        <Button 
-          onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
-          disabled={pageNumber <= 1}
-        >
-          Previous
-        </Button>
-        <Button 
-          onClick={goToNextPage}
-          disabled={numPages === null || pageNumber >= numPages}
-        >
-          Next
-        </Button>
+        <Group gap="md">
+          <Button 
+            onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
+            disabled={pageNumber <= 1}
+          >
+            Previous
+          </Button>
+          <Button 
+            onClick={goToNextPage}
+            disabled={numPages === null || pageNumber >= numPages}
+          >
+            Next
+          </Button>
+        </Group>
       </div>
       <Button
         disabled={!hasReadAll}

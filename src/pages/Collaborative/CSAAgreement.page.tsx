@@ -1,7 +1,7 @@
 // src/pages/CSAAgreement.page.tsx
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { Container, Title, Text, Group, Button, Paper, Modal } from '@mantine/core';
+import { Container, Title, Text, Group, Button, Paper, Modal, Center, Loader } from '@mantine/core';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 import { IconArrowLeft } from '@tabler/icons-react';
@@ -10,6 +10,7 @@ interface CSAData
 {
   csaId: number;
   csaUrl: string;
+  collabName: string;
 }
 
 export function CSAAgreement() {
@@ -17,25 +18,36 @@ export function CSAAgreement() {
   const navigate = useNavigate();
   const { setCollaborativeId } = useCollaborativeContext();
   const [csaData, setCsaData] = useState<CSAData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const userId = searchParams.get('userId');
+
+  // Determine mode based on userId presence
+  const isAcceptanceMode = !!userId;
   
   const [hasAgreed, setHasAgreed] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const fetchCSAData = () => {
-    fetch(
-      new URL(`collaboratives/${id}/CSAAgreement`, import.meta.env.VITE_API_BASE),
-    {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-
-        console.log(data);
-        setCsaData(data); // Set the collab invites data
-      })
-      .catch((err) => console.error("Error fetching CSA data:", err));
+  const fetchCSAData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        new URL(`collaboratives/${id}/CSAAgreement`, import.meta.env.VITE_API_BASE),
+        {
+          credentials: "include",
+        }
+      );
+      
+      if (!response.ok) throw new Error("Failed to fetch CSA data");
+      
+      const data = await response.json();
+      console.log(data);
+      setCsaData(data);
+    } catch (err) {
+      console.error("Error fetching CSA data:", err);
+    } finally {
+      setLoading(false);
+    }
   };
     
   useEffect(() => {
@@ -83,47 +95,68 @@ export function CSAAgreement() {
   return (
     <Container size="md" py="xl">
       <Link 
-        to={`/collaboratives/${id}`} 
+        to= {isAcceptanceMode ? '/dashboard' : `/collaboratives/${id}`}
         style={{ textDecoration: 'none', color: '#0077b5', display: 'flex', alignItems: 'center', marginBottom: '20px' }}
       >
         <IconArrowLeft size={16} style={{ marginRight: '5px' }} />
         <Text>Back</Text>
       </Link>
+      {isAcceptanceMode && (
+        <Title order={2} mb="lg">{csaData?.collabName}</Title>
+      )}
       <Title order={2} mb="lg">Collaborative Service Agreement</Title>
+
       <Text mb="lg">
-        Please read the entire document carefully before agreeing to the terms.<br/>
-        {userId}
+        {isAcceptanceMode 
+          ? 'Please read the entire document carefully before agreeing to the terms to become an active member.'
+          : 'Review the Collaborative Service Agreement document below.'
+        }
       </Text>
       
       <Paper withBorder>
-        <CSADocumentViewer 
-          documentUrl={csaData?.csaUrl || '/default-csa.pdf'} // Fallback URL if none provided
-          onAgreementComplete={handleAgreementComplete}
-        />
+        {loading ? (
+          <Center p="xl">
+            <Loader size="lg" />
+            <Text ml="md">Loading document...</Text>
+          </Center>
+        ) : csaData?.csaUrl ? (
+          <CSADocumentViewer 
+            documentUrl={csaData?.csaUrl || ""}
+            onAgreementComplete={handleAgreementComplete}
+          />
+        ) : (
+          <Center p="xl">
+            <Text c="red">No document URL available</Text>
+          </Center>
+        )}
       </Paper>
       
-      <Button
-        mt="xl"
-        disabled={!hasAgreed}
-        onClick={() => setShowConfirmation(true)}
-      >
-        I Agree to the Terms and Conditions
-      </Button>
-      
-      <Modal
-        opened={showConfirmation}
-        onClose={() => setShowConfirmation(false)}
-        title="Confirm Agreement"
-      >
-        <Text>
-          By clicking "Confirm", you acknowledge that you have read, understood, 
-          and agree to be bound by the Collaborative Service Agreement.<br/>
-        </Text>
-        <Group justify="flex-start" mt="md">
-          <Button variant="outline" onClick={() => setShowConfirmation(false)}>Cancel</Button>
-          <Button onClick={confirmAgreement}>Confirm</Button>
-        </Group>
-      </Modal>
+      {isAcceptanceMode && (
+        <>
+          <Button
+            mt="xl"
+            disabled={!hasAgreed}
+            onClick={() => setShowConfirmation(true)}
+          >
+            I Agree to the Terms and Conditions
+          </Button>
+          
+          <Modal
+            opened={showConfirmation}
+            onClose={() => setShowConfirmation(false)}
+            title="Confirm Agreement"
+          >
+            <Text>
+              By clicking "Confirm", you acknowledge that you have read, understood, 
+              and agree to be bound by the Collaborative Service Agreement.<br/>
+            </Text>
+            <Group justify="flex-start" mt="md">
+              <Button variant="outline" onClick={() => setShowConfirmation(false)}>Cancel</Button>
+              <Button onClick={confirmAgreement}>Confirm</Button>
+            </Group>
+          </Modal>
+        </>
+      )}
     </Container>
   );
 }
