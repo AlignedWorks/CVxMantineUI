@@ -246,7 +246,7 @@ export function Dashboard() {
                   <div>
                     <Button 
                       component={Link} 
-                      to={`/collaboratives/${csaAR.collabId}/csa-agreement`}
+                      to={`/collaboratives/${csaAR.collabId}/csa-agreement?userId=${csaAR.userId}`}
                       state={{ from: location.pathname }}
                       variant="default"
                       mb="sm"

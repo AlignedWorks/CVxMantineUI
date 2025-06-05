@@ -55,7 +55,7 @@ export function CSAAgreement() {
   const CSAfeedback = {
     csaId: csaData?.csaId || 0,
     userId: userId || "",
-    csaaAcceptedStatus: hasAgreed,
+    csaAcceptedStatus: hasAgreed,
   }
 
   const confirmAgreement = async () => {
@@ -97,7 +97,7 @@ export function CSAAgreement() {
       
       <Paper withBorder>
         <CSADocumentViewer 
-          documentUrl={csaData?.csaUrl || '/default-csa.pdf'} // Fallback URL if none provided
+          documentUrl={csaData.csaUrl || '/default-csa.pdf'} // Fallback URL if none provided
           onAgreementComplete={handleAgreementComplete}
         />
       </Paper>
