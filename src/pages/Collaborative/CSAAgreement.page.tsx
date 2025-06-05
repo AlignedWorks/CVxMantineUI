@@ -97,7 +97,7 @@ export function CSAAgreement() {
       
       <Paper withBorder>
         <CSADocumentViewer 
-          documentUrl={csaData.csaUrl || '/default-csa.pdf'} // Fallback URL if none provided
+          documentUrl={csaData?.csaUrl || '/default-csa.pdf'} // Fallback URL if none provided
           onAgreementComplete={handleAgreementComplete}
         />
       </Paper>
