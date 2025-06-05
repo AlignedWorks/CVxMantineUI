@@ -14,7 +14,6 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { IconUpload } from "@tabler/icons-react";
 
 interface User {
   id: string;
