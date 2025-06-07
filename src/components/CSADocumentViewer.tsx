@@ -23,7 +23,7 @@ export function CSADocumentViewer({ documentUrl, allPagesRead }: CSADocumentView
   function goToNextPage() {
     if (numPages !== null && pageNumber < numPages) {
       setPageNumber(pageNumber + 1);
-      if (pageNumber + 1 === numPages) {
+      if (pageNumber + 1 === numPages || numPages === 1) {
         allPagesRead();
       }
     }
