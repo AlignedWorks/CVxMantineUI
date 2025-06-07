@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Container, TextInput, Textarea, Grid, Select, MultiSelect, 
-  Button, Group, Paper, Title, SimpleGrid, Text
+  Button, Group, Paper, Title, SimpleGrid, Text, Loader
 } from '@mantine/core';
 import { ImageField } from '../ImageField.tsx';
 import { IconArrowLeft } from '@tabler/icons-react';
@@ -26,34 +26,104 @@ interface User {
 
 export function EditUserProfile() {
   const [formValues, setFormValues] = useState<User | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true); // Add a loading state
-  const [skills, setSkills] = useState<{ id: number; value: string }[]>([]); // State for skills
-  const [experience, setExperience] = useState<{ id: number; value: string }[]>([]); // State for experience
+  const [originalValues, setOriginalValues] = useState<User | null>(null); // Track original values
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [skills, setSkills] = useState<{ id: number; value: string }[]>([]);
+  const [experience, setExperience] = useState<{ id: number; value: string }[]>([]);
   const navigate = useNavigate();
 
-  const fetchUserData = () => {
-    setLoading(true);  // Set loading to true before fetching
+  // Helper function to compare arrays of objects by id
+  const arraysEqual = (arr1: { id: number; value: string }[], arr2: { id: number; value: string }[]) => {
+    if (arr1.length !== arr2.length) return false;
+    const ids1 = arr1.map(item => item.id).sort();
+    const ids2 = arr2.map(item => item.id).sort();
+    return ids1.every((id, index) => id === ids2[index]);
+  };
+
+  // Function to get only changed fields
+  const getChangedFields = () => {
+    if (!formValues || !originalValues) return {};
+
+    const changes: Partial<User> = {};
+
+    // Check each field for changes
+    if (formValues.firstName !== originalValues.firstName) {
+      changes.firstName = formValues.firstName;
+    }
+    if (formValues.lastName !== originalValues.lastName) {
+      changes.lastName = formValues.lastName;
+    }
+    if (formValues.bio !== originalValues.bio) {
+      changes.bio = formValues.bio;
+    }
+    if (formValues.city !== originalValues.city) {
+      changes.city = formValues.city;
+    }
+    if (formValues.state !== originalValues.state) {
+      changes.state = formValues.state;
+    }
+    if (formValues.phoneNumber !== originalValues.phoneNumber) {
+      changes.phoneNumber = formValues.phoneNumber;
+    }
+    if (formValues.linkedIn !== originalValues.linkedIn) {
+      changes.linkedIn = formValues.linkedIn;
+    }
+    if (formValues.avatarUrl !== originalValues.avatarUrl) {
+      changes.avatarUrl = formValues.avatarUrl;
+    }
+
+    // Check skills array
+    if (!arraysEqual(formValues.skills, originalValues.skills)) {
+      changes.skills = formValues.skills;
+    }
+
+    // Check experience array
+    if (!arraysEqual(formValues.experience, originalValues.experience)) {
+      changes.experience = formValues.experience;
+    }
+
+    return changes;
+  };
+
+  const fetchUserData = async () => {
     try {
-      fetch(
+      setLoading(true);
+      const response = await fetch(
         new URL("profile", import.meta.env.VITE_API_BASE),
-      {
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((data) => { 
-          setUser(data);
-          setLoading(false); // Set loading to false after data is fetched
-        })
-        .catch((err) => 
-          {
-            console.error("Error fetching profile:", err);
-            setLoading(false); // Set loading to false even if there's an error
-          });
-      } catch (err) {
-        console.error("Error forming URL:", err);
-        setLoading(false);
-      }
+        {
+          credentials: "include",
+        }
+      );
+      
+      if (!response.ok) throw new Error("Failed to fetch user data");
+      
+      const data = await response.json();
+      
+      // Create initial data structure
+      const initialData = {
+        userName: data.userName,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        bio: data.bio,
+        city: data.city,
+        state: data.state,
+        phoneNumber: data.phoneNumber,
+        linkedIn: data.linkedIn,
+        avatarUrl: data.avatarUrl,
+        createdAt: data.createdAt,
+        memberStatus: data.memberStatus,
+        skills: data.skills || [],
+        experience: data.experience || [],
+      };
+      
+      setFormValues(initialData);
+      setOriginalValues(JSON.parse(JSON.stringify(initialData))); // Deep copy for comparison
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    } finally {
+      setLoading(false);
+    }
   };
   
   const handleFormChange = (field: keyof User, value: any) => {
@@ -65,84 +135,96 @@ export function EditUserProfile() {
   }, []);
 
   const fetchSkillsAndExperience = async () => {
-    fetch(
-      new URL("skills-and-experience", import.meta.env.VITE_API_BASE),
-    {
-        credentials: "include",
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        setSkills(data.skills);
-        setExperience(data.experience);
-    })
-    .catch((err) => console.error("Error fetching profile:", err));
+    try {
+      const response = await fetch(
+        new URL("skills-and-experience", import.meta.env.VITE_API_BASE),
+        {
+          credentials: "include",
+        }
+      );
+      
+      if (!response.ok) throw new Error("Failed to fetch skills and experience");
+      
+      const data = await response.json();
+      setSkills(data.skills);
+      setExperience(data.experience);
+    } catch (err) {
+      console.error("Error fetching skills and experience:", err);
+    }
   };
 
   // Fetch skills and experience from the backend
   useEffect(() => {
-      fetchSkillsAndExperience();
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
+    fetchSkillsAndExperience();
+  }, []);
   
   const handleCancel = () => {
-    navigate('/user-profile'); // Go back to profile page
+    navigate('/user-profile');
   };
 
-  // Update formValues when user data is fetched
-    useEffect(() => {
-        if (user) {
-        setFormValues({
-            userName: user.userName,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            bio: user.bio,
-            city: user.city,
-            state: user.state,
-            phoneNumber: user.phoneNumber,
-            linkedIn: user.linkedIn,
-            avatarUrl: user.avatarUrl,
-            createdAt: user.createdAt,
-            memberStatus: user.memberStatus,
-            skills: user.skills,
-            experience: user.experience,
-        });
-        }
-    }, [user]); // Run this effect when 'user' changes
+  const handleFormSubmit = async () => {
+    if (!formValues) return;
 
-    const handleFormSubmit = () => {
-        if (!formValues) return;
-        const payload = {
-            ...formValues,
-            skills: formValues.skills.map((skill) => skill.id), // Map skills to their IDs
-            experience: formValues.experience.map((exp) => exp.id), // Map experience to their IDs
-        }
+    // Get only the changed fields
+    const changedFields = getChangedFields();
+    
+    // If no changes, don't submit
+    if (Object.keys(changedFields).length === 0) {
+      console.log("No changes detected, skipping submission");
+      navigate('/user-profile');
+      return;
+    }
 
-        setLoading(true); // Set loading to true while updating
-        console.log(loading); // add this for now so loading is used and doesn't trigger TS error
-        // Update the user profile here (e.g., send a PUT request to the API)
-        fetch(
-            new URL("profile", import.meta.env.VITE_API_BASE),
-            {   
-            method: "PATCH",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-            })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`Server responded with status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(() => {
-                // Success! Now navigate back to profile
-                navigate('/user-profile');
-            })
-            .catch((err) => {
-                console.error("Error updating profile:", err);
-                alert("Failed to update profile. Please try again.");
-                setLoading(false);
-            });
-    };
+    console.log("Changed fields:", changedFields);
+
+    setSubmitting(true);
+    try {
+      // Create a modified payload for the API with only changed fields
+      const payload: any = {};
+      
+      // Transform skills and experience to just arrays of IDs if they changed
+      Object.keys(changedFields).forEach(key => {
+        if (key === 'skills' && changedFields.skills) {
+          payload.skills = changedFields.skills.map(skill => skill.id);
+        } else if (key === 'experience' && changedFields.experience) {
+          payload.experience = changedFields.experience.map(exp => exp.id);
+        } else {
+          payload[key] = (changedFields as any)[key];
+        }
+      });
+
+      console.log("Payload being sent:", payload);
+
+      const response = await fetch(
+        new URL("profile", import.meta.env.VITE_API_BASE),
+        {   
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status: ${response.status}`);
+      }
+
+      // Success! Now navigate back to profile
+      navigate('/user-profile');
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      alert("Failed to update profile. Please try again.");
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <Container size="md" py="xl">
+        <Loader size="lg" />
+      </Container>
+    );
+  }
   
   return (
     <Container size="md" py="xl">
@@ -161,19 +243,19 @@ export function EditUserProfile() {
         <SimpleGrid cols={2} mb="lg">
             <TextInput
                 label="First Name"
-                value={formValues?.firstName}
+                value={formValues?.firstName || ''}
                 onChange={(event) => handleFormChange('firstName', event.currentTarget.value)}
                 />
             <TextInput
                 label="Last Name"
-                value={formValues?.lastName}
+                value={formValues?.lastName || ''}
                 onChange={(event) => handleFormChange('lastName', event.currentTarget.value)}
                 />
         </SimpleGrid>
 
         <Textarea
             label="Bio"
-            value={formValues?.bio}
+            value={formValues?.bio || ''}
             onChange={(event) => handleFormChange('bio', event.currentTarget.value)}
             autosize
             minRows={3}
@@ -185,27 +267,27 @@ export function EditUserProfile() {
             <Grid.Col span={6}>
                 <TextInput
                     label="City"
-                    value={formValues?.city}
+                    value={formValues?.city || ''}
                     onChange={(event) => handleFormChange('city', event.currentTarget.value)}
                     mb="lg"
                 />
                 <Select
                     label="State"
                     data={us_states}
-                    value={formValues?.state}
+                    value={formValues?.state || ''}
                     onChange={(value) => handleFormChange('state', value || '')}
                     searchable
                     mb="lg"
                 />
                 <TextInput
                   label="Phone Number"
-                  value={formValues?.phoneNumber}
+                  value={formValues?.phoneNumber || ''}
                   onChange={(event) => handleFormChange('phoneNumber', event.currentTarget.value)}
                   mb="lg"
                 />
                 <TextInput
                     label="LinkedIn"
-                    value={formValues?.linkedIn}
+                    value={formValues?.linkedIn || ''}
                     onChange={(event) => handleFormChange('linkedIn', event.currentTarget.value)}
                     mb="lg"
                 />
@@ -226,13 +308,11 @@ export function EditUserProfile() {
             label="Member Skills"
             placeholder="Select your skills"
             data={skills.map((skill) => ({ value: skill.id.toString(), label: skill.value }))}
-            value={formValues?.skills?.map((skill) => skill.id.toString()) || []} // Map selected skills to their IDs
-            onChange={(values) =>
-                handleFormChange(
-                'skills',
-                values.map((id) => skills.find((skill) => skill.id.toString() === id))
-                )
-            }
+            value={formValues?.skills?.map((skill) => skill.id.toString()) || []}
+            onChange={(values) => {
+              const selectedSkills = skills.filter((skill) => values.includes(skill.id.toString()));
+              handleFormChange('skills', selectedSkills);
+            }}
             searchable
             clearable
             mb="md"
@@ -242,20 +322,30 @@ export function EditUserProfile() {
             label="Sector Experience"
             placeholder="Select your experience"
             data={experience.map((exp) => ({ value: exp.id.toString(), label: exp.value }))}
-            value={formValues?.experience?.map((exp) => exp.id.toString()) || []} // Map selected experience to their IDs
-            onChange={(values) =>
-                handleFormChange(
-                'experience',
-                values.map((id) => experience.find((exp) => exp.id.toString() === id))
-                )
-            }
+            value={formValues?.experience?.map((exp) => exp.id.toString()) || []}
+            onChange={(values) => {
+              const selectedExperience = experience.filter((exp) => values.includes(exp.id.toString()));
+              handleFormChange('experience', selectedExperience);
+            }}
             searchable
             clearable
             mb="md"
         />
+        
         <Group justify="flex-end" gap="md">
-          <Button variant="default" onClick={handleCancel}>Cancel</Button>
-          <Button variant="outline" onClick={handleFormSubmit}>
+          <Button 
+            variant="default" 
+            onClick={handleCancel}
+            disabled={submitting}
+          >
+            Cancel
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={handleFormSubmit}
+            loading={submitting}
+            disabled={submitting}
+          >
             Save Changes
           </Button>
         </Group>
