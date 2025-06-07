@@ -12,6 +12,7 @@ import {
   Card,
   Grid,
   Tooltip,
+  Table,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
@@ -46,9 +47,23 @@ interface CollabApprovalRequest {
   currentCSAUrl: string;
 }
 
+interface CollabsNeedingApproval {
+  id: number,
+  name: string,
+  description: string,
+  websiteUrl: string,
+  revenueShare: number,
+  indirectCosts: number,
+  collabLeaderCompensation: number,
+  payoutFrequency: string,
+  createdAt: string,
+  stakingTiers: { tier: string, exchangeRate: number }[],
+}
+
 export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
+  const [collabsNeedingApproval, setCollabsNeedingApproval] = useState<CollabsNeedingApproval[]>([]);
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
@@ -69,6 +84,7 @@ export function Dashboard() {
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
           console.log(csaApprovalRequests);
+          setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
           setDashboard(users);
@@ -190,6 +206,107 @@ export function Dashboard() {
             </Button>
           </Link>
         </Group>
+
+        {collabsNeedingApproval?.map((collab) => (
+          <Card key={collab.id} shadow="sm" radius="md" withBorder mt="lg" p="xl" bg="var(--mantine-color-body)">
+            <SimpleGrid cols={3} spacing="xl">
+                <div>
+                    <Text ta="left" fz="lg" fw={500} mb="lg">
+                        {collab.name}
+                    </Text>
+                    <Text ta="left" c="dimmed" fz="sm">
+                        {collab.description}
+                    </Text>
+                    <Text ta="left" fz="sm" mt="sm">
+                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>www.website.com
+                    </Text>
+                    <Text ta="left" fz="sm" mt="sm">
+                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Leader:</span><br/>tommy.bob@gmail.com
+                    </Text>
+                    
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
+                    <Table variant="vertical" layout="fixed" withTableBorder>
+                        <Table.Tbody>
+
+                            <Table.Tr>
+                            <Table.Th>Shared Revenue</Table.Th>
+                            <Table.Td>{collab.revenueShare}%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>Payout Frequency</Table.Th>
+                            <Table.Td>{collab.payoutFrequency}</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>Indirect Costs</Table.Th>
+                            <Table.Td>{collab.indirectCosts}%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>Leader Compensation</Table.Th>
+                            <Table.Td>{collab.collabLeaderCompensation}%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>Proposed On</Table.Th>
+                            <Table.Td>{collab.createdAt}</Table.Td>
+                            </Table.Tr>
+                            
+                        </Table.Tbody>
+                    </Table>
+                </div>
+                <div>
+                    <Title order={6}>
+                    Staking Tiers
+                    </Title>
+                    
+                    <Table variant="vertical" layout="fixed" withTableBorder mt="lg">
+                        <Table.Tbody>
+
+                            <Table.Tr>
+                            <Table.Th>Duration</Table.Th>
+                            <Table.Td>Exchange Rate</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>One Month</Table.Th>
+                            <Table.Td>100%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>Two Months</Table.Th>
+                            <Table.Td>80%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>One Quarter</Table.Th>
+                            <Table.Td>70%</Table.Td>
+                            </Table.Tr>
+
+                            <Table.Tr>
+                            <Table.Th>One Year</Table.Th>
+                            <Table.Td>40%</Table.Td>
+                            </Table.Tr>
+                        </Table.Tbody>
+                    </Table>
+                </div>
+                
+            </SimpleGrid>
+            <Grid>
+                <Grid.Col span={4}>
+                    <SimpleGrid cols={2} mt="lg">
+                        <Button variant="default">Approve</Button>
+                        <Button variant="default">Decline</Button>
+                    </SimpleGrid>
+                </Grid.Col>
+                <Grid.Col span={8} mt="lg">
+                </Grid.Col>
+            </Grid>
+
+        </Card>
+        ))}
 
         {collabInvites?.map((invite) => (
           <Card 
