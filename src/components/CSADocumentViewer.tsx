@@ -18,12 +18,15 @@ export function CSADocumentViewer({ documentUrl, allPagesRead }: CSADocumentView
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
+    if (numPages === 1) {
+      allPagesRead(); // Automatically trigger if only one page
+    }
   }
 
   function goToNextPage() {
     if (numPages !== null && pageNumber < numPages) {
       setPageNumber(pageNumber + 1);
-      if (pageNumber + 1 === numPages || numPages === 1) {
+      if (pageNumber + 1 === numPages) {
         allPagesRead();
       }
     }
