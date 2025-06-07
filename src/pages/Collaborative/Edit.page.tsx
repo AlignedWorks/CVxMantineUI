@@ -116,7 +116,7 @@ export function EditCollaborative() {
       .then((data) => {
         // Initialize form values with fetched data
         console.log("Fetched collaborative data:", data);
-        setFormValues({
+        const initialData = {
           name: data.name,
           description: data.description,
           websiteUrl: data.websiteUrl || '',
@@ -126,7 +126,10 @@ export function EditCollaborative() {
           skills: data.skills || [],
           experience: data.experience || [],
           csaDocUrl: data.csaDocUrl || '',
-        });
+        };
+        
+        setFormValues(initialData);
+        setOriginalValues(JSON.parse(JSON.stringify(initialData))); // Deep copy for comparison
         setLoading(false);
       })
       .catch((error) => {
