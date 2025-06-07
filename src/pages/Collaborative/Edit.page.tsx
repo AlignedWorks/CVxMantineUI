@@ -42,6 +42,7 @@ export function EditCollaborative() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [formValues, setFormValues] = useState<CollaborativeFormData | null>(null);
+  const [originalValues, setOriginalValues] = useState<CollaborativeFormData | null>(null); // Track original values
   const [skills, setSkills] = useState<{ id: number; value: string }[]>([]);
   const [experience, setExperience] = useState<{ id: number; value: string }[]>([]);
 
@@ -50,6 +51,56 @@ export function EditCollaborative() {
     setCollaborativeId(id || null);
     return () => setCollaborativeId(null);
   }, [id, setCollaborativeId]);
+
+  // Helper function to compare arrays of objects by id
+  const arraysEqual = (arr1: { id: number; value: string }[], arr2: { id: number; value: string }[]) => {
+    if (arr1.length !== arr2.length) return false;
+    const ids1 = arr1.map(item => item.id).sort();
+    const ids2 = arr2.map(item => item.id).sort();
+    return ids1.every((id, index) => id === ids2[index]);
+  };
+
+  // Function to get only changed fields
+  const getChangedFields = () => {
+    if (!formValues || !originalValues) return {};
+
+    const changes: Partial<CollaborativeFormData> = {};
+
+    // Check each field for changes
+    if (formValues.name !== originalValues.name) {
+      changes.name = formValues.name;
+    }
+    if (formValues.description !== originalValues.description) {
+      changes.description = formValues.description;
+    }
+    if (formValues.websiteUrl !== originalValues.websiteUrl) {
+      changes.websiteUrl = formValues.websiteUrl;
+    }
+    if (formValues.logoUrl !== originalValues.logoUrl) {
+      changes.logoUrl = formValues.logoUrl;
+    }
+    if (formValues.city !== originalValues.city) {
+      changes.city = formValues.city;
+    }
+    if (formValues.state !== originalValues.state) {
+      changes.state = formValues.state;
+    }
+    if (formValues.csaDocUrl !== originalValues.csaDocUrl) {
+      changes.csaDocUrl = formValues.csaDocUrl;
+    }
+
+    // Check skills array
+    if (!arraysEqual(formValues.skills, originalValues.skills)) {
+      changes.skills = formValues.skills;
+    }
+
+    // Check experience array
+    if (!arraysEqual(formValues.experience, originalValues.experience)) {
+      changes.experience = formValues.experience;
+    }
+
+    return changes;
+  };
 
   // Fetch collaborative data
   useEffect(() => {
@@ -115,15 +166,35 @@ export function EditCollaborative() {
   const handleSubmit = async () => {
     if (!formValues) return;
 
+    // Get only the changed fields
+    const changedFields = getChangedFields();
+    
+    // If no changes, don't submit
+    if (Object.keys(changedFields).length === 0) {
+      console.log("No changes detected, skipping submission");
+      navigate(`/collaboratives/${id}`);
+      return;
+    }
+
+    console.log("Changed fields:", changedFields);
+
     setSubmitting(true);
     try {
-        // Create a modified payload for the API
-        const payload = {
-        ...formValues,
-        // Transform skills and experience to just arrays of IDs
-        skills: formValues.skills.map(skill => skill.id),
-        experience: formValues.experience.map(exp => exp.id)
-        };
+        // Create a modified payload for the API with only changed fields
+      const payload: any = {};
+      
+      // Transform skills and experience to just arrays of IDs if they changed
+      Object.keys(changedFields).forEach(key => {
+        if (key === 'skills' && changedFields.skills) {
+          payload.skills = changedFields.skills.map(skill => skill.id);
+        } else if (key === 'experience' && changedFields.experience) {
+          payload.experience = changedFields.experience.map(exp => exp.id);
+        } else {
+          payload[key] = (changedFields as any)[key];
+        }
+      });
+
+      console.log("Payload being sent:", payload);
 
       const response = await fetch(
         new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),

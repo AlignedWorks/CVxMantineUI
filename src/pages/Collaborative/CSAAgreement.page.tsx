@@ -171,6 +171,7 @@ export function CSAAgreement() {
             <Button
               mt="xl"
               variant="outline"
+              color="red"
               disabled={!hasReadDoc}
               onClick={() => declineAgreement()}
             >
