@@ -190,6 +190,30 @@ export function Dashboard() {
       });
   };
 
+  const handleCollabApproval = (collabId: number, status: 'approve' | 'decline') => {
+    fetch(
+      new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    })
+    .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((message) => {
+        console.log(message);
+      })
+      .catch((err) => {
+        console.error(`Error approving/declining collaborative:`, err);
+        // Optionally show an error message to the user
+      });
+    }
+
   return (
     <>
       <Container size="md" py="xl">
@@ -218,7 +242,7 @@ export function Dashboard() {
                         {collab.description}
                     </Text>
                     <Text ta="left" fz="sm" mt="sm">
-                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>www.website.com
+                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>{collab.websiteUrl}
                     </Text>
                     <Text ta="left" fz="sm" mt="sm">
                         <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Leader:</span><br/>tommy.bob@gmail.com
@@ -297,8 +321,16 @@ export function Dashboard() {
             <Grid>
                 <Grid.Col span={4}>
                     <SimpleGrid cols={2} mt="lg">
-                        <Button variant="default">Approve</Button>
-                        <Button variant="default">Decline</Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => handleCollabApproval(collab.id,'approve')}>
+                            Approve
+                        </Button>
+                        <Button
+                          variant="default"
+                          onClick={() => handleCollabApproval(collab.id,'decline')}>
+                            Decline
+                        </Button>
                     </SimpleGrid>
                 </Grid.Col>
                 <Grid.Col span={8} mt="lg">
