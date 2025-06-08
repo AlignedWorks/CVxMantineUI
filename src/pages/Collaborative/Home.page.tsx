@@ -197,7 +197,7 @@ export function CollaborativeHome() {
           variant="default"
           mb="sm"
         >
-          View Collaborative Service Agreement
+          View Collaborative Sharing Agreement
         </Button>
         <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
           <Button variant="default" mb="sm">

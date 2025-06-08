@@ -130,7 +130,7 @@ export function CSAAgreement() {
         <Text>Back</Text>
       </Link>
       <Title order={2} mb="lg">
-        {csaData?.collabName} <Text component="span" c="dimmed">Collaborative Service Agreement</Text>
+        {csaData?.collabName} <span style={{ color: 'grey' }}>Collaborative Sharing Agreement</span>
       </Title>
 
       {isAcceptanceMode &&
@@ -166,7 +166,7 @@ export function CSAAgreement() {
               disabled={!hasReadDoc}
               onClick={() => setShowConfirmation(true)}
             >
-              I accept this Collaborative Service Agreement
+              I accept this Collaborative Sharing Agreement
             </Button>
             <Button
               mt="xl"
@@ -175,7 +175,7 @@ export function CSAAgreement() {
               disabled={!hasReadDoc}
               onClick={() => declineAgreement()}
             >
-              I decline this Collaborative Service Agreement
+              I decline this Collaborative Sharing Agreement
             </Button>
           </Group>
           
@@ -186,7 +186,7 @@ export function CSAAgreement() {
           >
             <Text>
               By clicking "Confirm", you acknowledge that you have read, understood, 
-              and agree to be bound by the Collaborative Service Agreement.<br/>
+              and agree to be bound by the Collaborative Sharing Agreement.<br/>
             </Text>
             <Group justify="flex-start" mt="md">
               <Button variant="outline" onClick={() => setShowConfirmation(false)}>Cancel</Button>
