@@ -27,6 +27,7 @@ export function CSAAgreement() {
   
   const [hasReadDoc, setHasReadDoc] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showDeclineWarning, setShowDeclineWarning] = useState(false); // Add decline warning modal state
 
   const fetchCSAData = async () => {
     try {
@@ -179,6 +180,7 @@ export function CSAAgreement() {
             </Button>
           </Group>
           
+          {/* Accept Confirmation Modal */}
           <Modal
             opened={showConfirmation}
             onClose={() => setShowConfirmation(false)}
@@ -191,6 +193,43 @@ export function CSAAgreement() {
             <Group justify="flex-start" mt="md">
               <Button variant="outline" onClick={() => setShowConfirmation(false)}>Cancel</Button>
               <Button onClick={confirmAgreement}>Confirm</Button>
+            </Group>
+          </Modal>
+
+          {/* Decline Warning Modal */}
+          <Modal
+            opened={showDeclineWarning}
+            onClose={() => setShowDeclineWarning(false)}
+            title="Warning: Decline Agreement"
+            centered
+          >
+            <Text mb="md">
+              <strong>This action cannot be reversed.</strong>
+            </Text>
+            <Text mb="md">
+              By declining this Collaborative Sharing Agreement, you will be permanently 
+              removed from this collaborative and will not be able to rejoin without a 
+              new invitation.
+            </Text>
+            <Text mb="lg" c="red">
+              Are you sure you want to decline and leave this collaborative?
+            </Text>
+            <Group justify="flex-end" gap="md">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowDeclineWarning(false)}
+              >
+                Cancel
+              </Button>
+              <Button 
+                color="red" 
+                onClick={() => {
+                  setShowDeclineWarning(false);
+                  declineAgreement();
+                }}
+              >
+                Yes, Decline and Leave
+              </Button>
             </Group>
           </Modal>
         </>

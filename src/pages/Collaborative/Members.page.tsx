@@ -359,7 +359,7 @@ export function CollaborativeMembers() {
               <Group gap="lg">
               {/* Submit Button */}
                 <Button
-                    variant="default"
+                    variant="outline"
                     onClick={handleAddMember}
                     disabled={!selectedUser || !selectedRole} // Disable if no user or role is selected
                 >

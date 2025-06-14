@@ -121,22 +121,33 @@ export function CollaborativeHome() {
               </Title>
               <SimpleGrid cols={2} mb="md">
                 <div>
-                    <Group wrap="nowrap" gap={10}>
-                      <IconAt stroke={1.5} size={16} />
-                      <a
-                        href={collaborative.websiteUrl}
-                        style={{ color: '#0077b5', textDecoration: 'none' }}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                          {getDisplayUrl(collaborative.websiteUrl)}
-                      </a>
-                    </Group>
-                    <Group wrap="nowrap" gap={10} mt="xl">
-                      <IconMapPin stroke={1.5} size={16} />
-                      <Text>
-                          {collaborative.city}, {collaborative.state}
-                      </Text>
-                    </Group>
+                  <Group>
+                      {collaborative.approvalStatus === 'Active' ? (
+                          <Badge color="yellow">
+                              {collaborative.approvalStatus}
+                          </Badge>
+                      ) : (
+                          <Badge color="pink">
+                              {collaborative.approvalStatus}
+                          </Badge>
+                      )}
+                  </Group>
+                  <Group wrap="nowrap" gap={10} mt={10}>
+                    <IconAt stroke={1.5} size={16} />
+                    <a
+                      href={collaborative.websiteUrl}
+                      style={{ color: '#0077b5', textDecoration: 'none' }}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                        {getDisplayUrl(collaborative.websiteUrl)}
+                    </a>
+                  </Group>
+                  <Group wrap="nowrap" gap={10} mt={10}>
+                    <IconMapPin stroke={1.5} size={16} />
+                    <Text>
+                        {collaborative.city}, {collaborative.state}
+                    </Text>
+                  </Group>
                 </div>
                 <div>
                   <Group mb="md" align="flex-start">

@@ -135,6 +135,7 @@ export function Test() {
                     <Grid.Col span={2}>
                         <Center>
                             <img src={testCollab.logoUrl} width={80}/>
+
                         </Center>
                     </Grid.Col>
                     <Grid.Col span={10}>
@@ -142,18 +143,30 @@ export function Test() {
                         <Title order={2} mt="xs" mb="md">{testCollab.name}</Title>
                         <SimpleGrid cols={2} mb="md">
                         <div>
-                            <Group wrap="nowrap" gap={10} mt={3}>
-                            <IconAt stroke={1.5} size={16} />
-                            <Text>
-                                {testCollab.websiteUrl}
-                            </Text>
+                            <Group>
+                                {testCollab.approvalStatus === 'Active' ? (
+                                    <Badge color="yellow">
+                                        {testCollab.approvalStatus}
+                                    </Badge>
+                                ) : (
+                                    <Badge color="pink">
+                                        {testCollab.approvalStatus}
+                                    </Badge>
+                                )}
                             </Group>
-                            <Group wrap="nowrap" gap={10} mt={5}>
-                            <IconMapPin stroke={1.5} size={16} />
-                            <Text>
-                                {testCollab.city}, {testCollab.state}
-                            </Text>
+                            <Group wrap="nowrap" gap={10} mt={10}>
+                                <IconAt stroke={1.5} size={16} />
+                                <Text>
+                                    {testCollab.websiteUrl}
+                                </Text>
                             </Group>
+                            <Group wrap="nowrap" gap={10} mt={10}>
+                                <IconMapPin stroke={1.5} size={16} />
+                                <Text>
+                                    {testCollab.city}, {testCollab.state}
+                                </Text>
+                            </Group>
+
                         </div>
                         <div>
                             <Group mb="md" align="flex-start">
