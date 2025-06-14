@@ -174,7 +174,7 @@ export function CSAAgreement() {
               variant="outline"
               color="red"
               disabled={!hasReadDoc}
-              onClick={() => declineAgreement()}
+              onClick={() => setShowDeclineWarning(true)}
             >
               I decline this Collaborative Sharing Agreement
             </Button>
