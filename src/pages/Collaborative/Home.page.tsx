@@ -153,9 +153,7 @@ export function CollaborativeHome() {
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-
-                <img src={collaborative.logoUrl} width={80}/>
-
+            <img src={collaborative.logoUrl} width={80}/>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>

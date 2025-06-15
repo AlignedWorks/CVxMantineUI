@@ -531,7 +531,7 @@ export function Test() {
             </Title>
             {mock_collab_data.map((collab) => (
                 <Card key={collab.id} className={classes.card} shadow="sm" radius="md" withBorder mt="lg" p="xl" bg="var(--mantine-color-body)">
-                    <SimpleGrid cols={3} spacing="xl">
+                    <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
                         <div>
                             <Text ta="left" fz="lg" fw={500} mb="lg">
                                 {collab.name}
@@ -547,7 +547,7 @@ export function Test() {
                             </Text>
                             
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", height: "100%" }}>
                             <Table variant="vertical" layout="fixed" withTableBorder>
                                 <Table.Tbody>
 

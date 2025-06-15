@@ -106,12 +106,10 @@ export function CollaborativeTreasury() {
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
-          <Grid.Col span={2}>
-              <Center mt="xs">
-                <img src={collaborative.logoUrl} width={80}/>
-              </Center>
+          <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+            <img src={collaborative.logoUrl} width={80}/>
           </Grid.Col>
-          <Grid.Col span={9}>
+          <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
               <Title order={2} mt="xs" mb="xl">
                 {collaborative.name}
@@ -119,7 +117,7 @@ export function CollaborativeTreasury() {
               <Title order={4} mb="md">
                   Revenue Sharing Pool
               </Title>
-              <SimpleGrid cols={2} mb="md">
+              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>
                   <Text fz="md" fw={500}>
                       Revenue Share

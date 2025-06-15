@@ -87,20 +87,17 @@ export function CollaborativeProjects() {
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
-            <Grid.Col span={2}>
-                <Center mt="xs">
-                    <img src={collaborative.logoUrl} width={80}/>
-                </Center>
-            </Grid.Col>
-          <Grid.Col span={10}>
+          <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+            <img src={collaborative.logoUrl} width={80}/>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-                <Title order={2} mt="xs" mb="md">
-                    {collaborative.name}
-                </Title>
-              
-                <Text size="xl" c="dimmed">
-                    PROJECT DATA HERE
-                </Text>
+              <Title order={2} mt="xs" mb="md">
+                  {collaborative.name}
+              </Title>
+              <Text size="xl" c="dimmed">
+                  PROJECT DATA HERE
+              </Text>
             </Stack>
           </Grid.Col>
         </Grid>

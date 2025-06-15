@@ -185,7 +185,7 @@ export function CollaborativeMembers() {
 
   const memberRows = collaborative.members.map((item) => (
     <Table.Tr key={item.id}>
-        <Table.Td style={{ verticalAlign: 'top' }}>
+      <Table.Td style={{ verticalAlign: 'top' }}>
         <Group gap="sm" ml="lg" mt="sm" mb="sm">
             <Avatar size={40} src={item.avatarUrl} radius={40} />
             <div>
@@ -256,12 +256,10 @@ export function CollaborativeMembers() {
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
-          <Grid.Col span={2}>
-              <Center mt="xs">
-                <img src={collaborative.logoUrl} width={80}/>
-              </Center>
+          <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+            <img src={collaborative.logoUrl} width={80}/>
           </Grid.Col>
-          <Grid.Col span={9}>
+          <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
               <Title order={2} mt="xs" mb="md">
                 {collaborative.name}
