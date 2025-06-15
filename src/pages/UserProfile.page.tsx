@@ -37,6 +37,23 @@ interface User {
   experience: { id: number; value: string }[];
 }
 
+const mockUser: User = 
+{
+  userName: 'gerry@aligned.works',
+  firstName: 'Gerry',
+  lastName: 'Hartis',
+  bio: 'The AlignedWorks’ vision for aligning the full value of people with full value solutions to social, economic and environmental problems originated with co-founder Gerry Hartis when he worked with outdoor adventure teams in the 1980s as an educator. Gerry asked each member of the team to affirm that they would give the full value of their commitment, knowledge, skills, and effort to the other members of the team as they jointly negotiated the rigors of the deep wilderness.',
+  phoneNumber: '123-456-7890',
+  avatarUrl: '/assets/profile-pic-Gerry-Hartis.jpeg',
+  city: 'Somewhere',
+  state: 'PA',
+  createdAt: 'January 1st, 2023',
+  memberStatus: 'Invited',
+  linkedIn: 'https://www.linkedin.com/in/gerryhartis',
+  skills: [{id: 1, value: 'Design & Creative'}],
+  experience: [{id: 1, value: 'Education'},{id: 2, value: 'Non-Profit'},{id: 3, value: 'Retail'}],
+}
+
 export function UserProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true); // Add a loading state
@@ -61,6 +78,7 @@ export function UserProfile() {
           });
       } catch (err) {
         console.error("Error forming URL:", err);
+        setUser(mockUser); // Use mock data in case of error
         setLoading(false);
       }
   };
@@ -81,13 +99,13 @@ export function UserProfile() {
       ) : user ? (
         <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
           <Grid>
-            <Grid.Col span={3}>
+            <Grid.Col span={{ base: 12, sm: 12, md: 4, lg: 3 }}>
               <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" ml="lg" />
             </Grid.Col>
-            <Grid.Col span={9}>
+            <Grid.Col span={{ base: 12, sm: 12, md: 8, lg: 9 }}>
               <Stack>
                 <Title order={2}>{user.firstName + " " + user.lastName}</Title>
-                <SimpleGrid cols={2} mb="lg">
+                <SimpleGrid cols={{ base: 1, sm: 2 }} mb="lg">
                   <div>
                     <Group wrap="nowrap" gap={10} mt={3}>
                       <IconAt stroke={1.5} size={16} />
@@ -134,7 +152,7 @@ export function UserProfile() {
               <p>
                 {user.bio}<br /><br />
               </p>
-              <SimpleGrid cols={2} mb="lg">
+              <SimpleGrid cols={{ base: 1, sm: 2 }} mb="lg">
                   <div>
                     Skills<br/>
                     {user.skills && user.skills.length > 0 ? (

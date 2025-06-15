@@ -136,8 +136,8 @@ export function Dashboard() {
         
         setSubmittedUsers((prev) => ({ ...prev, [userId]: true })); // Mark as submitted
 
-        // If the role is changed to Network Owner or Network Contributor, refresh the dashboard data
-        if (newRole === "Network Owner" || newRole === "Network Contributor") {
+        // If the role is changed to Network Admin or Network Contributor, refresh the dashboard data
+        if (newRole === "Network Admin" || newRole === "Network Contributor") {
           // Update the user in the dashboard array with the new role
           setDashboard(prevDashboard => 
             prevDashboard?.map(user => 
@@ -177,12 +177,8 @@ export function Dashboard() {
       .then((data) => {
         console.log(`Invitation ${action}ed successfully:`, data);
         
-        // Update the local state to remove the invitation
-        setCollabInvites(prevInvites => 
-          prevInvites.filter(invite => 
-            !(invite.collabId === collabId && invite.userId === userId)
-          )
-        );
+        // Refresh the page so 1) collab invite is removed and 2) the collab's CSA acceptance notification can populate
+        fetchDashboardData();
       })
       .catch((err) => {
         console.error(`Error ${action}ing invitation:`, err);
@@ -207,6 +203,9 @@ export function Dashboard() {
       })
       .then((message) => {
         console.log(message);
+
+        // Refresh the dashboard data after successful approval/decline
+        fetchDashboardData();
       })
       .catch((err) => {
         console.error(`Error approving/declining collaborative:`, err);
@@ -231,11 +230,24 @@ export function Dashboard() {
           </Link>
         </Group>
 
+        <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
+            Approve collaboratives
+        </Title>
+
         {collabsNeedingApproval?.map((collab) => (
           <Card key={collab.id} shadow="sm" radius="md" withBorder mt="lg" p="xl" bg="var(--mantine-color-body)">
             <SimpleGrid cols={3} spacing="xl">
                 <div>
-                    <Text ta="left" fz="lg" fw={500} mb="lg">
+                    <Text ta="left" fz="lg" fw={500}
+                      mb="lg"
+                      style={{ 
+                        color: '#0077b5', 
+                        cursor: 'pointer',
+                        textDecoration: 'none'
+                      }}
+                      component={Link}
+                      to={`/collaboratives/${collab.id}`}
+                      state={{ from: location.pathname }}>
                         {collab.name}
                     </Text>
                     <Text ta="left" c="dimmed" fz="sm">

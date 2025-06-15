@@ -15,6 +15,9 @@ import {
   Text,
   UnstyledButton,
   Button,
+  Stack,
+  Drawer,
+  NavLink,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from '../../AuthContext.tsx';
@@ -110,13 +113,31 @@ export function HeaderTabs() {
     }
   };
 
+  // Handle mobile navigation
+  const handleMobileNavClick = (tabKey: string) => {
+    handleTabChange(tabKey);
+    close(); // Close the drawer after navigation
+  };
+
   const items = tabsData.map((tab) => (
     <Tabs.Tab value={tab.key} key={tab.key}>
       {tab.key}
     </Tabs.Tab>
   ));
 
+  // Mobile navigation items
+  const mobileNavItems = tabsData.map((tab) => (
+    <NavLink
+      key={tab.key}
+      label={tab.key}
+      active={getActiveTab() === tab.key}
+      onClick={() => handleMobileNavClick(tab.key)}
+      style={{ borderRadius: '8px', marginBottom: '4px' }}
+    />
+  ));
+
   return (
+    <>
     <div className={classes.header}>
       <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
@@ -142,7 +163,11 @@ export function HeaderTabs() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+              {/* Show burger only on collaborative routes and mobile */}
+              {isCollaborativeRoute && (
+                <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+              )}
+
             {user ? (
               <>
                 <Menu
@@ -200,5 +225,20 @@ export function HeaderTabs() {
         </Group>
       </Container>
     </div>
+
+    {/* Mobile Navigation Drawer */}
+      <Drawer
+        opened={opened}
+        onClose={close}
+        title="Navigation"
+        padding="md"
+        size="xs"
+        position="right"
+      >
+        <Stack gap="xs">
+          {mobileNavItems}
+        </Stack>
+      </Drawer>
+    </>
   );
 }

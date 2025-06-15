@@ -23,7 +23,6 @@ interface CollaborativeData {
   createdAt: string;
   city: string;
   state: string;
-  sumMembers: number;
 }
 
 export function CollaborativeDirectory() {

@@ -14,13 +14,39 @@ import {
   Stack,
   SimpleGrid,
   Title,
-  Center,
  } from '@mantine/core';
-import { CollaborativeData } from '../../data.ts';
+import { CollaborativeData, PayoutFrequency } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
 } from '@tabler/icons-react'
+
+const mockCollaborative: CollaborativeData =
+{
+  id: 1,
+  name: 'Breadcoin PA Capital region',
+  description: 'Breadcoin destigmatizes hunger and bridges divides. The same coin used in Harrisburg is the same coin used in Mechanicsburg. Breadcoin makes sure everyone is included at the table. We are proud to partner with many local organizations and churches throughout central Pennsylvania.',
+  approvalStatus: 'Active',
+  websiteUrl: 'https://breadcoin.org/locations/pa/',
+  logoUrl: '/assets/logos/ByteSecure.png',
+  city: "Harrisburg",
+  state: "PA",
+  leaderEmail: 'david@aligned.works',
+  leaderName: 'David Vader',
+  createdAt: 'February 1, 2022',
+  revenueShare: 5,
+  indirectCosts: 5,
+  collabLeaderCompensation: 5,
+  payoutFrequency: PayoutFrequency.Monthly,
+  skills: [
+    { id: 101, value: 'Software Development' },
+    { id: 102, value: 'Open Source' },
+    { id: 103, value: 'DevOps' }
+  ],
+  experience: [
+    { id: 201, value: 'Technology' }
+  ],
+}
 
 export function CollaborativeHome() {
   const location = useLocation();
@@ -57,30 +83,47 @@ export function CollaborativeHome() {
   }, [id, setCollaborativeId]);
 
   useEffect(() => {
-    fetch(
-      new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch collaborative data');
-        }
-        return response.json();
+    // Check if API base URL is available and valid
+    const apiBase = import.meta.env.VITE_API_BASE;
+    
+    if (!apiBase) {
+      console.warn('VITE_API_BASE not configured, using mock data');
+      setCollaborative(mockCollaborative);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const apiUrl = new URL(`collaboratives/${id}`, apiBase);
+      
+      fetch(apiUrl, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .then((data: CollaborativeData) => {
-        console.log(data);
-        setCollaborative(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch collaborative data');
+          }
+          return response.json();
+        })
+        .then((data: CollaborativeData) => {
+          console.log(data);
+          setCollaborative(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('API Error:', error);
+          setCollaborative(mockCollaborative); // Use mock data in case of error
+          setLoading(false);
+        });
+    } catch (urlError) {
+      console.error('Invalid API URL:', urlError);
+      setCollaborative(mockCollaborative); // Use mock data if URL construction fails
+      setLoading(false);
+    }
   }, [id]);
 
   if (loading) {
@@ -109,17 +152,17 @@ export function CollaborativeHome() {
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
-          <Grid.Col span={2}>
-              <Center mt="xs">
+          <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+
                 <img src={collaborative.logoUrl} width={80}/>
-              </Center>
+
           </Grid.Col>
-          <Grid.Col span={10}>
+          <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
               <Title order={2} mt="xs" mb="md">
                 {collaborative.name}
               </Title>
-              <SimpleGrid cols={2} mb="md">
+              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>
                   <Group>
                       {collaborative.approvalStatus === 'Active' ? (
@@ -173,19 +216,19 @@ export function CollaborativeHome() {
                   </Group>
                 </div>
               </SimpleGrid>
-                {collaborative.description}<br /><br />
-              <Grid>
-                <Grid.Col span={6}>
-                  <Text mb="md">
-                    Skills<br/>
-                    {collaborative.skills.map((skill, index) => (
-                      <Badge key={index} variant="light" color="blue">
-                        {skill.value}
-                      </Badge>
-                    ))}
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={6}>
+              {collaborative.description}<br /><br />
+              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="lg">
+                <div>
+                <Text mb="md">
+                  Skills<br/>
+                  {collaborative.skills.map((skill, index) => (
+                    <Badge key={index} variant="light" color="blue">
+                      {skill.value}
+                    </Badge>
+                  ))}
+                </Text>
+                </div>
+                <div>
                   <Text mb="md">
                     Experience<br/>
                     {collaborative.experience.map((exp, index) => (
@@ -194,8 +237,8 @@ export function CollaborativeHome() {
                       </Badge>
                     ))}
                   </Text>
-                </Grid.Col>
-              </Grid>
+                </div>
+              </SimpleGrid>
             </Stack>
           </Grid.Col>
         </Grid>
