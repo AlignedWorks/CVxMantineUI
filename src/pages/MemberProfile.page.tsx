@@ -79,13 +79,13 @@ export function MemberProfile() {
       { user ? (
           <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
             <Grid>
-              <Grid.Col span={3}>
+              <Grid.Col span={{ base: 12, sm: 12, md: 4, lg: 3 }}>
                 <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" ml="lg" />
               </Grid.Col>
-              <Grid.Col span={9}>
+              <Grid.Col span={{ base: 12, sm: 12, md: 8, lg: 9 }}>
                 <Stack>
                   <Title order={2}>{user.firstName + " " + user.lastName}</Title>
-                  <SimpleGrid cols={2} mb="lg">
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} mb="lg">
                     <div>
                       <Group wrap="nowrap" gap={10} mt={3}>
                         <IconAt stroke={1.5} size={16} />
@@ -132,7 +132,7 @@ export function MemberProfile() {
                 <p>
                   {user.bio}<br /><br />
                 </p>
-                <SimpleGrid cols={2} mb="lg">
+                <SimpleGrid cols={{ base: 1, sm: 2 }} mb="lg">
                     <div>
                       Skills<br/>
                       {user.skills && user.skills.length > 0 ? (
