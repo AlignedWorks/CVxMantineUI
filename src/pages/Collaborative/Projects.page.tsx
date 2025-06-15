@@ -10,7 +10,6 @@ import {
   Card,
   Stack,
   Title,
-  Center,
  } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
 

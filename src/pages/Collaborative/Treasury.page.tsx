@@ -12,7 +12,6 @@ import {
   Card,
   Stack,
   Title,
-  Center,
   SimpleGrid,
   Group,
  } from '@mantine/core';

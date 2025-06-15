@@ -18,7 +18,6 @@ import {
   Card,
   Stack,
   Title,
-  Center,
   ThemeIcon,
  } from '@mantine/core';
 import { CollaborativeDataWithMembers, inviteStatusColors } from '../../data.ts';
