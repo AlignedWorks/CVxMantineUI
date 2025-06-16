@@ -227,12 +227,21 @@ export function HeaderTabs() {
       <Drawer
         opened={opened}
         onClose={close}
-        title="Navigation"
+        title="CVx"
         padding="md"
-        size="xs"
+        size="lg"
         position="top"
       >
         <Stack gap="xs">
+          <NavLink
+            label="Dashboard"
+            onClick={() => {
+              navigate('/');
+              close();
+            }}
+            style={{ borderRadius: '8px', marginBottom: '4px' }}
+            fw="bold"
+          />
           <NavLink
             label="Collaborative Directory"
             onClick={() => {
@@ -240,6 +249,7 @@ export function HeaderTabs() {
               close();
             }}
             style={{ borderRadius: '8px', marginBottom: '4px' }}
+            fw="bold"
           />
           <NavLink
             label="Member Directory"
@@ -248,6 +258,7 @@ export function HeaderTabs() {
               close();
             }}
             style={{ borderRadius: '8px', marginBottom: '4px' }}
+            fw="bold"
           />
           {isCollaborativeRoute && mobileNavItems}
         </Stack>
