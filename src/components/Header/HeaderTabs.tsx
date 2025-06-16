@@ -163,10 +163,7 @@ export function HeaderTabs() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              {/* Show burger only on collaborative routes and mobile */}
-              {isCollaborativeRoute && (
-                <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-              )}
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
 
             {user ? (
               <>
@@ -252,7 +249,7 @@ export function HeaderTabs() {
             }}
             style={{ borderRadius: '8px', marginBottom: '4px' }}
           />
-          {mobileNavItems}
+          {isCollaborativeRoute && mobileNavItems}
         </Stack>
       </Drawer>
     </>
