@@ -236,7 +236,22 @@ export function HeaderTabs() {
         position="top"
       >
         <Stack gap="xs">
-
+          <NavLink
+            label="Collaborative Directory"
+            onClick={() => {
+              navigate('/collaborative-directory');
+              close();
+            }}
+            style={{ borderRadius: '8px', marginBottom: '4px' }}
+          />
+          <NavLink
+            label="Member Directory"
+            onClick={() => {
+              navigate('/member-directory');
+              close();
+            }}
+            style={{ borderRadius: '8px', marginBottom: '4px' }}
+          />
           {mobileNavItems}
         </Stack>
       </Drawer>
