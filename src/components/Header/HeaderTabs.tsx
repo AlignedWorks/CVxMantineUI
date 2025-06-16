@@ -36,7 +36,7 @@ const tabsData = [
 
 export function HeaderTabs() {
   // const theme = useMantineTheme();
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { toggle, close }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -233,9 +233,10 @@ export function HeaderTabs() {
         title="Navigation"
         padding="md"
         size="xs"
-        position="right"
+        position="top"
       >
         <Stack gap="xs">
+
           {mobileNavItems}
         </Stack>
       </Drawer>
