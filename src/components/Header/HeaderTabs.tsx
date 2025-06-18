@@ -18,6 +18,7 @@ import {
   Stack,
   Drawer,
   NavLink,
+  Image,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from '../../AuthContext.tsx';
@@ -44,6 +45,7 @@ export function HeaderTabs() {
   const { collaborativeId } = useCollaborativeContext();
   const isCollaborativeRoute = Boolean(collaborativeId);
   const navigate = useNavigate();
+  const logo = '/assets/CVxLogoWhite.png';
 
   // Determine active tab based on current path
   const getActiveTab = () => {
@@ -142,6 +144,19 @@ export function HeaderTabs() {
       <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
 
+            {/* Logo - visible on mobile */}
+            <div style={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
+              <Image
+                src={logo} // Replace with your logo path
+                alt="CVx Logo"
+                hiddenFrom="sm"
+                style={{ 
+                  height: '32px', 
+                  width: 'auto'
+                }}
+              />
+
+            </div>
           <div>
             {/* Conditionally render the Tabs menu */}
             {isCollaborativeRoute && (
@@ -239,7 +254,6 @@ export function HeaderTabs() {
               navigate('/');
               close();
             }}
-            style={{ borderRadius: '8px', marginBottom: '4px' }}
             fw="bold"
           />
           <NavLink
@@ -248,7 +262,6 @@ export function HeaderTabs() {
               navigate('/collaborative-directory');
               close();
             }}
-            style={{ borderRadius: '8px', marginBottom: '4px' }}
             fw="bold"
           />
           <NavLink
@@ -257,10 +270,62 @@ export function HeaderTabs() {
               navigate('/member-directory');
               close();
             }}
-            style={{ borderRadius: '8px', marginBottom: '4px' }}
             fw="bold"
           />
           {isCollaborativeRoute && mobileNavItems}
+          {user ? (
+              <>
+                <Menu
+                  width={260}
+                  position="bottom-end"
+                  transitionProps={{ transition: 'pop-top-right' }}
+                  onClose={() => setUserMenuOpened(false)}
+                  onOpen={() => setUserMenuOpened(true)}
+                  withinPortal
+                >
+                  <Menu.Target>
+                    <UnstyledButton
+                      className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                    >
+                      <Group gap={7}>
+                        {user.avatarUrl ? (
+                          <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
+                        ) : (
+                          <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
+                        )}
+                        <Text fw={500} size="sm" lh={1} mr={3}>
+                          { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
+                        </Text>
+                        <IconChevronDown size={12} stroke={1.5} />
+                      </Group>
+                    </UnstyledButton>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      component={Link}
+                      to="/user-profile"
+                      leftSection={<IconUser size={16} stroke={1.5} />}
+                    >
+                      Profile
+                    </Menu.Item>
+                    <Menu.Item
+                      leftSection={<IconLogout size={16} stroke={1.5} />}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="default">
+                    Sign In
+                  </Button>
+                </Link>
+              </>
+            )}
         </Stack>
       </Drawer>
     </>
