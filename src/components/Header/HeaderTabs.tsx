@@ -248,13 +248,13 @@ export function HeaderTabs() {
         {/* User section at top of mobile menu */}
         {user ? (
           <>
-            <Group gap="sm">
+            <Group gap="sm" ml="xs">
               {user.avatarUrl ? (
-                <Avatar src={user.avatarUrl} size={24} radius="xl" />
+                <Avatar src={user.avatarUrl} size={32} radius="xl" />
               ) : (
-                <Avatar color="blue" size={24} radius="xl" />
+                <Avatar color="blue" size={32} radius="xl" />
               )}
-              <Text fw={500} size="sm">
+              <Text fw={500} size="md">
                 {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
               </Text>
             </Group>
@@ -263,7 +263,7 @@ export function HeaderTabs() {
               component={Link}
               to="/user-profile"
               onClick={close}
-              style={{ borderRadius: '8px', marginBottom: '8px', padding: '12px' }}
+              style={{ borderRadius: '8px', marginBottom: '8px' }}
               leftSection={<IconUser size={16} />}
             />
             <NavLink
@@ -272,7 +272,7 @@ export function HeaderTabs() {
                 handleLogout();
                 close();
               }}
-              style={{ borderRadius: '8px', marginBottom: '16px' }}
+              style={{ borderRadius: '8px', marginBottom: '8px' }}
               leftSection={<IconLogout size={16} />}
               color="red"
             />
@@ -283,7 +283,7 @@ export function HeaderTabs() {
             component={Link}
             to="/login"
             onClick={close}
-            style={{ borderRadius: '8px', marginBottom: '16px' }}
+            style={{ borderRadius: '8px', marginBottom: '8px' }}
             fw="bold"
           />
         )}
