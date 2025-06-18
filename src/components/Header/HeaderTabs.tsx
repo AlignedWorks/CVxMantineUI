@@ -254,28 +254,31 @@ export function HeaderTabs() {
               ) : (
                 <Avatar color="blue" size={32} radius="xl" />
               )}
-              <Text fw={500} size="md">
-                {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
-              </Text>
+              <Stack>
+                <Text fw={500} size="md">
+                  {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
+                </Text>
+                <Group>
+                  <NavLink
+                    label="Profile"
+                    component={Link}
+                    to="/user-profile"
+                    onClick={close}
+                    leftSection={<IconUser size={16} />}
+                  />
+                  <NavLink
+                    label="Logout"
+                    onClick={() => {
+                      handleLogout();
+                      close();
+                    }}
+                    leftSection={<IconLogout size={16} />}
+                    color="red"
+                  />
+                </Group>
+              </Stack>
             </Group>
-            <NavLink
-              label="Profile"
-              component={Link}
-              to="/user-profile"
-              onClick={close}
-              style={{ borderRadius: '8px', marginBottom: '8px' }}
-              leftSection={<IconUser size={16} />}
-            />
-            <NavLink
-              label="Logout"
-              onClick={() => {
-                handleLogout();
-                close();
-              }}
-              style={{ borderRadius: '8px', marginBottom: '8px' }}
-              leftSection={<IconLogout size={16} />}
-              color="red"
-            />
+
           </>
         ) : (
           <NavLink
