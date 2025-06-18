@@ -144,23 +144,22 @@ export function HeaderTabs() {
       <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
 
-            {/* Logo - visible on mobile */}
-            <div style={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
-              <Image
-                src={logo} // Replace with your logo path
-                alt="CVx Logo"
-                hiddenFrom="sm"
-                style={{ 
-                  height: '32px', 
-                  width: 'auto'
-                }}
-              />
+          {/* Logo - visible on mobile */}
+          <div style={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
+            <Image
+              src={logo}
+              alt="CVx Logo"
+              hiddenFrom="sm"
+              style={{ 
+                height: '32px', 
+                width: 'auto'
+              }}
+            />
+          </div>
 
-            </div>
           <div>
-            {/* Conditionally render the Tabs menu */}
+            {/* Desktop tabs - only visible on larger screens */}
             {isCollaborativeRoute && (
-
               <Tabs
                 value={getActiveTab()}
                 onChange={handleTabChange}
@@ -178,156 +177,156 @@ export function HeaderTabs() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-
+            {/* Desktop user menu - hidden on mobile */}
             {user ? (
-              <>
-                <Menu
-                  width={260}
-                  position="bottom-end"
-                  transitionProps={{ transition: 'pop-top-right' }}
-                  onClose={() => setUserMenuOpened(false)}
-                  onOpen={() => setUserMenuOpened(true)}
-                  withinPortal
-                >
-                  <Menu.Target>
-                    <UnstyledButton
-                      className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-                    >
-                      <Group gap={7}>
-                        {user.avatarUrl ? (
-                          <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
-                        ) : (
-                          <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
-                        )}
-                        <Text fw={500} size="sm" lh={1} mr={3}>
-                          { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
-                        </Text>
-                        <IconChevronDown size={12} stroke={1.5} />
-                      </Group>
-                    </UnstyledButton>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      component={Link}
-                      to="/user-profile"
-                      leftSection={<IconUser size={16} stroke={1.5} />}
-                    >
-                      Profile
-                    </Menu.Item>
-                    <Menu.Item
-                      leftSection={<IconLogout size={16} stroke={1.5} />}
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </>
+              <Menu
+                width={260}
+                position="bottom-end"
+                transitionProps={{ transition: 'pop-top-right' }}
+                onClose={() => setUserMenuOpened(false)}
+                onOpen={() => setUserMenuOpened(true)}
+                withinPortal
+              >
+                <Menu.Target>
+                  <UnstyledButton
+                    className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                    visibleFrom="sm" // Only show on desktop
+                  >
+                    <Group gap={7}>
+                      {user.avatarUrl ? (
+                        <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
+                      ) : (
+                        <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
+                      )}
+                      <Text fw={500} size="sm" lh={1} mr={3}>
+                        { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
+                      </Text>
+                      <IconChevronDown size={12} stroke={1.5} />
+                    </Group>
+                  </UnstyledButton>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item
+                    component={Link}
+                    to="/user-profile"
+                    leftSection={<IconUser size={16} stroke={1.5} />}
+                  >
+                    Profile
+                  </Menu.Item>
+                  <Menu.Item
+                    leftSection={<IconLogout size={16} stroke={1.5} />}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             ) : (
-              <>
-                <Link to="/login">
-                  <Button variant="default">
-                    Sign In
-                  </Button>
-                </Link>
-              </>
+              <Link to="/login">
+                <Button variant="default" visibleFrom="sm">
+                  Sign In
+                </Button>
+              </Link>
             )}
+
+            {/* Burger menu - always rightmost on mobile */}
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           </div>
         </Group>
       </Container>
     </div>
 
     {/* Mobile Navigation Drawer */}
-      <Drawer
-        opened={opened}
-        onClose={close}
-        title="CVx"
-        padding="md"
-        size="lg"
-        position="top"
-      >
-        <Stack gap="xs">
+    <Drawer
+      opened={opened}
+      onClose={close}
+      title="CVx"
+      padding="md"
+      size="xs"
+      position="right"
+    >
+      <Stack gap="xs">
+        {/* User section at top of mobile menu */}
+        {user ? (
+          <>
+            <NavLink
+              label={
+                <Group gap="sm">
+                  {user.avatarUrl ? (
+                    <Avatar src={user.avatarUrl} size={24} radius="xl" />
+                  ) : (
+                    <Avatar color="blue" size={24} radius="xl" />
+                  )}
+                  <Text fw={500} size="sm">
+                    {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
+                  </Text>
+                </Group>
+              }
+              component={Link}
+              to="/user-profile"
+              onClick={close}
+              style={{ borderRadius: '8px', marginBottom: '8px', padding: '12px' }}
+              leftSection={<IconUser size={16} />}
+            />
+            <NavLink
+              label="Logout"
+              onClick={() => {
+                handleLogout();
+                close();
+              }}
+              style={{ borderRadius: '8px', marginBottom: '16px' }}
+              leftSection={<IconLogout size={16} />}
+              color="red"
+            />
+          </>
+        ) : (
           <NavLink
-            label="Dashboard"
-            onClick={() => {
-              navigate('/');
-              close();
-            }}
+            label="Sign In"
+            component={Link}
+            to="/login"
+            onClick={close}
+            style={{ borderRadius: '8px', marginBottom: '16px' }}
             fw="bold"
           />
-          <NavLink
-            label="Collaborative Directory"
-            onClick={() => {
-              navigate('/collaborative-directory');
-              close();
-            }}
-            fw="bold"
-          />
-          <NavLink
-            label="Member Directory"
-            onClick={() => {
-              navigate('/member-directory');
-              close();
-            }}
-            fw="bold"
-          />
-          {isCollaborativeRoute && mobileNavItems}
-          {user ? (
-              <>
-                <Menu
-                  width={260}
-                  position="bottom-end"
-                  transitionProps={{ transition: 'pop-top-right' }}
-                  onClose={() => setUserMenuOpened(false)}
-                  onOpen={() => setUserMenuOpened(true)}
-                  withinPortal
-                >
-                  <Menu.Target>
-                    <UnstyledButton
-                      className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-                    >
-                      <Group gap={7}>
-                        {user.avatarUrl ? (
-                          <Avatar src={user.avatarUrl} alt={user.firstName + ' ' + user.lastName} radius="xl" size={30} />
-                        ) : (
-                          <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
-                        )}
-                        <Text fw={500} size="sm" lh={1} mr={3}>
-                          { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
-                        </Text>
-                        <IconChevronDown size={12} stroke={1.5} />
-                      </Group>
-                    </UnstyledButton>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      component={Link}
-                      to="/user-profile"
-                      leftSection={<IconUser size={16} stroke={1.5} />}
-                    >
-                      Profile
-                    </Menu.Item>
-                    <Menu.Item
-                      leftSection={<IconLogout size={16} stroke={1.5} />}
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </>
-            ) : (
-              <>
-                <Link to="/login">
-                  <Button variant="default">
-                    Sign In
-                  </Button>
-                </Link>
-              </>
-            )}
-        </Stack>
-      </Drawer>
+        )}
+
+        {/* Navigation links */}
+        <NavLink
+          label="Dashboard"
+          onClick={() => {
+            navigate('/dashboard');
+            close();
+          }}
+          fw="bold"
+        />
+        <NavLink
+          label="Collaborative Directory"
+          onClick={() => {
+            navigate('/collaborative-directory');
+            close();
+          }}
+          fw="bold"
+        />
+        <NavLink
+          label="Member Directory"
+          onClick={() => {
+            navigate('/member-directory');
+            close();
+          }}
+          fw="bold"
+        />
+        
+        {/* Collaborative tabs - only show when in a collaborative */}
+        {isCollaborativeRoute && (
+          <>
+            <Text size="md" c="dimmed" mt="md" mb="xs" px="sm">
+              COLLABORATIVE
+            </Text>
+            {mobileNavItems}
+          </>
+        )}
+      </Stack>
+    </Drawer>
     </>
   );
 }
