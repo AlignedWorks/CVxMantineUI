@@ -248,7 +248,7 @@ export function HeaderTabs() {
         {/* User section at top of mobile menu */}
         {user ? (
           <>
-            <Group gap="sm" ml="xs">
+            <Group gap="sm" ml="xs" justify="flex-start">
               {user.avatarUrl ? (
                 <Avatar src={user.avatarUrl} size={32} radius="xl" />
               ) : (
@@ -258,7 +258,7 @@ export function HeaderTabs() {
                 <Text fw={500} size="md">
                   {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
                 </Text>
-                <Group>
+                <Group wrap="nowrap" gap="sm">
                   <NavLink
                     label="Profile"
                     component={Link}
