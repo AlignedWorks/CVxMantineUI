@@ -145,7 +145,6 @@ export function HeaderTabs() {
         <Group justify="space-between">
 
           {/* Logo - visible on mobile */}
-          <div style={{ display: 'flex', alignItems: 'center', marginRight: '1rem' }}>
             <Image
               src={logo}
               alt="CVx Logo"
@@ -155,7 +154,7 @@ export function HeaderTabs() {
                 width: 'auto'
               }}
             />
-          </div>
+
 
           <div>
             {/* Desktop tabs - only visible on larger screens */}
@@ -242,26 +241,25 @@ export function HeaderTabs() {
       onClose={close}
       title="CVx"
       padding="md"
-      size="xs"
-      position="right"
+      size="lg"
+      position="top"
     >
       <Stack gap="xs">
         {/* User section at top of mobile menu */}
         {user ? (
           <>
+            <Group gap="sm">
+              {user.avatarUrl ? (
+                <Avatar src={user.avatarUrl} size={24} radius="xl" />
+              ) : (
+                <Avatar color="blue" size={24} radius="xl" />
+              )}
+              <Text fw={500} size="sm">
+                {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
+              </Text>
+            </Group>
             <NavLink
-              label={
-                <Group gap="sm">
-                  {user.avatarUrl ? (
-                    <Avatar src={user.avatarUrl} size={24} radius="xl" />
-                  ) : (
-                    <Avatar color="blue" size={24} radius="xl" />
-                  )}
-                  <Text fw={500} size="sm">
-                    {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
-                  </Text>
-                </Group>
-              }
+              label="Profile"
               component={Link}
               to="/user-profile"
               onClick={close}
