@@ -38,6 +38,7 @@ const mockCollaborative: CollaborativeData =
   indirectCosts: 5,
   collabLeaderCompensation: 5,
   payoutFrequency: PayoutFrequency.Monthly,
+  userIsCollabLeader: false,
   skills: [
     { id: 101, value: 'Software Development' },
     { id: 102, value: 'Open Source' },
@@ -251,11 +252,13 @@ export function CollaborativeHome() {
         >
           View Collaborative Sharing Agreement
         </Button>
-        <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
-          <Button variant="default" mb="sm">
-            Edit Collaborative Info
-          </Button>
+        {collaborative.userIsCollabLeader && (
+          <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
+            <Button variant="default" mb="sm">
+              Edit Collaborative Info
+            </Button>
         </Link>
+        )}
       </Group>
 
     </Container>

@@ -168,7 +168,7 @@ export function EditCollaborativeTreasury() {
           Edit Treasury
         </Title>
         
-        <SimpleGrid cols={2} mb="md">
+        <SimpleGrid cols={{ base: 1, md: 2 }} mb="md">
           <div>
             {/* Revenue Share */}
             <Text fz="md" fw={500} mb="xs">

@@ -547,7 +547,7 @@ export function CreateCollaborative() {
           Other Financials
       </Title>
 
-      <SimpleGrid cols={2}>
+      <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <TextInput
             rightSection={indirectCosts}
             label="% of Revenue to cover Indirect Costs (Target)"

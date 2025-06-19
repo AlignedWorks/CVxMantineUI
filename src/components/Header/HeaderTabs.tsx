@@ -145,6 +145,7 @@ export function HeaderTabs() {
         <Group justify="space-between">
 
           {/* Logo - visible on mobile */}
+          <Link to="/">
             <Image
               src={logo}
               alt="CVx Logo"
@@ -154,7 +155,7 @@ export function HeaderTabs() {
                 width: 'auto'
               }}
             />
-
+          </Link>
 
           <div>
             {/* Desktop tabs - only visible on larger screens */}
@@ -295,7 +296,7 @@ export function HeaderTabs() {
         <NavLink
           label="Dashboard"
           onClick={() => {
-            navigate('/dashboard');
+            navigate('/');
             close();
           }}
           fw="bold"

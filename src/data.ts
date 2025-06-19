@@ -31,6 +31,7 @@ export interface CollaborativeData {
   indirectCosts: number;
   collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
+  userIsCollabLeader: boolean;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
 }
@@ -502,6 +503,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 101, value: 'Software Development' },
       { id: 102, value: 'Open Source' },
@@ -527,6 +529,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 104, value: 'Software Development' },
       { id: 105, value: 'Open Source' },
@@ -552,6 +555,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 107, value: 'Software Development' },
       { id: 108, value: 'Open Source' },
@@ -577,6 +581,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 110, value: 'Software Development' },
       { id: 111, value: 'Open Source' },
@@ -602,6 +607,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 113, value: 'Renewable Energy' },
       { id: 114, value: 'Environmental Science' },
@@ -627,6 +633,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 116, value: 'Healthcare IT' },
       { id: 117, value: 'Data Security' },
@@ -652,6 +659,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 119, value: 'Graphic Design' },
       { id: 120, value: 'Animation' },
@@ -677,6 +685,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
+    userIsCollabLeader: false,
     skills: [
       { id: 122, value: 'AI in Education' },
       { id: 123, value: 'E-Learning' },
@@ -702,6 +711,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Yearly,
+    userIsCollabLeader: false,
     skills: [
       { id: 125, value: 'Cybersecurity' },
       { id: 126, value: 'Ethical Hacking' },
@@ -727,6 +737,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
+    userIsCollabLeader: false,
     skills: [
       { id: 128, value: 'Vertical Farming' },
       { id: 129, value: 'Hydroponics' },
@@ -752,6 +763,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
+    userIsCollabLeader: false,
     skills: [
       { id: 131, value: 'Blockchain' },
       { id: 132, value: 'FinTech' },
@@ -777,6 +789,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Yearly,
+    userIsCollabLeader: false,
     skills: [
       { id: 134, value: 'Game Development' },
       { id: 135, value: 'Unreal Engine' },
@@ -802,6 +815,7 @@ export const mock_collab_data: CollaborativeData[] = [
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
+    userIsCollabLeader: false,
     skills: [
       { id: 137, value: 'Robotics' },
       { id: 138, value: '3D Printing' },
