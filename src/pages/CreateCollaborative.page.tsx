@@ -474,7 +474,7 @@ export function CreateCollaborative() {
           Revenue Sharing Pool
       </Title>
 
-      <SimpleGrid cols={2}>
+      <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <TextInput
           rightSection={revenueShare}
           label="% of Revenue to the Collab Pool"

@@ -264,7 +264,7 @@ export function EditCollaborative() {
           />
 
           <Grid>
-            <Grid.Col span={6}>
+            <Grid.Col span={{ base: 12, md: 6}}>
               <TextInput
                 label="Website URL"
                 placeholder="https://example.com"
@@ -289,7 +289,7 @@ export function EditCollaborative() {
                 mb="md"
               />
             </Grid.Col>
-            <Grid.Col span={6}>
+            <Grid.Col span={{ base: 12, md: 6}}>
               <ImageField
                 label="Logo"
                 initialImageUrl={formValues?.logoUrl}

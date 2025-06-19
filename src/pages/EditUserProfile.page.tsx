@@ -264,7 +264,7 @@ export function EditUserProfile() {
         />
 
         <Grid>
-            <Grid.Col span={6}>
+            <Grid.Col span={{ base: 12, md: 6 }}>
                 <TextInput
                     label="City"
                     value={formValues?.city || ''}
@@ -292,7 +292,7 @@ export function EditUserProfile() {
                     mb="lg"
                 />
             </Grid.Col>
-            <Grid.Col span={6}>
+            <Grid.Col span={{ base: 12, md: 6 }}>
                 {formValues && (
                   <ImageField 
                       label="Profile Picture"
