@@ -616,16 +616,10 @@ export function Test() {
                         </div>
                         
                     </SimpleGrid>
-                    <Grid>
-                        <Grid.Col span={4}>
-                            <SimpleGrid cols={2} mt="lg">
-                                <Button variant="default">Approve</Button>
-                                <Button variant="default">Decline</Button>
-                            </SimpleGrid>
-                        </Grid.Col>
-                        <Grid.Col span={8} mt="lg">
-                        </Grid.Col>
-                    </Grid>
+                    <Group justify="flex-start" mt="lg" gap="md">
+                        <Button variant="default">Approve</Button>
+                        <Button variant="default">Decline</Button>
+                    </Group>
 
                 </Card>
             ))}

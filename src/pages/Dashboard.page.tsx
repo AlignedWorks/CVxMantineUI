@@ -328,27 +328,20 @@ export function Dashboard() {
                         </Table.Tbody>
                     </Table>
                 </div>
-                
             </SimpleGrid>
-            <Grid>
-                <Grid.Col span={4}>
-                    <SimpleGrid cols={2} mt="lg">
-                        <Button
-                          variant="outline"
-                          onClick={() => handleCollabApproval(collab.id,'approve')}>
-                            Approve
-                        </Button>
-                        <Button
-                          variant="default"
-                          onClick={() => handleCollabApproval(collab.id,'decline')}>
-                            Decline
-                        </Button>
-                    </SimpleGrid>
-                </Grid.Col>
-                <Grid.Col span={8} mt="lg">
-                </Grid.Col>
-            </Grid>
 
+            <Group justify="flex-start" mt="lg" gap="md">
+              <Button
+                variant="outline"
+                onClick={() => handleCollabApproval(collab.id,'approve')}>
+                  Approve
+              </Button>
+              <Button
+                variant="default"
+                onClick={() => handleCollabApproval(collab.id,'decline')}>
+                  Decline
+              </Button>
+            </Group>
         </Card>
         ))}
 

@@ -363,7 +363,7 @@ export function CreateCollaborative() {
           Purpose and People
       </Title>
 
-      <SimpleGrid mt="xl" cols={2}>
+      <SimpleGrid mt="xl" cols={{ base: 1, md: 2 }}>
         <TextInput
             label="Collaborative Name"
             placeholder="Enter your collaborative's name"
@@ -393,7 +393,7 @@ export function CreateCollaborative() {
       />
 
       <Grid>
-        <Grid.Col span={5}>
+        <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
           <TextInput
             label="Collaborative Website URL"
             placeholder="If your Collab has a website add its URL here"
@@ -403,7 +403,7 @@ export function CreateCollaborative() {
             mb="md"
           />
         </Grid.Col>
-        <Grid.Col span={5}>
+        <Grid.Col span={{ base: 9, sm: 9, md: 5 }}>
           <TextInput
             label="City"
             placeholder="Your Collab's city"
@@ -413,7 +413,7 @@ export function CreateCollaborative() {
             mb="md"
           />
         </Grid.Col>
-        <Grid.Col span={2}>
+        <Grid.Col span={{ base: 3, sm: 3, md: 2 }}>
           <Select
             label="State"
             data={us_states}
@@ -426,7 +426,7 @@ export function CreateCollaborative() {
         </Grid.Col>
       </Grid>
 
-      <SimpleGrid mt="xl" mb="xl" cols={2}>
+      <SimpleGrid mt="xl" mb="xl" cols={{ base: 1, sm: 1, md: 2 }}>
         <MultiSelect
             label="Member Skills"
             placeholder="Select the needed skills"

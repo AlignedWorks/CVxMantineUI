@@ -140,17 +140,29 @@ export function CSAAgreement() {
         </Text>
       }
       
-      <Paper withBorder>
+      <Paper 
+        withBorder 
+        style={{ 
+          overflow: 'hidden',
+          maxWidth: '100%'
+        }}
+      >
         {loading ? (
           <Center p="xl">
             <Loader size="lg" />
             <Text ml="md">Loading document...</Text>
           </Center>
         ) : csaData?.csaUrl ? (
-          <CSADocumentViewer 
-            documentUrl={csaData?.csaUrl || ""}
-            allPagesRead={handleAgreementComplete}
-          />
+          <div style={{ 
+            overflow: 'auto',
+            maxWidth: '100%',
+            width: '100%'
+          }}>
+            <CSADocumentViewer 
+              documentUrl={csaData?.csaUrl || ""}
+              allPagesRead={handleAgreementComplete}
+            />
+          </div>
         ) : (
           <Center p="xl">
             <Text c="red">No document URL available</Text>

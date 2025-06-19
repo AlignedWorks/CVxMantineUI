@@ -248,7 +248,7 @@ export function HeaderTabs() {
         {/* User section at top of mobile menu */}
         {user ? (
           <>
-            <Group gap="sm" ml="xs" align="flex-start" bg="grey">
+            <Group gap="sm" ml="xs" align="flex-start">
               {user.avatarUrl ? (
                 <Avatar src={user.avatarUrl} size={32} radius="xl" />
               ) : (
