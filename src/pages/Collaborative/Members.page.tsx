@@ -283,20 +283,22 @@ export function CollaborativeMembers() {
         </Grid>
       </Card>
 
-      <Group justify="right">
-        <Button
-          mb="sm"
-          variant="default"
-          onClick={() => {
-              setIsModalOpen(true);
-              if (allUsers.length === 0) {
-              fetchAllUsers(); // Fetch users only if not already loaded
-              }
-          }}
-          >
-          Add Members
-        </Button>
-      </Group>
+      {collaborative.userIsCollabLeader && (
+        <Group justify="right">
+          <Button
+            mb="sm"
+            variant="default"
+            onClick={() => {
+                setIsModalOpen(true);
+                if (allUsers.length === 0) {
+                fetchAllUsers(); // Fetch users only if not already loaded
+                }
+            }}
+            >
+            Add Members
+          </Button>
+        </Group>
+      )}
 
     <Modal
       opened={isModalOpen}

@@ -40,6 +40,7 @@ export interface CollaborativeDataWithMembers {
   id: number;
   name: string;
   logoUrl: string;
+  userIsCollabLeader: boolean;
   members: CollabMember[];
 }
 
@@ -52,6 +53,7 @@ export interface CollaborativeDataTreasury {
   stakingTiers: StakingTier[];
   indirectCosts: number;
   collabLeaderCompensation: number;
+  userIsCollabLeader: boolean;
 }
 
 export interface CollabMember {

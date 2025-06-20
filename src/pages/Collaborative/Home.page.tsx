@@ -252,6 +252,7 @@ export function CollaborativeHome() {
         >
           View Collaborative Sharing Agreement
         </Button>
+        
         {collaborative.userIsCollabLeader && (
           <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
             <Button variant="default" mb="sm">

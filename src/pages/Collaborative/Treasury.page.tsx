@@ -162,15 +162,17 @@ export function CollaborativeTreasury() {
         </Grid>
       </Card>
 
-      <Group justify="right">
-        <Button 
-          variant="default" 
-          mb="sm"
-          onClick={() => navigate(`/collaboratives/${id}/treasury/edit`)}
-        >
-          Edit Treasury Info
-        </Button>
-      </Group>
+      {collaborative.userIsCollabLeader && (
+        <Group justify="right">
+          <Button 
+            variant="default" 
+            mb="sm"
+            onClick={() => navigate(`/collaboratives/${id}/treasury/edit`)}
+          >
+            Edit Treasury Info
+          </Button>
+        </Group>
+      )}
 
     </Container>
   );

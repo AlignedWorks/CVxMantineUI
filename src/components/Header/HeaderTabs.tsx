@@ -144,20 +144,20 @@ export function HeaderTabs() {
       <Container className={classes.mainSection} size="md">
         <Group justify="space-between">
 
-          {/* Logo - visible on mobile */}
-          <Link to="/">
-            <Image
-              src={logo}
-              alt="CVx Logo"
-              hiddenFrom="sm"
-              style={{ 
-                height: '32px', 
-                width: 'auto'
-              }}
-            />
-          </Link>
-
           <div>
+            {/* Logo - visible on mobile */}
+            <Link to="/">
+              <Image
+                src={logo}
+                alt="CVx Logo"
+                hiddenFrom="sm"
+                style={{ 
+                  height: '32px', 
+                  width: 'auto'
+                }}
+              />
+            </Link>
+
             {/* Desktop tabs - only visible on larger screens */}
             {isCollaborativeRoute && (
               <Tabs
