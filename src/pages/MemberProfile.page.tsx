@@ -31,6 +31,7 @@ interface User {
   avatarUrl: string;
   createdAt: string;
   memberStatus: string;
+  collaboratives: string[];
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
 }
@@ -132,7 +133,24 @@ export function MemberProfile() {
                 <p>
                   {user.bio}<br /><br />
                 </p>
-                <SimpleGrid cols={{ base: 1, sm: 2 }} mb="lg">
+                <div>
+                  Collaboratives<br/>
+                  {user.collaboratives && user.collaboratives.length > 0 ? (
+                    <Group gap="xs" mt="xs">
+                      {user.collaboratives.map((collab) => (
+                        <Badge
+                          variant="light"
+                          color="yellow"
+                        >
+                          {collab}
+                        </Badge>
+                      ))}
+                    </Group>
+                  ) : (
+                    <Text size="sm" c="dimmed">No collaboratives listed</Text>
+                  )}
+                </div>
+                <SimpleGrid cols={{ base: 1, sm: 2 }} mt="lg" mb="lg">
                     <div>
                       Skills<br/>
                       {user.skills && user.skills.length > 0 ? (
