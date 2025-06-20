@@ -20,7 +20,6 @@ import {
   IconPhoneCall,
   IconMapPin,
 } from '@tabler/icons-react'
-import { collabRoles } from "../data";
 
 interface User {
   userName: string;
