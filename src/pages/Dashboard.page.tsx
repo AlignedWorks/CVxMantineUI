@@ -15,6 +15,7 @@ import {
   Table,
   Stack,
   Badge,
+  Image,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval } from '../data.ts';
@@ -213,7 +214,7 @@ export function Dashboard() {
             <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
               <Stack align="center" justify="space-between" gap="0" style={{ height: '100%' }}>
                 <div>
-                  <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
+                  <Image src={collab.logoUrl} alt="Collaborative Logo" ta="center" height={90} />
                   <Text ta="center" fz="lg" fw={500} mt="md">
                       {collab.name}
                   </Text>
@@ -223,11 +224,11 @@ export function Dashboard() {
                     </Text>
                   </Tooltip>
                   {collab.status === 'Active' ? (
-                    <Badge color="yellow" variant="light" mt="sm" mb="lg">
+                    <Badge color="yellow" variant="light" ta="center" mt="sm" mb="lg">
                         {collab.status}
                     </Badge>
                   ) : (
-                    <Badge color="pink" variant="light" mt="sm" mb="lg">
+                    <Badge color="pink" variant="light" ta="center" mt="sm" mb="lg">
                         {collab.status}
                     </Badge>
                   )}

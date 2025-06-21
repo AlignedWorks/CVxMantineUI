@@ -102,7 +102,7 @@ export function MemberDirectory() {
                   {user.firstName} {user.lastName}
                 </Text>
                 <Tooltip label={user.bio || 'No user bio available'} multiline w={300} color="gray">
-                  <Text lineClamp={3} ta="center" c="dimmed" fz="sm" mb="xl">
+                  <Text lineClamp={3} ta="center" c="dimmed" fz="sm" mb="lg">
                     {user.bio}
                   </Text>
                 </Tooltip>
