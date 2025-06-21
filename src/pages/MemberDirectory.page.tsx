@@ -90,7 +90,7 @@ export function MemberDirectory() {
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredUsers.map((user) => (
           <Paper key={user.id} shadow="sm" radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
-            <Stack align="center" gap="0" style={{ height: '100%' }}>
+            <Stack align="center" justify="space-between" gap="0" style={{ height: '100%' }}>
               <Avatar
                 src={user.avatarUrl}
                 size={120}
