@@ -91,7 +91,7 @@ export interface CollaborativeDataTreasury {
   payoutFrequency: PayoutFrequency;
   stakingTiers: StakingTier[];
   indirectCosts: number;
-  collabadminCompensation: number;
+  collabLeaderCompensation: number;
   userIsCollabAdmin: boolean;
 }
 
