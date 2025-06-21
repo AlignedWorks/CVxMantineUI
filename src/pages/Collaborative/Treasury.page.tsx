@@ -162,7 +162,7 @@ export function CollaborativeTreasury() {
         </Grid>
       </Card>
 
-      {collaborative.userIsCollabLeader && (
+      {collaborative.userIsCollabAdmin && (
         <Group justify="right">
           <Button 
             variant="default" 

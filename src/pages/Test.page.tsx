@@ -175,10 +175,10 @@ export function Test() {
                                 </Text>
                                 <div>
                                 <Text fz="md">
-                                    {testCollab.leaderName}
+                                    {testCollab.adminName}
                                 </Text>
                                 <Text fz="sm" c="dimmed">
-                                    {testCollab.leaderEmail}
+                                    {testCollab.adminEmail}
                                 </Text>
                                 </div>
                             </Group>
@@ -355,10 +355,10 @@ export function Test() {
                                     </Text>
                                     <div>
                                         <Text fz="md">
-                                            {testCollab.leaderName}
+                                            {testCollab.adminName}
                                         </Text>
                                         <Text fz="sm">
-                                            {testCollab.leaderEmail}
+                                            {testCollab.adminEmail}
                                         </Text>
                                     </div>
                                 </Group>
@@ -547,7 +547,7 @@ export function Test() {
                                 <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>www.website.com
                             </Text>
                             <Text ta="left" fz="sm" mt="sm">
-                                <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Leader:</span><br/>{collab.leaderEmail}
+                                <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Leader:</span><br/>{collab.adminEmail}
                             </Text>
                             
                         </div>

@@ -270,7 +270,7 @@ export function Dashboard() {
                         <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>{collab.websiteUrl}
                     </Text>
                     <Text ta="left" fz="sm" mt="sm">
-                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Leader:</span><br/>tommy.bob@gmail.com
+                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Admin:</span><br/>tommy.bob@gmail.com
                     </Text>
                     
                 </div>
@@ -294,7 +294,7 @@ export function Dashboard() {
                             </Table.Tr>
 
                             <Table.Tr>
-                            <Table.Th>Leader Compensation</Table.Th>
+                            <Table.Th>Admin Compensation</Table.Th>
                             <Table.Td>{collab.collabLeaderCompensation}%</Table.Td>
                             </Table.Tr>
 

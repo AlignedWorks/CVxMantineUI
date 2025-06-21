@@ -31,14 +31,14 @@ const mockCollaborative: CollaborativeData =
   logoUrl: '/assets/logos/ByteSecure.png',
   city: "Harrisburg",
   state: "PA",
-  leaderEmail: 'david@aligned.works',
-  leaderName: 'David Vader',
+  adminEmail: 'david@aligned.works',
+  adminName: 'David Vader',
   createdAt: 'February 1, 2022',
   revenueShare: 5,
   indirectCosts: 5,
   collabLeaderCompensation: 5,
   payoutFrequency: PayoutFrequency.Monthly,
-  userIsCollabLeader: false,
+  userIsCollabAdmin: false,
   skills: [
     { id: 101, value: 'Software Development' },
     { id: 102, value: 'Open Source' },
@@ -194,14 +194,14 @@ export function CollaborativeHome() {
                 <div>
                   <Group mb="md" align="flex-start">
                     <Text>
-                      Leader:
+                      Admin:
                     </Text>
                     <div>
                       <Text fz="md">
-                          {collaborative.leaderName}
+                          {collaborative.adminName}
                       </Text>
                       <Text fz="sm" c="dimmed">
-                          {collaborative.leaderEmail}
+                          {collaborative.adminEmail}
                       </Text>
                     </div>
                   </Group>
@@ -253,7 +253,7 @@ export function CollaborativeHome() {
           View Collaborative Sharing Agreement
         </Button>
         
-        {collaborative.userIsCollabLeader && (
+        {collaborative.userIsCollabAdmin && (
           <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
             <Button variant="default" mb="sm">
               Edit Collaborative Info

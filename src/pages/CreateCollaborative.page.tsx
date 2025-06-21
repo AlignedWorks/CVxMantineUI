@@ -374,7 +374,7 @@ export function CreateCollaborative() {
             mb="md"
         />
         <TextInput
-            label="Collaborative Leader"
+            label="Collaborative Admin"
             disabled={true}
             defaultValue={user ? (user.firstName ? `${user.firstName} ${user.lastName}` : user.username) : "No user logged in"}
             mb="md"

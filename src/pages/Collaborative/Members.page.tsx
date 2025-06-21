@@ -283,7 +283,7 @@ export function CollaborativeMembers() {
         </Grid>
       </Card>
 
-      {collaborative.userIsCollabLeader && (
+      {collaborative.userIsCollabAdmin && (
         <Group justify="right">
           <Button
             mb="sm"

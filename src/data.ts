@@ -55,14 +55,14 @@ export interface CollaborativeData {
   csaDocUrl?: string;
   city: string;
   state: string;
-  leaderEmail: string;
-  leaderName: string;
+  adminEmail: string;
+  adminName: string;
   createdAt: string;
   revenueShare: number;
   indirectCosts: number;
   collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
-  userIsCollabLeader: boolean;
+  userIsCollabAdmin: boolean;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
 }
@@ -79,7 +79,7 @@ export interface CollaborativeDataWithMembers {
   id: number;
   name: string;
   logoUrl: string;
-  userIsCollabLeader: boolean;
+  userIsCollabAdmin: boolean;
   members: CollabMember[];
 }
 
@@ -91,8 +91,8 @@ export interface CollaborativeDataTreasury {
   payoutFrequency: PayoutFrequency;
   stakingTiers: StakingTier[];
   indirectCosts: number;
-  collabLeaderCompensation: number;
-  userIsCollabLeader: boolean;
+  collabadminCompensation: number;
+  userIsCollabAdmin: boolean;
 }
 
 export interface CollabMember {
@@ -106,7 +106,7 @@ export interface CollabMember {
   isActive: boolean;
 }
 
-export const collabRoles = ['Collaborative Leader','Collaborative Member']
+export const collabRoles = ['Collaborative Admin','Collaborative Member']
 
 export const inviteStatusColors: { [key: string]: string } = {
   Invited: 'yellow',
@@ -537,14 +537,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/logos/ByteSecure.png',
     city: "Harrisburg",
     state: "PA",
-    leaderEmail: 'david@aligned.works',
-    leaderName: 'David Vader',
+    adminEmail: 'david@aligned.works',
+    adminName: 'David Vader',
     createdAt: 'February 1, 2022',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 101, value: 'Software Development' },
       { id: 102, value: 'Open Source' },
@@ -563,14 +563,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/logos/717.png',
     city: "Harrisburg",
     state: "PA",
-    leaderEmail: 'alex@codeforge.com',
-    leaderName: 'Abdul Moosa',
+    adminEmail: 'alex@codeforge.com',
+    adminName: 'Abdul Moosa',
     createdAt: '06-12-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 104, value: 'Software Development' },
       { id: 105, value: 'Open Source' },
@@ -589,14 +589,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/logos/SCC.png',
     city: "Harrisburg",
     state: "PA",
-    leaderEmail: 'alex@codeforge.com',
-    leaderName: 'Dre',
+    adminEmail: 'alex@codeforge.com',
+    adminName: 'Dre',
     createdAt: '06-12-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 107, value: 'Software Development' },
       { id: 108, value: 'Open Source' },
@@ -615,14 +615,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Los Angeles",
     state: "CA",
-    leaderEmail: 'alex@codeforge.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'alex@codeforge.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '06-12-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 110, value: 'Software Development' },
       { id: 111, value: 'Open Source' },
@@ -641,14 +641,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Austin",
     state: "TX",
-    leaderEmail: 'emily@greenfuture.org',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'emily@greenfuture.org',
+    adminName: 'Alex BobbyFay',
     createdAt: '09-25-2022',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 113, value: 'Renewable Energy' },
       { id: 114, value: 'Environmental Science' },
@@ -667,14 +667,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Denver",
     state: "CO",
-    leaderEmail: 'james@healthsync.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'james@healthsync.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '01-18-2024',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 116, value: 'Healthcare IT' },
       { id: 117, value: 'Data Security' },
@@ -693,14 +693,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Miami",
     state: "FL",
-    leaderEmail: 'sophia@nextgencreators.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'sophia@nextgencreators.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '03-14-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 119, value: 'Graphic Design' },
       { id: 120, value: 'Animation' },
@@ -719,14 +719,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Seattle",
     state: "WA",
-    leaderEmail: 'michael@edtechvision.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'michael@edtechvision.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '11-30-2021',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 122, value: 'AI in Education' },
       { id: 123, value: 'E-Learning' },
@@ -745,14 +745,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Chicago",
     state: "IL",
-    leaderEmail: 'oliver@bytesecure.net',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'oliver@bytesecure.net',
+    adminName: 'Alex BobbyFay',
     createdAt: '08-05-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Yearly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 125, value: 'Cybersecurity' },
       { id: 126, value: 'Ethical Hacking' },
@@ -771,14 +771,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Phoenix",
     state: "AZ",
-    leaderEmail: 'jessica@urbanagri.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'jessica@urbanagri.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '05-10-2022',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 128, value: 'Vertical Farming' },
       { id: 129, value: 'Hydroponics' },
@@ -797,14 +797,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Boston",
     state: "MA",
-    leaderEmail: 'william@fintechpioneers.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'william@fintechpioneers.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '12-01-2023',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 131, value: 'Blockchain' },
       { id: 132, value: 'FinTech' },
@@ -823,14 +823,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Atlanta",
     state: "GA",
-    leaderEmail: 'david@gamecraftstudios.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'david@gamecraftstudios.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '02-20-2024',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Yearly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 134, value: 'Game Development' },
       { id: 135, value: 'Unreal Engine' },
@@ -849,14 +849,14 @@ export const mock_collab_data: CollaborativeData[] = [
     logoUrl: '/assets/EmptyLogo.png',
     city: "Portland",
     state: "OR",
-    leaderEmail: 'sarah@buildtogether.com',
-    leaderName: 'Alex BobbyFay',
+    adminEmail: 'sarah@buildtogether.com',
+    adminName: 'Alex BobbyFay',
     createdAt: '07-15-2021',
     revenueShare: 5,
     indirectCosts: 5,
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Quarterly,
-    userIsCollabLeader: false,
+    userIsCollabAdmin: false,
     skills: [
       { id: 137, value: 'Robotics' },
       { id: 138, value: '3D Printing' },
