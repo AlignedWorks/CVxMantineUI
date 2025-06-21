@@ -217,16 +217,16 @@ export function Dashboard() {
                       {collab.name}
                   </Text>
                   <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
-                      <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
+                      <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="xs">
                           {collab.description}
                       </Text>
                   </Tooltip>
                   {collab.status === 'Active' ? (
-                    <Badge color="yellow" mb="md">
+                    <Badge color="yellow" variant="light" mb="xs">
                         {collab.status}
                     </Badge>
                   ) : (
-                    <Badge color="pink" mb="md">
+                    <Badge color="pink" variant="light" mb="xs">
                         {collab.status}
                     </Badge>
                   )}
