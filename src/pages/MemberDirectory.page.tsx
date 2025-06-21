@@ -7,7 +7,6 @@ import {
   Paper,
   Text,
   Button,
-  Group,
   Avatar,
   TextInput,
   Tooltip,
