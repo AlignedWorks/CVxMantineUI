@@ -211,25 +211,27 @@ export function Dashboard() {
         <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
           {collabs?.map((collab) => (
             <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
-              <Stack align="center" gap="0" style={{ height: '100%' }}>
-                <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
-                <Text ta="center" fz="lg" fw={500} mt="md">
-                    {collab.name}
-                </Text>
-                <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
-                  <Text lineClamp={3} ta="center" c="dimmed" size="sm">
-                      {collab.description}
+              <Stack align="center" justify="space-between" gap="0" style={{ height: '100%' }}>
+                <div>
+                  <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
+                  <Text ta="center" fz="lg" fw={500} mt="md">
+                      {collab.name}
                   </Text>
-                </Tooltip>
-                {collab.status === 'Active' ? (
-                  <Badge color="yellow" variant="light" mt="sm" mb="lg">
-                      {collab.status}
-                  </Badge>
-                ) : (
-                  <Badge color="pink" variant="light" mt="sm" mb="lg">
-                      {collab.status}
-                  </Badge>
-                )}
+                  <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
+                    <Text lineClamp={3} ta="center" c="dimmed" size="sm">
+                        {collab.description}
+                    </Text>
+                  </Tooltip>
+                  {collab.status === 'Active' ? (
+                    <Badge color="yellow" variant="light" mt="sm" mb="lg">
+                        {collab.status}
+                    </Badge>
+                  ) : (
+                    <Badge color="pink" variant="light" mt="sm" mb="lg">
+                        {collab.status}
+                    </Badge>
+                  )}
+                </div>
                 
                 <Link
                   to={`/collaboratives/${collab.id}`}
