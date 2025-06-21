@@ -14,6 +14,7 @@ import {
   Tooltip,
   Table,
   Stack,
+  Badge,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval } from '../data.ts';
@@ -221,6 +222,15 @@ export function Dashboard() {
                       {collab.description}
                   </Text>
               </Tooltip>
+              {collab.status === 'Active' ? (
+                <Badge color="yellow">
+                    {collab.status}
+                </Badge>
+              ) : (
+                <Badge color="pink">
+                    {collab.status}
+                </Badge>
+              )}
               <Stack align="center">
                 <Link
                   to={`/collaboratives/${collab.id}`}
