@@ -78,9 +78,9 @@ export function CollaborativeDirectory() {
                 </Text>
             </Stack>
             <Tooltip label={collaborative.description || 'No description available'} multiline w={300} color="gray">
-                <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
-                    {collaborative.description}
-                </Text>
+              <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
+                  {collaborative.description}
+              </Text>
             </Tooltip>
             <Stack align="center">
               <Link

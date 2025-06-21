@@ -211,25 +211,25 @@ export function Dashboard() {
         <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
           {collabs?.map((collab) => (
             <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
-              <Stack align="center">
-                  <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
-                  <Text ta="center" fz="lg" fw={500} >
-                      {collab.name}
-                  </Text>
-                  <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
-                      <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="xs">
-                          {collab.description}
-                      </Text>
-                  </Tooltip>
-                  {collab.status === 'Active' ? (
-                    <Badge color="yellow" variant="light" mb="xs">
-                        {collab.status}
-                    </Badge>
-                  ) : (
-                    <Badge color="pink" variant="light" mb="xs">
-                        {collab.status}
-                    </Badge>
-                  )}
+              <Stack align="center" justify="space-between">
+                <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
+                <Text ta="center" fz="lg" fw={500} >
+                    {collab.name}
+                </Text>
+                <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
+                    <Text lineClamp={3} ta="center" c="dimmed" size="sm">
+                        {collab.description}
+                    </Text>
+                </Tooltip>
+                {collab.status === 'Active' ? (
+                  <Badge color="yellow" variant="light">
+                      {collab.status}
+                  </Badge>
+                ) : (
+                  <Badge color="pink" variant="light">
+                      {collab.status}
+                  </Badge>
+                )}
                 <Link
                   to={`/collaboratives/${collab.id}`}
                   state={{ from: location.pathname }}
