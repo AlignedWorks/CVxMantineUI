@@ -222,23 +222,27 @@ export function Test() {
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {mock_collab_data.map((collaborative) => (
                     <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
-                        <Stack align="center">
+                        <Stack align="center" gap="0" style={{ height: '100%' }}>
                             <img src={collaborative.logoUrl} alt="Collaborative Logo" height={90} />
-                            <Text ta="center" fz="lg" fw={500} >
+                            <Text ta="center" fz="lg" fw={500} mt="md">
                                 {collaborative.name}
                             </Text>
-                            
-                        </Stack>
-                        <Tooltip label={collaborative.description || 'No description available'} multiline w={300} position="bottom" color="gray">
-                            <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
-                                {collaborative.description}
-                            </Text>
-                        </Tooltip>
-                        <Stack align="center">
-                            <Badge c="green" variant="light" size="md" mb="md">
+                            <Tooltip label={collaborative.description || 'No description available'} multiline w={300} color="gray">
+                                <Text lineClamp={3} ta="center" c="dimmed" size="sm">
+                                    {collaborative.description}
+                                </Text>
+                            </Tooltip>
+
+                            <Badge c="green" variant="light" size="md" mt="sm" mb="lg">
                                 Seeking new members
                             </Badge>
-                            <Button variant="default" fullWidth size="sm">View Collaborative</Button>
+                            <Button
+                                variant="default"
+                                size="sm"
+                                mt="auto"
+                                fullWidth>
+                                    View Collaborative
+                            </Button>
                         </Stack>
                     </Card>
                 ))}

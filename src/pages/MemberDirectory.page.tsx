@@ -11,6 +11,7 @@ import {
   Avatar,
   TextInput,
   Tooltip,
+  Stack,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
@@ -90,30 +91,33 @@ export function MemberDirectory() {
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredUsers.map((user) => (
           <Paper key={user.id} shadow="sm" radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
-            <Avatar
-              src={user.avatarUrl}
-              size={120}
-              radius={120}
-              mx="auto"
-            />
-            <Text ta="center" fz="lg" fw={500} mt="md">
-              {user.firstName} {user.lastName}
-            </Text>
-            <Tooltip label={user.bio || 'No user bio available'} multiline w={300} color="gray">
-              <Text lineClamp={3} ta="center" c="dimmed" fz="sm">
-                {user.bio}
+            <Stack align="center" gap="0" style={{ height: '100%' }}>
+              <Avatar
+                src={user.avatarUrl}
+                size={120}
+                radius={120}
+                mx="auto"
+              />
+              <Text ta="center" fz="lg" fw={500} mt="md">
+                {user.firstName} {user.lastName}
               </Text>
-            </Tooltip>
-            <Group justify="center" mt="md">
+              <Tooltip label={user.bio || 'No user bio available'} multiline w={300} color="gray">
+                <Text lineClamp={3} ta="center" c="dimmed" fz="sm" mb="lg">
+                  {user.bio}
+                </Text>
+              </Tooltip>
               <Link
                 to={`/members/${user.id}`}
                 state={{ from: location.pathname }}
                 style={{ textDecoration: 'none', color: 'inherit'}}>
-                <Button variant="outline" size="sm" mt="auto">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  mt="auto">
                   View Profile
                 </Button>
               </Link>
-            </Group>
+            </Stack>
           </Paper>
         ))}
       </SimpleGrid>
