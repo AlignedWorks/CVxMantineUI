@@ -216,26 +216,25 @@ export function Dashboard() {
                   <Text ta="center" fz="lg" fw={500} >
                       {collab.name}
                   </Text>
-              </Stack>
-              <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
-                  <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
-                      {collab.description}
-                  </Text>
-              </Tooltip>
-              {collab.status === 'Active' ? (
-                <Badge color="yellow">
-                    {collab.status}
-                </Badge>
-              ) : (
-                <Badge color="pink">
-                    {collab.status}
-                </Badge>
-              )}
-              <Stack align="center">
+                  <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
+                      <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
+                          {collab.description}
+                      </Text>
+                  </Tooltip>
+                  {collab.status === 'Active' ? (
+                    <Badge color="yellow" mb="md">
+                        {collab.status}
+                    </Badge>
+                  ) : (
+                    <Badge color="pink" mb="md">
+                        {collab.status}
+                    </Badge>
+                  )}
                 <Link
                   to={`/collaboratives/${collab.id}`}
                   state={{ from: location.pathname }}
-                  style={{ textDecoration: 'none', color: 'inherit'}}>
+                  style={{ textDecoration: 'none', color: 'inherit'}}
+                >
                   <Button variant="outline" size="sm">View Collaborative</Button>
                 </Link>
               </Stack>
