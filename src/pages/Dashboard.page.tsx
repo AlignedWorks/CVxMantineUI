@@ -212,24 +212,27 @@ export function Dashboard() {
           {collabs?.map((collab) => (
             <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
               <Stack align="center" justify="space-between">
-                <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
-                <Text ta="center" fz="lg" fw={500} >
-                    {collab.name}
-                </Text>
-                <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
-                    <Text lineClamp={3} ta="center" c="dimmed" size="sm">
-                        {collab.description}
-                    </Text>
-                </Tooltip>
-                {collab.status === 'Active' ? (
-                  <Badge color="yellow" variant="light">
-                      {collab.status}
-                  </Badge>
-                ) : (
-                  <Badge color="pink" variant="light">
-                      {collab.status}
-                  </Badge>
-                )}
+                <div>
+                  <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
+                  <Text ta="center" fz="lg" fw={500} >
+                      {collab.name}
+                  </Text>
+                  <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
+                      <Text lineClamp={3} ta="center" c="dimmed" size="sm">
+                          {collab.description}
+                      </Text>
+                  </Tooltip>
+                  {collab.status === 'Active' ? (
+                    <Badge color="yellow" variant="light">
+                        {collab.status}
+                    </Badge>
+                  ) : (
+                    <Badge color="pink" variant="light">
+                        {collab.status}
+                    </Badge>
+                  )}
+                </div>
+                
                 <Link
                   to={`/collaboratives/${collab.id}`}
                   state={{ from: location.pathname }}
