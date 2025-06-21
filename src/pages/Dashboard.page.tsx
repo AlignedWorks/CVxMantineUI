@@ -13,8 +13,10 @@ import {
   Grid,
   Tooltip,
   Table,
+  Stack,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval } from '../data.ts';
 
 interface User {
   id: string;
@@ -29,40 +31,10 @@ interface User {
   memberStatus: string;
 }
 
-interface CollabInvite {
-  userId: string;
-  userRole: string;
-  collabId: number;
-  collabName: string;
-  collabLogoUrl: string;
-  inviteStatus: string;
-}
-
-interface CollabApprovalRequest {
-  userId: string;
-  collabId: number;
-  collabName: string;
-  collabLogoUrl: string;
-  currentCSA: string;
-  currentCSAUrl: string;
-}
-
-interface CollabsNeedingApproval {
-  id: number,
-  name: string,
-  description: string,
-  websiteUrl: string,
-  revenueShare: number,
-  indirectCosts: number,
-  collabLeaderCompensation: number,
-  payoutFrequency: string,
-  createdAt: string,
-  stakingTiers: { tier: string, exchangeRate: number }[],
-}
-
 export function Dashboard() {
   const [dashboard, setDashboard] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
+  const [collabs, setCollabs] = useState<CollabDataCompact[]>([]);
   const [collabsNeedingApproval, setCollabsNeedingApproval] = useState<CollabsNeedingApproval[]>([]);
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
@@ -79,11 +51,12 @@ export function Dashboard() {
       })
         .then((res) => res.json())
         .then((data) => {
-          const { users, roles, collabsNeedingApproval, collabInvites, csaApprovalRequests } = data;
+          const { users, roles, collabs, collabsNeedingApproval, collabInvites, csaApprovalRequests } = data;
 
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
           console.log(csaApprovalRequests);
+          setCollabs(collabs); // Set the collabs data
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
@@ -229,6 +202,35 @@ export function Dashboard() {
             </Button>
           </Link>
         </Group>
+
+        <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
+          My Collaboratives
+        </Title>
+        <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
+          {collabs.map((collab) => (
+            <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
+              <Stack align="center">
+                  <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
+                  <Text ta="center" fz="lg" fw={500} >
+                      {collab.name}
+                  </Text>
+              </Stack>
+              <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
+                  <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
+                      {collab.description}
+                  </Text>
+              </Tooltip>
+              <Stack align="center">
+                <Link
+                  to={`/collaboratives/${collab.id}`}
+                  state={{ from: location.pathname }}
+                  style={{ textDecoration: 'none', color: 'inherit'}}>
+                  <Button variant="outline" size="sm">View Collaborative</Button>
+                </Link>
+              </Stack>
+            </Card>
+          ))}
+        </SimpleGrid>
 
         <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
             Approve collaboratives

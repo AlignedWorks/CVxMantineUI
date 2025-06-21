@@ -14,6 +14,37 @@ export interface Collaborative {
   logoUrl: string;
 }
 
+export interface CollabInvite {
+  userId: string;
+  userRole: string;
+  collabId: number;
+  collabName: string;
+  collabLogoUrl: string;
+  inviteStatus: string;
+}
+
+export interface CollabApprovalRequest {
+  userId: string;
+  collabId: number;
+  collabName: string;
+  collabLogoUrl: string;
+  currentCSA: string;
+  currentCSAUrl: string;
+}
+
+export interface CollabsNeedingApproval {
+  id: number,
+  name: string,
+  description: string,
+  websiteUrl: string,
+  revenueShare: number,
+  indirectCosts: number,
+  collabLeaderCompensation: number,
+  payoutFrequency: string,
+  createdAt: string,
+  stakingTiers: { tier: string, exchangeRate: number }[],
+}
+
 export interface CollaborativeData {
   id: number;
   name: string;
@@ -34,6 +65,14 @@ export interface CollaborativeData {
   userIsCollabLeader: boolean;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
+}
+
+export interface CollabDataCompact {
+  id: number;
+  name: string;
+  logoUrl: string;
+  description: string;
+  status: string;
 }
 
 export interface CollaborativeDataWithMembers {

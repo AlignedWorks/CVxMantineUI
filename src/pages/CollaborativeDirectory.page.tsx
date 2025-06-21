@@ -12,21 +12,10 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-
-interface CollaborativeData {
-  id: number;
-  name: string;
-  logoUrl: string;
-  description: string;
-  leaderEmail: string;
-  leaderName: string;
-  createdAt: string;
-  city: string;
-  state: string;
-}
+import { CollabDataCompact } from '../data.ts';
 
 export function CollaborativeDirectory() {
-  const [sortedData, setSortedData] = useState<CollaborativeData[]>([]); // State to hold the sorted data
+  const [sortedData, setSortedData] = useState<CollabDataCompact[]>([]); // State to hold the sorted data
   const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
 
   // Fetch collaborative data from the backend
@@ -46,7 +35,7 @@ export function CollaborativeDirectory() {
           }
           return response.json();
         })
-        .then((data: CollaborativeData[]) => {
+        .then((data: CollabDataCompact[]) => {
           setSortedData(data); // Set the fetched data
         })
         .catch((error) => {
@@ -59,8 +48,7 @@ export function CollaborativeDirectory() {
     const query = searchQuery.toLowerCase();
     return (
       collaborative.name.toLowerCase().includes(query) ||
-      collaborative.description.toLowerCase().includes(query) ||
-      collaborative.leaderName.toLowerCase().includes(query)
+      collaborative.description.toLowerCase().includes(query)
     );
   });
 
