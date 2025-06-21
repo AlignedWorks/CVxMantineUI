@@ -56,6 +56,7 @@ export function Dashboard() {
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
           console.log(csaApprovalRequests);
+          console.log(collabs);
           setCollabs(collabs); // Set the collabs data
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
@@ -207,7 +208,7 @@ export function Dashboard() {
           My Collaboratives
         </Title>
         <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
-          {collabs.map((collab) => (
+          {collabs?.map((collab) => (
             <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
               <Stack align="center">
                   <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
