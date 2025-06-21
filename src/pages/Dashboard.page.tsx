@@ -211,7 +211,7 @@ export function Dashboard() {
         <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
           {collabs?.map((collab) => (
             <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
-              <Stack align="center" justify="space-between" gap="0" style={{ height: '100%' }}>
+              <Stack align="center" gap="0" style={{ height: '100%' }}>
                 <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
                 <Text ta="center" fz="lg" fw={500} mt="md">
                     {collab.name}

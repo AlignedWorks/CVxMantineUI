@@ -90,18 +90,18 @@ export function MemberDirectory() {
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredUsers.map((user) => (
           <Paper key={user.id} shadow="sm" radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
-            <Stack align="center" justify="space-between" gap="0" style={{ height: '100%' }}>
+            <Stack align="center" gap="0" style={{ height: '100%' }}>
               <Avatar
                 src={user.avatarUrl}
                 size={120}
                 radius={120}
                 mx="auto"
               />
-              <Text ta="center" fz="lg" fw={500} mt="md">
+              <Text ta="center" fz="lg" fw={500} mt="lg">
                 {user.firstName} {user.lastName}
               </Text>
               <Tooltip label={user.bio || 'No user bio available'} multiline w={300} color="gray">
-                <Text lineClamp={3} ta="center" c="dimmed" fz="sm" mb="lg">
+                <Text lineClamp={3} ta="center" c="dimmed" fz="sm" mb="xl">
                   {user.bio}
                 </Text>
               </Tooltip>
