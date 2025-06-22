@@ -33,6 +33,7 @@ import { CSAAgreement } from './pages/Collaborative/CSAAgreement.page.tsx';
 import { Test } from "./pages/Test.page.tsx";
 import { NotFound } from './components/404/NotFound.tsx';
 import { Dashboard } from "./pages/Dashboard.page.tsx";
+import { Invite } from './pages/Invite.page.tsx';
 
 export default function App() {
   const [opened] = useDisclosure();
@@ -84,6 +85,7 @@ export default function App() {
               <Route path="/members/:id" element={<MemberProfile/>} />
               <Route path="/upload-image" element={<ImageUpload />} />
               <Route path="/upload-file" element={<FileUpload />} />
+              <Route path="/invite" element={<Invite />} />
             </Routes>
           </AppShell.Main>
           
