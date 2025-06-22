@@ -19,6 +19,7 @@ import {
   Stack,
   Title,
   ThemeIcon,
+  Tooltip,
  } from '@mantine/core';
 import { CollaborativeDataWithMembers, inviteStatusColors } from '../../data.ts';
 import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
@@ -283,7 +284,7 @@ export function CollaborativeMembers() {
         </Grid>
       </Card>
 
-      {collaborative.userIsCollabAdmin && (
+      {collaborative.userIsCollabAdmin ? (
         <Group justify="right">
           <Button
             mb="sm"
@@ -298,6 +299,12 @@ export function CollaborativeMembers() {
             Add Members
           </Button>
         </Group>
+      ) : (
+        <Tooltip label="Only collaborative admins can add members">
+          <Button variant="disabled" mb="sm">
+            Add Members
+          </Button>
+        </Tooltip>
       )}
 
     <Modal

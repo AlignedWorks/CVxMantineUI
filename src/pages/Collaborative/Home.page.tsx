@@ -14,6 +14,7 @@ import {
   Stack,
   SimpleGrid,
   Title,
+  Tooltip,
  } from '@mantine/core';
 import { CollaborativeData, PayoutFrequency } from '../../data.ts';
 import {
@@ -253,12 +254,18 @@ export function CollaborativeHome() {
           View Collaborative Sharing Agreement
         </Button>
         
-        {collaborative.userIsCollabAdmin && (
+        {collaborative.userIsCollabAdmin ? (
           <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
             <Button variant="default" mb="sm">
               Edit Collaborative Info
             </Button>
-        </Link>
+          </Link>
+        ) : (
+          <Tooltip label="Only collaborative admins can edit this information">
+            <Button variant="disabled" mb="sm">
+              Edit Collaborative Info
+            </Button>
+          </Tooltip>
         )}
       </Group>
 

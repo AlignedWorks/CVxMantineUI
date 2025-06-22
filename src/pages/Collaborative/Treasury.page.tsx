@@ -14,6 +14,7 @@ import {
   Title,
   SimpleGrid,
   Group,
+  Tooltip,
  } from '@mantine/core';
 import { CollaborativeDataTreasury } from '../../data.ts';
 
@@ -162,7 +163,7 @@ export function CollaborativeTreasury() {
         </Grid>
       </Card>
 
-      {collaborative.userIsCollabAdmin && (
+      {collaborative.userIsCollabAdmin ? (
         <Group justify="right">
           <Button 
             variant="default" 
@@ -172,6 +173,12 @@ export function CollaborativeTreasury() {
             Edit Treasury Info
           </Button>
         </Group>
+      ) : (
+        <Tooltip label="Only collaborative admins can edit this information">
+          <Button variant="disabled" mb="sm">
+            Edit Treasury Info
+          </Button>
+        </Tooltip>
       )}
 
     </Container>
