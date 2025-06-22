@@ -262,7 +262,7 @@ export function CollaborativeHome() {
           </Link>
         ) : (
           <Tooltip label="Only collaborative admins can edit this information">
-            <Button variant="disabled" mb="sm">
+            <Button disabled mb="sm">
               Edit Collaborative Info
             </Button>
           </Tooltip>

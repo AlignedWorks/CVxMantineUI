@@ -300,11 +300,13 @@ export function CollaborativeMembers() {
           </Button>
         </Group>
       ) : (
-        <Tooltip label="Only collaborative admins can add members">
-          <Button variant="disabled" mb="sm">
-            Add Members
-          </Button>
-        </Tooltip>
+        <Group justify="right">
+          <Tooltip label="Only collaborative admins can add members">
+            <Button disabled mb="sm">
+              Add Members
+            </Button>
+          </Tooltip>
+        </Group>
       )}
 
     <Modal

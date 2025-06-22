@@ -174,11 +174,13 @@ export function CollaborativeTreasury() {
           </Button>
         </Group>
       ) : (
-        <Tooltip label="Only collaborative admins can edit this information">
-          <Button variant="disabled" mb="sm">
-            Edit Treasury Info
-          </Button>
-        </Tooltip>
+        <Group justify="right">
+          <Tooltip label="Only collaborative admins can edit this information">
+            <Button disabled mb="sm">
+              Edit Treasury Info
+            </Button>
+          </Tooltip>
+        </Group>
       )}
 
     </Container>
