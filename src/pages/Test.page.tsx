@@ -41,6 +41,9 @@ export function Test() {
     const [selectedUser, setSelectedUser] = useState<User>(); // For the selected user
     const [selectedRole, setSelectedRole] = useState(''); // For the selected role
     const [successMessage, setSuccessMessage] = useState(''); // For the success message
+    const [inviteEmail, setInviteEmail] = useState('');
+    const [inviteSuccess, setInviteSuccess] = useState(false);
+    const [inviteError, setInviteError] = useState('');
 
     const fetchAllUsers = async () => {
         setLoadingUsers(true);
@@ -65,29 +68,55 @@ export function Test() {
         } finally {
             setLoadingUsers(false);
         }
-      };
+    };
 
-      const filteredUsers = allUsers.filter((user) =>
-        `${user.name} ${user.email}`
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      );
+    const filteredUsers = allUsers.filter((user) =>
+    `${user.name} ${user.email}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
 
-      const handleAddMember = () => {
-        if (!selectedUser || !selectedRole) return;
-      
-        // Simulate adding the user to the collaborative
-        console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
-      
-        // Show success message
-        setSuccessMessage(
-          `${selectedUser.name} has been added as a ${selectedRole}.`
-        );
-      
-        // Reset selections
-        setSelectedUser(undefined);
-        setSelectedRole('');
-      };
+    const handleAddMember = () => {
+    if (!selectedUser || !selectedRole) return;
+    
+    // Simulate adding the user to the collaborative
+    console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
+    
+    // Show success message
+    setSuccessMessage(
+        `${selectedUser.name} has been added as a ${selectedRole}.`
+    );
+    
+    // Reset selections
+    setSelectedUser(undefined);
+    setSelectedRole('');
+    };
+
+    const handleInviteSubmit = () => {
+    fetch(new URL('invite', import.meta.env.VITE_API_BASE), {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: inviteEmail }),
+    })
+        .then((res) => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+        })
+        .then((data) => {
+        console.log('Invitation sent successfully:', data);
+        setInviteSuccess(true);
+        setInviteError('');
+        setInviteEmail(''); // Clear the input field
+        })
+        .catch((err) => {
+        console.error('Error sending invitation:', err);
+        setInviteSuccess(false);
+        setInviteError('Failed to send the invitation. Please try again.');
+        });
+    };
 
     const rows = users.map((item) => (
         <Table.Tr key={item.name}>
@@ -127,6 +156,42 @@ export function Test() {
 
     return (
         <Container size="md" py="xl">
+
+            <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
+                Invite Someone to the Site
+            </Title>
+            <Card shadow="sm" padding="lg" radius="md" withBorder>
+                <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    handleInviteSubmit();
+                }}
+                >
+                <Stack>
+                    <TextInput
+                    label="Email Address"
+                    placeholder="Enter the email address"
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.currentTarget.value)}
+                    required
+                    />
+                    <Button type="submit" variant="default">
+                    Send Invitation
+                    </Button>
+                    {inviteSuccess && (
+                    <Text size="sm" c="green">
+                        Invitation sent successfully!
+                    </Text>
+                    )}
+                    {inviteError && (
+                    <Text size="sm" c="red">
+                        {inviteError}
+                    </Text>
+                    )}
+                </Stack>
+                </form>
+            </Card>
+
             <Title order={2} lts="4px" c="dimmed">
                 COLLABORATIVE VALUE EXCHANGE
             </Title>
