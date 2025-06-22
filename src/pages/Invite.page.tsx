@@ -16,7 +16,8 @@ export function Invite() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token'); // Extract the token from the query parameter
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -37,10 +38,10 @@ export function Invite() {
     }
 
     try {
-      const response = await fetch(new URL('accept-invitation', import.meta.env.VITE_API_BASE), {
+      const response = await fetch(new URL('accept-invite', import.meta.env.VITE_API_BASE), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, email, name, password }),
+        body: JSON.stringify({ token, email, firstName, lastName, password }),
       });
 
       if (!response.ok) {
@@ -61,16 +62,13 @@ export function Invite() {
         <Title order={2} mb="md">
           Complete Your Invitation
         </Title>
-        <Text>
-          Your token: <strong>{token}</strong>
-        </Text>
         {error && (
           <Text c="red" mb="md">
             {error}
           </Text>
         )}
         {success ? (
-          <Text c="green" size="md">
+          <Text color="green" size="md">
             Invitation accepted successfully! You can now log in.
           </Text>
         ) : (
@@ -84,10 +82,17 @@ export function Invite() {
                 required
               />
               <TextInput
-                label="Full Name"
-                placeholder="Enter your full name"
-                value={name}
-                onChange={(e) => setName(e.currentTarget.value)}
+                label="First Name"
+                placeholder="Enter your first name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.currentTarget.value)}
+                required
+              />
+              <TextInput
+                label="Last Name"
+                placeholder="Enter your last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.currentTarget.value)}
                 required
               />
               <PasswordInput
