@@ -223,7 +223,7 @@ export function Test() {
                 {mock_collab_data.map((collaborative) => (
                     <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
                         <Stack align="center" gap="0" style={{ height: '100%' }}>
-                            <img src={collaborative.logoUrl} alt="Collaborative Logo" height={90} />
+                            <img src={collaborative.logoUrl} alt="Collaborative Logo" height={90}/>
                             <Text ta="center" fz="lg" fw={500} mt="md">
                                 {collaborative.name}
                             </Text>

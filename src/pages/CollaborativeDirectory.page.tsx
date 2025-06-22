@@ -74,7 +74,7 @@ export function CollaborativeDirectory() {
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
             <Stack align="center" justify="space-between" gap="0" style={{ height: '100%' }}>
               <div>
-                <Image src={collaborative.logoUrl} alt="Collaborative Logo" ta="center" height={90} />
+                <Image src={collaborative.logoUrl} alt="Collaborative Logo" ta="center" h={90} />
                 <Text ta="center" fz="lg" fw={500} mt="md">
                     {collaborative.name}
                 </Text>
