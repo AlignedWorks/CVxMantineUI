@@ -22,6 +22,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
+import { Link } from 'react-router-dom';
 import classes from './Test.module.css';
 import {
     IconAt,
@@ -236,13 +237,24 @@ export function Test() {
                             <Badge c="green" variant="light" size="md" mt="sm" mb="lg">
                                 Seeking new members
                             </Badge>
+                            <Link
+                                to={`/collaboratives/${collaborative.id}`}
+                                state={{ from: location.pathname }}                           
+                                style={{
+                                    textDecoration: 'none',
+                                    color: 'inherit',
+                                    display: 'flex', // Make the Link a flex container
+                                    flexDirection: 'column', // Ensure the button aligns properly
+                                    marginTop: 'auto', // Push the button to the bottom
+                                }}
+                            >
                             <Button
                                 variant="default"
                                 size="sm"
-                                mt="auto"
                                 fullWidth>
                                     View Collaborative
                             </Button>
+                            </Link>
                         </Stack>
                     </Card>
                 ))}

@@ -235,9 +235,15 @@ export function Dashboard() {
                 <Link
                   to={`/collaboratives/${collab.id}`}
                   state={{ from: location.pathname }}
-                  style={{ textDecoration: 'none', color: 'inherit'}}
+                  style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    display: 'flex', // Make the Link a flex container
+                    flexDirection: 'column', // Ensure the button aligns properly
+                    marginTop: 'auto', // Push the button to the bottom
+                  }}
                 >
-                  <Button variant="outline" size="sm" mt="auto">View Collaborative</Button>
+                  <Button variant="outline" size="sm">View Collaborative</Button>
                 </Link>
               </Stack>
             </Card>
