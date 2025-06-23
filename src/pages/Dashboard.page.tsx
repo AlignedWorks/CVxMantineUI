@@ -227,17 +227,18 @@ export function Dashboard() {
         <Title order={1} mb="md" pt="sm" pb="lg">
             {user ? user.firstName + "'s " : ""}Dashboard
         </Title>
-        <Group justify="flex-start" gap="sm" mt="xl">
+        <Group justify="flex-start" mt="xl">
           <Link to="/create-collaborative">
             <Button variant="default">
                 Propose a Collaborative
             </Button>
-            {user?.memberStatus === 'Network Admin' && (
-              <Button variant="default" onClick={() => setInviteModalOpen(true)}>
-                  Invite a Member
-              </Button>
-            )}
           </Link>
+
+          {user?.memberStatus === 'Network Admin' && (
+            <Button variant="default" onClick={() => setInviteModalOpen(true)}>
+                Invite a Member
+            </Button>
+          )}
         </Group>
 
         <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
