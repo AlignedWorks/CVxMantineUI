@@ -21,7 +21,7 @@ interface LoginRequest {
 }
 
 export function AuthenticationTitle() {
-  const { login } = useAuth(); // Assuming `useAuth` provides a `login` function
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -59,6 +59,7 @@ export function AuthenticationTitle() {
           firstName: userProfile.firstName,
           lastName: userProfile.lastName,
           avatarUrl: userProfile.avatarUrl,
+          memberStatus: userProfile.memberStatus,
         };
   
         login(user); // Store user in AuthContext
@@ -103,7 +104,7 @@ export function AuthenticationTitle() {
           />
 
           {error && (
-            <Text color="red" size="sm" mt="sm">
+            <Text c="red" size="sm" mt="sm">
               {error}
             </Text>
           )}

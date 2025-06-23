@@ -15,6 +15,8 @@ import {
   Table,
   Stack,
   Badge,
+  Modal,
+  TextInput,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval } from '../data.ts';
@@ -33,7 +35,7 @@ interface User {
 }
 
 export function Dashboard() {
-  const [dashboard, setDashboard] = useState<User[] | null>([]);
+  const [userApprovals, setUserApprovals] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
   const [collabs, setCollabs] = useState<CollabDataCompact[]>([]);
   const [collabsNeedingApproval, setCollabsNeedingApproval] = useState<CollabsNeedingApproval[]>([]);
@@ -41,6 +43,9 @@ export function Dashboard() {
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
+  const [inviteModalOpen, setInviteModalOpen] = useState(false); // State to control modal visibility
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteError, setInviteError] = useState('');
   const { user } = useAuth();
   // const [loading, setLoading] = useState(true);
 
@@ -62,7 +67,7 @@ export function Dashboard() {
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
-          setDashboard(users);
+          setUserApprovals(users);
 
           // Set the roles data
           setRolesData(roles);
@@ -113,9 +118,9 @@ export function Dashboard() {
 
         // If the role is changed to Network Admin or Network Contributor, refresh the dashboard data
         if (newRole === "Network Admin" || newRole === "Network Contributor") {
-          // Update the user in the dashboard array with the new role
-          setDashboard(prevDashboard => 
-            prevDashboard?.map(user => 
+          // Update the user in the user approvals array with the new role
+          setUserApprovals(prevUserApprovals => 
+            prevUserApprovals?.map(user => 
               user.id === userId ? { ...user, memberStatus: newRole } : user
             ) || null
           );
@@ -188,6 +193,31 @@ export function Dashboard() {
       });
     }
 
+  const handleInviteSubmit = () => {
+    fetch(new URL('invite', import.meta.env.VITE_API_BASE), {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: inviteEmail }),
+    })
+        .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+        })
+        .then((data) => {
+          console.log('Invitation sent successfully:', data);
+          setInviteError('');
+          setInviteEmail(''); // Clear the input field
+          setInviteModalOpen(false); // Close the modal
+        })
+        .catch((err) => {
+          console.error('Error sending invitation:', err);
+          setInviteError('Failed to send the invitation. Please try again.');
+        });
+    };
+
   return (
     <>
       <Container size="md" py="xl">
@@ -197,11 +227,16 @@ export function Dashboard() {
         <Title order={1} mb="md" pt="sm" pb="lg">
             {user ? user.firstName + "'s " : ""}Dashboard
         </Title>
-        <Group justify="flex-start" mt="xl">
+        <Group justify="flex-start" gap="sm" mt="xl">
           <Link to="/create-collaborative">
             <Button variant="default">
                 Propose a Collaborative
             </Button>
+            {user?.memberStatus === 'Network Admin' && (
+              <Button variant="default" onClick={() => setInviteModalOpen(true)}>
+                  Invite a Member
+              </Button>
+            )}
           </Link>
         </Group>
 
@@ -429,7 +464,7 @@ export function Dashboard() {
             Approve users
         </Title>
 
-        {dashboard?.map((user) => (
+        {userApprovals?.map((user) => (
           <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
             <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
               <div>
@@ -527,6 +562,32 @@ export function Dashboard() {
             </SimpleGrid>
           </Card>
         ))}
+
+        {/* Invite Member Modal */}
+        <Modal
+          opened={inviteModalOpen}
+          onClose={() => setInviteModalOpen(false)}
+          title="Invite a Member"
+        >
+          <Stack>
+            <TextInput
+              label="Email Address"
+              placeholder="Enter the email address"
+              value={inviteEmail}
+              onChange={(e) => setInviteEmail(e.currentTarget.value)}
+              required
+            />
+            {inviteError && (
+              <Text size="sm" c="red">
+                {inviteError}
+              </Text>
+            )}
+            <Button onClick={handleInviteSubmit} variant="default">
+              Send Invitation
+            </Button>
+          </Stack>
+        </Modal>
+
       </Container>
     </>
   );

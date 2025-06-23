@@ -6,6 +6,7 @@ interface User {
   firstName: string;
   lastName: string;
   avatarUrl: string;
+  memberStatus: string;
 }
 
 interface AuthContextProps {
