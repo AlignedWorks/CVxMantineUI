@@ -15,7 +15,6 @@ import {
 export function Invite() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token'); // Extract the token from the query parameter
-  const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
@@ -41,7 +40,7 @@ export function Invite() {
       const response = await fetch(new URL('accept-invite', import.meta.env.VITE_API_BASE), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, email, firstName, lastName, password }),
+        body: JSON.stringify({ token, firstName, lastName, password }),
       });
 
       if (!response.ok) {
@@ -68,19 +67,12 @@ export function Invite() {
           </Text>
         )}
         {success ? (
-          <Text color="green" size="md">
+          <Text c="green" size="md">
             Invitation accepted successfully! You can now log in.
           </Text>
         ) : (
           <form onSubmit={handleSubmit}>
             <Stack>
-              <TextInput
-                label="Email Address"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
-                required
-              />
               <TextInput
                 label="First Name"
                 placeholder="Enter your first name"
