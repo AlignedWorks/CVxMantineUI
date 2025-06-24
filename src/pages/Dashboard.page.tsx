@@ -238,7 +238,7 @@ export function Dashboard() {
             </Button>
           </Link>
 
-          {user?.memberStatus === 'Network Admin' && (
+          {user?.memberStatus === 'Network Contributor' && (
             <Button variant="default" onClick={() => setInviteModalOpen(true)}>
                 Invite a Member
             </Button>
