@@ -193,30 +193,34 @@ export function Dashboard() {
       });
     }
 
-  const handleInviteSubmit = () => {
-    fetch(new URL('invite', import.meta.env.VITE_API_BASE), {
+  const handleInviteSubmit = async () => {
+    try {
+      const response = await fetch(new URL('invite', import.meta.env.VITE_API_BASE), {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: inviteEmail }),
-    })
-        .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return res.json();
-        })
-        .then((data) => {
-          console.log('Invitation sent successfully:', data);
-          setInviteError('');
-          setInviteEmail(''); // Clear the input field
-          setInviteModalOpen(false); // Close the modal
-        })
-        .catch((err) => {
-          console.error('Error sending invitation:', err);
-          setInviteError('Failed to send the invitation. Please try again.');
-        });
-    };
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Invitation sent successfully:', data);
+      setInviteError('');
+      setInviteEmail('');
+      setInviteModalOpen(false);
+    } catch (err) {
+      console.error('Error sending invitation:', err);
+      setInviteError(
+        err instanceof Error
+          ? err.message
+          : 'Failed to send the invitation. Please try again.'
+      );
+    }
+  };
 
   return (
     <>
