@@ -44,14 +44,19 @@ export function Invite() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to accept the invitation.');
+        const errorData = await response.json();
+        throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
       }
 
       setSuccess(true);
       setError('');
     } catch (err) {
-      console.error(err);
-      setError('An error occurred while accepting the invitation. Please try again.');
+      console.error('Error sending invitation:', err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Failed to send the invitation. Please try again.'
+      );
     }
   };
 
