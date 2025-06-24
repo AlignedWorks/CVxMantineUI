@@ -572,7 +572,7 @@ export function Dashboard() {
         <Modal
           opened={inviteModalOpen}
           onClose={() => setInviteModalOpen(false)}
-          title="Invite a Member"
+          title="Invite a new member"
         >
           <Stack>
             <TextInput
