@@ -39,8 +39,9 @@ export interface CollabsNeedingApproval {
   websiteUrl: string,
   revenueShare: number,
   indirectCosts: number,
-  collabLeaderCompensation: number,
   payoutFrequency: string,
+  adminCompensation: number,
+  admin: string;
   createdAt: string,
   stakingTiers: { tier: string, exchangeRate: number }[],
 }
