@@ -161,13 +161,6 @@ export function Invite() {
                 </Popover.Dropdown>
               </Popover>
               <PasswordInput
-                label="Password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.currentTarget.value)}
-                required
-              />
-              <PasswordInput
                 label="Confirm Password"
                 placeholder="Confirm your password"
                 value={confirmPassword}
