@@ -238,7 +238,7 @@ export function Dashboard() {
             </Button>
           </Link>
 
-          {user?.memberStatus === 'Network Contributor' && (
+          {user?.memberStatus === 'Network Admin' || user?.memberStatus === 'Network Contributor' && (
             <Button variant="default" onClick={() => setInviteModalOpen(true)}>
                 Invite a Member
             </Button>
@@ -289,10 +289,12 @@ export function Dashboard() {
             </Card>
           ))}
         </SimpleGrid>
-
+        
+        {user?.memberStatus === 'Network Admin' && (
         <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
             Approve collaboratives
         </Title>
+        )}
 
         {collabsNeedingApproval?.map((collab) => (
           <Card key={collab.id} shadow="sm" radius="md" withBorder mt="lg" p="xl" bg="var(--mantine-color-body)">
@@ -465,9 +467,11 @@ export function Dashboard() {
           </Card>
         ))}
 
-        <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
-            Approve users
-        </Title>
+        {user?.memberStatus === 'Network Admin' && (
+          <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
+              Approve users
+          </Title>
+        )}
 
         {userApprovals?.map((user) => (
           <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
