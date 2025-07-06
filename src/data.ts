@@ -94,6 +94,13 @@ export interface CollaborativeDataTreasury {
   indirectCosts: number;
   collabLeaderCompensation: number;
   userIsCollabAdmin: boolean;
+  nextTokenReleaseDate: string;
+  currentTokenRelease: number;
+  nextTokenRelease: number;
+  tokensReceivable: number;
+  tokenBalance: number;
+  tokensCollabAdmin: number;
+  tokenLiabilities: number;
 }
 
 export interface CollabMember {

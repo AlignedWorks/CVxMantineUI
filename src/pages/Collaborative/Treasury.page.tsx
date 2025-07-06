@@ -120,7 +120,7 @@ export function CollaborativeTreasury() {
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>
                   <Text fz="md" fw={500}>
-                      Revenue Share
+                    Revenue Share
                   </Text>
                   <Text fz="xl" c="#222" mb="lg">
                     {collaborative.revenueShare}%
@@ -138,13 +138,56 @@ export function CollaborativeTreasury() {
                     {collaborative.indirectCosts}%
                   </Text>
                   <Text fz="md" fw={500}>
-                      Collaborative Leader Compensation
+                      Collaborative Admin Compensation
                   </Text>
                   <Text fz="xl" c="#222" mb="lg">
                     {collaborative.collabLeaderCompensation}%
                   </Text>
+
+                  <Title order={4} mb="md">
+                    Launch Tokens
+                  </Title>
+                  <Text fz="md" fw={500}>
+                      Next Token Release Date
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.nextTokenReleaseDate}
+                  </Text>
+                  <Text fz="md" fw={500}>
+                      Next Token Release
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.nextTokenRelease}
+                  </Text>
+                  <Text fz="md" fw={500}>
+                      Current Token Release
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.currentTokenRelease}
+                  </Text>
+                  <Text fz="md" fw={500}>
+                      Collaborative Admin Compensation (Launch tokens)
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.tokensCollabAdmin}
+                  </Text>
+                  <Text fz="md" fw={500}>
+                      Launch Tokens Receivable
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.tokensReceivable}
+                  </Text>
+                  <Text fz="md" fw={500}>
+                      Launch Tokens Balance
+                  </Text>
+                  <Text fz="xl" c="#222" mb="lg">
+                    {collaborative.tokenBalance}
+                  </Text>
                 </div>
                 <div>
+                  <Text fz="md" fw={500} mb="lg">
+                      Staking Tiers
+                  </Text>
                   <Table variant="vertical" layout="fixed" withTableBorder>
                    <Table.Thead>
                     <Table.Tr>
