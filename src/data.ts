@@ -12,6 +12,15 @@ export interface Collaborative {
   payoutFrequency: PayoutFrequency;
   stakingTiers: StakingTier[];
   logoUrl: string;
+  // default: 10,000
+  launchTokensCreated: number;
+  // in weeks, default is 12
+  launchCyclePeriod: number;
+  // a percentage, default is 10%
+  launchTokenReleaseRate: number;
+  // this in relation to when the collaborative goes live, so uncertain at time of proposal
+  // thus it's either 1) at the same time collab goes live or 1,2,3,etc. weeks after
+  launchTokenInitialReleaseDate: string;
 }
 
 export interface CollabInvite {

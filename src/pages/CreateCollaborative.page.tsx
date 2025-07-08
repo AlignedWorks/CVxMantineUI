@@ -50,6 +50,10 @@ export function CreateCollaborative() {
           payoutFrequency: PayoutFrequency.Monthly,
           stakingTiers: [],
           logoUrl: '',
+          launchTokensCreated: 10000, // Default value
+          launchCyclePeriod: 12, // Default value
+          launchTokenReleaseRate: 10, // Default value
+          launchTokenInitialReleaseDate: '', // Default value
         });
         setErrors({});
         setSelectedTiers([]);
@@ -122,19 +126,27 @@ export function CreateCollaborative() {
     collabLeaderCompensation: 0,
     payoutFrequency: PayoutFrequency.Monthly,
     stakingTiers: [],
+    launchTokensCreated: 10000, // Default value
+    launchCyclePeriod: 12, // Default value
+    launchTokenReleaseRate: 10, // Default value
+    launchTokenInitialReleaseDate: '', // Default value
   });
 
   const [errors, setErrors] = useState<{
-    name?: string;
-    description?: string;
-    skills?: string;
-    experience?: string;
-    revenueShare?: string;
-    indirectCosts?: string;
-    collabLeaderCompensation?: string;
-    payoutFrequency?: string;
-    stakingTiers?: string;
-    exchangeRate?: { [tier: string]: string };
+    name?: string,
+    description?: string,
+    skills?: string,
+    experience?: string,
+    revenueShare?: string,
+    indirectCosts?: string,
+    collabLeaderCompensation?: string,
+    payoutFrequency?: string,
+    stakingTiers?: string,
+    exchangeRate?: { [tier: string]: string },
+    launchTokensCreated?: string,
+    launchCyclePeriod?: string,
+    launchTokenReleaseRate?: string,
+    launchTokenInitialReleaseDate?: string,
   }>({});
 
 
@@ -168,6 +180,7 @@ export function CreateCollaborative() {
     } else if (field === 'collabLeaderCompensation') {
       setErrors((currentErrors) => ({ ...currentErrors, collabLeaderCompensation: undefined }));
     }
+
   };
 
   const handleSubmit = async () => {
@@ -181,7 +194,11 @@ export function CreateCollaborative() {
         collabLeaderCompensation?: string;
         payoutFrequency?: string;
         stakingTiers?: string;
-        exchangeRate?: { [tier: string]: string };
+        exchangeRate?: { [tier: string]: string },
+        launchTokensCreated?: string;
+        launchCyclePeriod?: string;
+        launchTokenReleaseRate?: string;
+        launchTokenInitialReleaseDate?: string;
       } = {};
 
     // Validate name
@@ -246,7 +263,20 @@ export function CreateCollaborative() {
 
     // Validate experience
     if (formValues.experience.length === 0) {
-        newErrors.experience = 'At least one experience must be selected.';
+      newErrors.experience = 'At least one experience must be selected.';
+    }
+
+    if (!formValues.launchTokensCreated || formValues.launchTokensCreated <= 0) {
+      newErrors.launchTokensCreated = 'Launch Tokens Created must be greater than 0.';
+    }
+    if (!formValues.launchCyclePeriod || formValues.launchCyclePeriod <= 0) {
+      newErrors.launchCyclePeriod = 'Launch Cycle Period must be greater than 0.';
+    }
+    if (!formValues.launchTokenReleaseRate || formValues.launchTokenReleaseRate <= 0 || formValues.launchTokenReleaseRate > 100) {
+      newErrors.launchTokenReleaseRate = 'Launch Token Release Rate must be between 0 and 100.';
+    }
+    if (!formValues.launchTokenInitialReleaseDate) {
+      newErrors.launchTokenInitialReleaseDate = 'Initial Token Release Date is required.';
     }
 
     setErrors(newErrors);
@@ -574,6 +604,66 @@ export function CreateCollaborative() {
             error={errors.collabLeaderCompensation} // Display validation error
             required
             mb="md"
+        />
+      </SimpleGrid>
+
+      <Title order={2} mt="xl" mb="md" pt="xl" pb="xl" ta="center">
+        Launch Token Configuration
+      </Title>
+
+      <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
+        <TextInput
+          label="Launch Tokens Created"
+          placeholder="Enter the number of tokens created (default: 10,000)"
+          type="number"
+          value={formValues.launchTokensCreated}
+          onChange={(event) =>
+            handleInputChange('launchTokensCreated', parseInt(event.currentTarget.value, 10))
+          }
+          error={errors.launchTokensCreated} // Display validation error
+          required
+          mb="md"
+        />
+
+        <TextInput
+          label="Launch Cycle Period (Weeks)"
+          placeholder="Enter the cycle period in weeks (default: 12)"
+          type="number"
+          value={formValues.launchCyclePeriod}
+          onChange={(event) =>
+            handleInputChange('launchCyclePeriod', parseInt(event.currentTarget.value, 10))
+          }
+          error={errors.launchCyclePeriod} // Display validation error
+          required
+          mb="md"
+        />
+      </SimpleGrid>
+
+      <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
+        <TextInput
+          label="Launch Token Release Rate (%)"
+          placeholder="Enter the release rate percentage (default: 10%)"
+          type="number"
+          value={formValues.launchTokenReleaseRate}
+          onChange={(event) =>
+            handleInputChange('launchTokenReleaseRate', parseFloat(event.currentTarget.value))
+          }
+          error={errors.launchTokenReleaseRate} // Display validation error
+          required
+          mb="md"
+        />
+
+        <TextInput
+          label="Initial Token Release Date"
+          placeholder="Enter the initial release date (e.g., YYYY-MM-DD)"
+          type="date"
+          value={formValues.launchTokenInitialReleaseDate}
+          onChange={(event) =>
+            handleInputChange('launchTokenInitialReleaseDate', event.currentTarget.value)
+          }
+          error={errors.launchTokenInitialReleaseDate} // Display validation error
+          required
+          mb="md"
         />
       </SimpleGrid>
 

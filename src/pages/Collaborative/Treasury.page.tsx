@@ -143,10 +143,27 @@ export function CollaborativeTreasury() {
                   <Text fz="xl" c="#222" mb="lg">
                     {collaborative.collabLeaderCompensation}%
                   </Text>
-
-                  <Title order={4} mb="md">
-                    Launch Tokens
-                  </Title>
+                </div>
+                <div>
+                  <Text fz="md" fw={500} mb="lg">
+                      Staking Tiers
+                  </Text>
+                  <Table variant="vertical" layout="fixed" withTableBorder>
+                   <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>Duration</Table.Th>
+                        <Table.Th>Exchange Rate</Table.Th>
+                    </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>{stakingTierRows}</Table.Tbody>
+                  </Table>
+                </div>
+              </SimpleGrid>
+              <Title order={4} mb="md">
+                Launch Tokens
+              </Title>
+              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
+                <div>
                   <Text fz="md" fw={500}>
                       Next Token Release Date
                   </Text>
@@ -165,6 +182,8 @@ export function CollaborativeTreasury() {
                   <Text fz="xl" c="#222" mb="lg">
                     {collaborative.currentTokenRelease}
                   </Text>
+                </div>
+                <div>
                   <Text fz="md" fw={500}>
                       Collaborative Admin Compensation (Launch tokens)
                   </Text>
@@ -185,18 +204,6 @@ export function CollaborativeTreasury() {
                   </Text>
                 </div>
                 <div>
-                  <Text fz="md" fw={500} mb="lg">
-                      Staking Tiers
-                  </Text>
-                  <Table variant="vertical" layout="fixed" withTableBorder>
-                   <Table.Thead>
-                    <Table.Tr>
-                        <Table.Th>Duration</Table.Th>
-                        <Table.Th>Exchange Rate</Table.Th>
-                    </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{stakingTierRows}</Table.Tbody>
-                  </Table>
                 </div>
               </SimpleGrid>
             </Stack>

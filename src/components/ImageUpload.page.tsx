@@ -124,7 +124,7 @@ export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
                 <Text>
                   The image should ideally be<br/>
                   1) roughly square<br/>
-                  2) tightly cropped and<br/>
+                  2) tightly cropped<br/>
                   3) set against an either white or transparent background for best results.
                 </Text>
                 <Button 
