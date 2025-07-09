@@ -20,7 +20,7 @@ export interface Collaborative {
   launchTokenReleaseRate: number;
   // this in relation to when the collaborative goes live, so uncertain at time of proposal
   // thus it's either 1) at the same time collab goes live or 1,2,3,etc. weeks after
-  launchTokenInitialReleaseDate: string;
+  launchTokenInitialReleaseWeeks: string;
 }
 
 export interface CollabInvite {

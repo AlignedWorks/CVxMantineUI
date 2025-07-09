@@ -8,6 +8,7 @@ import {
   Title,
   TextInput,
   Textarea,
+  NumberInput,
   Select,
   MultiSelect,
   Button,
@@ -53,7 +54,7 @@ export function CreateCollaborative() {
           launchTokensCreated: 10000, // Default value
           launchCyclePeriod: 12, // Default value
           launchTokenReleaseRate: 10, // Default value
-          launchTokenInitialReleaseDate: '', // Default value
+          launchTokenInitialReleaseWeeks: '', // Default value
         });
         setErrors({});
         setSelectedTiers([]);
@@ -129,7 +130,7 @@ export function CreateCollaborative() {
     launchTokensCreated: 10000, // Default value
     launchCyclePeriod: 12, // Default value
     launchTokenReleaseRate: 10, // Default value
-    launchTokenInitialReleaseDate: '', // Default value
+    launchTokenInitialReleaseWeeks: '', // Default value
   });
 
   const [errors, setErrors] = useState<{
@@ -146,7 +147,7 @@ export function CreateCollaborative() {
     launchTokensCreated?: string,
     launchCyclePeriod?: string,
     launchTokenReleaseRate?: string,
-    launchTokenInitialReleaseDate?: string,
+    launchTokenInitialReleaseWeeks?: string,
   }>({});
 
 
@@ -198,7 +199,7 @@ export function CreateCollaborative() {
         launchTokensCreated?: string;
         launchCyclePeriod?: string;
         launchTokenReleaseRate?: string;
-        launchTokenInitialReleaseDate?: string;
+        launchTokenInitialReleaseWeeks?: string;
       } = {};
 
     // Validate name
@@ -275,8 +276,8 @@ export function CreateCollaborative() {
     if (!formValues.launchTokenReleaseRate || formValues.launchTokenReleaseRate <= 0 || formValues.launchTokenReleaseRate > 100) {
       newErrors.launchTokenReleaseRate = 'Launch Token Release Rate must be between 0 and 100.';
     }
-    if (!formValues.launchTokenInitialReleaseDate) {
-      newErrors.launchTokenInitialReleaseDate = 'Initial Token Release Date is required.';
+    if (!formValues.launchTokenInitialReleaseWeeks) {
+      newErrors.launchTokenInitialReleaseWeeks = 'Initial Token Release Date is required.';
     }
 
     setErrors(newErrors);
@@ -653,15 +654,14 @@ export function CreateCollaborative() {
           mb="md"
         />
 
-        <TextInput
-          label="Initial Token Release Date"
-          placeholder="Enter the initial release date (e.g., YYYY-MM-DD)"
-          type="date"
-          value={formValues.launchTokenInitialReleaseDate}
-          onChange={(event) =>
-            handleInputChange('launchTokenInitialReleaseDate', event.currentTarget.value)
+        <NumberInput
+          label="Initial Token Release (Weeks After Approval)"
+          placeholder="Enter the number of weeks (0 = at approval)"
+          value={formValues.launchTokenInitialReleaseWeeks}
+          onChange={(value) =>
+            handleInputChange('launchTokenInitialReleaseWeeks', value)
           }
-          error={errors.launchTokenInitialReleaseDate} // Display validation error
+          error={errors.launchTokenInitialReleaseWeeks} // Display validation error
           required
           mb="md"
         />
