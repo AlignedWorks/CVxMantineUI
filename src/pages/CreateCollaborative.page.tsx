@@ -51,10 +51,10 @@ export function CreateCollaborative() {
           payoutFrequency: PayoutFrequency.Monthly,
           stakingTiers: [],
           logoUrl: '',
-          launchTokensCreated: 10000, // Default value
-          launchCyclePeriod: 12, // Default value
-          launchTokenReleaseRate: 10, // Default value
-          launchTokenInitialReleaseWeeks: '', // Default value
+          launchTokensCreated: 10000,
+          launchCyclePeriod: 12,
+          launchTokenReleaseRate: 10,
+          launchTokenInitialReleaseWeeks: 0,
         });
         setErrors({});
         setSelectedTiers([]);
@@ -127,10 +127,10 @@ export function CreateCollaborative() {
     collabLeaderCompensation: 0,
     payoutFrequency: PayoutFrequency.Monthly,
     stakingTiers: [],
-    launchTokensCreated: 10000, // Default value
-    launchCyclePeriod: 12, // Default value
-    launchTokenReleaseRate: 10, // Default value
-    launchTokenInitialReleaseWeeks: '', // Default value
+    launchTokensCreated: 10000,
+    launchCyclePeriod: 12,
+    launchTokenReleaseRate: 10,
+    launchTokenInitialReleaseWeeks: 0,
   });
 
   const [errors, setErrors] = useState<{
@@ -506,17 +506,20 @@ export function CreateCollaborative() {
       </Title>
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
-        <TextInput
+        <NumberInput
           rightSection={revenueShare}
           label="% of Revenue to the Collab Pool"
           placeholder="Enter the revenue share % (e.g. 5.5, 7.75, 10)"
-          type="number"
           value={formValues.revenueShare}
-          onChange={(event) =>
-              handleInputChange('revenueShare', parseFloat(event.currentTarget.value))
+          onChange={(value) =>
+              handleInputChange('revenueShare', value)
           }
           error={errors.revenueShare} // Display validation error
           required
+          min={0}
+          max={100}
+          suffix="%"
+          decimalScale={2}
           mb="md"
         />
 
@@ -579,78 +582,87 @@ export function CreateCollaborative() {
       </Title>
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
-        <TextInput
+        <NumberInput
             rightSection={indirectCosts}
             label="% of Revenue to cover Indirect Costs (Target)"
             placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
-            type="number"
             value={formValues.indirectCosts}
-            onChange={(event) =>
-                handleInputChange('indirectCosts', parseFloat(event.currentTarget.value))
+            onChange={(value) =>
+                handleInputChange('indirectCosts', value)
             }
             error={errors.indirectCosts} // Display validation error
             required
+            min={0}
+            max={100}
+            suffix="%"
+            decimalScale={2}
             mb="md"
         />
 
-        <TextInput
+        <NumberInput
             rightSection={collabLeaderComp}
             label="% of Revenue to Collab Leader Compensation"
             placeholder="Set compensation for the Collab Leader as a % of Collab-wide revenue."
-            type="number"
             value={formValues.collabLeaderCompensation}
-            onChange={(event) =>
-                handleInputChange('collabLeaderCompensation', parseFloat(event.currentTarget.value))
+            onChange={(value) =>
+                handleInputChange('collabLeaderCompensation', value)
             }
             error={errors.collabLeaderCompensation} // Display validation error
             required
+            min={0}
+            max={100}
+            suffix="%"
+            decimalScale={2}
             mb="md"
         />
       </SimpleGrid>
 
       <Title order={2} mt="xl" mb="md" pt="xl" pb="xl" ta="center">
-        Launch Token Configuration
+        Launch Tokens
       </Title>
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
-        <TextInput
+        <NumberInput
           label="Launch Tokens Created"
           placeholder="Enter the number of tokens created (default: 10,000)"
-          type="number"
           value={formValues.launchTokensCreated}
-          onChange={(event) =>
-            handleInputChange('launchTokensCreated', parseInt(event.currentTarget.value, 10))
+          onChange={(value) =>
+            handleInputChange('launchTokensCreated', value)
           }
           error={errors.launchTokensCreated} // Display validation error
           required
+          thousandSeparator=","
+          allowNegative={false}
           mb="md"
         />
 
-        <TextInput
+        <NumberInput
           label="Launch Cycle Period (Weeks)"
           placeholder="Enter the cycle period in weeks (default: 12)"
-          type="number"
           value={formValues.launchCyclePeriod}
-          onChange={(event) =>
-            handleInputChange('launchCyclePeriod', parseInt(event.currentTarget.value, 10))
+          onChange={(value) =>
+            handleInputChange('launchCyclePeriod', value)
           }
           error={errors.launchCyclePeriod} // Display validation error
           required
+          allowNegative={false}
           mb="md"
         />
       </SimpleGrid>
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
-        <TextInput
+        <NumberInput
           label="Launch Token Release Rate (%)"
           placeholder="Enter the release rate percentage (default: 10%)"
-          type="number"
           value={formValues.launchTokenReleaseRate}
-          onChange={(event) =>
-            handleInputChange('launchTokenReleaseRate', parseFloat(event.currentTarget.value))
+          onChange={(value) =>
+            handleInputChange('launchTokenReleaseRate', value)
           }
           error={errors.launchTokenReleaseRate} // Display validation error
           required
+          min={0}
+          max={100}
+          decimalScale={2}
           mb="md"
         />
 
@@ -664,6 +676,7 @@ export function CreateCollaborative() {
           error={errors.launchTokenInitialReleaseWeeks} // Display validation error
           required
           mb="md"
+          allowNegative={false}
         />
       </SimpleGrid>
 

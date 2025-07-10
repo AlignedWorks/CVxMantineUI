@@ -19,8 +19,8 @@ export interface Collaborative {
   // a percentage, default is 10%
   launchTokenReleaseRate: number;
   // this in relation to when the collaborative goes live, so uncertain at time of proposal
-  // thus it's either 1) at the same time collab goes live or 1,2,3,etc. weeks after
-  launchTokenInitialReleaseWeeks: string;
+  // thus it's either 1) at the same time collab goes live (0) or 1,2,3,etc. weeks after
+  launchTokenInitialReleaseWeeks: number;
 }
 
 export interface CollabInvite {
