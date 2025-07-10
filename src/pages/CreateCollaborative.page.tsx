@@ -276,7 +276,7 @@ export function CreateCollaborative() {
     if (!formValues.launchTokenReleaseRate || formValues.launchTokenReleaseRate <= 0 || formValues.launchTokenReleaseRate > 100) {
       newErrors.launchTokenReleaseRate = 'Launch Token Release Rate must be between 0 and 100.';
     }
-    if (!formValues.launchTokenInitialReleaseWeeks) {
+    if (formValues.launchTokenInitialReleaseWeeks === undefined) {
       newErrors.launchTokenInitialReleaseWeeks = 'Initial Token Release Date is required.';
     }
 
@@ -667,7 +667,7 @@ export function CreateCollaborative() {
         />
 
         <NumberInput
-          label="Initial Token Release (Weeks After Approval)"
+          label="Initial Token Release (Weeks after collab approval, 0 is default and at time of approval)"
           placeholder="Enter the number of weeks (0 = at approval)"
           value={formValues.launchTokenInitialReleaseWeeks}
           onChange={(value) =>
