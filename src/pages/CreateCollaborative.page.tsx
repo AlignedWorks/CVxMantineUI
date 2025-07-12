@@ -631,6 +631,7 @@ export function CreateCollaborative() {
           }
           error={errors.launchTokensCreated} // Display validation error
           required
+          step={100}
           thousandSeparator=","
           allowNegative={false}
           mb="md"

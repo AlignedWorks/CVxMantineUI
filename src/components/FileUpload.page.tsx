@@ -124,7 +124,7 @@ export function FileUpload({
           ) : (
             <>
               <FileInput
-                label={`Select ${fileTypeDisplay} to upload`}
+                label={`Upload a Collaborative Sharing Agreement`}
                 placeholder={`Click to select a ${fileTypeDisplay} from your device to upload`}
                 accept={getAcceptTypes()}
                 value={file}
