@@ -497,7 +497,7 @@ export function CreateCollaborative() {
 
       <ImageField 
         label="Collaborative Logo"
-        initialImageUrl=""
+        initialImageUrl="/assets/logos/Default.png"
         onImageSelected={(url) => handleInputChange('logoUrl', url)}
       />
 
@@ -573,6 +573,7 @@ export function CreateCollaborative() {
             min={0}
             max={100}
             step={1}
+            suffix="%"
             allowDecimal={false}
             required
             mb="md"
@@ -589,6 +590,7 @@ export function CreateCollaborative() {
             rightSection={indirectCosts}
             label="% of Revenue to cover Indirect Costs (Target)"
             placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
+            defaultValue={100}
             value={formValues.indirectCosts}
             onChange={(value) =>
                 handleInputChange('indirectCosts', value)
