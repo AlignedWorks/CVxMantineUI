@@ -112,7 +112,7 @@ export function CollaborativeTreasury() {
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
               <Title order={2} mt="xs" mb="xl">
-                {collaborative.name}
+                {collaborative.name} <span style={{ color: 'grey' }}>Collaborative</span>
               </Title>
               <Title order={4} mb="md">
                   Revenue Sharing Pool

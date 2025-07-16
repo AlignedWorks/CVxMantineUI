@@ -206,7 +206,7 @@ export function Test() {
                     </Grid.Col>
                     <Grid.Col span={10}>
                     <Stack>
-                        <Title order={2} mt="xs" mb="md">{testCollab.name}</Title>
+                        <Title order={2} mt="xs" mb="md">{testCollab.name} <span style={{ color: 'grey' }}>Collaborative</span></Title>
                         <SimpleGrid cols={2} mb="md">
                         <div>
                             <Group>

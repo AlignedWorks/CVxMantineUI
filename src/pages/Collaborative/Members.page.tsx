@@ -262,7 +262,7 @@ export function CollaborativeMembers() {
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
               <Title order={2} mt="xs" mb="md">
-                {collaborative.name}
+                {collaborative.name} <span style={{ color: 'grey' }}>Collaborative</span>
               </Title>
               <Table.ScrollContainer minWidth={400} mt="xl">
                 <Table verticalSpacing="sm">

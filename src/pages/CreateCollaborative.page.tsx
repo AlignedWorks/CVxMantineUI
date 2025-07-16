@@ -117,7 +117,7 @@ export function CreateCollaborative() {
     name: '',
     description: '',
     websiteUrl: '',
-    logoUrl: '',
+    logoUrl: "/assets/logos/Default.png",
     city: '',
     state: '',
     skills: [],
