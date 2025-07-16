@@ -81,10 +81,10 @@ export function CreateCollaborative() {
     }, []); // Empty dependency array ensures this runs only once when the component mounts
 
     const handleTierChange = (tiers: string[]) => {
-        // Add new tiers with a default exchange rate of 1.0
+        // Add new tiers with a default exchange rate of 100 percent
         const updatedTiers = tiers.map((tier) => {
         const existingTier = selectedTiers.find((t) => t.tier === tier);
-        return existingTier || { tier, exchangeRate: 1.0 };
+        return existingTier || { tier, exchangeRate: 100 };
         });
 
         const filteredTiers = updatedTiers.filter((t) => tiers.includes(t.tier));
@@ -565,7 +565,7 @@ export function CreateCollaborative() {
             key={tier.tier}
             label={`${tier.tier} Staking Exchange Rate`}
             placeholder="Set the Exchange Rates for Staking SharePoints"
-            value={tier.exchangeRate || 100}
+            value={tier.exchangeRate}
             onChange={(value) =>
               handleExchangeRateChange(tier.tier, typeof value === 'number' ? value : Number(value))
             }
