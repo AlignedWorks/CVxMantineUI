@@ -559,22 +559,25 @@ export function CreateCollaborative() {
         mb="md"
       />
       <Group grow mt="xl" pt="sm" pb="lg" >
-      {selectedTiers.map((tier) => (
-        <TextInput
-          rightSection={exchangeRate}
-          key={tier.tier}
-          label={`${tier.tier} Staking Exchange Rate`}
-          placeholder="Set the Exchage Rates for Staking SharePoints"
-          type="number"
-          value={tier.exchangeRate}
-          onChange={(event) =>
-              handleExchangeRateChange(tier.tier, parseFloat(event.currentTarget.value))
-          }
-          error={errors.exchangeRate?.[tier.tier]} // Display validation error
-          required
-          mb="md"
-        />
-      ))}
+        {selectedTiers.map((tier) => (
+          <NumberInput
+            rightSection={exchangeRate}
+            key={tier.tier}
+            label={`${tier.tier} Staking Exchange Rate`}
+            placeholder="Set the Exchange Rates for Staking SharePoints"
+            value={tier.exchangeRate}
+            onChange={(value) =>
+              handleExchangeRateChange(tier.tier, typeof value === 'number' ? value : Number(value))
+            }
+            error={errors.exchangeRate?.[tier.tier]} // Display validation error
+            min={0}
+            max={100}
+            step={1}
+            allowDecimal={false}
+            required
+            mb="md"
+          />
+        ))}
       </Group>
 
       <Title order={2} mb="md" pt="xl" pb="xl" ta="center">
@@ -638,7 +641,7 @@ export function CreateCollaborative() {
         />
 
         <NumberInput
-          label="Launch Cycle Period (Weeks)"
+          label="Launch Cycle Period (weeks)"
           placeholder="Enter the cycle period in weeks (default: 12)"
           value={formValues.launchCyclePeriod}
           onChange={(value) =>
@@ -668,7 +671,7 @@ export function CreateCollaborative() {
         />
 
         <NumberInput
-          label="Initial Token Release (Weeks after collab approval, 0 is default and at time of approval)"
+          label="Initial Token Release Date (# weeks after collab approval, 0 is default and at time of approval)"
           placeholder="Enter the number of weeks (0 = at approval)"
           value={formValues.launchTokenInitialReleaseWeeks}
           onChange={(value) =>
