@@ -565,7 +565,7 @@ export function CreateCollaborative() {
             key={tier.tier}
             label={`${tier.tier} Staking Exchange Rate`}
             placeholder="Set the Exchange Rates for Staking SharePoints"
-            value={tier.exchangeRate}
+            value={tier.exchangeRate || 100}
             onChange={(value) =>
               handleExchangeRateChange(tier.tier, typeof value === 'number' ? value : Number(value))
             }
@@ -590,7 +590,7 @@ export function CreateCollaborative() {
             rightSection={indirectCosts}
             label="% of Revenue to cover Indirect Costs (Target)"
             placeholder="Enter the indirect costs target % (e.g. 5.5, 7.75, 10)"
-            defaultValue={100}
+
             value={formValues.indirectCosts}
             onChange={(value) =>
                 handleInputChange('indirectCosts', value)
