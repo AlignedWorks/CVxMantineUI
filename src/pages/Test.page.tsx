@@ -28,7 +28,6 @@ import classes from './Test.module.css';
 import {
     IconAt,
     IconMapPin,
-    IconStackBack,
   } from '@tabler/icons-react'
 
 const rolesData = ['Network Owner','Network Contributor']
