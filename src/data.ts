@@ -23,6 +23,17 @@ export interface Collaborative {
   launchTokenInitialReleaseWeeks: number;
 }
 
+export interface Project {
+  id: number;
+  collabId: number;
+  name: string;
+  description: string;
+  approvalStatus: string;
+  launchTokenBudget: number;
+  createdAt: string;
+  projectAdminCompensation: number;
+}
+
 export interface CollabInvite {
   userId: string;
   userRole: string;
@@ -75,6 +86,7 @@ export interface CollaborativeData {
   userIsCollabAdmin: boolean;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
+  
 }
 
 export interface CollabDataCompact {

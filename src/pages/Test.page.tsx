@@ -10,6 +10,7 @@ import {
   Select,
   Group,
   Card,
+  Paper,
   Button,
   Space,
   Badge,
@@ -27,6 +28,7 @@ import classes from './Test.module.css';
 import {
     IconAt,
     IconMapPin,
+    IconStackBack,
   } from '@tabler/icons-react'
 
 const rolesData = ['Network Owner','Network Contributor']
@@ -192,6 +194,221 @@ export function Test() {
                 </form>
             </Card>
 
+            <Card padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
+                <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                        <Center>
+                        <img src={testCollab.logoUrl} width={80}/>
+                        </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
+                        <Stack>
+                        <Title order={2} mt="xs" mb="xl">
+                            {testCollab.name} Collaborative
+                        </Title>
+                        <Title order={4} lts="1px" mt="xl" c="green">Financial Health Metrics</Title>
+                        <Paper p="lg" radius="md" bg="#fafafa">
+                            <Group justify="space-between">
+                                <div>
+                                    <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
+                                    <Text fz="xl" fw={700} c="#444">0.50</Text>
+                                </div>
+                                <div>
+                                    <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
+                                    <Text fz="xl" fw={700} c="#444">10,000</Text>
+                                </div>
+                                <div>
+                                    <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
+                                    <Text fz="xl" fw={700} c="#444">10,000</Text>
+                                </div>
+                            </Group>
+                        </Paper>
+                        <Title order={4} lts="1px" mt="xl" c="green">Launch Token Release</Title>
+                        <Paper p="lg" radius="md" bg="#fafafa">
+                            <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
+                                <div>
+                                    <Text fz="md" fw={500} c="#999">Current Token Release</Text>
+                                    <Text fz="xl" fw={500} c="#444">1000 (10% of total)</Text>
+                                </div>
+                                <div>
+                                    <Text fz="md" fw={500} c="#999">Next Token Release</Text>
+                                    <Text fz="xl" fw={500} c="#444">900 (9% of total)</Text>
+                                </div>
+                                <div>
+                                    <Text fz="md" fw={500} c="#999">Date of Next Release</Text>
+                                    <Text fz="xl" fw={500} c="#444">October 6th, 2025</Text>
+                                </div>
+                            </SimpleGrid>
+
+                        </Paper>
+                        <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md" spacing="xl">
+                            <div>
+                                <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
+                                <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
+                                    <Stack>
+                                        <Text fz="md" fw={500} c="#999">Launch Tokens Receivable</Text>
+                                        <Text fz="xl" fw={500} c="#444">1000</Text>
+                                        <Text fz="md" fw={500} c="#999">Launch Tokens Balance</Text>
+                                        <Text fz="xl" fw={500} c="#444">1000</Text>
+                                        <Text fz="md" fw={500} c="red">Total Token Assets</Text>
+                                        <Text fz="xl" fw={500} c="#444">1000</Text>
+                                    </Stack>
+                                </Paper>
+                            </div>
+                            <div>
+                                <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
+                                <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
+                                    <Stack>
+                                        <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay the Collaborative Leader</Text>
+                                        <Text fz="xl" fw={500} c="#444">1000</Text>
+                                        <Text fz="md" fw={500} c="#999">Launch Tokens committed for the payment of Project work upon completion</Text>
+                                        <Text fz="xl" fw={500} c="#444">1000</Text>
+                                        <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay for Non-Team Contributions to Projects</Text>
+                                        <Text fz="xl" fw={500} c="#444">1000</Text>
+                                        <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
+                                        <Text fz="xl" fw={500} c="#444">1000</Text>
+                                    </Stack>
+                                </Paper>
+                            </div>
+                            <div>
+                            </div>
+                        </SimpleGrid>
+                        </Stack>
+                    </Grid.Col>
+                    <Grid.Col span={1}>
+                    </Grid.Col>
+                </Grid>
+            </Card>
+
+            <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
+                <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                        <Center>
+                        <img src={testCollab.logoUrl} width={80}/>
+                        </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
+                        <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg">
+                            <Group>
+                            </Group>
+                        </Card>
+                        <Stack>
+                        <Title order={2} mt="xs" mb="xl">
+                            {testCollab.name} Collaborative
+                        </Title>
+                        <Title order={3} fw={500} c="green" mt="lg" mb="md">
+                            Revenue Sharing Pool
+                        </Title>
+                        <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
+                            <div>
+                            <Text fz="md" fw={500}>
+                                Revenue Share
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                {testCollab.revenueShare}%
+                            </Text>
+                            <Text fz="md" fw={500}>
+                                Payout Frequency
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                {testCollab.payoutFrequency}
+                            </Text>
+                            <Text fz="md" fw={500}>
+                                Indirect Costs
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                {testCollab.indirectCosts}%
+                            </Text>
+                            <Text fz="md" fw={500}>
+                                Collaborative Admin Compensation
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                {testCollab.collabLeaderCompensation}%
+                            </Text>
+                            </div>
+                            <div>
+                            <Text fz="md" fw={500} mb="lg">
+                                Staking Tiers
+                            </Text>
+                            <Table variant="vertical" layout="fixed" withTableBorder>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Duration</Table.Th>
+                                    <Table.Th>Exchange Rate</Table.Th>
+                                </Table.Tr>
+                                </Table.Thead>
+                                <Table.Tbody>
+                                    <Table.Tr>
+                                        <Table.Td>1 year</Table.Td>
+                                        <Table.Td>100%</Table.Td>
+                                    </Table.Tr>
+                                    <Table.Tr>
+                                        <Table.Td>3 years</Table.Td>
+                                        <Table.Td>70%</Table.Td>
+                                    </Table.Tr>
+                                    <Table.Tr>
+                                        <Table.Td>5 years</Table.Td>
+                                        <Table.Td>50%</Table.Td>
+                                    </Table.Tr>
+                                </Table.Tbody>
+                            </Table>
+                            </div>
+                        </SimpleGrid>
+                        <Divider my="lg" />
+                        <Title order={3} fw={500} c="green" mt="md" mb="md">
+                            Launch Tokens
+                        </Title>
+                        <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
+                            <div>
+                            <Text fz="md" fw={500}>
+                                Next Token Release Date
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                October 6th, 2025
+                            </Text>
+                            <Text fz="md" fw={500}>
+                                Next Token Release
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                900
+                            </Text>
+                            <Text fz="md" fw={500}>
+                                Current Token Release
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                1000
+                            </Text>
+                            </div>
+                            <div>
+                            <Text fz="md" fw={500}>
+                                Collaborative Admin Compensation (Launch tokens)
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                0
+                            </Text>
+                            <Text fz="md" fw={500}>
+                                Launch Tokens Receivable
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                9000
+                            </Text>
+                            <Text fz="md" fw={500}>
+                                Launch Tokens Balance
+                            </Text>
+                            <Text fz="xl" c="#222" mb="lg">
+                                1000
+                            </Text>
+                            </div>
+                            <div>
+                            </div>
+                        </SimpleGrid>
+                        </Stack>
+                    </Grid.Col>
+                    <Grid.Col span={1}>
+                    </Grid.Col>
+                </Grid>
+            </Card>
+
             <Title order={2} lts="4px" c="dimmed">
                 COLLABORATIVE VALUE EXCHANGE
             </Title>
@@ -201,12 +418,11 @@ export function Test() {
                     <Grid.Col span={2}>
                         <Center>
                             <img src={testCollab.logoUrl} width={80}/>
-
                         </Center>
                     </Grid.Col>
                     <Grid.Col span={10}>
                     <Stack>
-                        <Title order={2} mt="xs" mb="md">{testCollab.name} <span style={{ color: 'grey' }}>Collaborative</span></Title>
+                        <Title order={2} mb="md">{testCollab.name} Collaborative</Title>
                         <SimpleGrid cols={2} mb="md">
                         <div>
                             <Group>

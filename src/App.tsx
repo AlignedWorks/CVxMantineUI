@@ -30,6 +30,8 @@ import { EditCollaborativeTreasury } from './pages/Collaborative/EditTreasury.pa
 import { CollaborativeMemberWallet } from './pages/Collaborative/Wallet.page.tsx';
 import { CSAAgreement } from './pages/Collaborative/CSAAgreement.page.tsx';
 
+import { CreateProject } from './pages/CreateProject.page.tsx';
+
 import { Test } from "./pages/Test.page.tsx";
 import { NotFound } from './components/404/NotFound.tsx';
 import { Dashboard } from "./pages/Dashboard.page.tsx";
@@ -71,6 +73,7 @@ export default function App() {
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/user-profile/edit" element={<EditUserProfile />} />
               <Route path="/create-collaborative" element={<CreateCollaborative />} />
+              <Route path="/create-project" element={<CreateProject />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/test" element={<Test/>} /> {/* Test route for development */}
               <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
