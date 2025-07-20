@@ -73,7 +73,7 @@ export default function App() {
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/user-profile/edit" element={<EditUserProfile />} />
               <Route path="/create-collaborative" element={<CreateCollaborative />} />
-              <Route path="/create-project" element={<CreateProject />} />
+              <Route path="/create-project/:collabId" element={<CreateProject />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/test" element={<Test/>} /> {/* Test route for development */}
               <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
