@@ -102,21 +102,21 @@ export function Test() {
         body: JSON.stringify({ email: inviteEmail }),
     })
         .then((res) => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return res.json();
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json();
         })
         .then((data) => {
-        console.log('Invitation sent successfully:', data);
-        setInviteSuccess(true);
-        setInviteError('');
-        setInviteEmail(''); // Clear the input field
+            console.log('Invitation sent successfully:', data);
+            setInviteSuccess(true);
+            setInviteError('');
+            setInviteEmail(''); // Clear the input field
         })
         .catch((err) => {
-        console.error('Error sending invitation:', err);
-        setInviteSuccess(false);
-        setInviteError('Failed to send the invitation. Please try again.');
+            console.error('Error sending invitation:', err);
+            setInviteSuccess(false);
+            setInviteError('Failed to send the invitation. Please try again.');
         });
     };
 
@@ -193,6 +193,9 @@ export function Test() {
                 </Stack>
                 </form>
             </Card>
+
+            <Text fz="md" fw={500} c="#999">Launch Tokens available</Text>
+            <Text fz="h1">1000 (10% of total equity)</Text>
 
             <Card padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
                 <Grid>

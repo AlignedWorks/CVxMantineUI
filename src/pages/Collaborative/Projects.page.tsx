@@ -105,7 +105,7 @@ export function CollaborativeProjects() {
       </Card>
       <Group justify="right">
         <Link to={`/create-project/${id}`} style={{ textDecoration: 'none' }}>
-          <Button mb="sm">
+          <Button variant="default" mb="sm">
             Add a Project
           </Button>
         </Link>

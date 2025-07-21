@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Container, TextInput, NumberInput, Select, Textarea, Button, Group, Title, SimpleGrid } from '@mantine/core';
+import { Container, Text, TextInput, NumberInput, Select, Textarea, Button, Group, Title, SimpleGrid } from '@mantine/core';
 import { Project, CollaborativeDataWithMembers } from '../data';
 
 export function CreateProject() {
@@ -12,15 +12,15 @@ export function CreateProject() {
 } | null>(null);
 
   type ProjectFormValues = Pick<Project, 'collabId' | 'name' | 'description' | 'launchTokenBudget' | 'projectAdminCompensation'> & {
-    projectAdminId?: string; // Optional field for project admin ID
+    projectAdminId?: string;
   };
   const [formValues, setFormValues] = useState<ProjectFormValues>({
-    collabId: parseInt(collabId || '0', 10), // Link to a collaborative
+    collabId: parseInt(collabId || '0', 10),
     name: '',
     description: '',
     launchTokenBudget: 0,
     projectAdminCompensation: 0,
-    projectAdminId: '', // Optional field for project admin ID
+    projectAdminId: '',
   });
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export function CreateProject() {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const newErrors: Record<string, string> = {};
@@ -103,8 +103,33 @@ export function CreateProject() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
+
       console.log('Form submitted:', formValues);
-      // Add logic to save the project (e.g., API call)
+
+      try {
+        const response = await fetch(
+          new URL("projects", import.meta.env.VITE_API_BASE),
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',   
+          body: JSON.stringify(formValues)
+        });
+  
+        if (response.ok) {
+          const data = await response.json(); // Parse the JSON response
+          console.log(data.message); // Log the message from the backend
+          alert(data.message); // Optionally display the message to the user
+        } else {
+          console.error('Failed to create collaborative:', response.statusText);
+          alert('Failed to create collaborative. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('An error occurred while submitting the form. Please try again.');
+      }
     }
   };
 
@@ -156,6 +181,7 @@ export function CreateProject() {
         />
 
         <Group>
+          <Text>Launch Tokens</Text>
           <TextInput
             label="Launch Tokens Created"
             placeholder="Enter the number of launch tokens created"
@@ -172,7 +198,7 @@ export function CreateProject() {
 
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg" mt="lg">
           <NumberInput
-            label="Launch Token Budget"
+            label="Launch Token Budget (%)"
             placeholder="Enter the token budget for the project"
             value={formValues.launchTokenBudget}
             onChange={(value) => handleInputChange('launchTokenBudget', value)}
