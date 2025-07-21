@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Container, TextInput, NumberInput, Select, Textarea, Button, Group, Title, SimpleGrid } from '@mantine/core';
 import { Project, CollaborativeDataWithMembers } from '../data';
 
 export function CreateProject() {
   const { collabId } = useParams<{ collabId: string }>();
   const [collaborative, setCollaborative] = useState<CollaborativeDataWithMembers | null>(null);
+  const [tokenData, setTokenData] = useState<{
+    launchTokensCreated: number;
+    launchTokensBalance: number;
+} | null>(null);
 
   type ProjectFormValues = Pick<Project, 'collabId' | 'name' | 'description' | 'launchTokenBudget' | 'projectAdminCompensation'> & {
     projectAdminId?: string; // Optional field for project admin ID
@@ -20,29 +24,60 @@ export function CreateProject() {
   });
 
   useEffect(() => {
-      fetch(
+    const fetchCollaborativeMembers = async () => {
+    try {
+      const response = await fetch(
         new URL(`collaboratives/${collabId}/members`, import.meta.env.VITE_API_BASE),
-      {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Failed to fetch collaborative data');
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch collaborative members');
+      }
+
+      const data = await response.json();
+      setCollaborative(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchCollaborativeMembers();
+  }, [collabId]);
+
+  useEffect(() => {
+    const fetchTokenData = async () => {
+      try {
+        const response = await fetch(
+          new URL(`collaboratives/${collabId}/token-distribution`, import.meta.env.VITE_API_BASE),
+          {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }
-          return response.json();
-        })
-        .then((data: CollaborativeDataWithMembers) => {
-          console.log(data);
-          setCollaborative(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, [collabId]);
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch token data');
+        }
+
+        const data = await response.json();
+        setTokenData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTokenData();
+  }, [collabId]);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -75,8 +110,14 @@ export function CreateProject() {
 
   return (
     <Container size="md" py="xl">
+
+      {/* Back Link */}
+      <Link to={`/collaboratives/${collabId}/projects`} style={{ textDecoration: 'none', color: '#0077b5' }}>
+        &larr; Back
+      </Link>
+
       <Title order={2} mb="lg">
-        Create a New Project
+        Create a Project
       </Title>
       <form onSubmit={handleSubmit}>
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg">
@@ -114,6 +155,21 @@ export function CreateProject() {
           mt="md"
         />
 
+        <Group>
+          <TextInput
+            label="Launch Tokens Created"
+            placeholder="Enter the number of launch tokens created"
+            value={tokenData?.launchTokensCreated || ''}
+            readOnly
+          />
+          <TextInput
+            label="Launch Tokens Balance"
+            placeholder="Enter the launch tokens balance"
+            value={tokenData?.launchTokensBalance || ''}
+            readOnly
+          />
+        </Group>
+
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg" mt="lg">
           <NumberInput
             label="Launch Token Budget"
@@ -123,6 +179,7 @@ export function CreateProject() {
             error={errors.launchTokenBudget}
             required
             min={0}
+            max={100}
           />
           <NumberInput
             label="Admin Compensation (%)"
@@ -138,7 +195,7 @@ export function CreateProject() {
         </SimpleGrid>
 
         <Group justify="flex-end" mt="xl">
-          <Button type="submit">Create Project</Button>
+          <Button variant="default" type="submit">Create Project</Button>
         </Group>
       </form>
     </Container>

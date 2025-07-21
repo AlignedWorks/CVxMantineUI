@@ -21,6 +21,7 @@ import {
   Stack,
   Center,
   Tooltip,
+  Progress,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import { Link } from 'react-router-dom';
@@ -205,6 +206,18 @@ export function Test() {
                         <Title order={2} mt="xs" mb="xl">
                             {testCollab.name} Collaborative
                         </Title>
+                        <Group justify="space-between">
+                            <Text fz="md" fw={500} c="green">Tokens Released this Cycle: 1000</Text>
+                            <Text fz="md" fw={500} c="#333">Total Tokens: 10,000</Text>
+                        </Group>
+                        <Progress.Root size="xl">
+                            <Progress.Section value={3} color="gray" />
+                            <Progress.Section value={7} color="green" />
+                            <Progress.Section value={90} color="blue" />
+                        </Progress.Root>
+                        <Group justify="flex-start">
+                            <Text fz="md" fw={500} c="grey">Tokens Already Allocated this Cycle: 300</Text>
+                        </Group>
                         <Title order={4} lts="1px" mt="xl" c="green">Financial Health Metrics</Title>
                         <Paper p="lg" radius="md" bg="#fafafa">
                             <Group justify="space-between">
