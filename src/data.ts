@@ -31,6 +31,7 @@ export interface Project {
   approvalStatus: string;
   launchTokenBudget: number;
   createdAt: string;
+  projectAdmin: string;
   projectAdminCompensation: number;
 }
 
