@@ -136,28 +136,30 @@ export function CollaborativeProjects() {
                 Projects
               </Title>
 
-              <Table highlightOnHover>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Approval Status</th>
-                    <th>Launch Token Budget</th>
-                    <th>Created At</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {projects.map((project) => (
-                    <tr key={project.id}>
-                      <td>{project.name}</td>
-                      <td>{project.description}</td>
-                      <td>{project.approvalStatus}</td>
-                      <td>{project.launchTokenBudget}</td>
-                      <td>{new Date(project.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <Table.ScrollContainer minWidth={400} mt="xl">
+                <Table verticalSpacing="sm">
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Name</Table.Th>
+                      <Table.Th>Description</Table.Th>
+                      <Table.Th>Approval Status</Table.Th>
+                      <Table.Th>Launch Token Budget</Table.Th>
+                      <Table.Th>Created At</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {projects.map((project) => (
+                      <Table.Tr key={project.id}>
+                        <Table.Td>{project.name}</Table.Td>
+                        <Table.Td>{project.description}</Table.Td>
+                        <Table.Td>{project.approvalStatus}</Table.Td>
+                        <Table.Td>{project.launchTokenBudget}</Table.Td>
+                        <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </Table.ScrollContainer>
             </Stack>
           </Grid.Col>
         </Grid>
