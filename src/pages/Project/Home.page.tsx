@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../AuthContext.tsx';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
   Container,
