@@ -154,7 +154,7 @@ export function CollaborativeProjects() {
                       <Table.Tr key={project.id}>
                         <Table.Td>
                           <Link 
-                            to={`collaboratives/${project.collabId}/projects/${project.id}`}>
+                            to={`/collaboratives/${project.collabId}/projects/${project.id}`}>
                               {project.name}
                           </Link>
                         </Table.Td>
