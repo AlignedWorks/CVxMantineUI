@@ -23,33 +23,6 @@ export interface Collaborative {
   launchTokenInitialReleaseWeeks: number;
 }
 
-export interface Project {
-  id: number;
-  collabId: number;
-  name: string;
-  description: string;
-  approvalStatus: string;
-  launchTokenBudget: number;
-  createdAt: string;
-  projectAdminName: string;
-  projectAdminEmail: string;
-  projectAdminCompensation: number;
-}
-
-export interface ProjectDataHome {
-  collabId: number;
-  collabName: string;
-  collabLogoUrl: string;
-  name: string;
-  description: string;
-  approvalStatus: string;
-  launchTokenBudget: number;
-  createdAt: string;
-  projectAdminName: string;
-  projectAdminEmail: string;
-  projectAdminCompensation: number;
-}
-
 export interface CollabInvite {
   userId: string;
   userRole: string;
@@ -141,6 +114,53 @@ export interface CollaborativeDataTreasury {
 }
 
 export interface CollabMember {
+  id: string;
+  firstName: string;
+  lastName: string
+  userName: string;
+  avatarUrl: string;
+  role: string;
+  inviteStatus: string;
+  isActive: boolean;
+}
+
+export interface Project {
+  id: number;
+  collabId: number;
+  name: string;
+  description: string;
+  approvalStatus: string;
+  launchTokenBudget: number;
+  createdAt: string;
+  projectAdminName: string;
+  projectAdminEmail: string;
+  projectAdminCompensation: number;
+}
+
+export interface ProjectDataHome {
+  collabId: number;
+  collabName: string;
+  collabLogoUrl: string;
+  name: string;
+  description: string;
+  approvalStatus: string;
+  launchTokenBudget: number;
+  createdAt: string;
+  projectAdminName: string;
+  projectAdminEmail: string;
+  projectAdminCompensation: number;
+}
+
+export interface ProjectDataWithMembers {
+  collabName: string;
+  collabLogoUrl: string;
+  id: number;
+  name: string;
+  userIsProjectAdmin: boolean;
+  members: ProjectMember[];
+}
+
+export interface ProjectMember {
   id: string;
   firstName: string;
   lastName: string

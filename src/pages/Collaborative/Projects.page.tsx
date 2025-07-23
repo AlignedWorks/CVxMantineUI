@@ -153,15 +153,17 @@ export function CollaborativeProjects() {
                     {projects.map((project) => (
                       <Table.Tr key={project.id}>
                         <Table.Td>
-                          <Link 
-                            to={`/collaboratives/${project.collabId}/projects/${project.id}`}
-                            style={{
-                              textDecoration: 'none',
-                              color: '#0077b5'
+                          <Text fz="sm" fw={500} 
+                            style={{ 
+                              color: '#0077b5', 
+                              cursor: 'pointer',
+                              textDecoration: 'none'
                             }}
-                          >
+                            component={Link}
+                            to={`/collaboratives/${project.collabId}/projects/${project.id}`}
+                            >
                             {project.name}
-                          </Link>
+                          </Text>
                         </Table.Td>
                         <Table.Td>{project.description}</Table.Td>
                         <Table.Td>{project.approvalStatus}</Table.Td>

@@ -31,6 +31,7 @@ import { CollaborativeMemberWallet } from './pages/Collaborative/Wallet.page.tsx
 import { CSAAgreement } from './pages/Collaborative/CSAAgreement.page.tsx';
 
 import { ProjectHome } from './pages/Project/Home.page.tsx';
+import { ProjectMembers } from './pages/Project/Members.page.tsx';
 
 import { CreateProject } from './pages/CreateProject.page.tsx';
 
@@ -88,6 +89,7 @@ export default function App() {
               <Route path="/collaboratives/:id/wallet" element={<CollaborativeMemberWallet/>} />
               <Route path="/collaboratives/:id/csa-agreement" element={<CSAAgreement />} />
               <Route path="/collaboratives/:collabId/projects/:projectId" element={<ProjectHome />} />
+              <Route path="/collaboratives/:collabId/projects/:projectId/members" element={<ProjectMembers />} />
               <Route path="/members/:id" element={<MemberProfile/>} />
               <Route path="/upload-image" element={<ImageUpload />} />
               <Route path="/upload-file" element={<FileUpload />} />
