@@ -131,16 +131,11 @@ export function CollaborativeProjects() {
                   {collaborative.name} Collaborative
               </Title>
 
-              {/* Projects Table */}
-              <Title order={3} mt="lg" mb="sm">
-                Projects
-              </Title>
-
               <Table.ScrollContainer minWidth={400} mt="xl">
                 <Table verticalSpacing="sm">
                   <Table.Thead>
                     <Table.Tr>
-                      <Table.Th>Name</Table.Th>
+                      <Table.Th>Projects</Table.Th>
                       <Table.Th>Description</Table.Th>
                       <Table.Th>Approval Status</Table.Th>
                       <Table.Th>Launch Token Budget</Table.Th>
