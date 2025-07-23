@@ -33,7 +33,7 @@ export interface Project {
   createdAt: string;
   projectAdminName: string;
   projectAdminEmail: string;
-  adminCompensation: number;
+  projectAdminCompensation: number;
 }
 
 export interface ProjectDataHome {
