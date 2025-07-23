@@ -154,8 +154,13 @@ export function CollaborativeProjects() {
                       <Table.Tr key={project.id}>
                         <Table.Td>
                           <Link 
-                            to={`/collaboratives/${project.collabId}/projects/${project.id}`}>
-                              {project.name}
+                            to={`/collaboratives/${project.collabId}/projects/${project.id}`}
+                            style={{
+                              textDecoration: 'none',
+                              color: '#0077b5'
+                            }}
+                          >
+                            {project.name}
                           </Link>
                         </Table.Td>
                         <Table.Td>{project.description}</Table.Td>

@@ -110,7 +110,7 @@ export function ProjectHome() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
+      <Link to={`/collaboratives/${collabId}/projects`} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
@@ -122,21 +122,21 @@ export function ProjectHome() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={5} ta="center" hiddenFrom="sm" mt="xs">
+              <Title order={5} ta="center" c="dimmed" hiddenFrom="sm" mt="xs">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Title>
-              <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
+              <Title order={2} ta="center" hiddenFrom="sm" mb="xl">
                 {project.name}
               </Title>
-              <Title order={5} visibleFrom="sm" mt="xs">
+              <Title order={5} visibleFrom="sm" c="dimmed" mt="xs">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
+              <Title order={2} visibleFrom="sm" mb="xl">
                 {project.name}
               </Title>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>
-                  <Group>
+                  <Group mb="md">
                       {project.approvalStatus === 'Active' ? (
                           <Badge color="yellow">
                               {project.approvalStatus}
