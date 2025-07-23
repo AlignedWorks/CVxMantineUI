@@ -13,6 +13,7 @@ import {
   Group,
   Button,
   Table,
+  Center,
  } from '@mantine/core';
 import { CollaborativeData, Project } from '../../data.ts';
 
@@ -123,11 +124,16 @@ export function CollaborativeProjects() {
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-            <img src={collaborative.logoUrl} width={80}/>
+            <Center>
+              <img src={collaborative.logoUrl} width={80}/>
+            </Center>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={2} mt="xs" mb="md">
+              <Title order={2} ta="center" hiddenFrom="sm"  mt="xs" mb="md">
+                  {collaborative.name} Collaborative
+              </Title>
+              <Title order={2} visibleFrom="sm" mt="xs" mb="md">
                   {collaborative.name} Collaborative
               </Title>
 

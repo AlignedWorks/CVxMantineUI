@@ -10,6 +10,7 @@ import {
   Card,
   Stack,
   Title,
+  Center,
  } from '@mantine/core';
 import { CollaborativeData } from '../../data.ts';
 
@@ -87,13 +88,18 @@ export function CollaborativeMemberWallet() {
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-            <img src={collaborative.logoUrl} width={80}/>
+            <Center>
+              <img src={collaborative.logoUrl} width={80}/>
+            </Center>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-                <Title order={2} mt="xs" mb="md">
-                    {collaborative.name} Collaborative
-                </Title>
+                <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
+                {collaborative.name} Collaborative
+              </Title>
+              <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
+                {collaborative.name} Collaborative
+              </Title>
               
                 <Text size="xl" c="dimmed">
                     COLLABORATIVE MEMBER WALLET DATA HERE

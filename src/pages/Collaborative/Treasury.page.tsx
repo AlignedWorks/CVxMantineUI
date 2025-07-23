@@ -114,11 +114,9 @@ export function CollaborativeTreasury() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Center hiddenFrom="sm">
-                <Title order={2} mt="xs" mb="xl">
-                  {collaborative.name} Collaborative
-                </Title>
-              </Center>
+              <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
+                {collaborative.name} Collaborative
+              </Title>
               <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
                 {collaborative.name} Collaborative
               </Title>

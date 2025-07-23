@@ -299,16 +299,15 @@ export function Test() {
                 <Grid>
                     <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
                         <Center>
-                        <img src={testCollab.logoUrl} width={80}/>
+                            <img src={testCollab.logoUrl} width={80}/>
                         </Center>
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
-                        <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg">
-                            <Group>
-                            </Group>
-                        </Card>
                         <Stack>
-                        <Title order={2} mt="xs" mb="xl">
+                        <Title ta="center" hiddenFrom="sm" order={2} mt="xs" mb="xl">
+                            {testCollab.name} Collaborative
+                        </Title>
+                        <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
                             {testCollab.name} Collaborative
                         </Title>
                         <Title order={3} fw={500} c="green" mt="lg" mb="md">
