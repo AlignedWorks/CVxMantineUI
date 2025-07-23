@@ -122,14 +122,14 @@ export function ProjectHome() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={5} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
-                {project.collabName} Collaborative
+              <Title order={5} ta="center" hiddenFrom="sm" mt="xs">
+                {project.collabName.toUpperCase()} COLLABORATIVE
               </Title>
               <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
                 {project.name}
               </Title>
-              <Title order={5} visibleFrom="sm" mt="xs" mb="xl">
-                {project.collabName} Collaborative
+              <Title order={5} visibleFrom="sm" mt="xs">
+                {project.collabName.toUpperCase()} COLLABORATIVE
               </Title>
               <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
                 {project.name}
@@ -147,6 +147,9 @@ export function ProjectHome() {
                           </Badge>
                       )}
                   </Group>
+                  <Text>
+                    Launch Tokens: {project.launchTokenBudget}
+                  </Text>
                 </div>
                 <div>
                   <Group mb="md" align="flex-start">
