@@ -233,7 +233,18 @@ export function HeaderTabs() {
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           </div>
         </Group>
+        
       </Container>
+      <div style={{ background: '#eee', padding: '4px 0' }}>
+        <Container className={classes.mainSection} size="md">
+          <Group justify="flex-start">
+            <Text fz="sm">HOME</Text> | 
+            <Text fz="sm">MILESTONES</Text> | 
+            <Text fz="sm">MEMBERS</Text> | 
+            <Text fz="sm">BUDGET</Text>
+          </Group>
+        </Container>
+      </div>
     </div>
 
     {/* Mobile Navigation Drawer */}

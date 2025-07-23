@@ -137,6 +137,7 @@ export function CollaborativeProjects() {
                   {collaborative.name} Collaborative
               </Title>
 
+              {projects.length > 0 ? (
               <Table.ScrollContainer minWidth={400} mt="xl">
                 <Table verticalSpacing="sm">
                   <Table.Thead>
@@ -151,7 +152,12 @@ export function CollaborativeProjects() {
                   <Table.Tbody>
                     {projects.map((project) => (
                       <Table.Tr key={project.id}>
-                        <Table.Td>{project.name}</Table.Td>
+                        <Table.Td>
+                          <Link 
+                            to={`collaboratives/${project.collabId}/projects/${project.id}`}>
+                              {project.name}
+                          </Link>
+                        </Table.Td>
                         <Table.Td>{project.description}</Table.Td>
                         <Table.Td>{project.approvalStatus}</Table.Td>
                         <Table.Td>{project.launchTokenBudget}</Table.Td>
@@ -161,6 +167,11 @@ export function CollaborativeProjects() {
                   </Table.Tbody>
                 </Table>
               </Table.ScrollContainer>
+              ) : (
+                <Text size="md" c="dimmed" mt="xl">
+                  No projects created yet for this collaborative.
+                </Text>
+              )}
             </Stack>
           </Grid.Col>
         </Grid>

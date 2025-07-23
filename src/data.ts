@@ -31,7 +31,22 @@ export interface Project {
   approvalStatus: string;
   launchTokenBudget: number;
   createdAt: string;
-  projectAdmin: string;
+  projectAdminName: string;
+  projectAdminEmail: string;
+  adminCompensation: number;
+}
+
+export interface ProjectDataHome {
+  collabId: number;
+  collabName: string;
+  collabLogoUrl: string;
+  name: string;
+  description: string;
+  approvalStatus: string;
+  launchTokenBudget: number;
+  createdAt: string;
+  projectAdminName: string;
+  projectAdminEmail: string;
   projectAdminCompensation: number;
 }
 
