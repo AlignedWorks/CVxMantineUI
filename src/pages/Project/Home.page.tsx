@@ -18,7 +18,7 @@ import {
 import { ProjectDataHome } from '../../data.ts';
 
 export function ProjectHome() {
-  const { collabId, projectId } = useParams(); // Get the 'id' parameter from the URL
+  const { collabId, projectId } = useParams();
   const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataHome | null>(null);

@@ -27,7 +27,7 @@ import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
 
 export function ProjectMembers() {
   // const location = useLocation();
-  const { id } = useParams(); // Get the 'id' parameter from the URL
+  const { collabId, projectId } = useParams();
   const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataWithMembers | null>(null);
@@ -51,13 +51,13 @@ export function ProjectMembers() {
 
   // Set the collaborative ID in context
   useEffect(() => {
-    setCollaborativeId(id || null);
+    setCollaborativeId(collabId || null);
     return () => setCollaborativeId(null); // Clear the ID when leaving the page
-  }, [id, setCollaborativeId]);
+  }, [collabId, setCollaborativeId]);
 
   useEffect(() => {
     fetch(
-      new URL(`projects/${id}/members`, import.meta.env.VITE_API_BASE),
+      new URL(`projects/${projectId}/members`, import.meta.env.VITE_API_BASE),
     {
       method: 'GET',
       credentials: 'include',
@@ -80,7 +80,7 @@ export function ProjectMembers() {
         console.error(error);
         setLoading(false);
       });
-  }, [id]);
+  }, [projectId]);
 
   if (loading) {
     return (
@@ -103,7 +103,7 @@ export function ProjectMembers() {
   const fetchCollabMembers = async () => {
     setLoadingUsers(true);
     await fetch(
-      new URL(`collaboratives/${id}/members`, import.meta.env.VITE_API_BASE),
+      new URL(`collaboratives/${collabId}/members`, import.meta.env.VITE_API_BASE),
     {
       method: 'GET',
       credentials: 'include',
@@ -235,7 +235,7 @@ export function ProjectMembers() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <Link to={`/collaboratives/${id}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
+      <Link to={`/collaboratives/${collabId}/projects/${projectId}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
