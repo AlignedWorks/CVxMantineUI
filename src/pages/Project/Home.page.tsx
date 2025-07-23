@@ -25,9 +25,6 @@ export function ProjectHome() {
   const [project, setProject] = useState<ProjectDataHome | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Get the "from" state or default to a fallback
-  const from = location.state?.from || '/collaborative-directory';
-
   if (user) {
     console.log(user.username);
   } else {
