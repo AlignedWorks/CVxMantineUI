@@ -25,23 +25,6 @@ import {
 import { ProjectDataWithMembers, CollabMember, inviteStatusColors } from '../../data.ts';
 import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
 
-interface Member {
-  id: string;
-  userName: string;
-  firstName: string;
-  lastName: string;
-  bio: string;
-  city: string;
-  state: string;
-  phoneNumber: string;
-  linkedIn: string;
-  avatarUrl: string;
-  createdAt: string;
-  skills: string[];
-  experience: string[];
-  memberStatus: string;
-}
-
 export function ProjectMembers() {
   // const location = useLocation();
   const { id } = useParams(); // Get the 'id' parameter from the URL
