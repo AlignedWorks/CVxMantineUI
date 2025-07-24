@@ -22,7 +22,7 @@ import {
   Tooltip,
   Center,
  } from '@mantine/core';
-import { ProjectDataWithMembers, CollabMember, inviteStatusColors } from '../../data.ts';
+import { ProjectDataWithMembers, CollabMember, inviteStatusColors, CollaborativeDataWithMembers } from '../../data.ts';
 import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
 
 export function ProjectMembers() {
@@ -117,9 +117,9 @@ export function ProjectMembers() {
         }
         return response.json();
       })
-      .then((data: CollabMember[]) => {
+      .then((data: CollaborativeDataWithMembers) => {
         // Filter out users who are already members of the project
-        const filteredUsers = data.filter(user =>
+        const filteredUsers = data.members.filter(user =>
           !project.members.some(member => member.id === user.id)
         );
 
