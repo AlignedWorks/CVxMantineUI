@@ -122,13 +122,13 @@ export function ProjectHome() {
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Title>
               <Title order={2} ta="center" hiddenFrom="sm" mb="xl">
-                {project.name}
+                {project.name} Project
               </Title>
               <Title order={5} visibleFrom="sm" c="dimmed" mt="xs">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Title>
               <Title order={2} visibleFrom="sm" mb="xl">
-                {project.name}
+                {project.name} Project
               </Title>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>

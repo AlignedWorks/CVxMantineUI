@@ -247,11 +247,17 @@ export function ProjectMembers() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
-                {project.collabName} Project
+              <Title order={5} ta="center" c="dimmed" hiddenFrom="sm" mt="xs">
+                {project.collabName.toUpperCase()} COLLABORATIVE
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
-                {project.collabName} Project
+              <Title order={2} ta="center" hiddenFrom="sm" mb="xl">
+                {project.name} Project
+              </Title>
+              <Title order={5} visibleFrom="sm" c="dimmed" mt="xs">
+                {project.collabName.toUpperCase()} COLLABORATIVE
+              </Title>
+              <Title order={2} visibleFrom="sm" mb="xl">
+                {project.name} Project
               </Title>
               <Table.ScrollContainer minWidth={400} mt="xl">
                 <Table verticalSpacing="sm">
