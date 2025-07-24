@@ -6,10 +6,7 @@ import { Project, CollaborativeDataWithMembers } from '../data';
 export function CreateProject() {
   const { collabId } = useParams<{ collabId: string }>();
   const [collaborative, setCollaborative] = useState<CollaborativeDataWithMembers | null>(null);
-  const [tokenData, setTokenData] = useState<{
-    launchTokensCreated: number;
-    launchTokensBalance: number;
-} | null>(null);
+
 
   type ProjectFormValues = Pick<Project, 'collabId' | 'name' | 'description' | 'launchTokenBudget' | 'projectAdminCompensation'> & {
     projectAdminId?: string;
@@ -51,33 +48,7 @@ export function CreateProject() {
   fetchCollaborativeMembers();
   }, [collabId]);
 
-  useEffect(() => {
-    const fetchTokenData = async () => {
-      try {
-        const response = await fetch(
-          new URL(`collaboratives/${collabId}/token-distribution`, import.meta.env.VITE_API_BASE),
-          {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch token data');
-        }
-
-        const data = await response.json();
-        setTokenData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTokenData();
-  }, [collabId]);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -182,19 +153,7 @@ export function CreateProject() {
 
         <Group>
           <Text>Launch Tokens</Text>
-          <TextInput
-            label="Launch Tokens Created"
-            placeholder="Enter the number of launch tokens created"
-            value={tokenData?.launchTokensCreated || ''}
-            readOnly
-          />
-          <TextInput
-            label="Launch Tokens Balance"
-            placeholder="Enter the launch tokens balance"
-            value={tokenData?.launchTokensBalance || ''}
-            readOnly
-          />
-        </Group>
+
 
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg" mt="lg">
           <NumberInput

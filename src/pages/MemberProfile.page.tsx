@@ -11,6 +11,7 @@ import {
   Grid,
   SimpleGrid,
   Stack,
+  Center,
 } from '@mantine/core';
 import {
   IconAt,
@@ -81,7 +82,9 @@ export function MemberProfile() {
           <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
             <Grid>
               <Grid.Col span={{ base: 12, sm: 12, md: 4, lg: 3 }}>
-                <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" ml="lg" />
+                <Center>
+                  <Avatar src={user.avatarUrl} size={120} radius={120} mb="xl" ml="lg" />
+                </Center>
               </Grid.Col>
               <Grid.Col span={{ base: 12, sm: 12, md: 8, lg: 9 }}>
                 <Stack>
