@@ -176,6 +176,7 @@ export interface ProjectInvite {
   userRole: string;
   projectId: number;
   projectName: string;
+  collabId: number;
   collabLogoUrl: string;
   inviteStatus: string;
 }

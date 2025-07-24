@@ -485,7 +485,7 @@ export function Dashboard() {
               <Group justify="space-between">
                 <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
                 <Text>
-                    You've been invited to join the project<br/><strong><Link to={`/projects/${invite.projectId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.projectName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                    You've been invited to join the project<br/><strong><Link to={`/collaboratives/${invite.collabId}/projects/${invite.projectId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.projectName}</Link></strong> as a <strong>{invite.userRole}</strong>.
                 </Text>
                 <div>
                   <Button
