@@ -281,7 +281,7 @@ export function ProjectMembers() {
         </Grid>
       </Card>
 
-      {project.userIsProjectAdmin && filteredUsers.length > 1 ? (
+      {project.userIsProjectAdmin ? (
         <Group justify="right">
           <Button
             mb="sm"
@@ -289,7 +289,7 @@ export function ProjectMembers() {
             onClick={() => {
                 setIsModalOpen(true);
                 if (collabMembers.length === 0) {
-                fetchCollabMembers(); // Fetch users only if not already loaded
+                    fetchCollabMembers(); // Fetch users only if not already loaded
                 }
             }}
             >
@@ -298,7 +298,7 @@ export function ProjectMembers() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only collaborative admins can add members">
+          <Tooltip label="Only project admins can add members">
             <Button disabled mb="sm">
               Add Members
             </Button>
