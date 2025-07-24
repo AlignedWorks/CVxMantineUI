@@ -123,9 +123,8 @@ export function ProjectMembers() {
           !project.members.some(member => member.id === user.id)
         );
 
-        console.log(data);
         setCollabMembers(filteredUsers); // Set the filtered data
-        console.log("filteredUsers: " + filteredUsers);
+
       })
       .catch((error) => {
         console.error('Error fetching member data:', error);
@@ -317,12 +316,14 @@ export function ProjectMembers() {
       ) : (
           <div>
               {/* Searchable Input */}
+              {filteredUsers.length > 5 && (
               <TextInput
                   placeholder="Search users"
                   mb="md"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
               />
+              )}
 
               {/* User List with Selection */}
               <div>

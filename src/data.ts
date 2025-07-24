@@ -171,6 +171,15 @@ export interface ProjectMember {
   isActive: boolean;
 }
 
+export interface ProjectInvite {
+  userId: string;
+  userRole: string;
+  projectId: number;
+  projectName: string;
+  collabLogoUrl: string;
+  inviteStatus: string;
+}
+
 export const collabRoles = ['Collaborative Admin','Collaborative Member']
 
 export const inviteStatusColors: { [key: string]: string } = {

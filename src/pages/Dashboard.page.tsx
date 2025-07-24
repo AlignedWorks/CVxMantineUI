@@ -19,7 +19,7 @@ import {
   TextInput,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval } from '../data.ts';
+import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval, ProjectInvite } from '../data.ts';
 
 interface User {
   id: string;
@@ -41,6 +41,7 @@ export function Dashboard() {
   const [collabsNeedingApproval, setCollabsNeedingApproval] = useState<CollabsNeedingApproval[]>([]);
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
+  const [projectInvites, setProjectInvites] = useState<ProjectInvite[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
   const [inviteModalOpen, setInviteModalOpen] = useState(false); // State to control modal visibility
@@ -57,7 +58,7 @@ export function Dashboard() {
       })
         .then((res) => res.json())
         .then((data) => {
-          const { users, roles, collabs, collabsNeedingApproval, collabInvites, csaApprovalRequests } = data;
+          const { users, roles, collabs, collabsNeedingApproval, collabInvites, csaApprovalRequests, projectInvites } = data;
 
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
@@ -68,6 +69,7 @@ export function Dashboard() {
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
           setUserApprovals(users);
+          setProjectInvites(projectInvites);
 
           // Set the roles data
           setRolesData(roles);
@@ -430,6 +432,37 @@ export function Dashboard() {
                   <Button
                     variant="default"
                     onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
+                    ml="md">
+                      Decline Invitation
+                  </Button>
+                </div>
+              </Group>
+          </Card>
+        ))}
+
+        {projectInvites?.map((invite) => (
+          <Card 
+            key={`${invite.userId}-${invite.projectId}`}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            mt="lg"
+            mb="lg">
+              <Group justify="space-between">
+                <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                <Text>
+                    You've been invited to join the project<br/><strong><Link to={`/projects/${invite.projectId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.projectName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                </Text>
+                <div>
+                  <Button
+                    variant="default"
+                    onClick={() => handleCollabInvite(invite.projectId, invite.userId, 'accept')}>
+                      Accept Invitation
+                  </Button>
+                  <Button
+                    variant="default"
+                    onClick={() => handleCollabInvite(invite.projectId, invite.userId, 'decline')}
                     ml="md">
                       Decline Invitation
                   </Button>
