@@ -168,6 +168,39 @@ export function Dashboard() {
       });
   };
 
+  const handleProjectInvite = (projectId: number, userId: string, action: 'accept' | 'decline') => {
+    // Determine the new status based on the action
+    const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
+    
+    fetch(
+      new URL(`projects/${projectId}`, import.meta.env.VITE_API_BASE),
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          userId: userId,
+          inviteStatus: newStatus 
+        }),
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(`Invitation ${action}ed successfully:`, data);
+        
+        // Refresh the page so 1) collab invite is removed and 2) the collab's CSA acceptance notification can populate
+        fetchDashboardData();
+      })
+      .catch((err) => {
+        console.error(`Error ${action}ing invitation:`, err);
+        // Optionally show an error message to the user
+      });
+  };
+
   const handleCollabApproval = (collabId: number, status: 'approve' | 'decline') => {
     fetch(
       new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
@@ -457,12 +490,12 @@ export function Dashboard() {
                 <div>
                   <Button
                     variant="default"
-                    onClick={() => handleCollabInvite(invite.projectId, invite.userId, 'accept')}>
+                    onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'accept')}>
                       Accept Invitation
                   </Button>
                   <Button
                     variant="default"
-                    onClick={() => handleCollabInvite(invite.projectId, invite.userId, 'decline')}
+                    onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'decline')}
                     ml="md">
                       Decline Invitation
                   </Button>
