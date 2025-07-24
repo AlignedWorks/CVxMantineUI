@@ -123,7 +123,9 @@ export function ProjectMembers() {
           !project.members.some(member => member.id === user.id)
         );
 
+        console.log(data);
         setCollabMembers(filteredUsers); // Set the filtered data
+        console.log("filteredUsers: " + filteredUsers);
       })
       .catch((error) => {
         console.error('Error fetching member data:', error);
@@ -279,7 +281,7 @@ export function ProjectMembers() {
         </Grid>
       </Card>
 
-      {project.userIsProjectAdmin ? (
+      {project.userIsProjectAdmin && filteredUsers.length > 1 ? (
         <Group justify="right">
           <Button
             mb="sm"
@@ -352,7 +354,7 @@ export function ProjectMembers() {
               {/* Select for Roles */}
               <Select
                   label="Role"
-                  data={['Collaborative Leader', 'Collaborative Member']}
+                  data={['Project Admin', 'Project Member']}
                   value={selectedRole}
                   onChange={(value) => setSelectedRole(value || '')}
                   placeholder="Select a role"
