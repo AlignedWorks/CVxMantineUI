@@ -153,7 +153,7 @@ export function CreateProject() {
 
         <Group>
           <Text>Launch Tokens</Text>
-
+        </Group>
 
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg" mt="lg">
           <NumberInput
