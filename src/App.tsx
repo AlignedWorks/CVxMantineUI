@@ -43,12 +43,97 @@ import { Invite } from './pages/Invite.page.tsx';
 
 import { Container, Group, Text } from '@mantine/core';
 
+// Create a new component for the main content
+function MainContent({ user }: { user: any }) {
+  const location = useLocation();
+  
+  // Check if we're on a project page
+  const isProjectPage = location.pathname.match(/^\/collaboratives\/\d+\/projects\/\d+/);
+  
+  return (
+    <>
+      {/* Secondary Menu Band for Project Pages */}
+      {isProjectPage && (
+        <div style={{ backgroundColor: '#e9ecef', padding: '8px 0', borderBottom: '1px solid #dee2e6' }}>
+          <Container size="md">
+            <Group justify="center" gap="lg">
+              <Text 
+                component={Link}
+                to={location.pathname}
+                size="sm" 
+                fw={500}
+                style={{ 
+                  textDecoration: 'none',
+                  color: location.pathname.endsWith('/projects/' + location.pathname.split('/').pop()) ? '#0077b5' : '#495057'
+                }}
+              >
+                Home
+              </Text>
+              <Text 
+                component={Link}
+                to={`${location.pathname}/milestones`}
+                size="sm" 
+                fw={500}
+                style={{ 
+                  textDecoration: 'none',
+                  color: location.pathname.includes('/milestones') ? '#0077b5' : '#495057'
+                }}
+              >
+                Milestones
+              </Text>
+              <Text 
+                component={Link}
+                to={`${location.pathname.replace(/\/milestones|\/members/, '')}/members`}
+                size="sm" 
+                fw={500}
+                style={{ 
+                  textDecoration: 'none',
+                  color: location.pathname.includes('/members') ? '#0077b5' : '#495057'
+                }}
+              >
+                Members
+              </Text>
+            </Group>
+          </Container>
+        </div>
+      )}
+
+      {/* Main Routes */}
+      <Routes>
+        <Route path="/" element={user ? <Dashboard /> : <Home />} />
+        <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
+        <Route path="/login" element={<AuthenticationTitle />} />
+        <Route path="/register" element={<RegistrationTile />} />
+        <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
+        <Route path="/member-directory" element={<MemberDirectory />} />
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user-profile/edit" element={<EditUserProfile />} />
+        <Route path="/create-collaborative" element={<CreateCollaborative />} />
+        <Route path="/create-project/:collabId" element={<CreateProject />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/test" element={<Test/>} /> {/* Test route for development */}
+        <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
+        <Route path="/collaboratives/:id/edit" element={<EditCollaborative />} />
+        <Route path="/collaboratives/:id/members" element={<CollaborativeMembers/>} />
+        <Route path="/collaboratives/:id/projects" element={<CollaborativeProjects/>} />
+        <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
+        <Route path="/collaboratives/:id/treasury/edit" element={<EditCollaborativeTreasury />} />
+        <Route path="/collaboratives/:id/wallet" element={<CollaborativeMemberWallet/>} />
+        <Route path="/collaboratives/:id/csa-agreement" element={<CSAAgreement />} />
+        <Route path="/collaboratives/:collabId/projects/:projectId" element={<ProjectHome />} />
+        <Route path="/collaboratives/:collabId/projects/:projectId/members" element={<ProjectMembers />} />
+        <Route path="/members/:id" element={<MemberProfile/>} />
+        <Route path="/upload-image" element={<ImageUpload />} />
+        <Route path="/upload-file" element={<FileUpload />} />
+        <Route path="/invite" element={<Invite />} />
+      </Routes>
+    </>
+  );
+}
+
 export default function App() {
   const [opened] = useDisclosure();
   const { user } = useAuth(); // Get the user from the AuthContext
-  const location = useLocation();
-
-  const isProjectPage = location.pathname.startsWith('/collaboratives') && location.pathname.includes('/projects');
 
   return (
     <MantineProvider theme={theme}>
@@ -72,62 +157,8 @@ export default function App() {
           </AppShell.Navbar>
 
           <AppShell.Main bg="#f8f8f8">
-            {/* Secondary Menu Band */}
-            {isProjectPage && (
-              <div style={{ backgroundColor: '#eee', padding: '10px 0' }}>
-                <Container size="md">
-                  <Group justify="center">
-                    <Text fz="sm" fw={500} style={{ marginRight: '15px' }}>
-                      <Link to={`${location.pathname}`} style={{ textDecoration: 'none' }}>
-                        Home
-                      </Link>
-                    </Text>
-                    <Text fz="sm" fw={500} style={{ marginRight: '15px' }}>
-                      <Link to={`${location.pathname}/milestones`} style={{ textDecoration: 'none' }}>
-                        Milestones
-                      </Link>
-                    </Text>
-                    <Text fz="sm" fw={500}>
-                      <Link to={`${location.pathname}/members`} style={{ textDecoration: 'none' }}>
-                        Members
-                      </Link>
-                    </Text>
-                  </Group>
-                </Container>
-              </div>
-            )}
-
-          <Routes>
-              <Route path="/" element={user ? <Dashboard /> : <Home />} />
-              <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
-              <Route path="/login" element={<AuthenticationTitle />} />
-              <Route path="/register" element={<RegistrationTile />} />
-              <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
-              <Route path="/member-directory" element={<MemberDirectory />} />
-              <Route path="/user-profile" element={<UserProfile />} />
-              <Route path="/user-profile/edit" element={<EditUserProfile />} />
-              <Route path="/create-collaborative" element={<CreateCollaborative />} />
-              <Route path="/create-project/:collabId" element={<CreateProject />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/test" element={<Test/>} /> {/* Test route for development */}
-              <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
-              <Route path="/collaboratives/:id/edit" element={<EditCollaborative />} />
-              <Route path="/collaboratives/:id/members" element={<CollaborativeMembers/>} />
-              <Route path="/collaboratives/:id/projects" element={<CollaborativeProjects/>} />
-              <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
-              <Route path="/collaboratives/:id/treasury/edit" element={<EditCollaborativeTreasury />} />
-              <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
-              <Route path="/collaboratives/:id/wallet" element={<CollaborativeMemberWallet/>} />
-              <Route path="/collaboratives/:id/csa-agreement" element={<CSAAgreement />} />
-              <Route path="/collaboratives/:collabId/projects/:projectId" element={<ProjectHome />} />
-              <Route path="/collaboratives/:collabId/projects/:projectId/members" element={<ProjectMembers />} />
-              <Route path="/members/:id" element={<MemberProfile/>} />
-              <Route path="/upload-image" element={<ImageUpload />} />
-              <Route path="/upload-file" element={<FileUpload />} />
-              <Route path="/invite" element={<Invite />} />
-            </Routes>
+            <MainContent user={user} />
           </AppShell.Main>
-          
         </AppShell>
       </Router>
     </MantineProvider>
