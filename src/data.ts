@@ -156,7 +156,7 @@ export interface ProjectDataWithMembers {
   collabLogoUrl: string;
   id: number;
   name: string;
-  userIsProjectAdmin: boolean;
+  userIsProjectAdminAndStatusAccepted: boolean;
   members: ProjectMember[];
 }
 

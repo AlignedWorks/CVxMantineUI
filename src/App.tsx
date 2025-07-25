@@ -1,10 +1,11 @@
 import "@mantine/core/styles.css";
 import { MantineProvider, AppShell } from "@mantine/core";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { ImageUpload } from './components/ImageUpload.page.tsx';
 import { FileUpload } from './components/FileUpload.page.tsx';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from './AuthContext.tsx';
+import { useLocation } from 'react-router-dom';
 import { NavbarSimple } from './components/Navbar/Navbar';;
 // import { HeaderMegaMenu } from './components/Header/HeaderMegaMenu';
 import { HeaderTabs } from './components/Header/HeaderTabs';
@@ -40,9 +41,14 @@ import { NotFound } from './components/404/NotFound.tsx';
 import { Dashboard } from "./pages/Dashboard.page.tsx";
 import { Invite } from './pages/Invite.page.tsx';
 
+import { Container, Group, Text } from '@mantine/core';
+
 export default function App() {
   const [opened] = useDisclosure();
   const { user } = useAuth(); // Get the user from the AuthContext
+  const location = useLocation();
+
+  const isProjectPage = location.pathname.startsWith('/collaboratives') && location.pathname.includes('/projects');
 
   return (
     <MantineProvider theme={theme}>
@@ -66,6 +72,31 @@ export default function App() {
           </AppShell.Navbar>
 
           <AppShell.Main bg="#f8f8f8">
+            {/* Secondary Menu Band */}
+            {isProjectPage && (
+              <div style={{ backgroundColor: '#eee', padding: '10px 0' }}>
+                <Container size="md">
+                  <Group justify="center">
+                    <Text fz="sm" fw={500} style={{ marginRight: '15px' }}>
+                      <Link to={`${location.pathname}`} style={{ textDecoration: 'none' }}>
+                        Home
+                      </Link>
+                    </Text>
+                    <Text fz="sm" fw={500} style={{ marginRight: '15px' }}>
+                      <Link to={`${location.pathname}/milestones`} style={{ textDecoration: 'none' }}>
+                        Milestones
+                      </Link>
+                    </Text>
+                    <Text fz="sm" fw={500}>
+                      <Link to={`${location.pathname}/members`} style={{ textDecoration: 'none' }}>
+                        Members
+                      </Link>
+                    </Text>
+                  </Group>
+                </Container>
+              </div>
+            )}
+
           <Routes>
               <Route path="/" element={user ? <Dashboard /> : <Home />} />
               <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}

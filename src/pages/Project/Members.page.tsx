@@ -280,7 +280,7 @@ export function ProjectMembers() {
         </Grid>
       </Card>
 
-      {project.userIsProjectAdmin ? (
+      {project.userIsProjectAdminAndStatusAccepted ? (
         <Group justify="right">
           <Button
             mb="sm"
@@ -297,7 +297,7 @@ export function ProjectMembers() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only project admins can add members">
+          <Tooltip label="Only project admins who have accepted their invites can add members">
             <Button disabled mb="sm">
               Add Members
             </Button>
@@ -352,15 +352,16 @@ export function ProjectMembers() {
                   ))}
               </div>
 
-              {/* Select for Roles */}
-              <Select
-                  label="Role"
-                  data={['Project Admin', 'Project Member']}
-                  value={selectedRole}
-                  onChange={(value) => setSelectedRole(value || '')}
-                  placeholder="Select a role"
-                  mb="lg"
-              />
+              {filteredUsers.length > 0 && (
+                <Select
+                    label="Role"
+                    data={['Project Admin', 'Project Member']}
+                    value={selectedRole}
+                    onChange={(value) => setSelectedRole(value || '')}
+                    placeholder="Select a role"
+                    mb="lg"
+                />
+              )}
 
               <Group gap="lg">
               {/* Submit Button */}
@@ -388,7 +389,7 @@ export function ProjectMembers() {
                   </Text>
               )}
           </div>
-      )}
+        )}
       </Modal>
 
     </Container>

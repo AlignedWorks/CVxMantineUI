@@ -14,6 +14,7 @@ import {
   Button,
   Table,
   Center,
+  Tooltip,
  } from '@mantine/core';
 import { CollaborativeData, Project } from '../../data.ts';
 
@@ -183,13 +184,24 @@ export function CollaborativeProjects() {
           </Grid.Col>
         </Grid>
       </Card>
-      <Group justify="right">
-        <Link to={`/create-project/${id}`} style={{ textDecoration: 'none' }}>
-          <Button variant="default" mb="sm">
-            Add a Project
-          </Button>
-        </Link>
-      </Group>
+
+      {collaborative.userIsCollabAdmin ? (
+        <Group justify="right">
+          <Link to={`/create-project/${id}`} style={{ textDecoration: 'none' }}>
+            <Button variant="default" mb="sm">
+              Add a Project
+            </Button>
+          </Link>
+        </Group>
+      ) : (
+        <Group justify="right">
+          <Tooltip label="Only collaborative admins can add projects">
+            <Button disabled mb="sm">
+              Add a Project
+            </Button>
+          </Tooltip>
+        </Group>
+      )}
 
     </Container>
   );

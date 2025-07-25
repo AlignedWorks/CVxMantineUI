@@ -157,8 +157,8 @@ export function Test() {
       ));
 
     return (
-        <Container size="md" py="xl">
-
+        
+        <Container size="md">
             <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
                 Invite Someone to the Site
             </Title>
@@ -194,8 +194,9 @@ export function Test() {
                 </form>
             </Card>
 
-            <Text fz="md" fw={500} c="#999">Launch Tokens available</Text>
-            <Text fz="h1">1000 (10% of total equity)</Text>
+            
+            <Text fz="h5" c="dimmed" mt="lg">HOME  |  MILESTONES  |  MEMBERS  |  BUDGET</Text>
+            <h5>HOME  |  MILESTONES  |  MEMBERS  |  BUDGET</h5>
 
             <Card padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
                 <Grid>
