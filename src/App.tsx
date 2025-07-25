@@ -54,7 +54,12 @@ function MainContent({ user }: { user: any }) {
     <>
       {/* Secondary Menu Band for Project Pages */}
       {isProjectPage && (
-        <div style={{ backgroundColor: '#e9ecef', padding: '8px 0', borderBottom: '1px solid #dee2e6' }}>
+        <div style={{
+          backgroundColor: '#e9ecef',
+          padding: '8px 0',
+          borderBottom: '1px solid #dee2e6',
+          margin: '-16px -16px 16px -16px' // Negative margins to counteract AppShell padding
+        }}>
           <Container size="md">
             <Group justify="center" gap="lg">
               <Text 
