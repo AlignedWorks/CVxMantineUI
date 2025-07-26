@@ -50,12 +50,21 @@ function MainContent({ user }: { user: any }) {
   // Check if we're on a project page
   const isProjectPage = location.pathname.match(/^\/collaboratives\/\d+\/projects\/\d+/);
   
+  // Get the base project path (without /milestones or /members)
+  const getBaseProjectPath = () => {
+    if (!isProjectPage) return '';
+    return location.pathname.replace(/\/(milestones|members)$/, '');
+  };
+  
+  const baseProjectPath = getBaseProjectPath();
+  
+
   return (
     <>
       {/* Secondary Menu Band for Project Pages */}
       {isProjectPage && (
         <div style={{
-          backgroundColor: '#F0F0F0',
+          backgroundColor: '#F4F4F4',
           padding: '8px 0',
           borderBottom: '1px solid #dee2e6',
           margin: '-16px -16px 16px -16px' // Negative margins to counteract AppShell padding
@@ -64,7 +73,7 @@ function MainContent({ user }: { user: any }) {
             <Group justify="center" gap="lg">
               <Text 
                 component={Link}
-                to={location.pathname}
+                to={baseProjectPath}
                 size="sm" 
                 fw={500}
                 style={{ 
@@ -76,7 +85,7 @@ function MainContent({ user }: { user: any }) {
               </Text>
               <Text 
                 component={Link}
-                to={`${location.pathname}/milestones`}
+                to={`${baseProjectPath}/milestones`}
                 size="sm" 
                 fw={500}
                 style={{ 
@@ -88,7 +97,7 @@ function MainContent({ user }: { user: any }) {
               </Text>
               <Text 
                 component={Link}
-                to={`${location.pathname.replace(/\/milestones|\/members/, '')}/members`}
+                to={`${baseProjectPath}/members`}
                 size="sm" 
                 fw={500}
                 style={{ 

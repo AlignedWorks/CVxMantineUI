@@ -124,7 +124,7 @@ export function ProjectHome() {
               <Text ta="center" c="dimmed" hiddenFrom="sm" mb="xl">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
-              <Title order={2} visibleFrom="sm" mt="xl">
+              <Title order={2} visibleFrom="sm" mt="xs">
                 {project.name} Project
               </Title>
               <Text visibleFrom="sm" c="dimmed" mb="xl">
