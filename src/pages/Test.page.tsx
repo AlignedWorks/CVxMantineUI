@@ -207,9 +207,10 @@ export function Test() {
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
                         <Stack>
-                        <Title order={2} mt="xs" mb="xl">
+                        <Title order={2} mt="xs">
                             {testCollab.name} Collaborative
                         </Title>
+                        <Text lts="1px">BREADCOIN COLLABORATIVE</Text>
                         <Group justify="space-between">
                             <Text fz="md" fw={500} c="green">Tokens Released this Cycle: 1000</Text>
                             <Text fz="md" fw={500} c="#333">Total Tokens: 10,000</Text>

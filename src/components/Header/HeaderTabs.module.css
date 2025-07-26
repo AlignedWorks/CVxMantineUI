@@ -56,4 +56,10 @@
     border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
     border-bottom-color: transparent;
   }
+
+  /* If you want to specifically target the Projects tab when it's active */
+  &[data-active][aria-label="Projects"] {
+    background-color: #F0F0F0;
+    border-color: #F0F0F0;
+  }
 }
