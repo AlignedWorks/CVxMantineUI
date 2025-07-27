@@ -22,38 +22,21 @@ import {
   Tooltip,
   Center,
  } from '@mantine/core';
-import { CollaborativeDataWithMembers, inviteStatusColors } from '../../data.ts';
+import { ProjectDataWithMembers, CollabMember, inviteStatusColors, CollaborativeDataWithMembers } from '../../data.ts';
 import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
 
-interface User {
-  id: string;
-  userName: string;
-  firstName: string;
-  lastName: string;
-  bio: string;
-  city: string;
-  state: string;
-  phoneNumber: string;
-  linkedIn: string;
-  avatarUrl: string;
-  createdAt: string;
-  skills: string[];
-  experience: string[];
-  memberStatus: string;
-}
-
-export function CollaborativeMembers() {
+export function ProjectMilestones() {
   // const location = useLocation();
-  const { id } = useParams(); // Get the 'id' parameter from the URL
+  const { collabId, projectId } = useParams();
   const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
-  const [collaborative, setCollaborative] = useState<CollaborativeDataWithMembers | null>(null);
+  const [project, setProject] = useState<ProjectDataWithMembers | null>(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [allUsers, setAllUsers] = useState<User[]>([]); // Store all users
+  const [collabMembers, setCollabMembers] = useState<CollabMember[]>([]); // Store all users
   const [loadingUsers, setLoadingUsers] = useState(false); // Track loading state
   const [searchQuery, setSearchQuery] = useState(''); // For the search input
-  const [selectedUser, setSelectedUser] = useState<User>(); // For the selected user
+  const [selectedUser, setSelectedUser] = useState<CollabMember>(); // For the selected user
   const [selectedRole, setSelectedRole] = useState(''); // For the selected role
   const [successMessage, setSuccessMessage] = useState(''); // For the success message
 
@@ -68,13 +51,13 @@ export function CollaborativeMembers() {
 
   // Set the collaborative ID in context
   useEffect(() => {
-    setCollaborativeId(id || null);
+    setCollaborativeId(collabId || null);
     return () => setCollaborativeId(null); // Clear the ID when leaving the page
-  }, [id, setCollaborativeId]);
+  }, [collabId, setCollaborativeId]);
 
   useEffect(() => {
     fetch(
-      new URL(`collaboratives/${id}/members`, import.meta.env.VITE_API_BASE),
+      new URL(`projects/${projectId}/members`, import.meta.env.VITE_API_BASE),
     {
       method: 'GET',
       credentials: 'include',
@@ -88,16 +71,16 @@ export function CollaborativeMembers() {
         }
         return response.json();
       })
-      .then((data: CollaborativeDataWithMembers) => {
+      .then((data: ProjectDataWithMembers) => {
         console.log(data);
-        setCollaborative(data);
+        setProject(data);
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
         setLoading(false);
       });
-  }, [id]);
+  }, [projectId]);
 
   if (loading) {
     return (
@@ -107,20 +90,20 @@ export function CollaborativeMembers() {
     );
   }
 
-  if (!collaborative) {
+  if (!project) {
     return (
       <Container size="md" py="xl">
         <Text size="lg" c="red">
-          Collaborative not found.
+          Project not found.
         </Text>
       </Container>
     );
   }
 
-  const fetchAllUsers = async () => {
+  const fetchCollabMembers = async () => {
     setLoadingUsers(true);
     await fetch(
-      new URL("members", import.meta.env.VITE_API_BASE),
+      new URL(`collaboratives/${collabId}/members`, import.meta.env.VITE_API_BASE),
     {
       method: 'GET',
       credentials: 'include',
@@ -134,13 +117,14 @@ export function CollaborativeMembers() {
         }
         return response.json();
       })
-      .then((data: User[]) => {
-        // Filter out users who are already members of the collaborative
-        const filteredUsers = data.filter(user => 
-          !collaborative.members.some(member => member.id === user.id)
+      .then((data: CollaborativeDataWithMembers) => {
+        // Filter out users who are already members of the project
+        const filteredUsers = data.members.filter(user =>
+          !project.members.some(member => member.id === user.id)
         );
-  
-        setAllUsers(filteredUsers); // Set the filtered data
+
+        setCollabMembers(filteredUsers); // Set the filtered data
+
       })
       .catch((error) => {
         console.error('Error fetching member data:', error);
@@ -148,7 +132,7 @@ export function CollaborativeMembers() {
       .finally(() => setLoadingUsers(false));
   };
 
-  const filteredUsers = allUsers.filter((user) =>
+  const filteredUsers = collabMembers.filter((user) =>
     `${user.firstName} ${user.lastName} ${user.userName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
@@ -158,7 +142,7 @@ export function CollaborativeMembers() {
     if (!selectedUser || !selectedRole) return;
 
     fetch(
-      new URL(`collaboratives/${collaborative.id}`, import.meta.env.VITE_API_BASE),
+      new URL(`projects/${project.id}`, import.meta.env.VITE_API_BASE),
     {
       method: "PATCH",
       credentials: "include",
@@ -184,7 +168,7 @@ export function CollaborativeMembers() {
     setSelectedRole('');
   };
 
-  const memberRows = collaborative.members.map((item) => (
+  const memberRows = project.members.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td style={{ verticalAlign: 'top' }}>
         <Group gap="sm" ml="lg" mt="sm" mb="sm">
@@ -252,24 +236,30 @@ export function CollaborativeMembers() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <Link to={`/collaboratives/${id}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
+      <Link to={`/collaboratives/${collabId}/projects/${projectId}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
             <Center>
-              <img src={collaborative.logoUrl} width={80}/>
+              <img src={project.collabLogoUrl} width={80}/>
             </Center>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
-                {collaborative.name} Collaborative
+              <Title order={2} ta="center" hiddenFrom="sm" mt="xs">
+                {project.name} Project
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" mb="md">
-                {collaborative.name} Collaborative
+              <Text lts="2px" ta="center" c="dimmed" hiddenFrom="sm" mb="md">
+                {project.collabName.toUpperCase()} COLLABORATIVE
+              </Text>
+              <Title order={2} visibleFrom="sm" mt="xs">
+                {project.name} Project
               </Title>
+              <Text lts="2px" visibleFrom="sm" c="dimmed" mb="md">
+                {project.collabName.toUpperCase()} COLLABORATIVE
+              </Text>
               <Table.ScrollContainer minWidth={400} mt="xl">
                 <Table verticalSpacing="sm">
                   <Table.Thead>
@@ -290,15 +280,15 @@ export function CollaborativeMembers() {
         </Grid>
       </Card>
 
-      {collaborative.userIsCollabAdmin ? (
+      {project.userIsProjectAdminAndStatusAccepted ? (
         <Group justify="right">
           <Button
             mb="sm"
             variant="default"
             onClick={() => {
                 setIsModalOpen(true);
-                if (allUsers.length === 0) {
-                fetchAllUsers(); // Fetch users only if not already loaded
+                if (collabMembers.length === 0) {
+                    fetchCollabMembers(); // Fetch users only if not already loaded
                 }
             }}
             >
@@ -307,7 +297,7 @@ export function CollaborativeMembers() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only collaborative admins can add members">
+          <Tooltip label="Only project admins who have accepted their invites can add members">
             <Button disabled mb="sm">
               Add Members
             </Button>
@@ -326,12 +316,14 @@ export function CollaborativeMembers() {
       ) : (
           <div>
               {/* Searchable Input */}
+              {filteredUsers.length > 5 && (
               <TextInput
                   placeholder="Search users"
                   mb="md"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
               />
+              )}
 
               {/* User List with Selection */}
               <div>
@@ -360,15 +352,16 @@ export function CollaborativeMembers() {
                   ))}
               </div>
 
-              {/* Select for Roles */}
-              <Select
-                  label="Role"
-                  data={['Collaborative Leader', 'Collaborative Member']}
-                  value={selectedRole}
-                  onChange={(value) => setSelectedRole(value || '')}
-                  placeholder="Select a role"
-                  mb="lg"
-              />
+              {filteredUsers.length > 0 && (
+                <Select
+                    label="Role"
+                    data={['Project Admin', 'Project Member']}
+                    value={selectedRole}
+                    onChange={(value) => setSelectedRole(value || '')}
+                    placeholder="Select a role"
+                    mb="lg"
+                />
+              )}
 
               <Group gap="lg">
               {/* Submit Button */}
@@ -396,7 +389,7 @@ export function CollaborativeMembers() {
                   </Text>
               )}
           </div>
-      )}
+        )}
       </Modal>
 
     </Container>

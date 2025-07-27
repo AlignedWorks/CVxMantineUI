@@ -251,13 +251,13 @@ export function ProjectMembers() {
               <Title order={2} ta="center" hiddenFrom="sm" mt="xs">
                 {project.name} Project
               </Title>
-              <Text ta="center" c="dimmed" hiddenFrom="sm" mb="xl">
+              <Text lts="2px" ta="center" c="dimmed" hiddenFrom="sm" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
               <Title order={2} visibleFrom="sm" mt="xs">
                 {project.name} Project
               </Title>
-              <Text visibleFrom="sm" c="dimmed" mb="xl">
+              <Text lts="2px" visibleFrom="sm" c="dimmed" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
               <Table.ScrollContainer minWidth={400} mt="xl">

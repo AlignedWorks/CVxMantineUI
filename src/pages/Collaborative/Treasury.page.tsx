@@ -117,10 +117,10 @@ export function CollaborativeTreasury() {
               <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
                 {collaborative.name} Collaborative
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
+              <Title order={2} visibleFrom="sm" mt="xs" mb="md">
                 {collaborative.name} Collaborative
               </Title>
-              <Title order={4} mb="md">
+              <Title order={4} mb="xl">
                   Revenue Sharing Pool
               </Title>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">

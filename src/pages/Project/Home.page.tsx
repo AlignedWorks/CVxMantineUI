@@ -121,16 +121,16 @@ export function ProjectHome() {
               <Title order={2} ta="center" hiddenFrom="sm" mt="xs">
                 {project.name} Project
               </Title>
-              <Text ta="center" c="dimmed" hiddenFrom="sm" mb="xl">
+              <Text lts="2px" ta="center" c="dimmed" hiddenFrom="sm" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
               <Title order={2} visibleFrom="sm" mt="xs">
                 {project.name} Project
               </Title>
-              <Text visibleFrom="sm" c="dimmed" mb="xl">
+              <Text lts="2px" visibleFrom="sm" c="dimmed" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
-              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
+              <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
                   <Group mb="md">
                       {project.approvalStatus === 'Active' ? (
