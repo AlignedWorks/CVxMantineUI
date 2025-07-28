@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
-import { DateTimePicker } from '@mantine/dates';
+import { DatesProvider, DateTimePicker } from '@mantine/dates';
 import {
   Container,
   Text,
@@ -34,13 +34,14 @@ export function ProjectMilestones() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]); // Store all users
   const [successMessage, setSuccessMessage] = useState(''); // For the success message
+  const [dueDateError, setDueDateError] = useState<string | null>(null);
 
   // Milestone form state
   const [milestoneName, setMilestoneName] = useState('');
   const [milestoneDescription, setMilestoneDescription] = useState('');
   const [launchTokens, setLaunchTokens] = useState<number | string>('');
   const [dueDate, setDueDate] = useState<Date | null>(null);
-  const [assigneeId, setAssigneeId] = useState<string | null>(null);
+  const [assigneeId, setAssigneeId] = useState<number | null>(null);
 
   // Get the "from" state or default to a fallback
   // const from = location.state?.from || '/collaborative-directory';
@@ -131,6 +132,12 @@ export function ProjectMilestones() {
   const handleAddMilestone = async () => {
     if (!milestoneName || !milestoneDescription) return;
 
+    // Validate due date is in the future
+    if (dueDate && dueDate <= new Date()) {
+      setDueDateError('Due date must be in the future');
+      return;
+    }
+
     try {
       const response = await fetch(
         new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
@@ -143,7 +150,7 @@ export function ProjectMilestones() {
             description: milestoneDescription,
             launchTokens: Number(launchTokens) || 0,
             dueDate: dueDate ? dueDate.toISOString() : null,
-            assigneeId,
+            assigneeId: assigneeId,
           }),
         }
       );
@@ -167,6 +174,7 @@ export function ProjectMilestones() {
         setLaunchTokens('');
         setDueDate(null);
         setAssigneeId(null);
+        setDueDateError(null);
         
         // Clear success message after 3 seconds
         setTimeout(() => setSuccessMessage(''), 3000);
@@ -178,9 +186,24 @@ export function ProjectMilestones() {
     }
   };
 
+  // Function to handle due date change with validation
+  const handleDueDateChange = (date: Date | null) => {
+    setDueDate(date);
+    
+    // Clear error when user changes date
+    if (dueDateError) {
+      setDueDateError(null);
+    }
+    
+    // Validate if date is provided and is in the past
+    if (date && date <= new Date()) {
+      setDueDateError('Due date must be in the future');
+    }
+  };
+
   // Prepare assignee options for the dropdown
   const assigneeOptions = projectMembers.map(member => ({
-    value: member.id,
+    value: member.id.toString(),
     label: `${member.firstName} ${member.lastName}`,
   }));
 
@@ -328,8 +351,8 @@ export function ProjectMilestones() {
           <Select
             label="Assignee"
             placeholder="Select an assignee"
-            value={assigneeId}
-            onChange={setAssigneeId}
+            value={assigneeId ? assigneeId.toString() : null} // Convert number to string for display
+            onChange={(value) => setAssigneeId(value ? Number(value) : null)} // Convert string back to number
             data={assigneeOptions}
             searchable
             clearable
@@ -338,22 +361,25 @@ export function ProjectMilestones() {
 
           {/* Launch Tokens */}
           <NumberInput
-            label="Launch Tokens"
+            label="Launch Tokens (%)"
             placeholder="Enter number of launch tokens"
             value={launchTokens}
             onChange={setLaunchTokens}
             min={0}
+            max={100}
           />
 
           {/* Due Date */}
-          <DateTimePicker
-            label="Due Date & Time"
-            placeholder="Select due date and time"
-            value={dueDate}
-            onChange={setDueDate}
-            clearable
-            withSeconds={false}
-          />
+          <DatesProvider settings={{ firstDayOfWeek: 0}}>
+            <DateTimePicker
+              label="Due Date & Time"
+              placeholder="Select due date and time"
+              value={dueDate}
+              onChange={handleDueDateChange}
+              error={dueDateError}
+              minDate={new Date()}
+            />
+          </DatesProvider>
 
           {/* Success Message */}
           {successMessage && (

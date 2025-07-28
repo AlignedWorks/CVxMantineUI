@@ -170,7 +170,7 @@ export interface ProjectDataWithMilestones {
 }
 
 export interface ProjectMember {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string
   userName: string;
