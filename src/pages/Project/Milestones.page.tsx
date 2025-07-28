@@ -41,7 +41,7 @@ export function ProjectMilestones() {
   const [milestoneDescription, setMilestoneDescription] = useState('');
   const [launchTokens, setLaunchTokens] = useState<number | string>('');
   const [dueDate, setDueDate] = useState<Date | null>(null);
-  const [assigneeId, setAssigneeId] = useState<number | null>(null);
+  const [assigneeId, setAssigneeId] = useState<string | null>(null);
 
   // Get the "from" state or default to a fallback
   // const from = location.state?.from || '/collaborative-directory';
@@ -203,7 +203,7 @@ export function ProjectMilestones() {
 
   // Prepare assignee options for the dropdown
   const assigneeOptions = projectMembers.map(member => ({
-    value: member.id.toString(),
+    value: member.id,
     label: `${member.firstName} ${member.lastName}`,
   }));
 
@@ -351,8 +351,8 @@ export function ProjectMilestones() {
           <Select
             label="Assignee"
             placeholder="Select an assignee"
-            value={assigneeId ? assigneeId.toString() : null} // Convert number to string for display
-            onChange={(value) => setAssigneeId(value ? Number(value) : null)} // Convert string back to number
+            value={assigneeId}
+            onChange={setAssigneeId}
             data={assigneeOptions}
             searchable
             clearable
