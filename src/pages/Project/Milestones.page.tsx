@@ -2,43 +2,45 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
+import { DateTimePicker } from '@mantine/dates';
 import {
   Container,
   Text,
   TextInput,
-  Badge,
+  Textarea,
+  NumberInput,
   Button,
   Loader,
   Group,
   Grid,
   Table,
-  Avatar,
-  Select,
   Modal,
   Card,
   Stack,
   Title,
-  ThemeIcon,
   Tooltip,
   Center,
+  Select,
  } from '@mantine/core';
-import { ProjectDataWithMembers, CollabMember, inviteStatusColors, CollaborativeDataWithMembers } from '../../data.ts';
-import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers } from '../../data.ts';
 
 export function ProjectMilestones() {
   // const location = useLocation();
   const { collabId, projectId } = useParams();
   const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
-  const [project, setProject] = useState<ProjectDataWithMembers | null>(null);
+  const [project, setProject] = useState<ProjectDataWithMilestones | null>(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [collabMembers, setCollabMembers] = useState<CollabMember[]>([]); // Store all users
-  const [loadingUsers, setLoadingUsers] = useState(false); // Track loading state
-  const [searchQuery, setSearchQuery] = useState(''); // For the search input
-  const [selectedUser, setSelectedUser] = useState<CollabMember>(); // For the selected user
-  const [selectedRole, setSelectedRole] = useState(''); // For the selected role
+  const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]); // Store all users
   const [successMessage, setSuccessMessage] = useState(''); // For the success message
+
+  // Milestone form state
+  const [milestoneName, setMilestoneName] = useState('');
+  const [milestoneDescription, setMilestoneDescription] = useState('');
+  const [launchTokens, setLaunchTokens] = useState<number | string>('');
+  const [dueDate, setDueDate] = useState<Date | null>(null);
+  const [assigneeId, setAssigneeId] = useState<string | null>(null);
 
   // Get the "from" state or default to a fallback
   // const from = location.state?.from || '/collaborative-directory';
@@ -57,7 +59,7 @@ export function ProjectMilestones() {
 
   useEffect(() => {
     fetch(
-      new URL(`projects/${projectId}/members`, import.meta.env.VITE_API_BASE),
+      new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
     {
       method: 'GET',
       credentials: 'include',
@@ -71,7 +73,7 @@ export function ProjectMilestones() {
         }
         return response.json();
       })
-      .then((data: ProjectDataWithMembers) => {
+      .then((data: ProjectDataWithMilestones) => {
         console.log(data);
         setProject(data);
         setLoading(false);
@@ -100,10 +102,9 @@ export function ProjectMilestones() {
     );
   }
 
-  const fetchCollabMembers = async () => {
-    setLoadingUsers(true);
+  const fetchProjectMembers = async () => {
     await fetch(
-      new URL(`collaboratives/${collabId}/members`, import.meta.env.VITE_API_BASE),
+      new URL(`projects/${projectId}/members`, import.meta.env.VITE_API_BASE),
     {
       method: 'GET',
       credentials: 'include',
@@ -117,66 +118,79 @@ export function ProjectMilestones() {
         }
         return response.json();
       })
-      .then((data: CollaborativeDataWithMembers) => {
-        // Filter out users who are already members of the project
-        const filteredUsers = data.members.filter(user =>
-          !project.members.some(member => member.id === user.id)
-        );
+      .then((data: ProjectDataWithMembers) => {
 
-        setCollabMembers(filteredUsers); // Set the filtered data
+        setProjectMembers(data.members); // Set the filtered data
 
       })
       .catch((error) => {
         console.error('Error fetching member data:', error);
       })
-      .finally(() => setLoadingUsers(false));
   };
 
-  const filteredUsers = collabMembers.filter((user) =>
-    `${user.firstName} ${user.lastName} ${user.userName}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
+  const handleAddMilestone = async () => {
+    if (!milestoneName || !milestoneDescription) return;
 
-  const handleAddMember = () => {
-    if (!selectedUser || !selectedRole) return;
+    try {
+      const response = await fetch(
+        new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            name: milestoneName,
+            description: milestoneDescription,
+            launchTokens: Number(launchTokens) || 0,
+            assigneeId,
+          }),
+        }
+      );
 
-    fetch(
-      new URL(`projects/${project.id}`, import.meta.env.VITE_API_BASE),
-    {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: selectedUser.id, userRole: selectedRole }),
-    })
-      .then((res) => res.json())
-      .then((updatedUser) => {
-        console.log("Role updated successfully:", updatedUser);
-      })
-      .catch((err) => console.error("Error updating role:", err));
-  
-    // Simulate adding the user to the collaborative
-    console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
-  
-    // Show success message
-    setSuccessMessage(
-      `${selectedUser.firstName} ${selectedUser.lastName} has been added as a ${selectedRole}.`
-    );
-  
-    // Reset selections
-    setSelectedUser(undefined);
-    setSelectedRole('');
+      if (response.ok) {
+        const newMilestone = await response.json();
+        console.log("Milestone added successfully:", newMilestone);
+        
+        // Update the project state with the new milestone
+        setProject(prev => prev ? {
+          ...prev,
+          milestones: [...prev.milestones, newMilestone]
+        } : null);
+
+        // Show success message
+        setSuccessMessage(`Milestone "${milestoneName}" has been added successfully.`);
+
+        // Reset form
+        setMilestoneName('');
+        setMilestoneDescription('');
+        setLaunchTokens('');
+        setDueDate(null);
+        setAssigneeId(null);
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } else {
+        console.error("Failed to add milestone");
+      }
+    } catch (error) {
+      console.error("Error adding milestone:", error);
+    }
   };
 
-  const memberRows = project.members.map((item) => (
+  // Prepare assignee options for the dropdown
+  const assigneeOptions = projectMembers.map(member => ({
+    value: member.id,
+    label: `${member.firstName} ${member.lastName}`,
+  }));
+
+  const milestoneRows = project.milestones.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td style={{ verticalAlign: 'top' }}>
         <Group gap="sm" ml="lg" mt="sm" mb="sm">
-            <Avatar size={40} src={item.avatarUrl} radius={40} />
             <div>
               <Text fz="sm" fw={500} 
                 style={{ 
-                  color: '#0077b5', 
+                  color: '#5c6265ff', 
                   cursor: 'pointer',
                   textDecoration: 'none'
                 }}
@@ -184,52 +198,29 @@ export function ProjectMilestones() {
                 to={`/members/${item.id}`}
                 state={{ from: location.pathname }}
                 >
-                {item.firstName} {item.lastName}
-              </Text>
-              <br/>
-              <Text 
-                fz="xs" 
-                c="dimmed"
-                component="a"
-                href={`mailto:${item.userName}`}
-                style={{
-                  textDecoration: 'none',
-                  transition: 'color 0.2s ease'
-                }}
-              >
-                {item.userName}
+                {item.name}
               </Text>
             </div>
         </Group>
         </Table.Td>
         <Table.Td >
           <Text>
-            {item.role}
+            {item.description}
+          </Text>
+        </Table.Td>
+        <Table.Td >
+          <Text>
+            {item.assigneeName}
+          </Text>
+        </Table.Td>
+        <Table.Td >
+          <Text>
+            {item.launchTokens}
           </Text>
         </Table.Td>
         <Table.Td>
-            <Badge
-                color={inviteStatusColors[item.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
-                fullWidth variant="light">
-                {item.inviteStatus}
-            </Badge>
+            {item.approvalStatus}
         </Table.Td>
-        <Table.Td>
-        <Group justify="center">
-          <ThemeIcon
-            size="sm"
-            variant="light"
-            color={item.isActive ? 'green' : 'red'}
-            radius="xl"
-          >
-            {item.isActive ? (
-              <IconCheck size={14} />
-            ) : (
-              <IconX size={14} />
-            )}
-          </ThemeIcon>
-        </Group>
-      </Table.Td>
     </Table.Tr>
   ));
 
@@ -264,13 +255,14 @@ export function ProjectMilestones() {
                 <Table verticalSpacing="sm">
                   <Table.Thead>
                     <Table.Tr>
-                        <Table.Th>Members</Table.Th>
-                        <Table.Th>Role</Table.Th>
+                        <Table.Th>Milestones</Table.Th>
+                        <Table.Th>Description</Table.Th>
+                        <Table.Th>Assignee</Table.Th>
+                        <Table.Th>Launch Tokens</Table.Th>
                         <Table.Th>Status</Table.Th>
-                        <Table.Th>Active</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
-                  <Table.Tbody>{memberRows}</Table.Tbody>
+                  <Table.Tbody>{milestoneRows}</Table.Tbody>
                 </Table>
               </Table.ScrollContainer>
             </Stack>
@@ -287,8 +279,8 @@ export function ProjectMilestones() {
             variant="default"
             onClick={() => {
                 setIsModalOpen(true);
-                if (collabMembers.length === 0) {
-                    fetchCollabMembers(); // Fetch users only if not already loaded
+                if (projectMembers.length === 0) {
+                    fetchProjectMembers(); // Fetch users only if not already loaded
                 }
             }}
             >
@@ -306,90 +298,85 @@ export function ProjectMilestones() {
       )}
 
     <Modal
-      opened={isModalOpen}
-      onClose={() => setIsModalOpen(false)}
-      title="Add Members"
-      size="lg"
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Add Milestone"
+        size="lg"
       >
-      {loadingUsers ? (
-          <Loader size="lg" />
-      ) : (
-          <div>
-              {/* Searchable Input */}
-              {filteredUsers.length > 5 && (
-              <TextInput
-                  placeholder="Search users"
-                  mb="md"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              )}
+        <Stack gap="md">
+          {/* Milestone Name */}
+          <TextInput
+            label="Milestone Name"
+            placeholder="Enter milestone name"
+            value={milestoneName}
+            onChange={(e) => setMilestoneName(e.target.value)}
+            required
+          />
 
-              {/* User List with Selection */}
-              <div>
-                  {filteredUsers.map((user) => (
-                  <Group
-                      key={user.id}
-                      mb="sm"
-                      onClick={() => setSelectedUser(user)} // Set the selected user
-                      style={{
-                      cursor: 'pointer',
-                      backgroundColor: selectedUser?.id === user.id ? '#f0f0f0' : 'transparent',
-                      padding: '8px',
-                      borderRadius: '4px',
-                      }}
-                  >
-                      <Avatar src={user.avatarUrl} size={40} radius="xl" />
-                      <div>
-                      <Text fz="sm" fw={500}>
-                          {user.firstName} {user.lastName}
-                      </Text>
-                      <Text fz="xs" c="dimmed">
-                          {user.userName}
-                      </Text>
-                      </div>
-                  </Group>
-                  ))}
-              </div>
+          {/* Milestone Description */}
+          <Textarea
+            label="Description"
+            placeholder="Enter milestone description"
+            value={milestoneDescription}
+            onChange={(e) => setMilestoneDescription(e.target.value)}
+            minRows={3}
+            required
+          />
 
-              {filteredUsers.length > 0 && (
-                <Select
-                    label="Role"
-                    data={['Project Admin', 'Project Member']}
-                    value={selectedRole}
-                    onChange={(value) => setSelectedRole(value || '')}
-                    placeholder="Select a role"
-                    mb="lg"
-                />
-              )}
+          {/* Assignee Selection */}
+          <Select
+            label="Assignee"
+            placeholder="Select an assignee"
+            value={assigneeId}
+            onChange={setAssigneeId}
+            data={assigneeOptions}
+            searchable
+            clearable
+            nothingFoundMessage="No project members found"
+          />
 
-              <Group gap="lg">
-              {/* Submit Button */}
-                <Button
-                    variant="outline"
-                    onClick={handleAddMember}
-                    disabled={!selectedUser || !selectedRole} // Disable if no user or role is selected
-                >
-                    Submit
-                </Button>
+          {/* Launch Tokens */}
+          <NumberInput
+            label="Launch Tokens"
+            placeholder="Enter number of launch tokens"
+            value={launchTokens}
+            onChange={setLaunchTokens}
+            min={0}
+          />
 
-                {/* Done Button */}
-                <Button
-                    variant="default"
-                    onClick={() => setIsModalOpen(false)}
-                >
-                    Done
-                </Button>
-              </Group>
+          {/* Due Date */}
+          <DateTimePicker
+            label="Due Date & Time"
+            placeholder="Select due date and time"
+            value={dueDate}
+            onChange={setDueDate}
+            clearable
+            withSeconds={false}
+          />
 
-              {/* Success Message */}
-              {successMessage && (
-                  <Text c="green" mb="md">
-                  {successMessage}
-                  </Text>
-              )}
-          </div>
-        )}
+          {/* Success Message */}
+          {successMessage && (
+            <Text c="green" size="sm">
+              {successMessage}
+            </Text>
+          )}
+
+          {/* Action Buttons */}
+          <Group justify="flex-end" gap="md">
+            <Button
+              variant="outline"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleAddMilestone}
+              disabled={!milestoneName || !milestoneDescription}
+            >
+              Add Milestone
+            </Button>
+          </Group>
+        </Stack>
       </Modal>
 
     </Container>

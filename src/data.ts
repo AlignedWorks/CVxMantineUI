@@ -160,6 +160,15 @@ export interface ProjectDataWithMembers {
   members: ProjectMember[];
 }
 
+export interface ProjectDataWithMilestones {
+  collabName: string;
+  collabLogoUrl: string;
+  id: number;
+  name: string;
+  userIsProjectAdminAndStatusAccepted: boolean;
+  milestones: Milestone[];
+}
+
 export interface ProjectMember {
   id: string;
   firstName: string;
@@ -169,6 +178,20 @@ export interface ProjectMember {
   role: string;
   inviteStatus: string;
   isActive: boolean;
+}
+
+export interface Milestone {
+  id: number;
+  name: string;
+  description: string;
+  assigneeId: string;
+  assigneeName: string;
+  inviteStatus: string;
+  approvalStatus: string;
+  launchTokens: number;
+  dueDate: string;
+  createdAt: string;
+  completedAt?: string;
 }
 
 export interface ProjectInvite {
