@@ -1,4 +1,5 @@
 import "@mantine/core/styles.css";
+import '@mantine/dates/styles.css';
 import { MantineProvider, AppShell } from "@mantine/core";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { ImageUpload } from './components/ImageUpload.page.tsx';
