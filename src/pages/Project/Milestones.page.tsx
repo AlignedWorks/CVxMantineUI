@@ -142,6 +142,7 @@ export function ProjectMilestones() {
             name: milestoneName,
             description: milestoneDescription,
             launchTokens: Number(launchTokens) || 0,
+            dueDate: dueDate ? dueDate.toISOString() : null,
             assigneeId,
           }),
         }
@@ -284,14 +285,14 @@ export function ProjectMilestones() {
                 }
             }}
             >
-            Add Members
+            Add Milestone
           </Button>
         </Group>
       ) : (
         <Group justify="right">
           <Tooltip label="Only project admins who have accepted their invites can add members">
             <Button disabled mb="sm">
-              Add Members
+              Add Milestone
             </Button>
           </Tooltip>
         </Group>

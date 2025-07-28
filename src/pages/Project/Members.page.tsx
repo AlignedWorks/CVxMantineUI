@@ -280,7 +280,7 @@ export function ProjectMembers() {
         </Grid>
       </Card>
 
-      {project.userIsProjectAdminAndStatusAccepted ? (
+      {project.userIsProjectAdminAndStatusAccepted && filteredUsers.length > 0 ? (
         <Group justify="right">
           <Button
             mb="sm"
@@ -292,14 +292,14 @@ export function ProjectMembers() {
                 }
             }}
             >
-            Add Members
+            Add Member
           </Button>
         </Group>
       ) : (
         <Group justify="right">
           <Tooltip label="Only project admins who have accepted their invites can add members">
             <Button disabled mb="sm">
-              Add Members
+              Add Member
             </Button>
           </Tooltip>
         </Group>
