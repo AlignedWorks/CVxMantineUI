@@ -311,20 +311,27 @@ export function ProjectMilestones() {
               <Text lts="2px" visibleFrom="sm" c="dimmed" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
-              <Table.ScrollContainer minWidth={400} mt="xl">
-                <Table verticalSpacing="sm">
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>Milestones</Table.Th>
-                      <Table.Th>Description</Table.Th>
-                      <Table.Th>Assignee</Table.Th>
-                      <Table.Th>Launch Tokens</Table.Th>
-                      <Table.Th>Status</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>{milestoneRows}</Table.Tbody>
-                </Table>
-              </Table.ScrollContainer>
+
+              {project.milestones.length > 0 ? (
+                <Table.ScrollContainer minWidth={400} mt="xl">
+                  <Table verticalSpacing="sm">
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Milestones</Table.Th>
+                        <Table.Th>Description</Table.Th>
+                        <Table.Th>Assignee</Table.Th>
+                        <Table.Th>Launch Tokens</Table.Th>
+                        <Table.Th>Status</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>{milestoneRows}</Table.Tbody>
+                  </Table>
+                </Table.ScrollContainer>
+              ) : (
+                <Text c="dimmed" ta="center" mt="xl">
+                  No milestones have been added yet.
+                </Text>
+              )}
             </Stack>
           </Grid.Col>
         </Grid>

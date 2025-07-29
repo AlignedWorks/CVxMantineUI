@@ -131,6 +131,7 @@ export interface Project {
   description: string;
   approvalStatus: string;
   launchTokenBudget: number;
+  launchTokenBalance: number;
   createdAt: string;
   projectAdminName: string;
   projectAdminEmail: string;

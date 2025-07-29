@@ -144,10 +144,10 @@ export function ProjectHome() {
                       )}
                   </Group>
                   <Text mb="md">
-                    Launch Token Budget: {project.launchTokenBudget}
+                    Launch Token Budget: {Number(project.launchTokenBudget).toFixed(2)}
                   </Text>
                   <Text>
-                    Launch Token Balance: {project.launchTokenBalance}
+                    Launch Token Balance: {Number(project.launchTokenBalance).toFixed(2)}
                   </Text>
                 </div>
                 <div>
