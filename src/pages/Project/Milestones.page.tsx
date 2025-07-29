@@ -24,6 +24,17 @@ import {
  } from '@mantine/core';
 import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone } from '../../data.ts';
 
+export interface MilestoneDetails {
+  name: string;
+  description: string;
+  launchTokenValue: number;
+  assigneeName: string;
+  inviteStatus: string;
+  approvalStatus: string;
+  dueDate: string;
+  createdAt: string;
+}
+
 export function ProjectMilestones() {
   // const location = useLocation();
   const { collabId, projectId } = useParams();
@@ -38,7 +49,7 @@ export function ProjectMilestones() {
   const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
 
   // Milestone detail modal state
-  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
+  const [selectedMilestone, setSelectedMilestone] = useState<MilestoneDetails | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   // Milestone form state
@@ -152,12 +163,13 @@ export function ProjectMilestones() {
 
     try {
       const response = await fetch(
-        new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
+        new URL("milestones", import.meta.env.VITE_API_BASE),
         {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
+            projectId: projectId,
             name: milestoneName,
             description: milestoneDescription,
             launchTokenPercentage: Number(launchTokenPercentage) || 0,
@@ -233,7 +245,35 @@ export function ProjectMilestones() {
   };
 
   // Function to handle milestone click
-  const handleMilestoneClick = (milestone: Milestone) => {
+  const handleMilestoneClick = async (milestone: Milestone) => {
+
+    try {
+      const response = await fetch(
+        new URL(`milestones/${milestone.id}`, import.meta.env.VITE_API_BASE),
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.ok) {
+
+        const milestoneDetails: MilestoneDetails = await response.json();
+
+        setSelectedMilestone(milestoneDetails);
+        setIsDetailModalOpen(true);
+
+      } else {
+        console.error("Failed to fetch milestone details");
+      }
+
+    } catch (error) {
+      console.error("Error fetching milestone details:", error);
+    }
+
     setSelectedMilestone(milestone);
     setIsDetailModalOpen(true);
   };
@@ -265,7 +305,7 @@ export function ProjectMilestones() {
           style={{ 
             color: '#0077b5', 
             cursor: 'pointer',
-            textDecoration: 'underline'
+            textDecoration: 'none'
           }}
           onClick={() => handleMilestoneClick(item)}
         >
@@ -466,18 +506,14 @@ export function ProjectMilestones() {
       <Modal
         opened={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}
-        title="Milestone Details"
-        size="lg"
+        size="md"
       >
         {selectedMilestone && (
           <Stack gap="md">
             <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Milestone Name
-              </Text>
-              <Text>
-                {selectedMilestone.name}
-              </Text>
+              <Title order={2}>
+                {selectedMilestone.name} + " Milestone"
+              </Title>
             </div>
 
             <div>
