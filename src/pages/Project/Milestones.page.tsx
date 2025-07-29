@@ -249,42 +249,38 @@ export function ProjectMilestones() {
 
   const milestoneRows = project.milestones.map((item) => (
     <Table.Tr key={item.id}>
-      <Table.Td style={{ verticalAlign: 'top' }}>
-        <Group gap="sm" ml="lg" mt="sm" mb="sm">
-            <div>
-              <Text fz="sm" fw={500} 
-                style={{ 
-                  color: '#5c6265ff', 
-                  cursor: 'pointer',
-                  textDecoration: 'none'
-                }}
-                component={Link}
-                to={`/members/${item.id}`}
-                state={{ from: location.pathname }}
-                >
-                {item.name}
-              </Text>
-            </div>
-        </Group>
-        </Table.Td>
-        <Table.Td >
-          <Text>
-            {item.description}
-          </Text>
-        </Table.Td>
-        <Table.Td >
-          <Text>
-            {item.assigneeName}
-          </Text>
-        </Table.Td>
-        <Table.Td >
-          <Text>
-            {item.launchTokenValue}
-          </Text>
-        </Table.Td>
-        <Table.Td>
-            {item.approvalStatus}
-        </Table.Td>
+      <Table.Td>
+        <Text fz="sm" fw={500} 
+          style={{ 
+            color: '#0077b5', 
+            cursor: 'pointer',
+            textDecoration: 'none'
+          }}
+          component={Link}
+          to={`/members/${item.id}`}
+          state={{ from: location.pathname }}
+          >
+          {item.name}
+        </Text>
+      </Table.Td>
+      <Table.Td >
+        <Text>
+          {item.description}
+        </Text>
+      </Table.Td>
+      <Table.Td >
+        <Text>
+          {item.assigneeName}
+        </Text>
+      </Table.Td>
+      <Table.Td >
+        <Text>
+          {Number(item.launchTokenValue).toFixed(2)}
+        </Text>
+      </Table.Td>
+      <Table.Td>
+          {item.approvalStatus}
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -319,11 +315,11 @@ export function ProjectMilestones() {
                 <Table verticalSpacing="sm">
                   <Table.Thead>
                     <Table.Tr>
-                        <Table.Th>Milestones</Table.Th>
-                        <Table.Th>Description</Table.Th>
-                        <Table.Th>Assignee</Table.Th>
-                        <Table.Th>Launch Tokens</Table.Th>
-                        <Table.Th>Status</Table.Th>
+                      <Table.Th>Milestones</Table.Th>
+                      <Table.Th>Description</Table.Th>
+                      <Table.Th>Assignee</Table.Th>
+                      <Table.Th>Launch Tokens</Table.Th>
+                      <Table.Th>Status</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>{milestoneRows}</Table.Tbody>

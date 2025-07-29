@@ -143,8 +143,11 @@ export function ProjectHome() {
                           </Badge>
                       )}
                   </Group>
+                  <Text mb="md">
+                    Launch Token Budget: {project.launchTokenBudget}
+                  </Text>
                   <Text>
-                    Launch Tokens: {project.launchTokenBudget}
+                    Launch Token Balance: {project.launchTokenBalance}
                   </Text>
                 </div>
                 <div>

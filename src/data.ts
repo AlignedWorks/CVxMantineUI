@@ -145,6 +145,7 @@ export interface ProjectDataHome {
   description: string;
   approvalStatus: string;
   launchTokenBudget: number;
+  launchTokenBalance: number;
   createdAt: string;
   projectAdminName: string;
   projectAdminEmail: string;

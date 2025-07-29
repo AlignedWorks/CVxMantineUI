@@ -147,7 +147,7 @@ export function CollaborativeProjects() {
                       <Table.Th>Description</Table.Th>
                       <Table.Th>Approval Status</Table.Th>
                       <Table.Th>Launch Token Budget</Table.Th>
-                      <Table.Th>Created At</Table.Th>
+                      <Table.Th>Created</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
