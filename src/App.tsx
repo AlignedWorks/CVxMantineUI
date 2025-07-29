@@ -71,7 +71,7 @@ function MainContent({ user }: { user: any }) {
           margin: '-16px -16px 16px -16px' // Negative margins to counteract AppShell padding
         }}>
           <Container size="md">
-            <Group justify="center" gap="lg">
+            <Group justify="center" gap="lg" pt="xs">
               <Text 
                 component={Link}
                 to={baseProjectPath}

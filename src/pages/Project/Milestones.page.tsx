@@ -22,7 +22,7 @@ import {
   Center,
   Select,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers } from '../../data.ts';
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone } from '../../data.ts';
 
 export function ProjectMilestones() {
   // const location = useLocation();
@@ -32,15 +32,18 @@ export function ProjectMilestones() {
   const [project, setProject] = useState<ProjectDataWithMilestones | null>(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]); // Store all users
-  const [successMessage, setSuccessMessage] = useState(''); // For the success message
+  const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]);
+  const [successMessage, setSuccessMessage] = useState('');
   const [dueDateError, setDueDateError] = useState<string | null>(null);
   const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
+
+  // Milestone detail modal state
+  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   // Milestone form state
   const [milestoneName, setMilestoneName] = useState('');
   const [milestoneDescription, setMilestoneDescription] = useState('');
-  // This is a percentage amount of project's launch token budget
   const [launchTokenPercentage, setLaunchTokenPercentage] = useState<number | string>('');
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
@@ -229,6 +232,12 @@ export function ProjectMilestones() {
     }
   };
 
+  // Function to handle milestone click
+  const handleMilestoneClick = (milestone: Milestone) => {
+    setSelectedMilestone(milestone);
+    setIsDetailModalOpen(true);
+  };
+
   // Calculate maximum percentage allowed
   const maxPercentage = project.launchTokenBudget > 0 
     ? Math.floor((project.launchTokenBalance / project.launchTokenBudget) * 100)
@@ -250,36 +259,36 @@ export function ProjectMilestones() {
   const milestoneRows = project.milestones.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td>
-        <Text fz="sm" fw={500} 
+        <Text 
+          fz="sm" 
+          fw={500} 
           style={{ 
             color: '#0077b5', 
             cursor: 'pointer',
-            textDecoration: 'none'
+            textDecoration: 'underline'
           }}
-          component={Link}
-          to={`/members/${item.id}`}
-          state={{ from: location.pathname }}
-          >
+          onClick={() => handleMilestoneClick(item)}
+        >
           {item.name}
         </Text>
       </Table.Td>
-      <Table.Td >
+      <Table.Td>
         <Text>
           {item.description}
         </Text>
       </Table.Td>
-      <Table.Td >
+      <Table.Td>
         <Text>
           {item.assigneeName}
         </Text>
       </Table.Td>
-      <Table.Td >
+      <Table.Td>
         <Text>
           {Number(item.launchTokenValue).toFixed(2)}
         </Text>
       </Table.Td>
       <Table.Td>
-          {item.approvalStatus}
+        {item.approvalStatus}
       </Table.Td>
     </Table.Tr>
   ));
@@ -328,7 +337,7 @@ export function ProjectMilestones() {
                   </Table>
                 </Table.ScrollContainer>
               ) : (
-                <Text c="dimmed" ta="center" mt="xl">
+                <Text c="dimmed" mt="xl">
                   No milestones have been added yet.
                 </Text>
               )}
@@ -453,6 +462,92 @@ export function ProjectMilestones() {
         </Stack>
       </Modal>
 
+      {/* Milestone Detail Modal */}
+      <Modal
+        opened={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        title="Milestone Details"
+        size="lg"
+      >
+        {selectedMilestone && (
+          <Stack gap="md">
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Milestone Name
+              </Text>
+              <Text>
+                {selectedMilestone.name}
+              </Text>
+            </div>
+
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Description
+              </Text>
+              <Text>
+                {selectedMilestone.description}
+              </Text>
+            </div>
+
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Assignee
+              </Text>
+              <Text>
+                {selectedMilestone.assigneeName || 'Not assigned'}
+              </Text>
+            </div>
+
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Invite Status
+              </Text>
+              <Text>
+                {selectedMilestone.inviteStatus}
+              </Text>
+            </div>
+
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Approval Status
+              </Text>
+              <Text>
+                {selectedMilestone.approvalStatus}
+              </Text>
+            </div>
+
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Due Date
+              </Text>
+              <Text>
+                {selectedMilestone.dueDate 
+                  ? new Date(selectedMilestone.dueDate).toLocaleString()
+                  : 'No due date set'
+                }
+              </Text>
+            </div>
+
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Created At
+              </Text>
+              <Text>
+                {new Date(selectedMilestone.createdAt).toLocaleString()}
+              </Text>
+            </div>
+
+            <Group justify="flex-end" mt="lg">
+              <Button
+                variant="outline"
+                onClick={() => setIsDetailModalOpen(false)}
+              >
+                Close
+              </Button>
+            </Group>
+          </Stack>
+        )}
+      </Modal>
     </Container>
   );
 }
