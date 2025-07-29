@@ -188,7 +188,7 @@ export interface Milestone {
   assigneeName: string;
   inviteStatus: string;
   approvalStatus: string;
-  launchTokens: number;
+  launchTokenValue: number;
   dueDate: string;
   createdAt: string;
   completedAt?: string;

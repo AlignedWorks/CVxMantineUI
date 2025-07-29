@@ -39,7 +39,8 @@ export function ProjectMilestones() {
   // Milestone form state
   const [milestoneName, setMilestoneName] = useState('');
   const [milestoneDescription, setMilestoneDescription] = useState('');
-  const [launchTokens, setLaunchTokens] = useState<number | string>('');
+  // This is a percentage amount of project's launch token budget
+  const [launchTokenPercentage, setLaunchTokenPercentage] = useState<number | string>('');
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
 
@@ -148,7 +149,7 @@ export function ProjectMilestones() {
           body: JSON.stringify({ 
             name: milestoneName,
             description: milestoneDescription,
-            launchTokens: Number(launchTokens) || 0,
+            launchTokenPercentage: Number(launchTokenPercentage) || 0,
             dueDate: dueDate ? dueDate.toISOString() : null,
             assigneeId: assigneeId,
           }),
@@ -171,7 +172,7 @@ export function ProjectMilestones() {
         // Reset form
         setMilestoneName('');
         setMilestoneDescription('');
-        setLaunchTokens('');
+        setLaunchTokenPercentage('');
         setDueDate(null);
         setAssigneeId(null);
         setDueDateError(null);
@@ -239,7 +240,7 @@ export function ProjectMilestones() {
         </Table.Td>
         <Table.Td >
           <Text>
-            {item.launchTokens}
+            {item.launchTokenValue}
           </Text>
         </Table.Td>
         <Table.Td>
@@ -254,7 +255,7 @@ export function ProjectMilestones() {
       <Link to={`/collaboratives/${collabId}/projects/${projectId}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
-      <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
+      <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
             <Center>
@@ -291,8 +292,6 @@ export function ProjectMilestones() {
               </Table.ScrollContainer>
             </Stack>
           </Grid.Col>
-          <Grid.Col span={1}>
-          </Grid.Col>
         </Grid>
       </Card>
 
@@ -313,7 +312,7 @@ export function ProjectMilestones() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only project admins who have accepted their invites can add members">
+          <Tooltip label="Only project admins who have accepted their invites can add milestones">
             <Button disabled mb="sm">
               Add Milestone
             </Button>
@@ -362,9 +361,9 @@ export function ProjectMilestones() {
           {/* Launch Tokens */}
           <NumberInput
             label="Launch Tokens (%)"
-            placeholder="Enter number of launch tokens"
-            value={launchTokens}
-            onChange={setLaunchTokens}
+            placeholder="Enter percent of project launch token budget to allocate to this milestone"
+            value={launchTokenPercentage}
+            onChange={setLaunchTokenPercentage}
             min={0}
             max={100}
           />
