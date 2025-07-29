@@ -35,6 +35,7 @@ export function ProjectMilestones() {
   const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]); // Store all users
   const [successMessage, setSuccessMessage] = useState(''); // For the success message
   const [dueDateError, setDueDateError] = useState<string | null>(null);
+  const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
 
   // Milestone form state
   const [milestoneName, setMilestoneName] = useState('');
@@ -139,6 +140,13 @@ export function ProjectMilestones() {
       return;
     }
 
+    // Validate launch token allocation
+    const tokenAmount = (Number(launchTokenPercentage) / 100) * project.launchTokenBudget;
+    if (tokenAmount > project.launchTokenBalance) {
+      setLaunchTokenError(`This allocation (${tokenAmount} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
+      return;
+    }
+
     try {
       const response = await fetch(
         new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
@@ -176,6 +184,7 @@ export function ProjectMilestones() {
         setDueDate(null);
         setAssigneeId(null);
         setDueDateError(null);
+        setLaunchTokenError(null);
         
         // Clear success message after 3 seconds
         setTimeout(() => setSuccessMessage(''), 3000);
@@ -201,6 +210,36 @@ export function ProjectMilestones() {
       setDueDateError('Due date must be in the future');
     }
   };
+
+  // Function to handle launch token percentage change with validation
+  const handleLaunchTokenChange = (value: number | string) => {
+    setLaunchTokenPercentage(value);
+    
+    // Clear error when user changes value
+    if (launchTokenError) {
+      setLaunchTokenError(null);
+    }
+    
+    // Validate if value is provided
+    if (value && Number(value) > 0) {
+      const tokenAmount = (Number(value) / 100) * project.launchTokenBudget;
+      if (tokenAmount > project.launchTokenBalance) {
+        setLaunchTokenError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
+      }
+    }
+  };
+
+  // Calculate maximum percentage allowed
+  const maxPercentage = project.launchTokenBudget > 0 
+    ? Math.floor((project.launchTokenBalance / project.launchTokenBudget) * 100)
+    : 0;
+
+  // Check if form is valid
+  const isFormValid = milestoneName && 
+                     milestoneDescription && 
+                     !dueDateError && 
+                     !launchTokenError &&
+                     (!dueDate || dueDate > new Date());
 
   // Prepare assignee options for the dropdown
   const assigneeOptions = projectMembers.map(member => ({
@@ -363,9 +402,11 @@ export function ProjectMilestones() {
             label="Launch Tokens (%)"
             placeholder="Enter percent of project launch token budget to allocate to this milestone"
             value={launchTokenPercentage}
-            onChange={setLaunchTokenPercentage}
+            onChange={handleLaunchTokenChange}
             min={0}
-            max={100}
+            max={maxPercentage}
+            error={launchTokenError}
+            description={`Available balance: ${project.launchTokenBalance} tokens (${maxPercentage}% of budget)`}
           />
 
           {/* Due Date */}
@@ -391,13 +432,17 @@ export function ProjectMilestones() {
           <Group justify="flex-end" gap="md">
             <Button
               variant="outline"
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => {
+                setIsModalOpen(false);
+                setDueDateError(null);
+                setLaunchTokenError(null);
+              }}
             >
               Cancel
             </Button>
             <Button
               onClick={handleAddMilestone}
-              disabled={!milestoneName || !milestoneDescription}
+              disabled={!isFormValid}
             >
               Add Milestone
             </Button>
