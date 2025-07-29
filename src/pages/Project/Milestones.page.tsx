@@ -274,8 +274,6 @@ export function ProjectMilestones() {
       console.error("Error fetching milestone details:", error);
     }
 
-    setSelectedMilestone(milestone);
-    setIsDetailModalOpen(true);
   };
 
   // Calculate maximum percentage allowed
@@ -512,7 +510,7 @@ export function ProjectMilestones() {
           <Stack gap="md">
             <div>
               <Title order={2}>
-                {selectedMilestone.name} + " Milestone"
+                {selectedMilestone.name} Milestone
               </Title>
             </div>
 
