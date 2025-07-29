@@ -5,7 +5,7 @@ import { Project, CollaborativeDataWithMembers } from '../data';
 
 // Add interface for token distribution data
 interface TokenDistribution {
-  launchTokensCreated: number;
+  currentTokenRelease: number;
   launchTokensBalance: number;
 }
 
@@ -101,7 +101,7 @@ export function CreateProject() {
     
     // Validate if value is provided and token distribution is available
     if (value && Number(value) > 0 && tokenDistribution) {
-      const tokenAmount = (Number(value) / 100) * tokenDistribution.launchTokensCreated;
+      const tokenAmount = (Number(value) / 100) * tokenDistribution.currentTokenRelease;
       if (tokenAmount > tokenDistribution.launchTokensBalance) {
         setLaunchTokenError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`);
       }
@@ -109,8 +109,8 @@ export function CreateProject() {
   };
 
   // Calculate maximum percentage allowed
-  const maxPercentage = tokenDistribution && tokenDistribution.launchTokensCreated > 0 
-    ? Math.floor((tokenDistribution.launchTokensBalance / tokenDistribution.launchTokensCreated) * 100)
+  const maxPercentage = tokenDistribution && tokenDistribution.currentTokenRelease > 0
+    ? Math.floor((tokenDistribution.launchTokensBalance / tokenDistribution.currentTokenRelease) * 100)
     : 100;
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -127,7 +127,7 @@ export function CreateProject() {
 
     // Validate launch token allocation
     if (tokenDistribution && formValues.launchTokenBudget > 0) {
-      const tokenAmount = (Number(formValues.launchTokenBudget) / 100) * tokenDistribution.launchTokensCreated;
+      const tokenAmount = (Number(formValues.launchTokenBudget) / 100) * tokenDistribution.currentTokenRelease;
       if (tokenAmount > tokenDistribution.launchTokensBalance) {
         setLaunchTokenError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`);
         return;
@@ -234,7 +234,7 @@ export function CreateProject() {
             required
             min={0}
             max={maxPercentage}
-            description={tokenDistribution ? `Available balance: ${tokenDistribution.launchTokensBalance} tokens (${maxPercentage}% of total)` : 'Loading token data...'}
+            description={tokenDistribution ? `Available balance: ${tokenDistribution.launchTokensBalance} tokens (${maxPercentage}% of current token release)` : 'Loading token data...'}
           />
           <NumberInput
             label="Admin Compensation (%)"
