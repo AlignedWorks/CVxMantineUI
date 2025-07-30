@@ -19,7 +19,7 @@ import {
   TextInput,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval, ProjectInvite } from '../data.ts';
+import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval, ProjectInvite, MilestoneAssignment } from '../data.ts';
 
 interface User {
   id: string;
@@ -42,6 +42,7 @@ export function Dashboard() {
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
   const [projectInvites, setProjectInvites] = useState<ProjectInvite[]>([]);
+  const [milestoneAssignments, setMilestoneAssignments] = useState<MilestoneAssignment[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
   const [inviteModalOpen, setInviteModalOpen] = useState(false); // State to control modal visibility
@@ -58,7 +59,16 @@ export function Dashboard() {
       })
         .then((res) => res.json())
         .then((data) => {
-          const { users, roles, collabs, collabsNeedingApproval, collabInvites, csaApprovalRequests, projectInvites } = data;
+          const {
+            users,
+            roles,
+            collabs,
+            collabsNeedingApproval,
+            collabInvites,
+            csaApprovalRequests,
+            projectInvites,
+            milestoneAssignments
+          } = data;
 
           console.log(collabsNeedingApproval);
           console.log(collabInvites);
@@ -70,6 +80,7 @@ export function Dashboard() {
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
           setUserApprovals(users);
           setProjectInvites(projectInvites);
+          setMilestoneAssignments(milestoneAssignments);
 
           // Set the roles data
           setRolesData(roles);
@@ -256,6 +267,38 @@ export function Dashboard() {
       );
     }
   };
+
+  const handleMilestoneAssignment = (assignmentId: number, action: 'accept' | 'decline') => {
+    // Determine the new status based on the action
+    const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
+    
+    fetch(
+      new URL(`milestones/${assignmentId}`, import.meta.env.VITE_API_BASE),
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          status: newStatus 
+        }),
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(`Milestone assignment ${action}ed successfully:`, data);
+        
+        // Refresh the page so 1) collab invite is removed and 2) the collab's CSA acceptance notification can populate
+        fetchDashboardData();
+      })
+      .catch((err) => {
+        console.error(`Error ${action}ing milestone assignment:`, err);
+        // Optionally show an error message to the user
+      });
+  }
 
   return (
     <>
@@ -498,6 +541,46 @@ export function Dashboard() {
                     onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'decline')}
                     ml="md">
                       Decline Invitation
+                  </Button>
+                </div>
+              </Group>
+          </Card>
+        ))}
+
+        {milestoneAssignments?.map((assignment) => (
+          <Card 
+            key={`${assignment.id}`}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            mt="lg"
+            mb="lg">
+              <Group justify="space-between">
+                <img src={assignment.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                <Text>
+                    You've been assigned the<br/><strong>{assignment.name}</strong> milestone in the <strong>{assignment.projectName}</strong> project of the <strong>{assignment.collabName}</strong> collaborative.
+                </Text>
+                <Text>
+                    <strong>Description:</strong> {assignment.description || 'No description provided'}
+                </Text>
+                <Text>
+                    <strong>Launch Tokens: </strong> {assignment.launchTokens}
+                </Text>
+                <Text>
+                    <strong>Due Date:</strong> {new Date(assignment.dueDate).toLocaleDateString()}
+                </Text>
+                <div>
+                  <Button
+                    variant="default"
+                    onClick={() => handleMilestoneAssignment(assignment.id, 'accept')}>
+                      Accept
+                  </Button>
+                  <Button
+                    variant="default"
+                    onClick={() => handleMilestoneAssignment(assignment.id, 'decline')}
+                    ml="md">
+                      Decline
                   </Button>
                 </div>
               </Group>

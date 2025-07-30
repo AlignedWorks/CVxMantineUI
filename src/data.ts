@@ -208,6 +208,17 @@ export interface ProjectInvite {
   inviteStatus: string;
 }
 
+export interface MilestoneAssignment {
+  id: number,
+  name: string,
+  description: string,
+  dueDate: string,
+  launchTokens: number,
+  projectName: string,
+  collabName: string,
+  collabLogoUrl: string
+}
+
 export const collabRoles = ['Collaborative Admin','Collaborative Member']
 
 export const inviteStatusColors: { [key: string]: string } = {

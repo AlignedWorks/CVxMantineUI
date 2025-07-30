@@ -21,8 +21,9 @@ import {
   Tooltip,
   Center,
   Select,
+  Badge,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone } from '../../data.ts';
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, inviteStatusColors } from '../../data.ts';
 
 export interface MilestoneDetails {
   name: string;
@@ -537,7 +538,11 @@ export function ProjectMilestones() {
                 Invite Status
               </Text>
               <Text>
-                {selectedMilestone.inviteStatus}
+                <Badge
+                    color={inviteStatusColors[selectedMilestone.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
+                    fullWidth variant="light">
+                    {selectedMilestone.inviteStatus}
+                </Badge>
               </Text>
             </div>
 
