@@ -74,7 +74,6 @@ export function Dashboard() {
           console.log(collabInvites);
           console.log(csaApprovalRequests);
           console.log(collabs);
-          console.log(milestoneAssignments);
           setCollabs(collabs); // Set the collabs data
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
@@ -559,18 +558,20 @@ export function Dashboard() {
             mb="lg">
               <Group justify="space-between">
                 <img src={assignment.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                <Text>
+                <Stack>
+                  <Text>
                     You've been assigned the<br/><strong>{assignment.name}</strong> milestone in the <strong>{assignment.projectName}</strong> project of the <strong>{assignment.collabName}</strong> collaborative.
-                </Text>
-                <Text>
-                    <strong>Description:</strong> {assignment.description || 'No description provided'}
-                </Text>
-                <Text>
-                    <strong>Launch Tokens: </strong> {assignment.launchTokens}
-                </Text>
-                <Text>
-                    <strong>Due Date:</strong> {new Date(assignment.dueDate).toLocaleDateString()}
-                </Text>
+                  </Text>
+                  <Text>
+                    Description: {assignment.description || 'No description provided'}
+                  </Text>
+                  <Text>
+                    Launch Tokens: {assignment.launchTokens}
+                  </Text>
+                  <Text>
+                    Due Date: {new Date(assignment.dueDate).toLocaleDateString()}
+                  </Text>
+                </Stack>
                 <div>
                   <Button
                     variant="default"

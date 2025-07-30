@@ -540,7 +540,7 @@ export function ProjectMilestones() {
               <Text>
                 <Badge
                     color={inviteStatusColors[selectedMilestone.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
-                    fullWidth variant="light">
+                    variant="light">
                     {selectedMilestone.inviteStatus}
                 </Badge>
               </Text>
