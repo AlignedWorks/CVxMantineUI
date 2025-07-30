@@ -74,6 +74,7 @@ export function Dashboard() {
           console.log(collabInvites);
           console.log(csaApprovalRequests);
           console.log(collabs);
+          console.log(milestoneAssignments);
           setCollabs(collabs); // Set the collabs data
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
