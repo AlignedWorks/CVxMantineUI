@@ -17,6 +17,7 @@ import {
   Badge,
   Modal,
   TextInput,
+  Center
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval, ProjectInvite, MilestoneAssignment } from '../data.ts';
@@ -556,23 +557,22 @@ export function Dashboard() {
             withBorder
             mt="lg"
             mb="lg">
-              <Group justify="space-between">
-                <img src={assignment.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                <Stack>
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                  <Center>
+                    <img src={assignment.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  </Center>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
                   <Text>
-                    You've been assigned the<br/><strong>{assignment.name}</strong> milestone in the <strong>{assignment.projectName}</strong> project of the <strong>{assignment.collabName}</strong> collaborative.
-                  </Text>
-                  <Text>
-                    Description: {assignment.description || 'No description provided'}
-                  </Text>
-                  <Text>
-                    Launch Tokens: {assignment.launchTokens}
-                  </Text>
-                  <Text>
+                    You've been assigned the <strong>{assignment.name}</strong> milestone in the <strong>{assignment.projectName}</strong> project of the <strong>{assignment.collabName}</strong> collaborative.
+                    <br/><br/>
+                    Task: {assignment.description || 'No description provided'}<br/>
+                    Launch Tokens: {assignment.launchTokens}<br/>
                     Due Date: {new Date(assignment.dueDate).toLocaleDateString()}
                   </Text>
-                </Stack>
-                <div>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                   <Button
                     variant="default"
                     onClick={() => handleMilestoneAssignment(assignment.id, 'accept')}>
@@ -584,8 +584,8 @@ export function Dashboard() {
                     ml="md">
                       Decline
                   </Button>
-                </div>
-              </Group>
+                </Grid.Col>
+              </Grid>
           </Card>
         ))}
 
