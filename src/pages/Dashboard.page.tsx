@@ -495,25 +495,31 @@ export function Dashboard() {
             withBorder
             mt="lg"
             mb="lg">
-              <Group justify="space-between">
-                <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                <Text>
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                  <Center>
+                    <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  </Center>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                  <Text>
                     You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
-                </Text>
-                <div>
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                   <Button
-                    variant="default"
+                    variant="outline"
                     onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
-                      Accept Invitation
+                      Accept
                   </Button>
                   <Button
                     variant="default"
                     onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
                     ml="md">
-                      Decline Invitation
+                      Decline
                   </Button>
-                </div>
-              </Group>
+                </Grid.Col>
+              </Grid>
           </Card>
         ))}
 
@@ -526,25 +532,31 @@ export function Dashboard() {
             withBorder
             mt="lg"
             mb="lg">
-              <Group justify="space-between">
-                <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                <Text>
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                  <Center>
+                    <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  </Center>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                  <Text>
                     You've been invited to join the project<br/><strong><Link to={`/collaboratives/${invite.collabId}/projects/${invite.projectId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.projectName}</Link></strong> as a <strong>{invite.userRole}</strong>.
-                </Text>
-                <div>
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                   <Button
-                    variant="default"
+                    variant="outline"
                     onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'accept')}>
-                      Accept Invitation
+                      Accept
                   </Button>
                   <Button
                     variant="default"
                     onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'decline')}
                     ml="md">
-                      Decline Invitation
+                      Decline
                   </Button>
-                </div>
-              </Group>
+                </Grid.Col>
+              </Grid>
           </Card>
         ))}
 
@@ -574,7 +586,7 @@ export function Dashboard() {
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                   <Button
-                    variant="default"
+                    variant="outline"
                     onClick={() => handleMilestoneAssignment(assignment.id, 'accept')}>
                       Accept
                   </Button>
