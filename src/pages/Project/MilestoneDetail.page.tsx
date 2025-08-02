@@ -16,7 +16,7 @@ import {
   Switch,
   Divider,
 } from '@mantine/core';
-import { Milestone } from '../../data.ts';
+import { Milestone, inviteStatusColors } from '../../data.ts';
 
 export function ProjectMilestoneDetail() {
   const { collabId, projectId, milestoneId } = useParams();
@@ -87,9 +87,9 @@ export function ProjectMilestoneDetail() {
 
     try {
       const response = await fetch(
-        new URL(`milestones/${milestone.id}/completion`, import.meta.env.VITE_API_BASE),
+        new URL(`milestones/${milestone.id}`, import.meta.env.VITE_API_BASE),
         {
-          method: "PUT",
+          method: "PATCH",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -149,13 +149,7 @@ export function ProjectMilestoneDetail() {
           <div>
             <Title order={1} mb="sm">{milestone.name}</Title>
             <Group gap="md">
-              <Badge
-                color={milestone.approvalStatus === 'Active' ? 'green' : 
-                       milestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
-                variant="light"
-              >
-                {milestone.approvalStatus}
-              </Badge>
+              
               {milestone.isCompleted && (
                 <Badge color="green" variant="filled">
                   Completed
@@ -163,11 +157,36 @@ export function ProjectMilestoneDetail() {
               )}
             </Group>
           </div>
-
-          <div>
+          
+          <Group grow>
+            <div>
             <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
             <Text>{milestone.description}</Text>
           </div>
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Invite Status
+              </Text>
+              <Badge
+                  color={inviteStatusColors[milestone.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
+                  variant="light">
+                  {milestone.inviteStatus}
+              </Badge>
+            </div>
+             <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Approval Status
+              </Text>
+              <Badge
+                color={milestone.approvalStatus === 'Active' ? 'green' : 
+                        milestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                variant="light"
+              >
+                {milestone.approvalStatus}
+              </Badge>
+             </div>
+          </Group>
+          
 
           <Group grow>
             <div>
