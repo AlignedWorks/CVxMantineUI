@@ -193,7 +193,7 @@ export interface Milestone {
   inviteStatus: string;
   approvalStatus: string;
   launchTokenValue: number;
-  isCompleted: boolean;
+  isComplete: boolean;
   completionSummary: string;
   artifactUrl: string;
   dueDate: string;

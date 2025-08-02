@@ -29,7 +29,7 @@ export function ProjectMilestoneDetail() {
   // Completion editing state
   const [isCompletionEditing, setIsCompletionEditing] = useState(false);
   const [completionSummary, setCompletionSummary] = useState('');
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export function ProjectMilestoneDetail() {
           const milestoneDetails: Milestone = await response.json();
           setMilestone(milestoneDetails);
           setCompletionSummary(milestoneDetails.completionSummary || '');
-          setIsCompleted(milestoneDetails.isCompleted || false);
+          setIsComplete(milestoneDetails.isComplete || false);
 
           console.log("Fetched milestone:", milestoneDetails);
           
@@ -95,7 +95,7 @@ export function ProjectMilestoneDetail() {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            isCompleted,
+            isComplete,
             completionSummary,
           }),
         }
@@ -129,7 +129,7 @@ export function ProjectMilestoneDetail() {
     );
   }
 
-  const isAssignee = milestone.assigneeId === user?.userId;
+  const isAssigneeAndAccepted = milestone.assigneeId === user?.userId && milestone.inviteStatus === 'Accepted';
 
   return (
     <Container size="md" py="xl">
@@ -152,7 +152,7 @@ export function ProjectMilestoneDetail() {
             <Title order={1} mb="sm">{milestone.name}</Title>
             <Group gap="md">
               
-              {milestone.isCompleted && (
+              {milestone.isComplete && (
                 <Badge color="green" variant="filled">
                   Completed
                 </Badge>
@@ -211,7 +211,7 @@ export function ProjectMilestoneDetail() {
           </Group>
 
           {/* Completion Section - Only for assignees */}
-          {isAssignee && (
+          {isAssigneeAndAccepted && (
             <>
               <Divider />
               <div>
@@ -225,8 +225,8 @@ export function ProjectMilestoneDetail() {
                   <Stack gap="md">
                     <Switch
                       label="Mark as completed"
-                      checked={isCompleted}
-                      onChange={(event) => setIsCompleted(event.currentTarget.checked)}
+                      checked={isComplete}
+                      onChange={(event) => setIsComplete(event.currentTarget.checked)}
                     />
                     <Textarea
                       label="Completion Summary"
@@ -244,7 +244,7 @@ export function ProjectMilestoneDetail() {
                         onClick={() => {
                           setIsCompletionEditing(false);
                           setCompletionSummary(milestone.completionSummary || '');
-                          setIsCompleted(milestone.isCompleted || false);
+                          setIsComplete(milestone.isComplete || false);
                         }}
                       >
                         Cancel
@@ -254,7 +254,7 @@ export function ProjectMilestoneDetail() {
                 ) : (
                   <Stack gap="md">
                     <Text fw={600} size="sm">
-                      Status: {milestone.isCompleted ? 'Completed' : 'In Progress'}
+                      Status: {milestone.isComplete ? 'Completed' : 'In Progress'}
                     </Text>
                     {milestone.completionSummary && (
                       <div>
