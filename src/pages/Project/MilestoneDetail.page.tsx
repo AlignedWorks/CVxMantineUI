@@ -54,6 +54,8 @@ export function ProjectMilestoneDetail() {
           setMilestone(milestoneDetails);
           setCompletionSummary(milestoneDetails.completionSummary || '');
           setIsCompleted(milestoneDetails.isCompleted || false);
+
+          console.log("Fetched milestone:", milestoneDetails);
           
           // Also fetch project name for breadcrumb
           const projectResponse = await fetch(
@@ -87,7 +89,7 @@ export function ProjectMilestoneDetail() {
 
     try {
       const response = await fetch(
-        new URL(`milestones/${milestone.id}`, import.meta.env.VITE_API_BASE),
+        new URL(`milestones/${milestoneId}`, import.meta.env.VITE_API_BASE),
         {
           method: "PATCH",
           credentials: "include",
