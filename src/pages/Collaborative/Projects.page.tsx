@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext';
 import {
@@ -21,17 +20,10 @@ import { CollaborativeData, Project } from '../../data.ts';
 
 export function CollaborativeProjects() {
   const { id } = useParams(); // Get the 'id' parameter from the URL
-  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-
-  if (user) {
-    console.log(user.username);
-  } else {
-    console.log('User is null');
-  }
 
   // Set the collaborative ID in context
   useEffect(() => {

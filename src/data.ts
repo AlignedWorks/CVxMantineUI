@@ -193,6 +193,9 @@ export interface Milestone {
   inviteStatus: string;
   approvalStatus: string;
   launchTokenValue: number;
+  isCompleted: boolean;
+  completionSummary: string;
+  artifactUrl: string;
   dueDate: string;
   createdAt: string;
   completedAt?: string;
@@ -208,6 +211,7 @@ export interface ProjectInvite {
   inviteStatus: string;
 }
 
+// Used for dashboard
 export interface MilestoneAssignment {
   id: number,
   name: string,

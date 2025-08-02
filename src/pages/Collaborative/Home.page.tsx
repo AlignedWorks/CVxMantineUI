@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../AuthContext.tsx';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext';
 import {
@@ -54,19 +53,12 @@ const mockCollaborative: CollaborativeData =
 export function CollaborativeHome() {
   const location = useLocation();
   const { id } = useParams(); // Get the 'id' parameter from the URL
-  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Get the "from" state or default to a fallback
   const from = location.state?.from || '/collaborative-directory';
-
-  if (user) {
-    console.log(user.username);
-  } else {
-    console.log('User is null');
-  }
 
   const getDisplayUrl = (url: string) => {
     try {

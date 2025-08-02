@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import { DatesProvider, DateTimePicker } from '@mantine/dates';
@@ -21,25 +20,12 @@ import {
   Tooltip,
   Center,
   Select,
-  Badge,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, inviteStatusColors } from '../../data.ts';
-
-export interface MilestoneDetails {
-  name: string;
-  description: string;
-  launchTokenValue: number;
-  assigneeName: string;
-  inviteStatus: string;
-  approvalStatus: string;
-  dueDate: string;
-  createdAt: string;
-}
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers } from '../../data.ts';
 
 export function ProjectMilestones() {
   // const location = useLocation();
   const { collabId, projectId } = useParams();
-  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataWithMilestones | null>(null);
   const [loading, setLoading] = useState(true);
@@ -48,10 +34,6 @@ export function ProjectMilestones() {
   const [successMessage, setSuccessMessage] = useState('');
   const [dueDateError, setDueDateError] = useState<string | null>(null);
   const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
-
-  // Milestone detail modal state
-  const [selectedMilestone, setSelectedMilestone] = useState<MilestoneDetails | null>(null);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   // Milestone form state
   const [milestoneName, setMilestoneName] = useState('');
@@ -62,12 +44,6 @@ export function ProjectMilestones() {
 
   // Get the "from" state or default to a fallback
   // const from = location.state?.from || '/collaborative-directory';
-
-  if (user) {
-    console.log(user.username);
-  } else {
-    console.log('User is null');
-  }
 
   // Set the collaborative ID in context
   useEffect(() => {
@@ -245,38 +221,6 @@ export function ProjectMilestones() {
     }
   };
 
-  // Function to handle milestone click
-  const handleMilestoneClick = async (milestone: Milestone) => {
-
-    try {
-      const response = await fetch(
-        new URL(`milestones/${milestone.id}`, import.meta.env.VITE_API_BASE),
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (response.ok) {
-
-        const milestoneDetails: MilestoneDetails = await response.json();
-
-        setSelectedMilestone(milestoneDetails);
-        setIsDetailModalOpen(true);
-
-      } else {
-        console.error("Failed to fetch milestone details");
-      }
-
-    } catch (error) {
-      console.error("Error fetching milestone details:", error);
-    }
-
-  };
-
   // Calculate maximum percentage allowed
   const maxPercentage = project.launchTokenBudget > 0 
     ? Math.floor((project.launchTokenBalance / project.launchTokenBudget) * 100)
@@ -298,18 +242,22 @@ export function ProjectMilestones() {
   const milestoneRows = project.milestones.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td>
-        <Text 
-          fz="sm" 
-          fw={500} 
-          style={{ 
-            color: '#0077b5', 
-            cursor: 'pointer',
-            textDecoration: 'none'
-          }}
-          onClick={() => handleMilestoneClick(item)}
+        <Link 
+          to={`/collaboratives/${collabId}/projects/${projectId}/milestones/${item.id}`}
+          style={{ textDecoration: 'none' }}
         >
-          {item.name}
-        </Text>
+          <Text 
+            fz="sm" 
+            fw={500} 
+            style={{ 
+              color: '#0077b5', 
+              cursor: 'pointer',
+              textDecoration: 'none'
+            }}
+          >
+            {item.name}
+          </Text>
+        </Link>
       </Table.Td>
       <Table.Td>
         <Text>
@@ -499,93 +447,6 @@ export function ProjectMilestones() {
             </Button>
           </Group>
         </Stack>
-      </Modal>
-
-      {/* Milestone Detail Modal */}
-      <Modal
-        opened={isDetailModalOpen}
-        onClose={() => setIsDetailModalOpen(false)}
-        size="md"
-      >
-        {selectedMilestone && (
-          <Stack gap="md">
-            <div>
-              <Title order={2}>
-                {selectedMilestone.name} Milestone
-              </Title>
-            </div>
-
-            <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Description
-              </Text>
-              <Text>
-                {selectedMilestone.description}
-              </Text>
-            </div>
-
-            <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Assignee
-              </Text>
-              <Text>
-                {selectedMilestone.assigneeName || 'Not assigned'}
-              </Text>
-            </div>
-
-            <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Invite Status
-              </Text>
-              <Text>
-                <Badge
-                    color={inviteStatusColors[selectedMilestone.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
-                    variant="light">
-                    {selectedMilestone.inviteStatus}
-                </Badge>
-              </Text>
-            </div>
-
-            <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Approval Status
-              </Text>
-              <Text>
-                {selectedMilestone.approvalStatus}
-              </Text>
-            </div>
-
-            <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Due Date
-              </Text>
-              <Text>
-                {selectedMilestone.dueDate 
-                  ? new Date(selectedMilestone.dueDate).toLocaleString()
-                  : 'No due date set'
-                }
-              </Text>
-            </div>
-
-            <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Created At
-              </Text>
-              <Text>
-                {new Date(selectedMilestone.createdAt).toLocaleString()}
-              </Text>
-            </div>
-
-            <Group justify="flex-end" mt="lg">
-              <Button
-                variant="outline"
-                onClick={() => setIsDetailModalOpen(false)}
-              >
-                Close
-              </Button>
-            </Group>
-          </Stack>
-        )}
       </Modal>
     </Container>
   );

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
@@ -22,7 +21,6 @@ import { CollaborativeDataTreasury } from '../../data.ts';
 export function CollaborativeTreasury() {
   // const location = useLocation();
   const { id } = useParams(); // Get the 'id' parameter from the URL
-  const { user } = useAuth();
   const navigate = useNavigate();
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeDataTreasury | null>(null);
@@ -30,12 +28,6 @@ export function CollaborativeTreasury() {
 
   // Get the "from" state or default to a fallback
   // const from = location.state?.from || '/collaborative-directory';
-
-  if (user) {
-    console.log(user.username);
-  } else {
-    console.log('User is null');
-  }
 
   // Set the collaborative ID in context
   useEffect(() => {

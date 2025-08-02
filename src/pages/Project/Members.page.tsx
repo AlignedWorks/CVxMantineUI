@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
@@ -28,7 +27,6 @@ import { IconCheck, IconX } from '@tabler/icons-react'; // Add these imports
 export function ProjectMembers() {
   // const location = useLocation();
   const { collabId, projectId } = useParams();
-  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataWithMembers | null>(null);
   const [loading, setLoading] = useState(true);
@@ -42,12 +40,6 @@ export function ProjectMembers() {
 
   // Get the "from" state or default to a fallback
   // const from = location.state?.from || '/collaborative-directory';
-
-  if (user) {
-    console.log(user.username);
-  } else {
-    console.log('User is null');
-  }
 
   // Set the collaborative ID in context
   useEffect(() => {

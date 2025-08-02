@@ -199,7 +199,7 @@ export function HeaderTabs() {
                         <Avatar alt={user.firstName + ' ' + user.lastName} color="blue" radius="xl" size={30} />
                       )}
                       <Text fw={500} size="sm" lh={1} mr={3}>
-                        { user.firstName ? user.firstName + ' ' + user.lastName : user.username }
+                        { user.firstName ? user.firstName + ' ' + user.lastName : user.userName }
                       </Text>
                       <IconChevronDown size={12} stroke={1.5} />
                     </Group>
@@ -259,7 +259,7 @@ export function HeaderTabs() {
               )}
               <Stack>
                 <Text fw={500} size="md">
-                  {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
+                  {user.firstName ? `${user.firstName} ${user.lastName}` : user.userName}
                 </Text>
                 <Group wrap="nowrap" gap="sm">
                   <NavLink

@@ -35,6 +35,7 @@ import { CSAAgreement } from './pages/Collaborative/CSAAgreement.page.tsx';
 import { ProjectHome } from './pages/Project/Home.page.tsx';
 import { ProjectMembers } from './pages/Project/Members.page.tsx';
 import { ProjectMilestones } from './pages/Project/Milestones.page.tsx';
+import { ProjectMilestoneDetail } from './pages/Project/MilestoneDetail.page.tsx';
 
 import { CreateProject } from './pages/CreateProject.page.tsx';
 
@@ -138,6 +139,7 @@ function MainContent({ user }: { user: any }) {
         <Route path="/collaboratives/:collabId/projects/:projectId" element={<ProjectHome />} />
         <Route path="/collaboratives/:collabId/projects/:projectId/members" element={<ProjectMembers />} />
         <Route path="/collaboratives/:collabId/projects/:projectId/milestones" element={<ProjectMilestones />} />
+        <Route path="/collaboratives/:collabId/projects/:projectId/milestones/:milestoneId" element={<ProjectMilestoneDetail />} />
         <Route path="/members/:id" element={<MemberProfile/>} />
         <Route path="/upload-image" element={<ImageUpload />} />
         <Route path="/upload-file" element={<FileUpload />} />

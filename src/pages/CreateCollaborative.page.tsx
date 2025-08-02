@@ -407,7 +407,7 @@ export function CreateCollaborative() {
         <TextInput
             label="Collaborative Admin"
             disabled={true}
-            defaultValue={user ? (user.firstName ? `${user.firstName} ${user.lastName}` : user.username) : "No user logged in"}
+            defaultValue={user ? (user.firstName ? `${user.firstName} ${user.lastName}` : user.userName) : "No user logged in"}
             mb="md"
         />
       </SimpleGrid>

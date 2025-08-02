@@ -341,15 +341,18 @@ export function Dashboard() {
                         {collab.description}
                     </Text>
                   </Tooltip>
-                  {collab.status === 'Active' ? (
-                    <Badge color="yellow" variant="light" mt="sm" mb="lg">
-                        {collab.status}
-                    </Badge>
-                  ) : (
-                    <Badge color="pink" variant="light" mt="sm" mb="lg">
-                        {collab.status}
-                    </Badge>
-                  )}
+                  <Badge 
+                    color={
+                      collab.status === 'Active' ? 'green' : 
+                      collab.status === 'Submitted' ? 'yellow' : 
+                      'pink'
+                    } 
+                    variant="light" 
+                    mt="sm" 
+                    mb="lg"
+                  >
+                    {collab.status}
+                  </Badge>
                 
                 <Link
                   to={`/collaboratives/${collab.id}`}

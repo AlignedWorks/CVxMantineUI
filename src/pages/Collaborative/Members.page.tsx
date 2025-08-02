@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../AuthContext.tsx';
 import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
@@ -45,7 +44,6 @@ interface User {
 export function CollaborativeMembers() {
   // const location = useLocation();
   const { id } = useParams(); // Get the 'id' parameter from the URL
-  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeDataWithMembers | null>(null);
   const [loading, setLoading] = useState(true);
@@ -59,12 +57,6 @@ export function CollaborativeMembers() {
 
   // Get the "from" state or default to a fallback
   // const from = location.state?.from || '/collaborative-directory';
-
-  if (user) {
-    console.log(user.username);
-  } else {
-    console.log('User is null');
-  }
 
   // Set the collaborative ID in context
   useEffect(() => {

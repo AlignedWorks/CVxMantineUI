@@ -2,7 +2,8 @@ import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { useSessionTimeout } from "./SessionTimeout.tsx";
 
 interface User {
-  username: string;
+  userId: string;
+  userName: string;
   firstName: string;
   lastName: string;
   avatarUrl: string;
