@@ -53,10 +53,11 @@ function MainContent({ user }: { user: any }) {
   // Check if we're on a project page
   const isProjectPage = location.pathname.match(/^\/collaboratives\/\d+\/projects\/\d+/);
   
-  // Get the base project path (without /milestones or /members)
+  // Get the base project path (without /milestones, /members, or milestone IDs)
   const getBaseProjectPath = () => {
     if (!isProjectPage) return '';
-    return location.pathname.replace(/\/(milestones|members)$/, '');
+    // Remove /milestones/:id, /milestones, or /members from the end
+    return location.pathname.replace(/\/(milestones\/[^\/]+|milestones|members)$/, '');
   };
   
   const baseProjectPath = getBaseProjectPath();
