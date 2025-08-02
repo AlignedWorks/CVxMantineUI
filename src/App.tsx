@@ -61,6 +61,22 @@ function MainContent({ user }: { user: any }) {
   
   const baseProjectPath = getBaseProjectPath();
 
+  // Helper function to check if we're on the project home page
+  const isProjectHomePage = () => {
+    const projectHomePattern = /^\/collaboratives\/\d+\/projects\/\d+$/;
+    return projectHomePattern.test(location.pathname);
+  };
+
+  // Helper function to check if we're on any milestones page (list or detail)
+  const isMilestonesPage = () => {
+    return location.pathname.includes('/milestones');
+  };
+
+  // Helper function to check if we're on the members page
+  const isMembersPage = () => {
+    return location.pathname.includes('/members');
+  };
+
   return (
     <>
       {/* Secondary Menu Band for Project Pages */}
@@ -80,7 +96,7 @@ function MainContent({ user }: { user: any }) {
                 fw={500}
                 style={{ 
                   textDecoration: 'none',
-                  color: location.pathname.endsWith('/projects/' + location.pathname.split('/').pop()) ? '#0077b5' : '#495057'
+                  color:  isProjectHomePage() ? '#0077b5' : '#495057'
                 }}
               >
                 Home
@@ -92,7 +108,7 @@ function MainContent({ user }: { user: any }) {
                 fw={500}
                 style={{ 
                   textDecoration: 'none',
-                  color: location.pathname.includes('/milestones') ? '#0077b5' : '#495057'
+                  color: isMilestonesPage() ? '#0077b5' : '#495057'
                 }}
               >
                 Milestones
@@ -104,7 +120,7 @@ function MainContent({ user }: { user: any }) {
                 fw={500}
                 style={{ 
                   textDecoration: 'none',
-                  color: location.pathname.includes('/members') ? '#0077b5' : '#495057'
+                  color: isMembersPage() ? '#0077b5' : '#495057'
                 }}
               >
                 Members
