@@ -15,8 +15,12 @@ import {
   Textarea,
   Switch,
   Divider,
+  Paper,
+  Center,
 } from '@mantine/core';
 import { MilestoneDetail, inviteStatusColors } from '../../data.ts';
+import { FileUpload } from '../../components/uploads/FileUpload.tsx';
+import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
 export function ProjectMilestoneDetail() {
   const { collabId, projectId, milestoneId } = useParams();
@@ -25,6 +29,7 @@ export function ProjectMilestoneDetail() {
   const [milestone, setMilestone] = useState<MilestoneDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [projectName, setProjectName] = useState('');
+  const [hasReadDoc, setHasReadDoc] = useState(false);
   
   // Completion editing state
   const [isCompletionEditing, setIsCompletionEditing] = useState(false);
@@ -41,6 +46,12 @@ export function ProjectMilestoneDetail() {
     setCollaborativeId(collabId || null);
     return () => setCollaborativeId(null);
   }, [collabId, setCollaborativeId]);
+
+  const handleAgreementComplete = () => {
+    setHasReadDoc(true);
+  };
+
+  console.log("hasReadDoc:", hasReadDoc);
 
   useEffect(() => {
     const fetchMilestone = async () => {
@@ -303,6 +314,50 @@ export function ProjectMilestoneDetail() {
                   </Stack>
                 )}
               </div>
+
+              {/* File Upload Section */}
+              <div>
+                <FileUpload
+                  onSuccess={(url) => {
+                    setMilestone(prev => prev ? {
+                      ...prev,
+                      ArtifactUrl: url
+                    } : null);
+                    setSuccessMessage("Artifact uploaded successfully.");
+                    setTimeout(() => setSuccessMessage(''), 3000);
+                  }}
+                />
+              </div>
+
+              <Paper 
+                withBorder 
+                style={{ 
+                  overflow: 'hidden',
+                  maxWidth: '100%'
+                }}
+              >
+                {loading ? (
+                  <Center p="xl">
+                    <Loader size="lg" />
+                    <Text ml="md">Loading document...</Text>
+                  </Center>
+                ) : milestone?.artifactUrl ? (
+                  <div style={{ 
+                    overflow: 'auto',
+                    maxWidth: '100%',
+                    width: '100%'
+                  }}>
+                    <CSADocumentViewer 
+                      documentUrl={milestone?.artifactUrl || ""}
+                      allPagesRead={handleAgreementComplete}
+                    />
+                  </div>
+                ) : (
+                  <Center p="xl">
+                    <Text c="red">No document URL available</Text>
+                  </Center>
+                )}
+              </Paper>
             </>
           )}
 
