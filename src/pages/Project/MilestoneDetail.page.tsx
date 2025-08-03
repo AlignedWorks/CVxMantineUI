@@ -238,7 +238,7 @@ export function ProjectMilestoneDetail() {
           </Group>
 
           {/* Completion Section - Only for assignees */}
-          {isAssigneeAndAccepted && (
+          {isAssigneeAndAccepted && milestone.approvalStatus != 'Archived' && (
             <>
               <Divider />
               <div>
@@ -302,7 +302,7 @@ export function ProjectMilestoneDetail() {
           )}
 
           {/* Approval Section - Only for project admins when milestone is complete */}
-          {isProjectAdmin && milestone.isComplete && (
+          {isProjectAdmin && milestone.isComplete && milestone.approvalStatus != 'Archived' && (
             <>
               <Divider />
               <div>
