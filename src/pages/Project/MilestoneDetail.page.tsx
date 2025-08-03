@@ -16,13 +16,13 @@ import {
   Switch,
   Divider,
 } from '@mantine/core';
-import { Milestone, inviteStatusColors } from '../../data.ts';
+import { MilestoneDetail, inviteStatusColors } from '../../data.ts';
 
 export function ProjectMilestoneDetail() {
   const { collabId, projectId, milestoneId } = useParams();
   const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
-  const [milestone, setMilestone] = useState<Milestone | null>(null);
+  const [milestone, setMilestone] = useState<MilestoneDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [projectName, setProjectName] = useState('');
   
@@ -31,6 +31,11 @@ export function ProjectMilestoneDetail() {
   const [completionSummary, setCompletionSummary] = useState('');
   const [isComplete, setIsComplete] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+
+  // Approval functionality
+  const [isApprovalEditing, setIsApprovalEditing] = useState(false);
+  const [approvalAction, setApprovalAction] = useState<'approve' | 'decline' | null>(null);
+  const [feedback, setFeedback] = useState('');
 
   useEffect(() => {
     setCollaborativeId(collabId || null);
@@ -50,27 +55,13 @@ export function ProjectMilestoneDetail() {
         );
 
         if (response.ok) {
-          const milestoneDetails: Milestone = await response.json();
+          const milestoneDetails: MilestoneDetail = await response.json();
           setMilestone(milestoneDetails);
           setCompletionSummary(milestoneDetails.completionSummary || '');
+          setProjectName(milestoneDetails.projectName || '');
           setIsComplete(milestoneDetails.isComplete || false);
 
           console.log("Fetched milestone:", milestoneDetails);
-          
-          // Also fetch project name for breadcrumb
-          const projectResponse = await fetch(
-            new URL(`projects/${projectId}`, import.meta.env.VITE_API_BASE),
-            {
-              method: "GET",
-              credentials: "include",
-              headers: { 'Content-Type': 'application/json' },
-            }
-          );
-          
-          if (projectResponse.ok) {
-            const projectData = await projectResponse.json();
-            setProjectName(projectData.name);
-          }
         }
       } catch (error) {
         console.error("Error fetching milestone:", error);
@@ -102,7 +93,7 @@ export function ProjectMilestoneDetail() {
       );
 
       if (response.ok) {
-        const updatedMilestone: Milestone = await response.json();
+        const updatedMilestone: MilestoneDetail = await response.json();
         setMilestone(updatedMilestone);
 
         setIsCompletionEditing(false);
@@ -111,6 +102,37 @@ export function ProjectMilestoneDetail() {
       }
     } catch (error) {
       console.error("Error updating completion:", error);
+    }
+  };
+
+  const handleApprovalAction = async () => {
+    if (!milestone || !approvalAction) return;
+
+    try {
+      const response = await fetch(
+        new URL(`milestones/${milestoneId}`, import.meta.env.VITE_API_BASE),
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: approvalAction,
+            feedback: approvalAction === 'decline' ? feedback : undefined,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedMilestone: MilestoneDetail = await response.json();
+        setMilestone(updatedMilestone);
+        setIsApprovalEditing(false);
+        setApprovalAction(null);
+        setFeedback('');
+        setSuccessMessage(`Milestone ${approvalAction === 'approve' ? 'approved' : 'declined'} successfully.`);
+        setTimeout(() => setSuccessMessage(''), 3000);
+      }
+    } catch (error) {
+      console.error("Error updating approval:", error);
     }
   };
 
@@ -130,6 +152,8 @@ export function ProjectMilestoneDetail() {
     );
   }
 
+  // Check if user is a project admin
+  const isProjectAdmin = milestone.projectAdmins?.some(admin => admin.adminId === user?.userId);
   const isAssigneeAndAccepted = milestone.assigneeId === user?.userId && milestone.inviteStatus === 'Accepted';
 
   return (
@@ -268,6 +292,91 @@ export function ProjectMilestoneDetail() {
                       onClick={() => setIsCompletionEditing(true)}
                     >
                       Update Completion
+                    </Button>
+                  </Stack>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Approval Section - Only for project admins when milestone is complete */}
+          {isProjectAdmin && milestone.isComplete && (
+            <>
+              <Divider />
+              <div>
+                <Title order={3} mb="md">Milestone Approval</Title>
+                
+                {successMessage && (
+                  <Text c="green" size="sm" mb="md">{successMessage}</Text>
+                )}
+
+                {isApprovalEditing ? (
+                  <Stack gap="md">
+                    <Group gap="md">
+                      <Button
+                        variant={approvalAction === 'approve' ? 'filled' : 'outline'}
+                        color="green"
+                        onClick={() => setApprovalAction('approve')}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant={approvalAction === 'decline' ? 'filled' : 'outline'}
+                        color="red"
+                        onClick={() => setApprovalAction('decline')}
+                      >
+                        Decline
+                      </Button>
+                    </Group>
+                    
+                    {approvalAction === 'decline' && (
+                      <Textarea
+                        label="Feedback (Required for decline)"
+                        placeholder="Please explain why this milestone is being declined..."
+                        value={feedback}
+                        onChange={(e) => setFeedback(e.target.value)}
+                        minRows={3}
+                        required
+                      />
+                    )}
+                    
+                    <Group gap="sm">
+                      <Button
+                        onClick={handleApprovalAction}
+                        disabled={!approvalAction || (approvalAction === 'decline' && !feedback.trim())}
+                      >
+                        Submit {approvalAction === 'approve' ? 'Approval' : 'Decline'}
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setIsApprovalEditing(false);
+                          setApprovalAction(null);
+                          setFeedback('');
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </Group>
+                  </Stack>
+                ) : (
+                  <Stack gap="md">
+                    {milestone.feedback && (
+                      <div>
+                        <Text fw={600} size="sm" c="dimmed" mb={4}>Previous Feedback</Text>
+                        <Text size="sm" p="sm" style={{ backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                          {milestone.feedback}
+                        </Text>
+                      </div>
+                    )}
+                    <Text size="sm" c="dimmed">
+                      This milestone has been marked complete and is awaiting approval.
+                    </Text>
+                    <Button
+                      variant="light"
+                      onClick={() => setIsApprovalEditing(true)}
+                    >
+                      Review & Approve
                     </Button>
                   </Stack>
                 )}

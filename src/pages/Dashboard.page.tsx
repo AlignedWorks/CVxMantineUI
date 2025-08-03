@@ -643,7 +643,7 @@ export function Dashboard() {
                   </Center>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
-                  <Stack gap="xs">
+                  <Stack gap="xs" align="flex-start">
                     <Text size="lg" fw={500}>
                       Milestone: <Text component="span" fw={400}>{completion.name}</Text>
                     </Text>

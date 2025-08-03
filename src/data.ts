@@ -201,6 +201,24 @@ export interface Milestone {
   completedAt?: string;
 }
 
+export interface MilestoneDetail {
+  id: number;
+  name: string;
+  description: string;
+  assigneeId: string;
+  assigneeName: string;
+  inviteStatus: string;
+  approvalStatus: string;
+  launchTokenValue: number;
+  isComplete: boolean;
+  completionSummary: string;
+  artifactUrl: string;
+  dueDate: string;
+  projectName: string;
+  projectAdmins: { adminId: string; adminName: string }[];
+  feedback: string;
+}
+
 export interface ProjectInvite {
   userId: string;
   userRole: string;
