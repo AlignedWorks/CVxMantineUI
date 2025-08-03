@@ -20,6 +20,7 @@ import {
   Tooltip,
   Center,
   Select,
+  Badge,
  } from '@mantine/core';
 import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers } from '../../data.ts';
 
@@ -239,7 +240,17 @@ export function ProjectMilestones() {
     label: `${member.firstName} ${member.lastName}`,
   }));
 
-  const milestoneRows = project.milestones.map((item) => (
+  // Define the sort order for approval status
+  const statusOrder = { 'Submitted': 1, 'Declined': 2, 'Draft': 3, 'Archived': 4 };
+
+  // Sort milestones by approval status before mapping
+  const sortedMilestones = [...project.milestones].sort((a, b) => {
+    const aOrder = statusOrder[a.approvalStatus as keyof typeof statusOrder] || 999;
+    const bOrder = statusOrder[b.approvalStatus as keyof typeof statusOrder] || 999;
+    return aOrder - bOrder;
+  });
+
+  const milestoneRows = sortedMilestones.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td>
         <Link 
@@ -275,7 +286,13 @@ export function ProjectMilestones() {
         </Text>
       </Table.Td>
       <Table.Td>
-        {item.approvalStatus}
+        <Badge
+          color={item.approvalStatus === 'Active' ? 'green' : 
+                  item.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+          variant="light"
+        >
+          {item.approvalStatus}
+        </Badge>
       </Table.Td>
     </Table.Tr>
   ));

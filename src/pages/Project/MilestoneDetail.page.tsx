@@ -60,8 +60,6 @@ export function ProjectMilestoneDetail() {
           setCompletionSummary(milestoneDetails.completionSummary || '');
           setProjectName(milestoneDetails.projectName || '');
           setIsComplete(milestoneDetails.isComplete || false);
-
-          console.log("Fetched milestone:", milestoneDetails);
         }
       } catch (error) {
         console.error("Error fetching milestone:", error);
@@ -240,7 +238,7 @@ export function ProjectMilestoneDetail() {
           {milestone.approvalStatus === 'Declined' && (
             <>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Feedback</Text>
-              <Text c="red" mt="sm" mb="sm">{milestone.feedback}</Text>
+              <Text c="red">{milestone.feedback}</Text>
             </>
           )}
 

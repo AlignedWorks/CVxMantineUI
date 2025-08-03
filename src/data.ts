@@ -154,19 +154,19 @@ export interface ProjectDataHome {
 }
 
 export interface ProjectDataWithMembers {
-  collabName: string;
-  collabLogoUrl: string;
   id: number;
   name: string;
+  collabName: string;
+  collabLogoUrl: string;
   userIsProjectAdminAndStatusAccepted: boolean;
   members: ProjectMember[];
 }
 
 export interface ProjectDataWithMilestones {
-  collabName: string;
-  collabLogoUrl: string;
   id: number;
   name: string;
+  collabName: string;
+  collabLogoUrl: string;
   launchTokenBudget: number;
   launchTokenBalance: number;
   userIsProjectAdminAndStatusAccepted: boolean;
