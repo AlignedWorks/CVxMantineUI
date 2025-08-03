@@ -97,6 +97,7 @@ export function ProjectMilestoneDetail() {
           body: JSON.stringify({
             isComplete,
             completionSummary,
+            artifactUrl: milestone.artifactUrl,
           }),
         }
       );
@@ -104,7 +105,6 @@ export function ProjectMilestoneDetail() {
       if (response.ok) {
         const updatedMilestone: MilestoneDetail = await response.json();
         setMilestone(updatedMilestone);
-
         setIsCompletionEditing(false);
         setSuccessMessage("Completion status updated successfully.");
         setTimeout(() => setSuccessMessage(''), 3000);
@@ -278,6 +278,51 @@ export function ProjectMilestoneDetail() {
                       onChange={(e) => setCompletionSummary(e.target.value)}
                       minRows={4}
                     />
+
+                    {/* File Upload Section */}
+                    <div>
+                      <FileUpload
+                        onSuccess={(url) => {
+                          setMilestone(prev => prev ? {
+                            ...prev,
+                            ArtifactUrl: url
+                          } : null);
+                          setSuccessMessage("Artifact uploaded successfully.");
+                          setTimeout(() => setSuccessMessage(''), 3000);
+                        }}
+                      />
+                    </div>
+
+                    <Paper 
+                      withBorder 
+                      style={{ 
+                        overflow: 'hidden',
+                        maxWidth: '100%'
+                      }}
+                    >
+                      {loading ? (
+                        <Center p="xl">
+                          <Loader size="lg" />
+                          <Text ml="md">Loading document...</Text>
+                        </Center>
+                      ) : milestone?.artifactUrl ? (
+                        <div style={{ 
+                          overflow: 'auto',
+                          maxWidth: '100%',
+                          width: '100%'
+                        }}>
+                          <CSADocumentViewer 
+                            documentUrl={milestone?.artifactUrl || ""}
+                            allPagesRead={handleAgreementComplete}
+                          />
+                        </div>
+                      ) : (
+                        <Center p="xl">
+                          <Text c="red">No document URL available</Text>
+                        </Center>
+                      )}
+                    </Paper>
+
                     <Group gap="sm">
                       <Button onClick={handleUpdateCompletion}>
                         Save Changes
@@ -315,49 +360,7 @@ export function ProjectMilestoneDetail() {
                 )}
               </div>
 
-              {/* File Upload Section */}
-              <div>
-                <FileUpload
-                  onSuccess={(url) => {
-                    setMilestone(prev => prev ? {
-                      ...prev,
-                      ArtifactUrl: url
-                    } : null);
-                    setSuccessMessage("Artifact uploaded successfully.");
-                    setTimeout(() => setSuccessMessage(''), 3000);
-                  }}
-                />
-              </div>
-
-              <Paper 
-                withBorder 
-                style={{ 
-                  overflow: 'hidden',
-                  maxWidth: '100%'
-                }}
-              >
-                {loading ? (
-                  <Center p="xl">
-                    <Loader size="lg" />
-                    <Text ml="md">Loading document...</Text>
-                  </Center>
-                ) : milestone?.artifactUrl ? (
-                  <div style={{ 
-                    overflow: 'auto',
-                    maxWidth: '100%',
-                    width: '100%'
-                  }}>
-                    <CSADocumentViewer 
-                      documentUrl={milestone?.artifactUrl || ""}
-                      allPagesRead={handleAgreementComplete}
-                    />
-                  </div>
-                ) : (
-                  <Center p="xl">
-                    <Text c="red">No document URL available</Text>
-                  </Center>
-                )}
-              </Paper>
+              
             </>
           )}
 
