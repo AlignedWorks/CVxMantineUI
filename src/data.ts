@@ -223,6 +223,18 @@ export interface MilestoneAssignment {
   collabLogoUrl: string
 }
 
+// Used for dashboard
+export interface MilestoneCompletion {
+  id: number,
+  name: string,
+  description: string,
+  projectId: number,
+  projectName: string,
+  collabId: number,
+  collabName: string,
+  collabLogoUrl: string
+}
+
 export const collabRoles = ['Collaborative Admin','Collaborative Member']
 
 export const inviteStatusColors: { [key: string]: string } = {

@@ -102,8 +102,9 @@ export function ProjectMilestoneDetail() {
       );
 
       if (response.ok) {
-        const updatedMilestone = await response.json();
+        const updatedMilestone: Milestone = await response.json();
         setMilestone(updatedMilestone);
+
         setIsCompletionEditing(false);
         setSuccessMessage("Completion status updated successfully.");
         setTimeout(() => setSuccessMessage(''), 3000);

@@ -20,7 +20,15 @@ import {
   Center
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { CollabDataCompact, CollabInvite, CollabApprovalRequest, CollabsNeedingApproval, ProjectInvite, MilestoneAssignment } from '../data.ts';
+import { 
+  CollabDataCompact,
+  CollabInvite,
+  CollabApprovalRequest,
+  CollabsNeedingApproval,
+  ProjectInvite,
+  MilestoneAssignment,
+  MilestoneCompletion,
+} from '../data.ts';
 
 interface User {
   id: string;
@@ -44,6 +52,7 @@ export function Dashboard() {
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
   const [projectInvites, setProjectInvites] = useState<ProjectInvite[]>([]);
   const [milestoneAssignments, setMilestoneAssignments] = useState<MilestoneAssignment[]>([]);
+  const [milestoneCompletions, setMilestoneCompletions] = useState<MilestoneCompletion[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
   const [inviteModalOpen, setInviteModalOpen] = useState(false); // State to control modal visibility
@@ -68,7 +77,8 @@ export function Dashboard() {
             collabInvites,
             csaApprovalRequests,
             projectInvites,
-            milestoneAssignments
+            milestoneAssignments,
+            milestoneCompletions,
           } = data;
 
           console.log(collabsNeedingApproval);
@@ -82,6 +92,7 @@ export function Dashboard() {
           setUserApprovals(users);
           setProjectInvites(projectInvites);
           setMilestoneAssignments(milestoneAssignments);
+          setMilestoneCompletions(milestoneCompletions);
 
           // Set the roles data
           setRolesData(roles);
@@ -579,13 +590,25 @@ export function Dashboard() {
                   </Center>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
-                  <Text>
-                    You've been assigned the <strong>{assignment.name}</strong> milestone in the <strong>{assignment.projectName}</strong> project of the <strong>{assignment.collabName}</strong> collaborative.
-                    <br/><br/>
-                    Task: {assignment.description || 'No description provided'}<br/>
-                    Launch Tokens: {assignment.launchTokens}<br/>
-                    Due Date: {new Date(assignment.dueDate).toLocaleDateString()}
-                  </Text>
+                  <Stack gap="xs">
+                    <Text size="lg" fw={500}>
+                      Milestone: <Text component="span" fw={400}>{assignment.name}</Text>
+                    </Text>
+                    <Text size="sm" c="dimmed">
+                      Project: {assignment.projectName} • Collaborative: {assignment.collabName}
+                    </Text>
+                    <Text size="sm" mt="sm">
+                      <strong>Task:</strong> {assignment.description || 'No description provided'}
+                    </Text>
+                    <Group gap="lg" mt="xs">
+                      <Text size="sm">
+                        <strong>Launch Tokens:</strong> {assignment.launchTokens}
+                      </Text>
+                      <Text size="sm">
+                        <strong>Due Date:</strong> {new Date(assignment.dueDate).toLocaleDateString()}
+                      </Text>
+                    </Group>
+                  </Stack>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                   <Button
@@ -599,6 +622,44 @@ export function Dashboard() {
                     ml="md">
                       Decline
                   </Button>
+                </Grid.Col>
+              </Grid>
+          </Card>
+        ))}
+
+        {milestoneCompletions?.map((completion) => (
+          <Card 
+            key={`${completion.id}`}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            mt="lg"
+            mb="lg">
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                  <Center>
+                    <img src={completion.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  </Center>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
+                  <Stack gap="xs">
+                    <Text size="lg" fw={500}>
+                      Milestone: <Text component="span" fw={400}>{completion.name}</Text>
+                    </Text>
+                    <Text size="sm" c="dimmed">
+                      Project: {completion.projectName} • Collaborative: {completion.collabName}
+                    </Text>
+                    <Text size="sm" mt="sm">
+                      This milestone has been marked complete and is awaiting your approval.
+                    </Text>
+                    <Button
+                      component={Link}
+                      to={`/collaboratives/${completion.collabId}/projects/${completion.projectId}/milestones/${completion.id}`}
+                      variant="outline">
+                        Review Milestone
+                    </Button>
+                  </Stack>
                 </Grid.Col>
               </Grid>
           </Card>
@@ -633,7 +694,7 @@ export function Dashboard() {
           </Card>
         ))}
 
-        {user?.memberStatus === 'Network Admin' && (
+        {user?.memberStatus === 'Network Admin' && Array.isArray(userApprovals) && userApprovals.length > 0 && (
           <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
               Approve users
           </Title>
