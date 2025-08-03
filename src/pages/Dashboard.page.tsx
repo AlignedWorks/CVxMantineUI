@@ -291,7 +291,7 @@ export function Dashboard() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          status: newStatus 
+          acceptanceStatus: newStatus
         }),
       })
       .then((res) => {

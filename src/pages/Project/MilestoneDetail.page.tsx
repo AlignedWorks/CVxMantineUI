@@ -116,8 +116,10 @@ export function ProjectMilestoneDetail() {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            action: approvalAction,
+            approvalStatus: approvalAction,
             feedback: approvalAction === 'decline' ? feedback : undefined,
+            isComplete: milestone.isComplete,
+            completionSummary: milestone.completionSummary,
           }),
         }
       );
