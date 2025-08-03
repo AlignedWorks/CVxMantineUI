@@ -35,6 +35,7 @@ export function ProjectMilestoneDetail() {
   const [isCompletionEditing, setIsCompletionEditing] = useState(false);
   const [completionSummary, setCompletionSummary] = useState('');
   const [isComplete, setIsComplete] = useState(false);
+  const [artifactUrl,setArtifactUrl] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState('');
 
   // Approval functionality
@@ -97,7 +98,7 @@ export function ProjectMilestoneDetail() {
           body: JSON.stringify({
             isComplete,
             completionSummary,
-            artifactUrl: milestone.artifactUrl,
+            artifactUrl,
           }),
         }
       );
@@ -283,10 +284,7 @@ export function ProjectMilestoneDetail() {
                     <div>
                       <FileUpload
                         onSuccess={(url) => {
-                          setMilestone(prev => prev ? {
-                            ...prev,
-                            ArtifactUrl: url
-                          } : null);
+                          setArtifactUrl(url);
                           setSuccessMessage("Artifact uploaded successfully.");
                           setTimeout(() => setSuccessMessage(''), 3000);
                         }}
