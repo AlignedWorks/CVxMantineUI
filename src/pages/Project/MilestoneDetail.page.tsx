@@ -237,6 +237,13 @@ export function ProjectMilestoneDetail() {
             </div>
           </Group>
 
+          {milestone.approvalStatus === 'Declined' && (
+            <>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>Feedback</Text>
+              <Text c="red" mt="sm" mb="sm">{milestone.feedback}</Text>
+            </>
+          )}
+
           {/* Completion Section - Only for assignees */}
           {isAssigneeAndAccepted && milestone.approvalStatus != 'Archived' && (
             <>
@@ -363,14 +370,6 @@ export function ProjectMilestoneDetail() {
                   </Stack>
                 ) : (
                   <Stack gap="md">
-                    {milestone.feedback && (
-                      <div>
-                        <Text fw={600} size="sm" c="dimmed" mb={4}>Previous Feedback</Text>
-                        <Text size="sm" p="sm" style={{ backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
-                          {milestone.feedback}
-                        </Text>
-                      </div>
-                    )}
                     <Text size="sm" c="dimmed">
                       This milestone has been marked complete and is awaiting approval.
                     </Text>
