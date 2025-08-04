@@ -110,7 +110,8 @@ export interface CollaborativeDataTreasury {
   tokensReceivable: number;
   tokenBalance: number;
   tokensCollabAdmin: number;
-  tokenLiabilities: number;
+  projectWorkPayment: number;
+  nonTeamContributions: number;
 }
 
 export interface CollabMember {
