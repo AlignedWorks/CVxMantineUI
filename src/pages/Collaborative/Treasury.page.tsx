@@ -120,16 +120,16 @@ export function CollaborativeTreasury() {
                 {collaborative.name} Collaborative
               </Title>
 
-              <Title order={4} mb="md">
+              <Title order={4} mt="md">
                 Launch Tokens
               </Title>
 
-              <Title order={4} lts="1px" mt="xl" c="green">Financial Health Metrics</Title>
+              <Title order={4} lts="1px" mt="sm" c="green">Financial Health Metrics</Title>
               <Paper p="lg" radius="md" bg="#fafafa">
                   <Group justify="space-between">
                       <div>
                           <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
-                          <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities * 100).toFixed(2)}%</Text>
+                          <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities).toFixed(2)}</Text>
                       </div>
                       <div>
                           <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
@@ -175,7 +175,7 @@ export function CollaborativeTreasury() {
                   </div>
                   <div>
                       <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
-                      <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
+                      <Paper p="lg" withBorder radius="md" mb="sm" mt="lg">
                           <Stack>
                               <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay the Collaborative Leader</Text>
                               <Text fz="xl" fw={500} c="#444">{collaborative.collabLeaderCompensation}</Text>
