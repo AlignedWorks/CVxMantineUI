@@ -138,34 +138,54 @@ export function ProjectMembers() {
       .includes(searchQuery.toLowerCase())
   );
 
-  const handleAddMember = () => {
+  const handleAddMember = async () => {
     if (!selectedUser || !selectedRole) return;
 
-    fetch(
-      new URL(`projects/${project.id}`, import.meta.env.VITE_API_BASE),
-    {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: selectedUser.id, userRole: selectedRole }),
-    })
-      .then((res) => res.json())
-      .then((updatedUser) => {
-        console.log("Role updated successfully:", updatedUser);
-      })
-      .catch((err) => console.error("Error updating role:", err));
-  
-    // Simulate adding the user to the collaborative
-    console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
-  
-    // Show success message
-    setSuccessMessage(
-      `${selectedUser.firstName} ${selectedUser.lastName} has been added as a ${selectedRole}.`
-    );
-  
-    // Reset selections
-    setSelectedUser(undefined);
-    setSelectedRole('');
+    try {
+      const response = await fetch(
+        new URL(`projects/${project.id}/members`, import.meta.env.VITE_API_BASE),
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            userId: selectedUser.id, 
+            userRole: selectedRole 
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to add member');
+      }
+
+      // Backend should return the updated project with new member included
+      const updatedProject: ProjectDataWithMembers = await response.json();
+      
+      // Update the local project state with the new member list
+      setProject(updatedProject);
+
+      // Remove the added user from available members list
+      setCollabMembers(prev => 
+        prev.filter(member => member.id !== selectedUser.id)
+      );
+
+      // Show success message
+      setSuccessMessage(
+        `${selectedUser.firstName} ${selectedUser.lastName} has been added as a ${selectedRole}.`
+      );
+
+      // Reset selections
+      setSelectedUser(undefined);
+      setSelectedRole('');
+
+      // Auto-clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
+
+    } catch (error) {
+      console.error("Error adding member:", error);
+      // You might want to show an error message to the user
+    }
   };
 
   const memberRows = project.members.map((item) => (
