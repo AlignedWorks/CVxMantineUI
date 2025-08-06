@@ -272,7 +272,7 @@ export function ProjectMembers() {
         </Grid>
       </Card>
 
-      {project.userIsProjectAdminAndStatusAccepted && filteredUsers.length > 0 ? (
+      {project.userIsProjectAdminAndStatusAccepted && collabMembers.length > 0 ? (
         <Group justify="right">
           <Button
             mb="sm"
@@ -289,7 +289,11 @@ export function ProjectMembers() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only project admins who have accepted their invites can add members">
+          <Tooltip label={
+            !project.userIsProjectAdminAndStatusAccepted 
+              ? "Only project admins who have accepted their invites can add members"
+              : "All Collaborative members are already part of this project"
+          }>  
             <Button disabled mb="sm">
               Add Member
             </Button>
