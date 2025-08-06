@@ -92,6 +92,12 @@ export function ProjectMembers() {
     );
   }
 
+  useEffect(() => {
+    if (project && !loadingUsers) {
+      fetchCollabMembers();
+    }
+  }, [project]);
+
   const fetchCollabMembers = async () => {
     setLoadingUsers(true);
     await fetch(
