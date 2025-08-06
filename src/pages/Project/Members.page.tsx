@@ -74,24 +74,6 @@ export function ProjectMembers() {
       });
   }, [projectId]);
 
-  if (loading) {
-    return (
-      <Container size="md" py="xl">
-        <Loader size="lg" />
-      </Container>
-    );
-  }
-
-  if (!project) {
-    return (
-      <Container size="md" py="xl">
-        <Text size="lg" c="red">
-          Project not found.
-        </Text>
-      </Container>
-    );
-  }
-
   useEffect(() => {
     if (project && !loadingUsers) {
       fetchCollabMembers();
@@ -118,7 +100,7 @@ export function ProjectMembers() {
       .then((data: CollaborativeDataWithMembers) => {
         // Filter out users who are already members of the project
         const filteredUsers = data.members.filter(user =>
-          !project.members.some(member => member.id === user.id)
+          project && project.members ? !project.members.some(member => member.id === user.id) : true
         );
 
         console.log(data.members);
@@ -131,6 +113,24 @@ export function ProjectMembers() {
       })
       .finally(() => setLoadingUsers(false));
   };
+
+  if (loading) {
+    return (
+      <Container size="md" py="xl">
+        <Loader size="lg" />
+      </Container>
+    );
+  }
+
+  if (!project) {
+    return (
+      <Container size="md" py="xl">
+        <Text size="lg" c="red">
+          Project not found.
+        </Text>
+      </Container>
+    );
+  }
 
   const filteredUsers = collabMembers.filter((user) =>
     `${user.firstName} ${user.lastName} ${user.userName}`
