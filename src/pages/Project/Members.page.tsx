@@ -115,6 +115,8 @@ export function ProjectMembers() {
           !project.members.some(member => member.id === user.id)
         );
 
+        console.log(data.members);
+        console.log('Filtered Users:', filteredUsers);
         setCollabMembers(filteredUsers); // Set the filtered data
 
       })
