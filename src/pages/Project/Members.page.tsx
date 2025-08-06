@@ -98,9 +98,9 @@ export function ProjectMembers() {
         return response.json();
       })
       .then((data: CollaborativeDataWithMembers) => {
-        // Filter out users who are already members of the project
+        // Filter out users who are already members of the project or haven't accepted their collab invite
         const filteredUsers = data.members.filter(user =>
-          project && project.members ? !project.members.some(member => member.id === user.id) : true
+          project && project.members ? !project.members.some(member => member.id === user.id) && user.inviteStatus === 'Accepted' : true
         );
 
         setCollabMembers(filteredUsers); // Set the filtered data
@@ -131,7 +131,6 @@ export function ProjectMembers() {
   }
 
   const filteredUsers = collabMembers.filter((user) =>
-    user.inviteStatus === 'Accepted' &&
     `${user.firstName} ${user.lastName} ${user.userName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
