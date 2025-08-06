@@ -131,6 +131,7 @@ export function ProjectMembers() {
   }
 
   const filteredUsers = collabMembers.filter((user) =>
+    user.inviteStatus === 'Accepted' &&
     `${user.firstName} ${user.lastName} ${user.userName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
