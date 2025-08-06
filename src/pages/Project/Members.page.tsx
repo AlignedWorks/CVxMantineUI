@@ -103,8 +103,6 @@ export function ProjectMembers() {
           project && project.members ? !project.members.some(member => member.id === user.id) : true
         );
 
-        console.log(data.members);
-        console.log('Filtered Users:', filteredUsers);
         setCollabMembers(filteredUsers); // Set the filtered data
 
       })
@@ -178,6 +176,9 @@ export function ProjectMembers() {
       // Reset selections
       setSelectedUser(undefined);
       setSelectedRole('');
+
+      // Close the modal after successful addition
+      setIsModalOpen(false);
 
       // Auto-clear success message after 3 seconds
       setTimeout(() => setSuccessMessage(''), 3000);

@@ -146,34 +146,57 @@ export function CollaborativeMembers() {
       .includes(searchQuery.toLowerCase())
   );
 
-  const handleAddMember = () => {
+  const handleAddMember = async () => {
     if (!selectedUser || !selectedRole) return;
 
-    fetch(
-      new URL(`collaboratives/${collaborative.id}`, import.meta.env.VITE_API_BASE),
-    {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: selectedUser.id, userRole: selectedRole }),
-    })
-      .then((res) => res.json())
-      .then((updatedUser) => {
-        console.log("Role updated successfully:", updatedUser);
-      })
-      .catch((err) => console.error("Error updating role:", err));
-  
-    // Simulate adding the user to the collaborative
-    console.log(`Adding user ${selectedUser.id} as ${selectedRole}`);
-  
-    // Show success message
-    setSuccessMessage(
-      `${selectedUser.firstName} ${selectedUser.lastName} has been added as a ${selectedRole}.`
-    );
-  
-    // Reset selections
-    setSelectedUser(undefined);
-    setSelectedRole('');
+    try {
+      const response = await fetch(
+        new URL(`collaboratives/${collaborative.id}/members`, import.meta.env.VITE_API_BASE),
+        {
+          method: "POST", // Changed from PATCH to POST
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            userId: selectedUser.id, 
+            userRole: selectedRole 
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to add member');
+      }
+
+      // Backend should return the updated collaborative with new member included
+      const updatedCollaborative: CollaborativeDataWithMembers = await response.json();
+      
+      // Update the local collaborative state with the new member list
+      setCollaborative(updatedCollaborative);
+
+      // Remove the added user from available users list
+      setAllUsers(prev => 
+        prev.filter(user => user.id !== selectedUser.id)
+      );
+
+      // Show success message
+      setSuccessMessage(
+        `${selectedUser.firstName} ${selectedUser.lastName} has been added as a ${selectedRole}.`
+      );
+
+      // Reset selections
+      setSelectedUser(undefined);
+      setSelectedRole('');
+
+      // Close the modal after successful addition
+      setIsModalOpen(false);
+
+      // Auto-clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
+
+    } catch (error) {
+      console.error("Error adding member:", error);
+      // You might want to show an error message to the user
+    }
   };
 
   const memberRows = collaborative.members.map((item) => (
