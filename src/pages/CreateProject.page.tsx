@@ -198,9 +198,11 @@ export function CreateProject() {
             label="Assign Project Admin"
             placeholder="Select a member"
             data={
-                collaborative?.members.map((member) => ({
-                value: member.id,
-                label: `${member.firstName} ${member.lastName}`,
+                collaborative?.members
+                  .filter(member => member.inviteStatus === 'Accepted')
+                  .map((member) => ({
+                    value: member.id,
+                    label: `${member.firstName} ${member.lastName}`,
                 }))
             }
             value={formValues.projectAdminId || ''}

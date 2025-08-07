@@ -234,10 +234,12 @@ export function ProjectMilestones() {
                      !launchTokenError &&
                      (!dueDate || dueDate > new Date());
 
-  // Prepare assignee options for the dropdown
-  const assigneeOptions = projectMembers.map(member => ({
-    value: member.id,
-    label: `${member.firstName} ${member.lastName}`,
+  // Prepare assignee options for the dropdown - only accepted members
+  const assigneeOptions = projectMembers
+    .filter(member => member.inviteStatus === 'Accepted')
+    .map(member => ({
+      value: member.id,
+      label: `${member.firstName} ${member.lastName}`,
   }));
 
   // Define the sort order for approval status
@@ -408,6 +410,7 @@ export function ProjectMilestones() {
             value={assigneeId}
             onChange={setAssigneeId}
             data={assigneeOptions}
+            required
             searchable
             clearable
             nothingFoundMessage="No project members found"
@@ -423,6 +426,7 @@ export function ProjectMilestones() {
             max={maxPercentage}
             error={launchTokenError}
             description={`Available balance: ${project.launchTokenBalance} tokens (${maxPercentage}% of budget)`}
+            required
           />
 
           {/* Due Date */}
@@ -434,6 +438,7 @@ export function ProjectMilestones() {
               onChange={handleDueDateChange}
               error={dueDateError}
               minDate={new Date()}
+              required
             />
           </DatesProvider>
 
