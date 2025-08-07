@@ -22,7 +22,7 @@ import {
   Select,
   Badge,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers } from '../../data.ts';
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone } from '../../data.ts';
 
 export function ProjectMilestones() {
   // const location = useLocation();
@@ -158,7 +158,7 @@ export function ProjectMilestones() {
       );
 
       if (response.ok) {
-        const newMilestone = await response.json();
+        const newMilestone: Milestone = await response.json();
         console.log("Milestone added successfully:", newMilestone);
         
         // Update the project state with the new milestone

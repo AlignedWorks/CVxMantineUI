@@ -189,17 +189,11 @@ export interface Milestone {
   id: number;
   name: string;
   description: string;
-  assigneeId: string;
   assigneeName: string;
   inviteStatus: string;
   approvalStatus: string;
   launchTokenValue: number;
-  isComplete: boolean;
-  completionSummary: string;
-  artifactUrl: string;
-  dueDate: string;
   createdAt: string;
-  completedAt?: string;
 }
 
 export interface MilestoneDetail {
