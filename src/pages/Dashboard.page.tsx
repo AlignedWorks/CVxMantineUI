@@ -85,7 +85,6 @@ export function Dashboard() {
           console.log(collabInvites);
           console.log(csaApprovalRequests);
           console.log(collabs);
-          console.log("user: ", user?.memberStatus);
           setCollabs(collabs); // Set the collabs data
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
@@ -329,7 +328,7 @@ export function Dashboard() {
             </Button>
           </Link>
 
-          {user?.memberStatus === 'Network Admin' || user?.memberStatus === 'Network Contributor' && (
+          {['Network Admin', 'Network Contributor'].includes(user?.memberStatus || '') && (
             <Button variant="default" onClick={() => setInviteModalOpen(true)}>
                 Invite a Member
             </Button>
