@@ -22,6 +22,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<User | null>(() => {
     // Check if running on localhost
     const isLocalhost = window.location.hostname === 'localhost';
+    console.log('User:', user?.memberStatus);
 
     if (isLocalhost) {
       console.log('Running on localhost, skipping localStorage retrieval');

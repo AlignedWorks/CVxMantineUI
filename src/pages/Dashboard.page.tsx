@@ -674,13 +674,19 @@ export function Dashboard() {
             withBorder
             mt="lg"
             mb="lg">
-              <Group justify="space-between">
-                  <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                  <Center>
+                    <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  </Center>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
                   <Text>
-                      To become an active member of the <strong>{csaAR.collabName}</strong><br/>collaborative please click the button on the right.
+                    To become an active member of the <strong>{csaAR.collabName}</strong><br/>collaborative please click the button on the right.
                   </Text>
-                  <div>
-                    <Button 
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                  <Button 
                       component={Link} 
                       to={`/collaboratives/${csaAR.collabId}/csa-agreement?userId=${csaAR.userId}`}
                       state={{ from: location.pathname }}
@@ -689,8 +695,8 @@ export function Dashboard() {
                     >
                       Read and Accept CSA
                     </Button>
-                  </div>
-              </Group>
+                </Grid.Col>
+              </Grid>
           </Card>
         ))}
 
@@ -706,7 +712,7 @@ export function Dashboard() {
               <div>
                 <Grid>
                   <Grid.Col span={4}>
-                      <Avatar src={user.avatarUrl} size={60} radius="xl" mx="auto"/>
+                    <Avatar src={user.avatarUrl} size={60} radius="xl" mx="auto"/>
                   </Grid.Col>
                   <Grid.Col span={8}>
                     <Text fz="lg" fw={500} 
@@ -736,38 +742,38 @@ export function Dashboard() {
                     </Text>
                     <br/>
                     <Text size="sm" c="dimmed">
-                        <a
-                            href={user.linkedIn}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ color: "#0077b5", textDecoration: "none" }}
-                        >
-                            LinkedIn
-                        </a>
+                      <a
+                          href={user.linkedIn}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "#0077b5", textDecoration: "none" }}
+                      >
+                          LinkedIn
+                      </a>
                     </Text>
                   </Grid.Col>
                 </Grid>
               </div>
               <div>
-                  <Text fw={500}>
-                      Bio
+                <Text fw={500}>
+                    Bio
+                </Text>
+                <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                  <Text
+                      size="sm"
+                      style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 4, // Limit to 4 lines
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                      lineHeight: '1.2em', // Adjust line height to match the text
+                      }}
+                  >
+                      {user.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
                   </Text>
-                  <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
-                      <Text
-                          size="sm"
-                          style={{
-                          display: '-webkit-box',
-                          WebkitLineClamp: 4, // Limit to 4 lines
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          minHeight: '3.6em', // Ensure consistent height for 3 lines of text
-                          lineHeight: '1.2em', // Adjust line height to match the text
-                          }}
-                      >
-                          {user.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
-                      </Text>
-                  </Tooltip>
+                </Tooltip>
               </div>
               <div>
 
