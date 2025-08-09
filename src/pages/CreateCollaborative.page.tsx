@@ -689,36 +689,24 @@ export function CreateCollaborative() {
           allowNegative={false}
         />
 
-        <div>
-          {/* Calculated Launch Token Pool Value */}
-          {formValues.launchTokenValue > 0 && formValues.launchTokensCreated > 0 && (
-            <Text size="sm" c="blue" mb="xs" fw={500}>
-              Total Launch Token Pool Value: ${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-              })} USD
-            </Text>
-          )}
-
-          <NumberInput
-            label="Launch Token Value (USD)"
-            placeholder="Enter the initial value per token in USD (e.g., 1.00), this is optional."
-            value={formValues.launchTokenValue}
-            onChange={(value) =>
-              handleInputChange('launchTokenValue', value)
-            }
-            error={errors.launchTokenValue} // Display validation error
-            description={`Launch Token Pool Value: $${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-              })}`}
-            min={0}
-            prefix="$"
-            decimalScale={2}
-            allowNegative={false}
-            mb="md"
+        <NumberInput
+          label="Launch Token Value (USD)"
+          placeholder="Enter the initial value per token in USD (e.g., 1.00), this is optional"
+          value={formValues.launchTokenValue}
+          onChange={(value) =>
+            handleInputChange('launchTokenValue', value)
+          }
+          error={errors.launchTokenValue} // Display validation error
+          description={`Launch Token Pool Value: $${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0
+            })}`}
+          min={0}
+          prefix="$"
+          decimalScale={2}
+          allowNegative={false}
+          mb="md"
         />
-        </div>
       </SimpleGrid>
 
       <Group justify="flex-end" mt="xl">
