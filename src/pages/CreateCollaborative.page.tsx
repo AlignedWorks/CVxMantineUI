@@ -55,6 +55,7 @@ export function CreateCollaborative() {
           launchCyclePeriod: 12,
           launchTokenReleaseRate: 10,
           launchTokenInitialReleaseWeeks: 0,
+          launchTokenValue: 0,
         });
         setErrors({});
         setSelectedTiers([]);
@@ -130,6 +131,7 @@ export function CreateCollaborative() {
     launchTokensCreated: 10000,
     launchCyclePeriod: 12,
     launchTokenReleaseRate: 10,
+    launchTokenValue: 0,
     launchTokenInitialReleaseWeeks: 0,
   });
 
@@ -147,6 +149,7 @@ export function CreateCollaborative() {
     launchTokensCreated?: string,
     launchCyclePeriod?: string,
     launchTokenReleaseRate?: string,
+    launchTokenValue?: string;
     launchTokenInitialReleaseWeeks?: string,
   }>({});
 
@@ -199,6 +202,7 @@ export function CreateCollaborative() {
         launchTokensCreated?: string;
         launchCyclePeriod?: string;
         launchTokenReleaseRate?: string;
+        launchTokenValue?: string;
         launchTokenInitialReleaseWeeks?: string;
       } = {};
 
@@ -684,6 +688,34 @@ export function CreateCollaborative() {
           mb="md"
           allowNegative={false}
         />
+
+        <div>
+          {/* Calculated Launch Token Pool Value */}
+          {formValues.launchTokenValue > 0 && formValues.launchTokensCreated > 0 && (
+            <Text size="sm" c="blue" mb="xs" fw={500}>
+              Total Launch Token Pool Value: ${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              })} USD
+            </Text>
+          )}
+
+          <NumberInput
+            label="Launch Token Value (USD)"
+            placeholder="Enter the initial value per token in USD (e.g., 1.00), this is optional."
+            value={formValues.launchTokenValue}
+            onChange={(value) =>
+              handleInputChange('launchTokenValue', value)
+            }
+            error={errors.launchTokenValue} // Display validation error
+            description={`Launch Token Pool Value: ${formValues.launchTokensCreated} * ${formValues.launchTokenValue.toFixed(2)}`}
+            min={0}
+            prefix="$"
+            decimalScale={2}
+            allowNegative={false}
+            mb="md"
+        />
+        </div>
       </SimpleGrid>
 
       <Group justify="flex-end" mt="xl">

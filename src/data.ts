@@ -18,6 +18,8 @@ export interface Collaborative {
   launchCyclePeriod: number;
   // a percentage, default is 10%
   launchTokenReleaseRate: number;
+  // optional dollar value of each launch toekn
+  launchTokenValue: number;
   // this in relation to when the collaborative goes live, so uncertain at time of proposal
   // thus it's either 1) at the same time collab goes live (0) or 1,2,3,etc. weeks after
   launchTokenInitialReleaseWeeks: number;
