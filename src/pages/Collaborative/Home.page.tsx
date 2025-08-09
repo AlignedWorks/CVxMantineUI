@@ -164,11 +164,11 @@ export function CollaborativeHome() {
                 <div>
                   <Group>
                       {collaborative.approvalStatus === 'Active' ? (
-                          <Badge color="yellow">
+                          <Badge variant="light" color="yellow">
                               {collaborative.approvalStatus}
                           </Badge>
                       ) : (
-                          <Badge color="pink">
+                          <Badge variant="light" color="pink">
                               {collaborative.approvalStatus}
                           </Badge>
                       )}

@@ -126,11 +126,11 @@ export function ProjectHome() {
                 <div>
                   <Group mb="md">
                       {project.approvalStatus === 'Active' ? (
-                          <Badge color="yellow">
+                          <Badge variant="light" color="yellow">
                               {project.approvalStatus}
                           </Badge>
                       ) : (
-                          <Badge color="pink">
+                          <Badge variant="light" color="pink">
                               {project.approvalStatus}
                           </Badge>
                       )}

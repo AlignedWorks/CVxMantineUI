@@ -14,6 +14,7 @@ import {
   Table,
   Center,
   Tooltip,
+  Badge,
  } from '@mantine/core';
 import { CollaborativeData, Project } from '../../data.ts';
 
@@ -159,7 +160,15 @@ export function CollaborativeProjects() {
                           </Text>
                         </Table.Td>
                         <Table.Td>{project.description}</Table.Td>
-                        <Table.Td>{project.approvalStatus}</Table.Td>
+                        <Table.Td>
+                          <Badge
+                            color={project.approvalStatus === 'Active' ? 'green' : 
+                                    project.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                            variant="light"
+                          >
+                            {project.approvalStatus}
+                          </Badge>
+                        </Table.Td>
                         <Table.Td>{project.launchTokenBudget}</Table.Td>
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
                       </Table.Tr>
