@@ -116,6 +116,21 @@ export interface CollaborativeDataTreasury {
   nonTeamContributions: number;
 }
 
+export interface CollaborativeDataWallet {
+  id: number;
+  name: string;
+  logoUrl: string;
+  launchTokenTransactions: LaunchTokenTransaction[];
+}
+
+export interface LaunchTokenTransaction {
+  id: number;
+  amount: number;
+  date: string;
+  project: string;
+  milestone: string;
+}
+
 export interface CollabMember {
   id: string;
   firstName: string;

@@ -65,7 +65,7 @@ export function FileUpload({
       // Call the Vercel Blob client upload function
       const blob = await upload(file.name, file, {
         access: 'public',
-        handleUploadUrl: '/api/upload',
+        handleUploadUrl: `/api/upload?type=${fileType}`,
         onUploadProgress: (progressEvent) => {
           // Update progress as the file uploads
           setUploadProgress(Math.round(progressEvent.percentage * 100));

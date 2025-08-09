@@ -10,14 +10,16 @@ import {
   Stack,
   Title,
   Center,
+  Table,
+  Badge,
  } from '@mantine/core';
-import { CollaborativeData } from '../../data.ts';
+import { CollaborativeDataWallet } from '../../data.ts';
 
 
 export function CollaborativeMemberWallet() {
   const { id } = useParams(); // Get the 'id' parameter from the URL
   const { setCollaborativeId } = useCollaborativeContext();
-  const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
+  const [collaborative, setCollaborative] = useState<CollaborativeDataWallet | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Set the collaborative ID in context
@@ -28,7 +30,7 @@ export function CollaborativeMemberWallet() {
 
   useEffect(() => {
     fetch(
-      new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+      new URL(`collaboratives/${id}/wallet`, import.meta.env.VITE_API_BASE),
     {
       method: 'GET',
       credentials: 'include',
@@ -42,7 +44,7 @@ export function CollaborativeMemberWallet() {
         }
         return response.json();
       })
-      .then((data: CollaborativeData) => {
+      .then((data: CollaborativeDataWallet) => {
         console.log(data);
         setCollaborative(data);
         setLoading(false);
@@ -71,6 +73,25 @@ export function CollaborativeMemberWallet() {
     );
   }
 
+  // Generate table rows for launch token transactions
+  const transactionRows = collaborative.launchTokenTransactions.map((transaction) => (
+    <Table.Tr key={transaction.id}>
+      <Table.Td>{new Date(transaction.date).toLocaleDateString()}</Table.Td>
+      <Table.Td>{transaction.project}</Table.Td>
+      <Table.Td>{transaction.milestone}</Table.Td>
+      <Table.Td>
+        <Badge color={transaction.amount > 0 ? 'green' : 'red'} variant="light">
+          {transaction.amount > 0 ? '+' : ''}{transaction.amount}
+        </Badge>
+      </Table.Td>
+    </Table.Tr>
+  ));
+
+  // Calculate total of all transaction amounts
+  const totalAmount = collaborative.launchTokenTransactions.reduce((sum, transaction) => {
+    return sum + transaction.amount;
+  }, 0);
+
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
@@ -93,9 +114,47 @@ export function CollaborativeMemberWallet() {
                 {collaborative.name} Collaborative
               </Title>
               
-                <Text size="xl" c="dimmed">
-                    COLLABORATIVE MEMBER WALLET DATA HERE
+                <Title order={3} mt="lg" mb="md">
+                Launch Token Transactions
+              </Title>
+              
+              {collaborative.launchTokenTransactions.length > 0 ? (
+                <Table.ScrollContainer minWidth={500}>
+                  <Table verticalSpacing="sm">
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Date</Table.Th>
+                        <Table.Th>Project</Table.Th>
+                        <Table.Th>Milestone</Table.Th>
+                        <Table.Th>Amount</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {transactionRows}
+                      {/* Total row */}
+                      <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
+                        <Table.Td colSpan={3} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                          Total:
+                        </Table.Td>
+                        <Table.Td>
+                          <Badge 
+                            color={totalAmount > 0 ? 'green' : totalAmount < 0 ? 'red' : 'gray'} 
+                            variant="filled"
+                            size="lg"
+                          >
+                            {totalAmount > 0 ? '+' : ''}{totalAmount}
+                          </Badge>
+                        </Table.Td>
+                      </Table.Tr>
+                    </Table.Tbody>
+                  </Table>
+                </Table.ScrollContainer>
+              ) : (
+                <Text c="dimmed" ta="center" mt="xl">
+                  No launch token transactions found.
                 </Text>
+              )}
+
             </Stack>
           </Grid.Col>
         </Grid>
