@@ -708,7 +708,10 @@ export function CreateCollaborative() {
               handleInputChange('launchTokenValue', value)
             }
             error={errors.launchTokenValue} // Display validation error
-            description={`Launch Token Pool Value: ${formValues.launchTokensCreated} * ${formValues.launchTokenValue.toFixed(2)}`}
+            description={`Launch Token Pool Value: $${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              })}`}
             min={0}
             prefix="$"
             decimalScale={2}
