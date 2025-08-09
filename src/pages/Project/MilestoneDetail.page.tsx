@@ -243,7 +243,7 @@ export function ProjectMilestoneDetail() {
             </div>
             <div>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
-              <Text>{Number(milestone.launchTokenValue).toFixed(2)}</Text>
+              <Text>{Number(milestone.allocatedLaunchTokens).toFixed(2)}</Text>
             </div>
           </Group>
 

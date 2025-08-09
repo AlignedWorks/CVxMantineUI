@@ -192,7 +192,7 @@ export interface Milestone {
   assigneeName: string;
   inviteStatus: string;
   approvalStatus: string;
-  launchTokenValue: number;
+  allocatedLaunchTokens: number;
   createdAt: string;
 }
 
@@ -204,7 +204,7 @@ export interface MilestoneDetail {
   assigneeName: string;
   inviteStatus: string;
   approvalStatus: string;
-  launchTokenValue: number;
+  allocatedLaunchTokens: number;
   isComplete: boolean;
   completionSummary: string;
   artifactUrl: string;

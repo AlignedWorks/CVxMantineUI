@@ -284,7 +284,7 @@ export function ProjectMilestones() {
       </Table.Td>
       <Table.Td>
         <Text>
-          {Number(item.launchTokenValue).toFixed(2)}
+          {Number(item.allocatedLaunchTokens).toFixed(2)}
         </Text>
       </Table.Td>
       <Table.Td>
