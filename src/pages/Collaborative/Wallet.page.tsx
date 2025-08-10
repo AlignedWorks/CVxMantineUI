@@ -12,6 +12,7 @@ import {
   Center,
   Table,
   Badge,
+  Group,
  } from '@mantine/core';
 import { CollaborativeDataWallet } from '../../data.ts';
 
@@ -114,14 +115,35 @@ export function CollaborativeMemberWallet() {
                 {collaborative.name} Collaborative
               </Title>
 
-              <Text>
-                My Launch Tokens Earned: {totalAmount}
-                My Launch Tokens In process: {collaborative.userAssignedLaunchTokens - totalAmount}
-                All Launch Tokens: {collaborative.launchTokensCreated}
-                All Assigned Launch Tokens: {collaborative.allAssignedLaunchTokens}
-                My Current Share: {collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100}%
-                My Minimum Share: {collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100}
-              </Text>
+              <Group justify="space-between" mb="md">
+                <div>
+                    <Text fz="md" fw={500} c="#999">My Launch Tokens Earned</Text>
+                    <Text fz="xl" fw={700} c="#444">{totalAmount}</Text>
+                </div>
+                <div>
+                    <Text fz="md" fw={500} c="#999">All Launch Tokens</Text>
+                    <Text fz="xl" fw={700} c="#444">{collaborative.launchTokensCreated.toLocaleString()}</Text>
+                </div>
+                <div>
+                    <Text fz="md" fw={500} c="#999"> My Current Share</Text>
+                    <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100).toFixed(2)}%</Text>
+                </div>
+              </Group>
+
+              <Group justify="space-between" mb="md">
+                <div>
+                    <Text fz="md" fw={500} c="#999">My Launch Tokens In process</Text>
+                    <Text fz="xl" fw={700} c="#444">{collaborative.userAssignedLaunchTokens - totalAmount}</Text>
+                </div>
+                <div>
+                    <Text fz="md" fw={500} c="#999">All Assigned Launch Tokens</Text>
+                    <Text fz="xl" fw={700} c="#444">{collaborative.allAssignedLaunchTokens.toLocaleString()}</Text>
+                </div>
+                <div>
+                    <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
+                    <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>
+                </div>
+              </Group>
               
               <Title order={3} mt="lg" mb="md">
                 Launch Token Transactions
