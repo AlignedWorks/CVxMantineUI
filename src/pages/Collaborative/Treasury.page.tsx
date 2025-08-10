@@ -126,7 +126,7 @@ export function CollaborativeTreasury() {
 
               <Title order={4} lts="1px" mt="sm" c="green">Financial Health Metrics</Title>
               <Paper p="lg" radius="md" bg="#fafafa">
-                  <Group justify="space-between">
+                  <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
                       <div>
                           <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
                           <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities).toFixed(2)}</Text>
@@ -139,7 +139,7 @@ export function CollaborativeTreasury() {
                           <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
                           <Text fz="xl" fw={700} c="#444">{collaborative.tokenBalance - totalTokenLiabilities}</Text>
                       </div>
-                  </Group>
+                  </SimpleGrid>
               </Paper>
               <Title order={4} lts="1px" mt="xl" c="green">Launch Token Release</Title>
               <Paper p="lg" radius="md" bg="#fafafa">

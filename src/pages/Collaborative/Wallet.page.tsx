@@ -117,8 +117,8 @@ export function CollaborativeMemberWallet() {
 
               <SimpleGrid cols={{ base: 1, sm: 1, md: 3 }} mb="md">
                 <div>
-                    <Text fz="md" fw={500} c="#999">My Launch Tokens Earned</Text>
-                    <Text fz="xl" fw={700} c="#444">{totalAmount}</Text>
+                    <Text fz="md" fw={500} c="#999">My Launch Tokens</Text>
+                    <Text fz="xl" fw={700} c="#444">{collaborative.userAssignedLaunchTokens}</Text>
                 </div>
                 <div>
                   <Text fz="md" fw={500} c="#999">All Assigned Launch Tokens</Text>
@@ -132,16 +132,14 @@ export function CollaborativeMemberWallet() {
 
               <SimpleGrid cols={{ base: 1, sm: 1, md: 3 }} mb="md">
                 <div>
-                    <Text fz="md" fw={500} c="#999">My Launch Tokens In process</Text>
-                    <Text fz="xl" fw={700} c="#444">{collaborative.userAssignedLaunchTokens - totalAmount}</Text>
                 </div>
                 <div>
                   <Text fz="md" fw={500} c="#999">All Launch Tokens</Text>
                   <Text fz="xl" fw={700} c="#444">{collaborative.launchTokensCreated.toLocaleString()}</Text>
                 </div>
                 <div>
-                    <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
-                    <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>
+                  <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
+                  <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>
                 </div>
               </SimpleGrid>
               
