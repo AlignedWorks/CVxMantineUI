@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import {
-  IconFolder
+  IconFolder,
+  IconHome,
 } from '@tabler/icons-react';
 import { Group, useMantineColorScheme } from '@mantine/core';
 import { Link, useLocation } from 'react-router-dom';
 import classes from './Navbar.module.css';
 
 const data = [
+  { link: '/', label: 'Dashboard', icon: IconHome },
   { link: '/collaborative-directory', label: 'Collaborative Directory', icon: IconFolder },
   { link: '/member-directory', label: 'Member Directory', icon: IconFolder },
 ];

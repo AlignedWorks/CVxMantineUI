@@ -113,8 +113,17 @@ export function CollaborativeMemberWallet() {
               <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
                 {collaborative.name} Collaborative
               </Title>
+
+              <Text>
+                My Launch Tokens Earned: {totalAmount}
+                My Launch Tokens In process: {collaborative.userAssignedLaunchTokens - totalAmount}
+                All Launch Tokens: {collaborative.launchTokensCreated}
+                All Assigned Launch Tokens: {collaborative.allAssignedLaunchTokens}
+                My Current Share: {collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100}%
+                My Minimum Share: {collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100}
+              </Text>
               
-                <Title order={3} mt="lg" mb="md">
+              <Title order={3} mt="lg" mb="md">
                 Launch Token Transactions
               </Title>
               
