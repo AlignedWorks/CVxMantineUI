@@ -124,6 +124,18 @@ export function ProjectHome() {
               </Text>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
+                  <Text mb="md">
+                    Launch Token Budget: {Number(project.launchTokenBudget).toFixed(2)}
+                  </Text>
+                  <Text mb="md">
+                    Launch Token Balance: {Number(project.launchTokenBalance).toFixed(2)}
+                  </Text>
+                  <Text mb="md">
+                    Admin Compensation: {Number(project.projectAdminCompensation * project.launchTokenBudget).toFixed(2)}<br/>
+                    <Text fz="sm" c="dimmed">
+                      (Based on {Number(project.projectAdminCompensation * 100).toFixed(2)}% of budget)
+                    </Text>
+                  </Text>
                   <Group mb="md">
                       {project.approvalStatus === 'Active' ? (
                           <Badge variant="light" color="yellow">
@@ -135,12 +147,6 @@ export function ProjectHome() {
                           </Badge>
                       )}
                   </Group>
-                  <Text mb="md">
-                    Launch Token Budget: {Number(project.launchTokenBudget).toFixed(2)}
-                  </Text>
-                  <Text>
-                    Launch Token Balance: {Number(project.launchTokenBalance).toFixed(2)}
-                  </Text>
                 </div>
                 <div>
                   <Group mb="md" align="flex-start">

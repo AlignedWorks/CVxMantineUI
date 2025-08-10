@@ -162,17 +162,6 @@ export function CollaborativeHome() {
               </Title>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>
-                  <Group>
-                      {collaborative.approvalStatus === 'Active' ? (
-                          <Badge variant="light" color="yellow">
-                              {collaborative.approvalStatus}
-                          </Badge>
-                      ) : (
-                          <Badge variant="light" color="pink">
-                              {collaborative.approvalStatus}
-                          </Badge>
-                      )}
-                  </Group>
                   <Group wrap="nowrap" gap={10} mt={10}>
                     <IconAt stroke={1.5} size={16} />
                     <a
@@ -188,6 +177,17 @@ export function CollaborativeHome() {
                     <Text>
                         {collaborative.city}, {collaborative.state}
                     </Text>
+                  </Group>
+                  <Group>
+                    {collaborative.approvalStatus === 'Active' ? (
+                      <Badge variant="light" color="yellow">
+                          {collaborative.approvalStatus}
+                      </Badge>
+                    ) : (
+                      <Badge variant="light" color="pink">
+                          {collaborative.approvalStatus}
+                      </Badge>
+                    )}
                   </Group>
                 </div>
                 <div>
