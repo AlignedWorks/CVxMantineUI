@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../AuthContext.tsx';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
   Container,
@@ -71,6 +71,7 @@ export function ProjectMilestoneDetail() {
           setMilestone(milestoneDetails);
           setCompletionSummary(milestoneDetails.completionSummary || '');
           setProjectName(milestoneDetails.projectName || '');
+          console.log(projectName);
           setIsComplete(milestoneDetails.isComplete || false);
         }
       } catch (error) {
