@@ -170,18 +170,6 @@ export function ProjectMilestoneDetail() {
 
   return (
     <Container size="md" py="xl">
-      {/* Breadcrumb */}
-      <Group gap="xs" mb="lg">
-        <Link to={`/collaboratives/${collabId}/projects/${projectId}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
-          {projectName}
-        </Link>
-        <Text c="dimmed">/</Text>
-        <Link to={`/collaboratives/${collabId}/projects/${projectId}/milestones`} style={{ textDecoration: 'none', color: '#0077b5' }}>
-          Milestones
-        </Link>
-        <Text c="dimmed">/</Text>
-        <Text c="dimmed">{milestone.name}</Text>
-      </Group>
 
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Stack gap="lg">
