@@ -178,7 +178,7 @@ export function CollaborativeHome() {
                         {collaborative.city}, {collaborative.state}
                     </Text>
                   </Group>
-                  <Group>
+                  <Group mt={10}>
                     {collaborative.approvalStatus === 'Active' ? (
                       <Badge variant="light" color="yellow">
                           {collaborative.approvalStatus}

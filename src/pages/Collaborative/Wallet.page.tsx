@@ -118,7 +118,7 @@ export function CollaborativeMemberWallet() {
               <SimpleGrid cols={{ base: 1, sm: 1, md: 3 }} mb="md">
                 <div>
                     <Text fz="md" fw={500} c="#999">My Launch Tokens</Text>
-                    <Text fz="xl" fw={700} c="#444">{collaborative.userAssignedLaunchTokens}</Text>
+                    <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens).toFixed(2)}</Text>
                 </div>
                 <div>
                   <Text fz="md" fw={500} c="#999">All Assigned Launch Tokens</Text>
@@ -144,7 +144,7 @@ export function CollaborativeMemberWallet() {
               </SimpleGrid>
               
               <Title order={3} mt="lg" mb="md">
-                Launch Token Transactions
+                Launch Tokens Earned
               </Title>
               
               {collaborative.launchTokenTransactions.length > 0 ? (
