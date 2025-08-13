@@ -54,6 +54,8 @@ export function RegistrationTile() {
 
   const [formData, setFormData] = useState({
     email: '',
+    firstName: '',
+    lastName: '',
     password: '',
     confirmPassword: '',
   });
@@ -89,7 +91,11 @@ export function RegistrationTile() {
       setError('Passwords do not match');
       return;
     } else {
-      const payload = { email: formData.email, password: formData.password };
+      const payload = { email: formData.email,
+                        firstName: formData.firstName,
+                        lastName: formData.lastName,
+                        password: formData.password
+                      };
 
       const response = await fetch(
         new URL("register", import.meta.env.VITE_API_BASE),
@@ -127,11 +133,25 @@ export function RegistrationTile() {
         <form onSubmit={handleSubmit}>
           <TextInput
             label="Email"
-            placeholder="you@mantine.dev"
+            placeholder="Your email address"
             required
             mt="md"
             value={formData.email}
             onChange={(event) => handleInputChange('email', event.currentTarget.value)}
+          />
+          <TextInput
+            label="First Name"
+            placeholder="Your first name"
+            mt="md"
+            value={formData.firstName}
+            onChange={(event) => handleInputChange('firstName', event.currentTarget.value)}
+          />
+          <TextInput
+            label="Last Name"
+            placeholder="Your last name"
+            mt="md"
+            value={formData.lastName}
+            onChange={(event) => handleInputChange('lastName', event.currentTarget.value)}
           />
           <Popover opened={popoverOpened} position="bottom" width="target" transitionProps={{ transition: 'pop' }}>
             <Popover.Target>

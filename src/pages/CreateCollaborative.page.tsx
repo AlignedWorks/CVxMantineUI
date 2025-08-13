@@ -501,7 +501,7 @@ export function CreateCollaborative() {
 
       <ImageField 
         label="Collaborative Logo"
-        initialImageUrl="/assets/logos/Default.png"
+        initialImageUrl="https://3dfkqr6d6rggxy6x.public.blob.vercel-storage.com/Default.png"
         onImageSelected={(url) => handleInputChange('logoUrl', url)}
       />
 
