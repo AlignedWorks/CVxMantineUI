@@ -142,6 +142,10 @@ export function ProjectMilestoneDetail() {
         setApprovalAction(null);
         setFeedback('');
         setSuccessMessage(`Milestone ${approvalAction === 'approve' ? 'approved' : 'declined'} successfully.`);
+        if (updatedMilestone.approvalStatus === 'Declined')
+        {
+          setIsComplete(false);
+        }
         setTimeout(() => setSuccessMessage(''), 3000);
       }
     } catch (error) {
