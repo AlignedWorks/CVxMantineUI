@@ -111,6 +111,16 @@ export function UserProfile() {
                   <div>
                     <Group wrap="nowrap" gap={10} mt={3}>
                       <IconAt stroke={1.5} size={16} />
+                      <Text 
+                        component="a"
+                        href={`mailto:${user.userName}`}
+                        style={{
+                          textDecoration: 'none',
+                          transition: 'color 0.2s ease'
+                        }}
+                      >
+                        {user.userName}
+                      </Text>
                       <Text>
                         {user.userName}
                       </Text>
@@ -132,17 +142,17 @@ export function UserProfile() {
                     <Group wrap="nowrap" gap={10} mt={5}>
                       <IconBrandLinkedin stroke={1.5} size={18} />
                       <Text>
-                      {user?.linkedIn ? (
-                        <a
-                          href={user.linkedIn}
-                          style={{ color: '#0077b5', textDecoration: 'none' }}
-                          target="_blank"
-                          rel="noopener noreferrer">
-                          {user.linkedIn.split('linkedin.com/in/')[1]}
-                        </a>
-                      ) : (
-                        'N/A'
-                      )}
+                        {user?.linkedIn ? (
+                          <a
+                            href={user.linkedIn}
+                            style={{ color: '#0077b5', textDecoration: 'none' }}
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            {user.linkedIn.split('linkedin.com/in/')[1]}
+                          </a>
+                        ) : (
+                          'N/A'
+                        )}
                       </Text>
                     </Group>
                     <span style={{ color: 'grey'}}>Member since:</span>  {user.createdAt}

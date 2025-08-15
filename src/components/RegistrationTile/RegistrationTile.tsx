@@ -85,13 +85,6 @@ export function RegistrationTile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Check for empty fields
-    for (const [key, value] of Object.entries(formData)) {
-      if (!value.trim()) {
-        setError(`The ${key} field is required.`);
-        return;
-      } 
-    }
 
     // Check if passwords match
     if (formData.password !== formData.confirmPassword) {

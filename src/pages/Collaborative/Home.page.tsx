@@ -200,8 +200,17 @@ export function CollaborativeHome() {
                       <Text fz="md">
                           {collaborative.adminName}
                       </Text>
-                      <Text fz="sm" c="dimmed">
-                          {collaborative.adminEmail}
+                      <Text 
+                        fz="sm" 
+                        c="dimmed"
+                        component="a"
+                        href={`mailto:${collaborative.adminEmail}`}
+                        style={{
+                          textDecoration: 'none',
+                          transition: 'color 0.2s ease'
+                        }}
+                      >
+                        {collaborative.adminEmail}
                       </Text>
                     </div>
                   </Group>
