@@ -7,7 +7,6 @@ import {
   Button,
   Loader,
   Grid,
-  Table,
   Card,
   Stack,
   Title,
@@ -86,17 +85,6 @@ export function CollaborativeTreasury() {
       </Container>
     );
   }
-
-  const stakingTierRows = collaborative.stakingTiers.map((item) => (
-    <Table.Tr>
-        <Table.Td>
-          {item.tier}
-        </Table.Td>
-        <Table.Td>
-          {(Number(item.exchangeRate) * 100).toFixed(0)}%
-        </Table.Td>
-    </Table.Tr>
-  ));
 
   return (
     <Container size="md" py="xl">
