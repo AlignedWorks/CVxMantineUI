@@ -5,16 +5,19 @@ import {
   Paper,
   PasswordInput,
   Text,
+  Textarea,
   TextInput,
   Title,
   Box,
   Popover,
   Progress,
+  Select,
 } from '@mantine/core';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconX, IconCheck } from '@tabler/icons-react';
 import classes from './RegistrationTitle.module.css';
+import { us_states } from '../../data.ts';
 
 function PasswordRequirement({ meets, label }: { meets: boolean; label: string }) {
   return (
@@ -56,6 +59,10 @@ export function RegistrationTile() {
     email: '',
     firstName: '',
     lastName: '',
+    bio: '',
+    city: '',
+    state: '',
+    linkedIn: '',
     password: '',
     confirmPassword: '',
   });
@@ -94,6 +101,10 @@ export function RegistrationTile() {
       const payload = { email: formData.email,
                         firstName: formData.firstName,
                         lastName: formData.lastName,
+                        bio: formData.bio,
+                        city: formData.city,
+                        state: formData.state,
+                        linkedIn: formData.linkedIn,
                         password: formData.password
                       };
 
@@ -152,6 +163,36 @@ export function RegistrationTile() {
             mt="md"
             value={formData.lastName}
             onChange={(event) => handleInputChange('lastName', event.currentTarget.value)}
+          />
+          <Textarea
+            label="Bio"
+            placeholder="Tell us about yourself"
+            mt="md"
+            value={formData.bio}
+            onChange={(event) => handleInputChange('bio', event.currentTarget.value)}
+            autosize
+            minRows={3}
+          />
+          <TextInput
+            label="City"
+            placeholder="Your city"
+            mt="md"
+            value={formData.city}
+            onChange={(event) => handleInputChange('city', event.currentTarget.value)}
+          />
+          <Select
+            label="State"
+            mt="md"
+            data={us_states}
+            value={formData.state}
+            onChange={(value) => handleInputChange('state', value ?? '')}
+          />
+          <TextInput
+            label="LinkedIn Profile"
+            placeholder="https://linkedin.com/in/yourprofile"
+            mt="md"
+            value={formData.linkedIn}
+            onChange={(event) => handleInputChange('linkedIn', event.currentTarget.value)}
           />
           <Popover opened={popoverOpened} position="bottom" width="target" transitionProps={{ transition: 'pop' }}>
             <Popover.Target>
