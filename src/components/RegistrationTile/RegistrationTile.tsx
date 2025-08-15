@@ -120,7 +120,7 @@ export function RegistrationTile() {
   return (
     <Container size={420} my={40}>
       <Title ta="center" className={classes.title}>
-        Create an account
+        Join the network
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already have an account?{' '}

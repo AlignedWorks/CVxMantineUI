@@ -40,6 +40,7 @@ const mockCollaborative: CollaborativeData =
   collabLeaderCompensation: 5,
   payoutFrequency: PayoutFrequency.Monthly,
   userIsCollabAdmin: false,
+  userIsCollabContributor: true,
   skills: [
     { id: 101, value: 'Software Development' },
     { id: 102, value: 'Open Source' },
@@ -245,14 +246,27 @@ export function CollaborativeHome() {
       </Card>
       
       <Group justify="right">
-        <Button 
-          component={Link} 
-          to={`/collaboratives/${collaborative.id}/csa-agreement`}
-          variant="default"
-          mb="sm"
-        >
-          View Collaborative Sharing Agreement
-        </Button>
+        {collaborative.userIsCollabContributor ? (
+          <Button 
+            component={Link} 
+            to={`/collaboratives/${collaborative.id}/csa-agreement`}
+            variant="default"
+            mb="sm"
+          >
+            View Collaborative Sharing Agreement
+          </Button>
+        ) : (
+          <Tooltip label="Only collaborative contributors can view the CSA">
+            <Button 
+              component={Link} 
+              to={`/collaboratives/${collaborative.id}/csa-agreement`}
+              variant="disabled"
+              mb="sm"
+            >
+              View Collaborative Sharing Agreement
+            </Button>
+          </Tooltip>
+        )}
         
         {collaborative.userIsCollabAdmin ? (
           <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>

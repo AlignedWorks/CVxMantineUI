@@ -191,52 +191,6 @@ export function CollaborativeTreasury() {
                   <div>
                   </div>
               </SimpleGrid>
-
-              <Title order={4} mb="xl">
-                  Revenue Sharing Pool
-              </Title>
-              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
-                <div>
-                  <Text fz="md" fw={500}>
-                    Revenue Share
-                  </Text>
-                  <Text fz="xl" c="#222" mb="lg">
-                    {collaborative.revenueShare}%
-                  </Text>
-                  <Text fz="md" fw={500}>
-                      Payout Frequency
-                  </Text>
-                  <Text fz="xl" c="#222" mb="lg">
-                    {collaborative.payoutFrequency}
-                  </Text>
-                  <Text fz="md" fw={500}>
-                      Indirect Costs
-                  </Text>
-                  <Text fz="xl" c="#222" mb="lg">
-                    {collaborative.indirectCosts}%
-                  </Text>
-                  <Text fz="md" fw={500}>
-                      Collaborative Admin Compensation
-                  </Text>
-                  <Text fz="xl" c="#222" mb="lg">
-                    {collaborative.collabLeaderCompensation}%
-                  </Text>
-                </div>
-                <div>
-                  <Text fz="md" fw={500} mb="lg">
-                      Staking Tiers
-                  </Text>
-                  <Table variant="vertical" layout="fixed" withTableBorder>
-                   <Table.Thead>
-                    <Table.Tr>
-                        <Table.Th>Duration</Table.Th>
-                        <Table.Th>Exchange Rate</Table.Th>
-                    </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{stakingTierRows}</Table.Tbody>
-                  </Table>
-                </div>
-              </SimpleGrid>
             </Stack>
           </Grid.Col>
           <Grid.Col span={1}>

@@ -75,6 +75,7 @@ export interface CollaborativeData {
   collabLeaderCompensation: number;
   payoutFrequency: PayoutFrequency;
   userIsCollabAdmin: boolean;
+  userIsCollabContributor: boolean;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
   
@@ -707,6 +708,7 @@ export const mock_collab_data: CollaborativeData[] = [
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
+    userIsCollabContributor: false,
     skills: [
       { id: 101, value: 'Software Development' },
       { id: 102, value: 'Open Source' },
@@ -733,6 +735,7 @@ export const mock_collab_data: CollaborativeData[] = [
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
+    userIsCollabContributor: true,  
     skills: [
       { id: 104, value: 'Software Development' },
       { id: 105, value: 'Open Source' },
@@ -759,6 +762,7 @@ export const mock_collab_data: CollaborativeData[] = [
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
+    userIsCollabContributor: false,
     skills: [
       { id: 107, value: 'Software Development' },
       { id: 108, value: 'Open Source' },
@@ -785,6 +789,7 @@ export const mock_collab_data: CollaborativeData[] = [
     collabLeaderCompensation: 5,
     payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
+    userIsCollabContributor: false,
     skills: [
       { id: 110, value: 'Software Development' },
       { id: 111, value: 'Open Source' },
