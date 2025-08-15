@@ -121,9 +121,6 @@ export function UserProfile() {
                       >
                         {user.userName}
                       </Text>
-                      <Text>
-                        {user.userName}
-                      </Text>
                     </Group>
                     <Group wrap="nowrap" gap={10} mt={5}>
                       <IconPhoneCall stroke={1.5} size={16} />
@@ -162,7 +159,7 @@ export function UserProfile() {
                 </SimpleGrid>
               </Stack>
               <p>
-                {user.bio}<br /><br />
+                {user.bio ? user.bio : 'No bio available.'}<br /><br />
               </p>
               <div>
                 Collaboratives<br/>
