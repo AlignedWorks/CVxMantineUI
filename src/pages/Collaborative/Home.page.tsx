@@ -257,7 +257,7 @@ export function CollaborativeHome() {
           </Button>
         ) : (
           <Tooltip label="Only collaborative contributors can view the CSA">
-            <Button variant="disabled" mb="sm">
+            <Button disabled mb="sm">
               View Collaborative Sharing Agreement
             </Button>
           </Tooltip>

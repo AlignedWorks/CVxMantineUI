@@ -11,7 +11,7 @@ export function Welcome() {
         Collaborative Value Exchange
       </Text>
 
-      <Text w="50%" fs="italic" fz="30px" c="#666" ta="center" mt="xl">
+      <Text ta="center" w="50%" fs="italic" fz="30px" c="#666" ta="center" mt="xl">
         Where anyone can connect, contribute, and share upside to help launch purpose driven businesses.
       </Text>
     </>
