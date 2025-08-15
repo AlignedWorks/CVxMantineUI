@@ -141,13 +141,11 @@ export function Dashboard() {
         
         setSubmittedUsers((prev) => ({ ...prev, [userId]: true })); // Mark as submitted
 
-        // If the role is changed to Network Admin or Network Contributor, refresh the dashboard data
+        // If the role is changed to Network Admin or Network Contributor
         if (newRole === "Network Admin" || newRole === "Network Contributor") {
           // Update the user in the user approvals array with the new role
           setUserApprovals(prevUserApprovals => 
-            prevUserApprovals?.map(user => 
-              user.id === userId ? { ...user, memberStatus: newRole } : user
-            ) || null
+          prevUserApprovals?.filter(user => user.id !== userId) || null
           );
         }
 
@@ -743,14 +741,18 @@ export function Dashboard() {
                     </Text>
                     <br/>
                     <Text size="sm" c="dimmed">
-                      <a
+                      {user.linkedIn && user.linkedIn.trim() !== '' ? (
+                        <a
                           href={user.linkedIn}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{ color: "#0077b5", textDecoration: "none" }}
-                      >
+                        >
                           LinkedIn
-                      </a>
+                        </a>
+                      ) : (
+                        "No LinkedIn provided"
+                      )}
                     </Text>
                   </Grid.Col>
                 </Grid>

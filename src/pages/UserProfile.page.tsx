@@ -148,7 +148,7 @@ export function UserProfile() {
                             {user.linkedIn.split('linkedin.com/in/')[1]}
                           </a>
                         ) : (
-                          'N/A'
+                          "No LinkedIn provided"
                         )}
                       </Text>
                     </Group>
@@ -158,9 +158,10 @@ export function UserProfile() {
                   </div>
                 </SimpleGrid>
               </Stack>
-              <p>
-                {user.bio ? user.bio : 'No bio available.'}<br /><br />
-              </p>
+                <p>
+                  Bio<br/>
+                  {user.bio ? user.bio : 'No bio available.'}<br /><br />
+                </p>
               <div>
                 Collaboratives<br/>
                 {user.collaboratives && user.collaboratives.length > 0 ? (

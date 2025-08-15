@@ -123,7 +123,7 @@ export function MemberProfile() {
                             {user.linkedIn.split('linkedin.com/in/')[1]}
                           </a>
                         ) : (
-                          'N/A'
+                          "No LinkedIn provided"
                         )}
                         </Text>
                       </Group>
