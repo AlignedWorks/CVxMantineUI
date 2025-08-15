@@ -257,12 +257,7 @@ export function CollaborativeHome() {
           </Button>
         ) : (
           <Tooltip label="Only collaborative contributors can view the CSA">
-            <Button 
-              component={Link} 
-              to={`/collaboratives/${collaborative.id}/csa-agreement`}
-              variant="disabled"
-              mb="sm"
-            >
+            <Button variant="disabled" mb="sm">
               View Collaborative Sharing Agreement
             </Button>
           </Tooltip>

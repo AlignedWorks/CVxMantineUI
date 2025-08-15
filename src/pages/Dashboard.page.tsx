@@ -321,21 +321,20 @@ export function Dashboard() {
         <Title order={1} mb="md" pt="sm" pb="lg">
             {user ? user.firstName + "'s " : ""}Dashboard
         </Title>
-        <Group justify="flex-start" mt="xl">
-          {['Network Admin', 'Network Contributor'].includes(user?.memberStatus || '') && (
-            <>
-              <Link to="/create-collaborative">
-                <Button variant="default">
-                    Propose a Collaborative
-                </Button>
-              </Link>
 
-              <Button variant="default" onClick={() => setInviteModalOpen(true)}>
-                  Invite a Member
-              </Button>
-            </>
-          )}
+        {['Network Admin', 'Network Contributor'].includes(user?.memberStatus || '') && (
+        <Group justify="flex-start" mt="xl">
+          <Link to="/create-collaborative">
+            <Button variant="default">
+                Propose a Collaborative
+            </Button>
+          </Link>
+
+          <Button variant="default" onClick={() => setInviteModalOpen(true)}>
+              Invite a Member
+          </Button>
         </Group>
+        )}
 
         <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
           My Collaboratives
