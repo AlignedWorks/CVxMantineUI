@@ -11,13 +11,8 @@ import {
   SimpleGrid,
   Group,
   NumberInput,
-  Select,
-  Table,
-  ActionIcon,
-  TextInput,
 } from '@mantine/core';
-import { IconTrash, IconPlus } from '@tabler/icons-react';
-import { CollaborativeDataTreasury, PayoutFrequency } from '../../data.ts';
+import { CollaborativeDataTreasury } from '../../data.ts';
 
 export function EditCollaborativeTreasury() {
   const { id } = useParams();
@@ -29,11 +24,7 @@ export function EditCollaborativeTreasury() {
   
   // Form values
   const [formValues, setFormValues] = useState<{
-    revenueShare: number;
-    payoutFrequency: PayoutFrequency;
-    indirectCosts: number;
     collabLeaderCompensation: number;
-    stakingTiers: { tier: string; exchangeRate: number; }[];
   } | null>(null);
 
   // Set the collaborative ID in context
@@ -62,11 +53,7 @@ export function EditCollaborativeTreasury() {
       .then((data: CollaborativeDataTreasury) => {
         setCollaborative(data);
         setFormValues({
-          revenueShare: data.revenueShare,
-          payoutFrequency: data.payoutFrequency,
-          indirectCosts: data.indirectCosts,
           collabLeaderCompensation: data.collabLeaderCompensation,
-          stakingTiers: [...data.stakingTiers], // Create a new array to avoid mutations
         });
         setLoading(false);
       })
@@ -93,37 +80,6 @@ export function EditCollaborativeTreasury() {
       </Container>
     );
   }
-
-  const handleAddStakingTier = () => {
-    setFormValues({
-      ...formValues,
-      stakingTiers: [
-        ...formValues.stakingTiers,
-        { tier: '1 Month', exchangeRate: 0.01 }
-      ]
-    });
-  };
-
-  const handleRemoveStakingTier = (index: number) => {
-    const newStakingTiers = [...formValues.stakingTiers];
-    newStakingTiers.splice(index, 1);
-    setFormValues({
-      ...formValues,
-      stakingTiers: newStakingTiers
-    });
-  };
-
-  const updateStakingTier = (index: number, field: 'tier' | 'exchangeRate', value: string | number) => {
-    const newStakingTiers = [...formValues.stakingTiers];
-    newStakingTiers[index] = {
-      ...newStakingTiers[index],
-      [field]: value
-    };
-    setFormValues({
-      ...formValues,
-      stakingTiers: newStakingTiers
-    });
-  };
 
   const handleSubmit = async () => {
     setSaving(true);
@@ -174,51 +130,11 @@ export function EditCollaborativeTreasury() {
             <Text fz="md" fw={500} mb="xs">
               Revenue Share
             </Text>
-            <NumberInput
-              value={formValues.revenueShare}
-              onChange={(value) => setFormValues({
-                ...formValues,
-                revenueShare: typeof value === 'number' ? value : formValues.revenueShare
-              })}
-              min={0}
-              max={100}
-              mb="lg"
-              rightSection="%"
-            />
-
-            {/* Payout Frequency */}
-            <Text fz="md" fw={500} mb="xs">
-              Payout Frequency
-            </Text>
-            <Select
-              value={formValues.payoutFrequency}
-              onChange={(value) => setFormValues({
-                ...formValues,
-                payoutFrequency: value as PayoutFrequency
-              })}
-              data={[
-                { value: PayoutFrequency.Monthly, label: 'Monthly' },
-                { value: PayoutFrequency.Quarterly, label: 'Quarterly' },
-                { value: PayoutFrequency.Yearly, label: 'Yearly' },
-              ]}
-              mb="lg"
-            />
 
             {/* Indirect Costs */}
             <Text fz="md" fw={500} mb="xs">
               Indirect Costs
             </Text>
-            <NumberInput
-              value={formValues.indirectCosts}
-              onChange={(value) => setFormValues({
-                ...formValues,
-                indirectCosts: typeof value === 'number' ? value : formValues.indirectCosts
-              })}
-              min={0}
-              max={100}
-              mb="lg"
-              rightSection="%"
-            />
 
             {/* Collaborative Leader Compensation */}
             <Text fz="md" fw={500} mb="xs">
@@ -237,65 +153,7 @@ export function EditCollaborativeTreasury() {
             />
           </div>
           
-          <div>
-            <Group justify="space-between" mb="xs">
-              <Text fz="md" fw={500}>
-                Staking Tiers
-              </Text>
-              <Button 
-                leftSection={<IconPlus size={16} />} 
-                variant="light" 
-                onClick={handleAddStakingTier}
-                size="xs"
-              >
-                Add Tier
-              </Button>
-            </Group>
-            
-            <Table variant="vertical" layout="fixed" withTableBorder>
-              <Table.Thead>
-                <Table.Tr>
-                  <Table.Th>Duration</Table.Th>
-                  <Table.Th>Exchange Rate</Table.Th>
-                  <Table.Th style={{ width: '80px' }}>Actions</Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>
-                {formValues.stakingTiers.map((tier, index) => (
-                  <Table.Tr key={index}>
-                    <Table.Td>
-                      <TextInput
-                        value={tier.tier}
-                        onChange={(e) => updateStakingTier(index, 'tier', e.target.value)}
-                        size="xs"
-                      />
-                    </Table.Td>
-                    <Table.Td>
-                      <NumberInput
-                        value={tier.exchangeRate * 100} // Convert to percentage for display
-                        onChange={(value) => {
-                          const numValue = typeof value === 'number' ? value : 0;
-                          updateStakingTier(index, 'exchangeRate', numValue / 100); // Convert back to decimal
-                        }}
-                        rightSection="%"
-                        size="xs"
-                        min={0}
-                        max={100}
-                      />
-                    </Table.Td>
-                    <Table.Td>
-                      <ActionIcon 
-                        color="red" 
-                        onClick={() => handleRemoveStakingTier(index)}
-                        variant="subtle"
-                      >
-                        <IconTrash size={16} />
-                      </ActionIcon>
-                    </Table.Td>
-                  </Table.Tr>
-                ))}
-              </Table.Tbody>
-            </Table>
+          <div>  
           </div>
         </SimpleGrid>
         
