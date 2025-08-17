@@ -93,7 +93,15 @@ export function MemberProfile() {
                     <div>
                       <Group wrap="nowrap" gap={10} mt={3}>
                         <IconAt stroke={1.5} size={16} />
-                        <Text>
+                        <Text 
+                          component="a"
+                          href={`mailto:${user.userName}`}
+                          style={{
+                            color: '#0077b5',
+                            textDecoration: 'none',
+                            transition: 'color 0.2s ease'
+                          }}
+                        >
                           {user.userName}
                         </Text>
                       </Group>

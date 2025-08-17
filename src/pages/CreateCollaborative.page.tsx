@@ -405,7 +405,7 @@ export function CreateCollaborative() {
       </SimpleGrid>
 
       <Group justify="flex-end" mt="xl">
-        <Button variant="outline" onClick={handleSubmit}>Propose Collaborative</Button>
+        <Button variant="outline" onClick={handleSubmit}>Submit Collaborative Proposal</Button>
       </Group>
     </Container>
   );

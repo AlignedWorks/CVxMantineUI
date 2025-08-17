@@ -242,7 +242,7 @@ export function EditCollaborative() {
       </Link>
 
       <Paper p="lg" withBorder>
-        <Title order={2} mb="xl">Edit Collaborative</Title>
+        <Title order={2} mb="xl">Edit Collaborative Profile</Title>
 
         <Stack>
           <TextInput

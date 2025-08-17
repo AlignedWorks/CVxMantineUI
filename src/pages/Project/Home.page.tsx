@@ -157,7 +157,7 @@ export function ProjectHome() {
                       <Text fz="md">
                           {project.projectAdminName}
                       </Text>
-                      <Text fz="sm" c="dimmed">
+                      <Text fz="sm" c="#0077b5">
                           {project.projectAdminEmail}
                       </Text>
                     </div>

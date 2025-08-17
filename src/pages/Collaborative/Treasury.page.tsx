@@ -15,6 +15,7 @@ import {
   Tooltip,
   Center,
   Paper,
+  Image,
  } from '@mantine/core';
 import { CollaborativeDataTreasury } from '../../data.ts';
 
@@ -96,7 +97,11 @@ export function CollaborativeTreasury() {
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
             <Center>
-              <img src={collaborative.logoUrl} width={80}/>
+              <Image
+                w="80"
+                src={collaborative.logoUrl}
+                mt="xs"
+                />
             </Center>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>

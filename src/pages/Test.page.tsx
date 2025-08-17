@@ -22,6 +22,7 @@ import {
   Center,
   Tooltip,
   Progress,
+  Image,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import { Link } from 'react-router-dom';
@@ -202,7 +203,11 @@ export function Test() {
                 <Grid>
                     <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
                         <Center>
-                        <img src={testCollab.logoUrl} width={80}/>
+                            <Image
+                                w="80"
+                                src={testCollab.logoUrl}
+                                mt="xs"
+                                />
                         </Center>
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
@@ -433,8 +438,13 @@ export function Test() {
                 <Grid>
                     <Grid.Col span={2}>
                         <Center>
-                            <img src={testCollab.logoUrl} width={80}/>
+                            <Image
+                                w="80"
+                                src={testCollab.logoUrl}
+                                mt="xs"
+                                />
                         </Center>
+
                     </Grid.Col>
                     <Grid.Col span={10}>
                     <Stack>

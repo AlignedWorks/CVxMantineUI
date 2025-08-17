@@ -15,6 +15,7 @@ import {
   Title,
   Tooltip,
   Center,
+  Image,
  } from '@mantine/core';
 import { CollaborativeData, PayoutFrequency } from '../../data.ts';
 import {
@@ -150,7 +151,11 @@ export function CollaborativeHome() {
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
             <Center>
-              <img src={collaborative.logoUrl} width={80}/>
+              <Image
+                w="80"
+                src={collaborative.logoUrl}
+                mt="xs"
+                />
             </Center>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
@@ -206,6 +211,7 @@ export function CollaborativeHome() {
                         component="a"
                         href={`mailto:${collaborative.adminEmail}`}
                         style={{
+                          color: '#0077b5',
                           textDecoration: 'none',
                           transition: 'color 0.2s ease'
                         }}
@@ -275,13 +281,13 @@ export function CollaborativeHome() {
         {collaborative.userIsCollabAdmin ? (
           <Link to={`/collaboratives/${id}/edit`} style={{ textDecoration: 'none' }}>
             <Button variant="default" mb="sm">
-              Edit Collaborative Info
+              Edit Collaborative Profile
             </Button>
           </Link>
         ) : (
           <Tooltip label="Only collaborative admins can edit this information">
             <Button disabled mb="sm">
-              Edit Collaborative Info
+              Edit Collaborative Profile
             </Button>
           </Tooltip>
         )}

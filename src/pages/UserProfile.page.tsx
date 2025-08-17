@@ -115,6 +115,7 @@ export function UserProfile() {
                         component="a"
                         href={`mailto:${user.userName}`}
                         style={{
+                          color: '#0077b5',
                           textDecoration: 'none',
                           transition: 'color 0.2s ease'
                         }}
