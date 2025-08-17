@@ -96,12 +96,9 @@ export interface CollaborativeDataTreasury {
   id: number;
   name: string;
   logoUrl: string;
-  revenueShare: number;
-  payoutFrequency: PayoutFrequency;
-  stakingTiers: StakingTier[];
-  indirectCosts: number;
   collabLeaderCompensation: number;
   userIsCollabAdmin: boolean;
+  launchTokenValue: number;
   nextTokenReleaseDate: string;
   currentTokenRelease: number;
   nextTokenRelease: number;

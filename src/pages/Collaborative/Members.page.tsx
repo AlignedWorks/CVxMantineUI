@@ -317,14 +317,14 @@ export function CollaborativeMembers() {
                 }
             }}
             >
-            Add Members
+            Invite Members
           </Button>
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only collaborative admins can add members">
+          <Tooltip label="Only collaborative admins can invite members">
             <Button disabled mb="sm">
-              Add Members
+              Invite Members
             </Button>
           </Tooltip>
         </Group>

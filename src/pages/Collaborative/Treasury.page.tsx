@@ -116,16 +116,22 @@ export function CollaborativeTreasury() {
               <Paper p="lg" radius="md" bg="#fafafa">
                   <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
                       <div>
+                        <Tooltip label="(Total Token Assets)/(Total Token Liabilities)">
                           <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
-                          <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities).toFixed(2)}</Text>
+                        </Tooltip>
+                        <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities).toFixed(2)}</Text>
                       </div>
                       <div>
+                        <Tooltip label="(Total Token Assets) - (Total Token Liabilities)">
                           <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
-                          <Text fz="xl" fw={700} c="#444">{totalTokenAssets - totalTokenLiabilities}</Text>
+                        </Tooltip>
+                        <Text fz="xl" fw={700} c="#444">{totalTokenAssets - totalTokenLiabilities}</Text>
                       </div>
                       <div>
+                        <Tooltip label="(Current Token Balance) - (Total Token Liabilities)">
                           <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
-                          <Text fz="xl" fw={700} c="#444">{collaborative.tokenBalance - totalTokenLiabilities}</Text>
+                        </Tooltip>
+                        <Text fz="xl" fw={700} c="#444">{collaborative.tokenBalance - totalTokenLiabilities}</Text>
                       </div>
                   </SimpleGrid>
               </Paper>
@@ -152,24 +158,39 @@ export function CollaborativeTreasury() {
                       <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
                       <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
                           <Stack>
-                              <Text fz="md" fw={500} c="#999">Launch Tokens Receivable</Text>
+                              <Tooltip label="The number of Launch Tokens Created but not yet been released for use.">
+                                <Text fz="md" fw={500} c="#999">Tokens Receivable</Text>
+                              </Tooltip>
                               <Text fz="xl" fw={500} c="#444">{collaborative.tokensReceivable}</Text>
-                              <Text fz="md" fw={500} c="#999">Launch Tokens Balance</Text>
+                              <Tooltip label="The number of Tokens released for use and not yet assigned to a Collaborative member.">
+                                <Text fz="md" fw={500} c="#999">Tokens Balance</Text>
+                              </Tooltip>
                               <Text fz="xl" fw={500} c="#444">{collaborative.tokenBalance}</Text>
-                              <Text fz="md" fw={500} c="red">Total Token Assets</Text>
+                              <Tooltip label="Tokens Receivable + Token Balance">
+                                <Text fz="md" fw={500} c="red">Total Token Assets</Text>
+                              </Tooltip>
                               <Text fz="xl" fw={500} c="#444">{totalTokenAssets}</Text>
                           </Stack>
                       </Paper>
+
+                      <Text fz="md" fw={500} c="#999">Launch Token Price</Text>
+                      <Text fz="xl" fw={700} c="#444">{(collaborative.launchTokenValue).toFixed(2)}</Text>
                   </div>
                   <div>
                       <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
                       <Paper p="lg" withBorder radius="md" mb="sm" mt="lg">
                           <Stack>
-                              <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay the Collaborative Leader</Text>
+                              <Tooltip label="Tokens budgeted to make future payments to the Collaborative Admin.">
+                                <Text fz="md" fw={500} c="#999">Collaborative Admin</Text>
+                              </Tooltip>
                               <Text fz="xl" fw={500} c="#444">{collaborative.collabLeaderCompensation}</Text>
-                              <Text fz="md" fw={500} c="#999">Launch Tokens committed for the payment of Project work upon completion</Text>
+                              <Tooltip label="All unpaid Tokens in approved budgets to cover Project management and milestone completion.">
+                                <Text fz="md" fw={500} c="#999">Project Work</Text>
+                              </Tooltip>
                               <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment}</Text>
-                              <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay for Non-Team Contributions to Projects</Text>
+                              <Tooltip label="All unpaid Tokens in approved budgets that are not going to members of the Project Team.">
+                                <Text fz="md" fw={500} c="#999">Other Project Expenses</Text>
+                              </Tooltip>
                               <Text fz="xl" fw={500} c="#444">{collaborative.nonTeamContributions}</Text>
                               <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
                               <Text fz="xl" fw={500} c="#444">{totalTokenLiabilities}</Text>

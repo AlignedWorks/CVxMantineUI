@@ -385,8 +385,8 @@ export function CreateCollaborative() {
         />
 
         <NumberInput
-          label="Launch Token Value (USD)"
-          placeholder="Enter the initial value per token in USD (e.g., 1.00), this is optional"
+          label="Current Launch Token Price (USD)"
+          placeholder="Enter the current launch token price in USD (e.g., 1.00), this is optional"
           value={formValues.launchTokenValue}
           onChange={(value) =>
             handleInputChange('launchTokenValue', value)
