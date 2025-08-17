@@ -6,11 +6,6 @@ export interface Collaborative {
   websiteUrl: string;
   city: string;
   state: string;
-  revenueShare: number;
-  indirectCosts: number;
-  collabLeaderCompensation: number;
-  payoutFrequency: PayoutFrequency;
-  stakingTiers: StakingTier[];
   logoUrl: string;
   // default: 10,000
   launchTokensCreated: number;
