@@ -14,7 +14,10 @@ import {
   Box,
   Popover,
   Progress,
+  Textarea,
+  Select,
 } from '@mantine/core';
+import { us_states } from '../data';
 
 function PasswordRequirement({ meets, label }: { meets: boolean; label: string }) {
   return (
@@ -49,22 +52,54 @@ function getStrength(password: string) {
   return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 10);
 }
 
+const formatPhoneNumber = (value: string) => {
+  // Remove all non-numeric characters
+  const phoneNumber = value.replace(/[^\d]/g, '');
+  
+  // Format based on length
+  if (phoneNumber.length < 4) return phoneNumber;
+  if (phoneNumber.length < 7) {
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+  }
+  return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+};
+
 export function Invite() {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token'); // Extract the token from the query parameter
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const token = searchParams.get('token');
+  
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    password: '',
+    confirmPassword: '',
+    bio: '',
+    city: '',
+    state: '',
+    phoneNumber: '',
+    linkedIn: '',
+  });
+  
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [popoverOpened, setPopoverOpened] = useState(false);
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
   
   const checks = requirements.map((requirement, index) => (
-    <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(password)} />
+    <PasswordRequirement 
+      key={index} 
+      label={requirement.label} 
+      meets={requirement.re.test(formData.password)} 
+    />
   ));
 
-  const strength = getStrength(password);
+  const strength = getStrength(formData.password);
   const color = strength === 100 ? 'teal' : strength > 50 ? 'yellow' : 'red';
 
   useEffect(() => {
@@ -76,7 +111,7 @@ export function Invite() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
@@ -85,7 +120,17 @@ export function Invite() {
       const response = await fetch(new URL('accept-invite', import.meta.env.VITE_API_BASE), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, firstName, lastName, password }),
+        body: JSON.stringify({ 
+          token, 
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          password: formData.password,
+          bio: formData.bio,
+          city: formData.city,
+          state: formData.state,
+          phoneNumber: formData.phoneNumber,
+          linkedIn: formData.linkedIn,
+        }),
       });
 
       if (!response.ok) {
@@ -126,15 +171,15 @@ export function Invite() {
               <TextInput
                 label="First Name"
                 placeholder="Enter your first name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.currentTarget.value)}
+                value={formData.firstName}
+                onChange={(e) => handleInputChange('firstName', e.currentTarget.value)}
                 required
               />
               <TextInput
                 label="Last Name"
                 placeholder="Enter your last name"
-                value={lastName}
-                onChange={(e) => setLastName(e.currentTarget.value)}
+                value={formData.lastName}
+                onChange={(e) => handleInputChange('lastName', e.currentTarget.value)}
                 required
               />
               <Popover opened={popoverOpened} position="bottom" width="target" transitionProps={{ transition: 'pop' }}>
@@ -148,24 +193,60 @@ export function Invite() {
                       label="Password"
                       placeholder="Your password"
                       required
-                      mt="md"
-                      value={password}
-                      onChange={(e) => setPassword(e.currentTarget.value)}
+                      value={formData.password}
+                      onChange={(e) => handleInputChange('password', e.currentTarget.value)}
                     />
                   </div>
                 </Popover.Target>
                 <Popover.Dropdown>
                   <Progress color={color} value={strength} size={5} mb="xs" />
-                  <PasswordRequirement label="Includes at least 6 characters" meets={password.length > 5} />
+                  <PasswordRequirement label="Includes at least 6 characters" meets={formData.password.length > 5} />
                   {checks}
                 </Popover.Dropdown>
               </Popover>
               <PasswordInput
                 label="Confirm Password"
                 placeholder="Confirm your password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+                value={formData.confirmPassword}
+                onChange={(e) => handleInputChange('confirmPassword', e.currentTarget.value)}
                 required
+              />
+              <Textarea
+                label="Bio"
+                placeholder="Tell us about yourself"
+                value={formData.bio}
+                onChange={(event) => handleInputChange('bio', event.currentTarget.value)}
+                autosize
+                minRows={3}
+              />
+              <TextInput
+                label="City"
+                placeholder="Your city"
+                value={formData.city}
+                onChange={(event) => handleInputChange('city', event.currentTarget.value)}
+              />
+              <Select
+                label="State"
+                data={us_states}
+                value={formData.state}
+                searchable
+                onChange={(value) => handleInputChange('state', value ?? '')}
+              />
+              <TextInput
+                label="Phone Number"
+                placeholder="(555) 123-4567"
+                value={formData.phoneNumber}
+                onChange={(event) => {
+                  const formatted = formatPhoneNumber(event.currentTarget.value);
+                  handleInputChange('phoneNumber', formatted);
+                }}
+                maxLength={14}
+              />
+              <TextInput
+                label="LinkedIn Profile"
+                placeholder="https://linkedin.com/in/yourprofile"
+                value={formData.linkedIn}
+                onChange={(event) => handleInputChange('linkedIn', event.currentTarget.value)}
               />
               <Group justify="right">
                 <Button type="submit" variant="default">

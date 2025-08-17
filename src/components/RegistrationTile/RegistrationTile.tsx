@@ -1,7 +1,6 @@
 import {
   Button,
   Container,
-  Group,
   Paper,
   PasswordInput,
   Text,
@@ -234,6 +233,7 @@ export function RegistrationTile() {
                 mt="md"
                 data={us_states}
                 value={formData.state}
+                searchable
                 onChange={(value) => handleInputChange('state', value ?? '')}
               />
               <TextInput
@@ -263,11 +263,6 @@ export function RegistrationTile() {
             </Text>
           )}
 
-          <Group justify="space-between" mt="lg">
-            <Text size="sm" c="dimmed">
-              By signing up, you agree to our terms and conditions.
-            </Text>
-          </Group>
           <Button fullWidth mt="xl" type="submit"> 
             Sign up
           </Button>
