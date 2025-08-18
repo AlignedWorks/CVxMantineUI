@@ -408,7 +408,14 @@ export function Dashboard() {
                         {collab.description}
                     </Text>
                     <Text ta="left" fz="sm" mt="sm">
-                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>{collab.websiteUrl}
+                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>
+                        <a
+                          href={collab.websiteUrl}
+                          style={{ color: '#0077b5', textDecoration: 'none' }}
+                          target="_blank"
+                          rel="noopener noreferrer">
+                            {collab.websiteUrl}
+                        </a>
                     </Text>
                     <Text ta="left" fz="sm" mt="sm">
                         <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Admin:</span><br/>{collab.admin}

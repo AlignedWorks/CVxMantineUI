@@ -21,6 +21,7 @@ import {
   Center,
   Select,
   Badge,
+  Image,
  } from '@mantine/core';
 import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone } from '../../data.ts';
 
@@ -309,7 +310,11 @@ export function ProjectMilestones() {
         <Grid>
           <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
             <Center>
-              <img src={project.collabLogoUrl} width={80}/>
+              <Image
+                w="80"
+                src={project.collabLogoUrl}
+                mt="xs"
+              />
             </Center>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>

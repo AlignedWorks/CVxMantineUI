@@ -207,11 +207,10 @@ export function CollaborativeHome() {
                       </Text>
                       <Text 
                         fz="sm" 
-                        c="dimmed"
+                        c="#0077b5"
                         component="a"
                         href={`mailto:${collaborative.adminEmail}`}
                         style={{
-                          color: '#0077b5',
                           textDecoration: 'none',
                           transition: 'color 0.2s ease'
                         }}

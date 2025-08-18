@@ -207,7 +207,7 @@ export function Test() {
                                 w="80"
                                 src={testCollab.logoUrl}
                                 mt="xs"
-                                />
+                            />
                         </Center>
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
