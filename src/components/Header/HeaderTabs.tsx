@@ -32,7 +32,7 @@ const tabsData = [
   { key: 'Projects', path: '/projects' },
   { key: 'Members', path: '/members' },
   { key: 'Treasury', path: '/treasury' },
-  { key: 'Wallet', path: '/wallet' },
+  { key: 'My Wallet', path: '/wallet' },
 ];
 
 export function HeaderTabs() {

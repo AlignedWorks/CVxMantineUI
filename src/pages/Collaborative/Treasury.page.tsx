@@ -119,91 +119,102 @@ export function CollaborativeTreasury() {
 
               <Title order={4} lts="1px" mt="sm" c="green">Financial Health Metrics</Title>
               <Paper p="lg" radius="md" bg="#fafafa">
-                  <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
-                      <div>
-                        <Tooltip label="(Total Token Assets)/(Total Token Liabilities)">
-                          <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
-                        </Tooltip>
-                        <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities).toFixed(2)}</Text>
-                      </div>
-                      <div>
-                        <Tooltip label="(Total Token Assets) - (Total Token Liabilities)">
-                          <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
-                        </Tooltip>
-                        <Text fz="xl" fw={700} c="#444">{totalTokenAssets - totalTokenLiabilities}</Text>
-                      </div>
-                      <div>
-                        <Tooltip label="(Current Token Balance) - (Total Token Liabilities)">
-                          <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
-                        </Tooltip>
-                        <Text fz="xl" fw={700} c="#444">{collaborative.tokenBalance - totalTokenLiabilities}</Text>
-                      </div>
-                  </SimpleGrid>
+                <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
+                  <div>
+                    <Tooltip color="gray" label="(Total Token Assets) / (Total Token Liabilities)">
+                      <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities).toFixed(2)}</Text>
+                  </div>
+                  <div>
+                    <Tooltip color="gray" label="(Total Token Assets) - (Total Token Liabilities)">
+                      <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{totalTokenAssets - totalTokenLiabilities}</Text>
+                  </div>
+                  <div>
+                    <Tooltip color="gray" label="(Current Token Balance) - (Total Token Liabilities)">
+                      <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{collaborative.tokenBalance - totalTokenLiabilities}</Text>
+                  </div>
+                </SimpleGrid>
               </Paper>
+
               <Title order={4} lts="1px" mt="xl" c="green">Launch Token Release</Title>
+
               <Paper p="lg" radius="md" bg="#fafafa">
-                  <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
-                      <div>
-                          <Text fz="md" fw={500} c="#999">Current Token Release</Text>
-                          <Text fz="xl" fw={500} c="#444">{collaborative.currentTokenRelease}</Text>
-                      </div>
-                      <div>
-                          <Text fz="md" fw={500} c="#999">Next Token Release</Text>
-                          <Text fz="xl" fw={500} c="#444">{collaborative.nextTokenRelease}</Text>
-                      </div>
-                      <div>
-                          <Text fz="md" fw={500} c="#999">Date of Next Release</Text>
-                          <Text fz="xl" fw={500} c="#444">{collaborative.nextTokenReleaseDate}</Text>
-                      </div>
-                  </SimpleGrid>
-
+                <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
+                  <div>
+                    <Text fz="md" fw={500} c="#999">Current Token Release</Text>
+                    <Text fz="xl" fw={500} c="#444">{collaborative.currentTokenRelease}</Text>
+                  </div>
+                  <div>
+                    <Text fz="md" fw={500} c="#999">Next Token Release</Text>
+                    <Text fz="xl" fw={500} c="#444">{collaborative.nextTokenRelease}</Text>
+                  </div>
+                  <div>
+                    <Text fz="md" fw={500} c="#999">Date of Next Release</Text>
+                    <Text fz="xl" fw={500} c="#444">{collaborative.nextTokenReleaseDate}</Text>
+                  </div>
+                </SimpleGrid>
               </Paper>
-              <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md" spacing="xl">
-                  <div>
-                      <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
-                      <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
-                          <Stack>
-                              <Tooltip label="The number of Launch Tokens Created but not yet been released for use.">
-                                <Text fz="md" fw={500} c="#999">Tokens Receivable</Text>
-                              </Tooltip>
-                              <Text fz="xl" fw={500} c="#444">{collaborative.tokensReceivable}</Text>
-                              <Tooltip label="The number of Tokens released for use and not yet assigned to a Collaborative member.">
-                                <Text fz="md" fw={500} c="#999">Tokens Balance</Text>
-                              </Tooltip>
-                              <Text fz="xl" fw={500} c="#444">{collaborative.tokenBalance}</Text>
-                              <Tooltip label="Tokens Receivable + Token Balance">
-                                <Text fz="md" fw={500} c="red">Total Token Assets</Text>
-                              </Tooltip>
-                              <Text fz="xl" fw={500} c="#444">{totalTokenAssets}</Text>
-                          </Stack>
-                      </Paper>
 
-                      <Text fz="md" fw={500} c="#999">Launch Token Price</Text>
-                      <Text fz="xl" fw={700} c="#444">{(collaborative.launchTokenValue).toFixed(2)}</Text>
-                  </div>
-                  <div>
-                      <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
-                      <Paper p="lg" withBorder radius="md" mb="sm" mt="lg">
-                          <Stack>
-                              <Tooltip label="Tokens budgeted to make future payments to the Collaborative Admin.">
-                                <Text fz="md" fw={500} c="#999">Collaborative Admin</Text>
-                              </Tooltip>
-                              <Text fz="xl" fw={500} c="#444">{collaborative.collabLeaderCompensation}</Text>
-                              <Tooltip label="All unpaid Tokens in approved budgets to cover Project management and milestone completion.">
-                                <Text fz="md" fw={500} c="#999">Project Work</Text>
-                              </Tooltip>
-                              <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment}</Text>
-                              <Tooltip label="All unpaid Tokens in approved budgets that are not going to members of the Project Team.">
-                                <Text fz="md" fw={500} c="#999">Other Project Expenses</Text>
-                              </Tooltip>
-                              <Text fz="xl" fw={500} c="#444">{collaborative.nonTeamContributions}</Text>
-                              <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
-                              <Text fz="xl" fw={500} c="#444">{totalTokenLiabilities}</Text>
-                          </Stack>
-                      </Paper>
-                  </div>
-                  <div>
-                  </div>
+              <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md" spacing="xl">
+                <div>
+                  <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
+                  <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
+                    <Stack>
+                      <Tooltip color="gray" label="The number of Launch Tokens Created but not yet been released for use.">
+                        <Text fz="md" fw={500} c="#999">Tokens Receivable</Text>
+                      </Tooltip>
+
+                      <Text fz="xl" fw={500} c="#444">{collaborative.tokensReceivable}</Text>
+
+                      <Tooltip color="gray" label="The number of Tokens released for use and not yet assigned to a Collaborative member.">
+                        <Text fz="md" fw={500} c="#999">Tokens Balance</Text>
+                      </Tooltip>
+
+                      <Text fz="xl" fw={500} c="#444">{collaborative.tokenBalance}</Text>
+
+                      <Tooltip color="gray" label="Tokens Receivable + Token Balance">
+                        <Text fz="md" fw={500} c="red">Total Token Assets</Text>
+                      </Tooltip>
+                      
+                      <Text fz="xl" fw={500} c="#444">{totalTokenAssets}</Text>
+                    </Stack>
+                  </Paper>
+                  <Text fz="md" fw={500} c="#999">Launch Token Price</Text>
+                  <Text fz="xl" fw={700} c="#444">{(collaborative.launchTokenValue).toFixed(2)}</Text>
+                </div>
+                <div>
+                  <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
+                  <Paper p="lg" withBorder radius="md" mb="sm" mt="lg">
+                    <Stack>
+                      <Tooltip color="gray" label="Tokens budgeted to make future payments to the Collaborative Admin.">
+                        <Text fz="md" fw={500} c="#999">Collaborative Admin</Text>
+                      </Tooltip>
+
+                      <Text fz="xl" fw={500} c="#444">{collaborative.collabLeaderCompensation}</Text>
+
+                      <Tooltip color="gray" label="All unpaid Tokens in approved budgets to cover Project management and milestone completion.">
+                        <Text fz="md" fw={500} c="#999">Project Work</Text>
+                      </Tooltip>
+
+                      <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment}</Text>
+
+                      <Tooltip color="gray" label="All unpaid Tokens in approved budgets that are not going to members of the Project Team.">
+                        <Text fz="md" fw={500} c="#999">Other Project Expenses</Text>
+                      </Tooltip>
+
+                      <Text fz="xl" fw={500} c="#444">{collaborative.nonTeamContributions}</Text>
+                      <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
+                      <Text fz="xl" fw={500} c="#444">{totalTokenLiabilities}</Text>
+                    </Stack>
+                  </Paper>
+                </div>
+                <div>
+                </div>
               </SimpleGrid>
             </Stack>
           </Grid.Col>

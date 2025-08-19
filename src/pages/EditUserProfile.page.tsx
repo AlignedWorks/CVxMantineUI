@@ -237,7 +237,7 @@ export function EditUserProfile() {
       </Link>
       <Paper p="lg" withBorder>
         <Group justify="flex-start" mb="xl">
-          <Title order={2}>Edit Profile</Title>
+          <Title order={2}>Edit User Profile</Title>
         </Group>
         
         <SimpleGrid cols={2} mb="lg">

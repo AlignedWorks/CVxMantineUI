@@ -206,7 +206,7 @@ export function Test() {
                             <Image
                                 w="80"
                                 src={testCollab.logoUrl}
-                                mt="xs"
+                                mt="md"
                             />
                         </Center>
                     </Grid.Col>

@@ -166,13 +166,21 @@ export function CollaborativeProjects() {
                         </Table.Td>
                         <Table.Td>{project.description}</Table.Td>
                         <Table.Td>
-                          <Badge
-                            color={project.approvalStatus === 'Active' ? 'green' : 
-                                    project.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
-                            variant="light"
-                          >
-                            {project.approvalStatus}
-                          </Badge>
+                          {project.approvalStatus == 'Draft' ? (
+                            <Tooltip color="gray" label="Pending submission of a completed proposal by the assigned Project Admin">
+                              <Badge color={'pink'} variant="light">
+                                {project.approvalStatus}
+                              </Badge>
+                            </Tooltip>
+                          ) : (
+                            <Badge
+                              color={project.approvalStatus === 'Active' ? 'green' : 
+                                      project.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                              variant="light"
+                            >
+                              {project.approvalStatus}
+                            </Badge>
+                          )}
                         </Table.Td>
                         <Table.Td>{project.launchTokenBudget}</Table.Td>
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>

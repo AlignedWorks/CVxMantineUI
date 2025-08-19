@@ -224,8 +224,8 @@ export function CreateProject() {
 
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg" mt="lg">
           <NumberInput
-            label="Launch Token Budget (%)"
-            placeholder="Enter the token budget for the project"
+            label="Project Budget"
+            placeholder="Enter a Project Budget as a number of Launch Tokens"
             value={formValues.launchTokenBudget}
             onChange={handleLaunchTokenBudgetChange}
             error={launchTokenError || errors.launchTokenBudget}
@@ -235,8 +235,8 @@ export function CreateProject() {
             description={tokenDistribution ? `Available balance: ${tokenDistribution.launchTokensBalance} tokens (${maxPercentage}% of current token release)` : 'Loading token data...'}
           />
           <NumberInput
-            label="Admin Compensation (%)"
-            placeholder="Enter the admin compensation percentage"
+            label="Project Admin Pay"
+            placeholder="Enter the Project Admin compensation as a # of Tokens"
             value={formValues.projectAdminCompensation}
             onChange={(value) => handleInputChange('projectAdminCompensation', value)}
             error={errors.projectAdminCompensation}

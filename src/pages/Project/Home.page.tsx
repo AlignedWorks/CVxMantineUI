@@ -14,6 +14,7 @@ import {
   Title,
   Center,
   Image,
+  Tooltip,
  } from '@mantine/core';
 import { ProjectDataHome } from '../../data.ts';
 
@@ -129,16 +130,16 @@ export function ProjectHome() {
               </Text>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
+                  <Tooltip color="gray" label="Total number of Launch Tokens budgeted for this budget.)">
+                    <Text mb="md">Project Budget: {Number(project.launchTokenBudget).toFixed(2)} Tokens</Text>
+                  </Tooltip>
+                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated.)">
+                    <Text mb="md">Available Budget: {Number(project.launchTokenBalance).toFixed(2)} Tokens</Text>
+                  </Tooltip>
                   <Text mb="md">
-                    Launch Token Budget: {Number(project.launchTokenBudget).toFixed(2)}
-                  </Text>
-                  <Text mb="md">
-                    Launch Token Balance: {Number(project.launchTokenBalance).toFixed(2)}
-                  </Text>
-                  <Text mb="md">
-                    Admin Compensation: {Number(project.projectAdminCompensation * project.launchTokenBudget).toFixed(2)}<br/>
+                    Project Admin Pay: {Number(project.projectAdminCompensation * project.launchTokenBudget).toFixed(2)} Tokens<br/>
                     <Text fz="sm" c="dimmed">
-                      (Based on {Number(project.projectAdminCompensation * 100).toFixed(2)}% of budget)
+                      ({Number(project.projectAdminCompensation * 100).toFixed(2)}% of budget)
                     </Text>
                   </Text>
                   <Group mb="md">

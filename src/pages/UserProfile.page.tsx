@@ -228,7 +228,7 @@ export function UserProfile() {
       <Group justify="right" mt="xl">
         <Link to="/user-profile/edit" style={{ textDecoration: 'none' }}>
           <Button variant="default">
-            Edit Profile
+            Edit User Profile
           </Button>
         </Link>
       </Group>

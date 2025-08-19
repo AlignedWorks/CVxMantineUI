@@ -327,7 +327,7 @@ export function CreateCollaborative() {
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <NumberInput
-          label="Launch Tokens Created"
+          label="Tokens Created"
           placeholder="Enter the number of tokens created (default: 10,000)"
           value={formValues.launchTokensCreated}
           onChange={(value) =>
@@ -357,7 +357,7 @@ export function CreateCollaborative() {
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <NumberInput
-          label="Launch Token Release Rate (%)"
+          label="Token Release Rate (%)"
           placeholder="Enter the release rate percentage (default: 10%)"
           value={formValues.launchTokenReleaseRate}
           onChange={(value) =>
@@ -385,14 +385,14 @@ export function CreateCollaborative() {
         />
 
         <NumberInput
-          label="Current Launch Token Price (USD)"
-          placeholder="Enter the current launch token price in USD (e.g., 1.00), this is optional"
+          label="Current Token Price (USD)"
+          placeholder="Enter the current token price in USD (e.g., 1.00), this is optional"
           value={formValues.launchTokenValue}
           onChange={(value) =>
             handleInputChange('launchTokenValue', value)
           }
           error={errors.launchTokenValue} // Display validation error
-          description={`Launch Token Pool Value: $${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
+          description={`Token Pool Value: $${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
               minimumFractionDigits: 0,
               maximumFractionDigits: 0
             })}`}

@@ -423,8 +423,8 @@ export function ProjectMilestones() {
 
           {/* Launch Tokens */}
           <NumberInput
-            label="Launch Tokens (%)"
-            placeholder="Enter percent of project launch token budget to allocate to this milestone"
+            label="Payment Amount"
+            placeholder="Enter the number of Tokens to be paid upon satisfactory completion of the Milestone"
             value={launchTokenPercentage}
             onChange={handleLaunchTokenChange}
             min={0}
