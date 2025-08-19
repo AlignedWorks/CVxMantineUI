@@ -130,10 +130,10 @@ export function ProjectHome() {
               </Text>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
-                  <Tooltip color="gray" label="Total number of Launch Tokens budgeted for this budget.)">
+                  <Tooltip color="gray" label="Total number of Launch Tokens budgeted for this budget">
                     <Text mb="md">Project Budget: {Number(project.launchTokenBudget).toFixed(2)} Tokens</Text>
                   </Tooltip>
-                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated.)">
+                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated">
                     <Text mb="md">Available Budget: {Number(project.launchTokenBalance).toFixed(2)} Tokens</Text>
                   </Tooltip>
                   <Text mb="md">

@@ -255,7 +255,7 @@ export function ProjectMilestones() {
 
   const milestoneRows = sortedMilestones.map((item) => (
     <Table.Tr key={item.id}>
-      <Table.Td>
+      <Table.Td style={{ verticalAlign: 'top' }}>
         <Link 
           to={`/collaboratives/${collabId}/projects/${projectId}/milestones/${item.id}`}
           style={{ textDecoration: 'none' }}
@@ -273,22 +273,22 @@ export function ProjectMilestones() {
           </Text>
         </Link>
       </Table.Td>
-      <Table.Td>
+      <Table.Td style={{ verticalAlign: 'top' }}>
         <Text>
           {item.description}
         </Text>
       </Table.Td>
-      <Table.Td>
+      <Table.Td style={{ verticalAlign: 'top' }}>
         <Text>
           {item.assigneeName}
         </Text>
       </Table.Td>
-      <Table.Td>
+      <Table.Td style={{ verticalAlign: 'top' }}>
         <Text>
           {Number(item.allocatedLaunchTokens).toFixed(2)}
         </Text>
       </Table.Td>
-      <Table.Td>
+      <Table.Td style={{ verticalAlign: 'top' }}>
         <Badge
           color={item.approvalStatus === 'Active' ? 'green' : 
                   item.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
