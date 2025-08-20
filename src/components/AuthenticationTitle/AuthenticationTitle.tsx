@@ -112,7 +112,7 @@ export function AuthenticationTitle() {
 
           <Group justify="space-between" mt="lg">
             <Checkbox label="Remember me" />
-            <Anchor component="button" size="sm">
+            <Anchor component={Link} to="/forgot-password" size="sm">
               Forgot password?
             </Anchor>
           </Group>

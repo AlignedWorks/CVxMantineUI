@@ -14,6 +14,8 @@ import { theme } from "./theme";
 import { Home } from './pages/Home.page';
 import { AuthenticationTitle } from './components/AuthenticationTitle/AuthenticationTitle';
 import { RegistrationTile } from './components/RegistrationTile/RegistrationTile';
+import { ForgotPassword } from './pages/Auth/ForgotPassword';
+import { ResetPassword } from './pages/Auth/ResetPassword';
 
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
@@ -137,6 +139,8 @@ function MainContent({ user }: { user: any }) {
         <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
         <Route path="/login" element={<AuthenticationTitle />} />
         <Route path="/register" element={<RegistrationTile />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
         <Route path="/member-directory" element={<MemberDirectory />} />
         <Route path="/user-profile" element={<UserProfile />} />
