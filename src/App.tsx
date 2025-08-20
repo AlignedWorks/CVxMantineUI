@@ -14,8 +14,8 @@ import { theme } from "./theme";
 import { Home } from './pages/Home.page';
 import { AuthenticationTitle } from './components/AuthenticationTitle/AuthenticationTitle';
 import { RegistrationTile } from './components/RegistrationTile/RegistrationTile';
-import { ForgotPassword } from './pages/Auth/ForgotPassword';
-import { ResetPassword } from './pages/Auth/ResetPassword';
+import { ForgotPassword } from './pages/Auth/ForgotPassword.page.tsx';
+import { ResetPassword } from './pages/Auth/ResetPassword.page.tsx';
 
 import { CollaborativeDirectory } from './pages/CollaborativeDirectory.page';
 import { CreateCollaborative } from './pages/CreateCollaborative.page.tsx';
