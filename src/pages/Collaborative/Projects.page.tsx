@@ -203,7 +203,7 @@ export function CollaborativeProjects() {
         <Group justify="right">
           <Link to={`/create-project/${id}`} style={{ textDecoration: 'none' }}>
             <Button variant="default" mb="sm">
-              Add a Project
+              Propose a Project
             </Button>
           </Link>
         </Group>
@@ -211,7 +211,7 @@ export function CollaborativeProjects() {
         <Group justify="right">
           <Tooltip label="Only collaborative admins can add projects">
             <Button disabled mb="sm">
-              Add a Project
+              Propose a Project
             </Button>
           </Tooltip>
         </Group>

@@ -43,7 +43,7 @@ export function ProjectMilestones() {
   const [milestoneDescription, setMilestoneDescription] = useState('');
   const [milestoneDefinitionOfDone, setMilestoneDefinitionOfDone] = useState('');
   const [milestoneDeliverables, setMilestoneDeliverables] = useState('');
-  const [launchTokenPercentage, setLaunchTokenPercentage] = useState<number | string>('');
+  const [launchTokenAmount, setLaunchTokenAmount] = useState<number | string>('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
@@ -144,9 +144,8 @@ export function ProjectMilestones() {
     }
 
     // Validate launch token allocation
-    const tokenAmount = (Number(launchTokenPercentage) / 100) * project.launchTokenBudget;
-    if (tokenAmount > project.launchTokenBalance) {
-      setLaunchTokenError(`This allocation (${tokenAmount} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
+    if (launchTokenAmount && Number(launchTokenAmount) > project.launchTokenBalance) {
+      setLaunchTokenError(`This allocation (${Number(launchTokenAmount).toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
       return;
     }
 
@@ -161,7 +160,10 @@ export function ProjectMilestones() {
             projectId: projectId,
             name: milestoneName,
             description: milestoneDescription,
-            launchTokenPercentage: Number(launchTokenPercentage) || 0,
+            definitionOfDone: milestoneDefinitionOfDone,
+            deliverables: milestoneDeliverables,
+            launchTokenAmount: Number(launchTokenAmount) || 0,
+            startDate: startDate ? startDate.toISOString() : null,
             dueDate: dueDate ? dueDate.toISOString() : null,
             assigneeId: assigneeId,
           }),
@@ -184,7 +186,7 @@ export function ProjectMilestones() {
         // Reset form
         setMilestoneName('');
         setMilestoneDescription('');
-        setLaunchTokenPercentage('');
+        setLaunchTokenAmount('');
         setDueDate(null);
         setAssigneeId(null);
         setStartDateError(null);
@@ -236,9 +238,9 @@ export function ProjectMilestones() {
     }
   };
 
-  // Function to handle launch token percentage change with validation
+  // Function to handle launch token amount change with validation
   const handleLaunchTokenChange = (value: number | string) => {
-    setLaunchTokenPercentage(value);
+    setLaunchTokenAmount(value);
     
     // Clear error when user changes value
     if (launchTokenError) {
@@ -247,17 +249,11 @@ export function ProjectMilestones() {
     
     // Validate if value is provided
     if (value && Number(value) > 0) {
-      const tokenAmount = (Number(value) / 100) * project.launchTokenBudget;
-      if (tokenAmount > project.launchTokenBalance) {
-        setLaunchTokenError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
+      if (launchTokenAmount && Number(launchTokenAmount) > project.launchTokenBalance) {
+        setLaunchTokenError(`This allocation (${Number(launchTokenAmount).toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
       }
     }
   };
-
-  // Calculate maximum percentage allowed
-  const maxPercentage = project.launchTokenBudget > 0 
-    ? Math.floor((project.launchTokenBalance / project.launchTokenBudget) * 100)
-    : 0;
 
   // Check if form is valid
   const isFormValid = milestoneName && 
@@ -476,12 +472,12 @@ export function ProjectMilestones() {
           <NumberInput
             label="Payment Amount"
             placeholder="Enter the number of Tokens to be paid upon satisfactory completion of the Milestone"
-            value={launchTokenPercentage}
+            value={launchTokenAmount}
             onChange={handleLaunchTokenChange}
             min={0}
-            max={maxPercentage}
+            max={project.launchTokenBalance}
             error={launchTokenError}
-            description={`Available balance: ${project.launchTokenBalance} tokens (${maxPercentage}% of budget)`}
+            description={`Available balance: ${project.launchTokenBalance} tokens`}
             required
           />
 
@@ -506,7 +502,7 @@ export function ProjectMilestones() {
               value={dueDate}
               onChange={handleDueDateChange}
               error={dueDateError}
-              minDate={new Date()}
+              minDate={startDate ? startDate : new Date()}
               required
             />
           </DatesProvider>
@@ -524,6 +520,7 @@ export function ProjectMilestones() {
               variant="outline"
               onClick={() => {
                 setIsModalOpen(false);
+                setStartDateError(null);
                 setDueDateError(null);
                 setLaunchTokenError(null);
               }}
