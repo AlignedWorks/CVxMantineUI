@@ -182,7 +182,7 @@ export function CreateProject() {
       </Link>
 
       <Title order={2} mb="lg">
-        Create a Project
+        Propose a Project
       </Title>
       <form onSubmit={handleSubmit}>
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg">
@@ -254,7 +254,7 @@ export function CreateProject() {
             type="submit"
             disabled={!isFormValid}
           >
-            Create Project
+            Submit Project Proposal
           </Button>
         </Group>
       </form>

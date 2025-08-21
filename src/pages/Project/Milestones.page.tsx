@@ -34,13 +34,17 @@ export function ProjectMilestones() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]);
   const [successMessage, setSuccessMessage] = useState('');
+  const [startDateError, setStartDateError] = useState<string | null>(null);
   const [dueDateError, setDueDateError] = useState<string | null>(null);
   const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
 
   // Milestone form state
   const [milestoneName, setMilestoneName] = useState('');
   const [milestoneDescription, setMilestoneDescription] = useState('');
+  const [milestoneDefinitionOfDone, setMilestoneDefinitionOfDone] = useState('');
+  const [milestoneDeliverables, setMilestoneDeliverables] = useState('');
   const [launchTokenPercentage, setLaunchTokenPercentage] = useState<number | string>('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
 
@@ -133,6 +137,12 @@ export function ProjectMilestones() {
       return;
     }
 
+    // Validate start date is before due date
+    if (startDate && dueDate && startDate >= dueDate) {
+      setStartDateError('Start date must be before due date');
+      return;
+    }
+
     // Validate launch token allocation
     const tokenAmount = (Number(launchTokenPercentage) / 100) * project.launchTokenBudget;
     if (tokenAmount > project.launchTokenBalance) {
@@ -177,6 +187,7 @@ export function ProjectMilestones() {
         setLaunchTokenPercentage('');
         setDueDate(null);
         setAssigneeId(null);
+        setStartDateError(null);
         setDueDateError(null);
         setLaunchTokenError(null);
         
@@ -202,6 +213,26 @@ export function ProjectMilestones() {
     // Validate if date is provided and is in the past
     if (date && date <= new Date()) {
       setDueDateError('Due date must be in the future');
+    }
+
+    // Validate if date is after start date
+    if (date && startDate && date <= startDate) {
+      setDueDateError('Due date must be after start date');
+    }
+  };
+
+  // Function to handle start date change with validation
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+
+    // Clear error when user changes date
+    if (startDateError) {
+      setStartDateError(null);
+    }
+    
+    // Validate if date is provided and is in the past
+    if (date && date <= new Date()) {
+      setStartDateError('Start date must be in the future');
     }
   };
 
@@ -408,6 +439,26 @@ export function ProjectMilestones() {
             required
           />
 
+          {/* Milestone Definition of Done */}
+          <Textarea
+            label="Definition of Done"
+            placeholder="List any criteria that must be satisfied for the milestone to be accepted and paid"
+            value={milestoneDefinitionOfDone}
+            onChange={(e) => setMilestoneDefinitionOfDone(e.target.value)}
+            minRows={3}
+            required
+          />
+
+          {/* Milestone Deliverables */}
+          <Textarea
+            label="Deliverables"
+            placeholder="List any documents, artifacts, or other tangible items that must be submitted for the milestone to be accepted and paid"
+            value={milestoneDeliverables}
+            onChange={(e) => setMilestoneDeliverables(e.target.value)}
+            minRows={3}
+            required
+          />
+
           {/* Assignee Selection */}
           <Select
             label="Assignee"
@@ -433,6 +484,19 @@ export function ProjectMilestones() {
             description={`Available balance: ${project.launchTokenBalance} tokens (${maxPercentage}% of budget)`}
             required
           />
+
+          {/* Start Date */}
+          <DatesProvider settings={{ firstDayOfWeek: 0}}>
+            <DateTimePicker
+              label="Start Date & Time"
+              placeholder="Select start date and time"
+              value={startDate}
+              onChange={handleStartDateChange}
+              error={startDateError}
+              minDate={new Date()}
+              required
+            />
+          </DatesProvider>
 
           {/* Due Date */}
           <DatesProvider settings={{ firstDayOfWeek: 0}}>
