@@ -180,9 +180,6 @@ export function ProjectMilestones() {
           milestones: [...prev.milestones, newMilestone]
         } : null);
 
-        // Show success message
-        setSuccessMessage(`Milestone "${milestoneName}" has been added successfully.`);
-
         // Reset form
         setMilestoneName('');
         setMilestoneDescription('');
@@ -192,9 +189,14 @@ export function ProjectMilestones() {
         setStartDateError(null);
         setDueDateError(null);
         setLaunchTokenError(null);
+
+        // Close modal
+        setIsModalOpen(false);
         
-        // Clear success message after 3 seconds
+        // Show success message briefly on the main page
+        setSuccessMessage(`Milestone "${milestoneName}" has been added successfully.`);
         setTimeout(() => setSuccessMessage(''), 3000);
+
       } else {
         console.error("Failed to add milestone");
       }
@@ -235,6 +237,11 @@ export function ProjectMilestones() {
     // Validate if date is provided and is in the past
     if (date && date <= new Date()) {
       setStartDateError('Start date must be in the future');
+    }
+
+    // Validate if date is before due date
+    if (date && dueDate && date >= dueDate) {
+      setStartDateError('Start date must be before due date');
     }
   };
 
