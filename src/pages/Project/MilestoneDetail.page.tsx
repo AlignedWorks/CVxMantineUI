@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../AuthContext.tsx';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
   Container,
@@ -17,7 +17,7 @@ import {
   Divider,
   Paper,
   Center,
-  SimpleGrid,
+  Grid,
 } from '@mantine/core';
 import { MilestoneDetail, inviteStatusColors } from '../../data.ts';
 import { FileUpload } from '../../components/uploads/FileUpload.tsx';
@@ -176,11 +176,14 @@ export function ProjectMilestoneDetail() {
 
   return (
     <Container size="md" py="xl">
-
+      {/* Back Link */}
+      <Link to={`/collaboratives/${collabId}/projects/${projectId}/milestones`} style={{ textDecoration: 'none', color: '#0077b5' }}>
+        &larr; Back
+      </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Stack gap="lg">
           <div>
-            <Title order={1} mb="sm">{milestone.name}</Title>
+            <Title order={1} mb="lg">{milestone.name}</Title>
             <Group gap="md">
               
               {milestone.isComplete && (
@@ -191,16 +194,16 @@ export function ProjectMilestoneDetail() {
             </Group>
           </div>
 
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
-            <div>
+          <Grid>
+            <Grid.Col span={{ base: 12, sm: 12, md: 6, lg: 6 }}>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
               <Text mb="md">{milestone.description}</Text>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Definition of Done</Text>
               <Text mb="md">{milestone.definitionOfDone}</Text>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
               <Text>{milestone.deliverables}</Text>
-            </div>
-            <div>
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee</Text>
               <Text mb="md">{milestone.assigneeName || 'Not assigned'}</Text>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Start Date</Text>
@@ -217,10 +220,10 @@ export function ProjectMilestoneDetail() {
                   : 'No due date set'
                 }
               </Text>
-            </div>
-            <div>
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
-              <Text>{Number(milestone.allocatedLaunchTokens).toFixed(2)}</Text>
+              <Text mb="md">{Number(milestone.allocatedLaunchTokens).toFixed(2)}</Text>
               <Text fw={600} size="sm" c="dimmed" mb={4}>
                 Invite Status
               </Text>
@@ -242,8 +245,8 @@ export function ProjectMilestoneDetail() {
               >
                 {milestone.approvalStatus}
               </Badge>
-            </div>
-          </SimpleGrid>
+            </Grid.Col>
+          </Grid>
 
           {milestone.approvalStatus === 'Declined' && (
             <>
