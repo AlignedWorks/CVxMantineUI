@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useAuth } from '../../AuthContext.tsx';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import { DatesProvider, DateTimePicker } from '@mantine/dates';
 import {
@@ -22,12 +23,18 @@ import {
   Select,
   Badge,
   Image,
+  Divider,
+  Switch,
+  Paper,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone } from '../../data.ts';
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, MilestoneDetail, inviteStatusColors } from '../../data.ts';
+import { FileUpload } from '../../components/uploads/FileUpload.tsx';
+import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
 export function ProjectMilestones() {
   // const location = useLocation();
   const { collabId, projectId } = useParams();
+  const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataWithMilestones | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,6 +44,23 @@ export function ProjectMilestones() {
   const [startDateError, setStartDateError] = useState<string | null>(null);
   const [dueDateError, setDueDateError] = useState<string | null>(null);
   const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
+
+  // Milestone Detail Modal State
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedMilestone, setSelectedMilestone] = useState<MilestoneDetail | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [hasReadDoc, setHasReadDoc] = useState(false);
+  
+  // Completion editing state
+  const [isCompletionEditing, setIsCompletionEditing] = useState(false);
+  const [completionSummary, setCompletionSummary] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+  const [artifactUrl, setArtifactUrl] = useState<string>('');
+
+  // Approval functionality
+  const [isApprovalEditing, setIsApprovalEditing] = useState(false);
+  const [approvalAction, setApprovalAction] = useState<'approve' | 'decline' | null>(null);
+  const [feedback, setFeedback] = useState('');
 
   // Milestone form state
   const [milestoneName, setMilestoneName] = useState('');
@@ -83,6 +107,145 @@ export function ProjectMilestones() {
         setLoading(false);
       });
   }, [projectId]);
+
+  // New function to fetch milestone details
+  const fetchMilestoneDetails = async (milestoneId: number) => {
+    setDetailLoading(true);
+    try {
+      const response = await fetch(
+        new URL(`milestones/${milestoneId}`, import.meta.env.VITE_API_BASE),
+        {
+          method: "GET",
+          credentials: "include",
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      if (response.ok) {
+        const milestoneDetails: MilestoneDetail = await response.json();
+        setSelectedMilestone(milestoneDetails);
+        setCompletionSummary(milestoneDetails.completionSummary || '');
+        setIsComplete(milestoneDetails.isComplete || false);
+        setArtifactUrl(milestoneDetails.artifactUrl || '');
+      }
+    } catch (error) {
+      console.error("Error fetching milestone:", error);
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
+  // Handle milestone row click
+  const handleMilestoneClick = (milestoneId: number) => {
+    fetchMilestoneDetails(milestoneId);
+    setIsDetailModalOpen(true);
+  };
+
+  // Handle closing detail modal
+  const handleCloseDetailModal = () => {
+    setIsDetailModalOpen(false);
+    setSelectedMilestone(null);
+    setIsCompletionEditing(false);
+    setIsApprovalEditing(false);
+    setApprovalAction(null);
+    setFeedback('');
+    setHasReadDoc(false);
+  };
+
+  // Handle agreement complete
+  const handleAgreementComplete = () => {
+    setHasReadDoc(true);
+  };
+
+  // Handle update completion
+  const handleUpdateCompletion = async () => {
+    if (!selectedMilestone) return;
+
+    try {
+      const response = await fetch(
+        new URL(`milestones/${selectedMilestone.id}`, import.meta.env.VITE_API_BASE),
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            isComplete,
+            completionSummary,
+            artifactUrl,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedMilestone: MilestoneDetail = await response.json();
+        setSelectedMilestone(updatedMilestone);
+        setIsCompletionEditing(false);
+        setSuccessMessage("Completion status updated successfully.");
+        setTimeout(() => setSuccessMessage(''), 3000);
+
+        console.log(hasReadDoc);
+        
+        // Update the project milestones list
+        setProject(prev => prev ? {
+          ...prev,
+          milestones: prev.milestones.map(m => 
+            m.id === updatedMilestone.id 
+              ? { ...m, approvalStatus: updatedMilestone.approvalStatus }
+              : m
+          )
+        } : null);
+      }
+    } catch (error) {
+      console.error("Error updating completion:", error);
+    }
+  };
+
+  // Handle approval action
+  const handleApprovalAction = async () => {
+    if (!selectedMilestone || !approvalAction) return;
+
+    try {
+      const response = await fetch(
+        new URL(`milestones/${selectedMilestone.id}`, import.meta.env.VITE_API_BASE),
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            approvalStatus: approvalAction,
+            feedback: approvalAction === 'decline' ? feedback : undefined,
+            isComplete: selectedMilestone.isComplete,
+            completionSummary: selectedMilestone.completionSummary,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedMilestone: MilestoneDetail = await response.json();
+        setSelectedMilestone(updatedMilestone);
+        setIsApprovalEditing(false);
+        setApprovalAction(null);
+        setFeedback('');
+        setSuccessMessage(`Milestone ${approvalAction === 'approve' ? 'approved' : 'declined'} successfully.`);
+        if (updatedMilestone.approvalStatus === 'Declined') {
+          setIsComplete(false);
+        }
+        setTimeout(() => setSuccessMessage(''), 3000);
+
+        // Update the project milestones list
+        setProject(prev => prev ? {
+          ...prev,
+          milestones: prev.milestones.map(m => 
+            m.id === updatedMilestone.id 
+              ? { ...m, approvalStatus: updatedMilestone.approvalStatus }
+              : m
+          )
+        } : null);
+      }
+    } catch (error) {
+      console.error("Error updating approval:", error);
+    }
+  };
 
   if (loading) {
     return (
@@ -290,10 +453,6 @@ export function ProjectMilestones() {
   const milestoneRows = sortedMilestones.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td style={{ verticalAlign: 'top' }}>
-        <Link 
-          to={`/collaboratives/${collabId}/projects/${projectId}/milestones/${item.id}`}
-          style={{ textDecoration: 'none' }}
-        >
           <Text 
             fz="sm" 
             fw={500} 
@@ -302,10 +461,10 @@ export function ProjectMilestones() {
               cursor: 'pointer',
               textDecoration: 'none'
             }}
+            onClick={() => handleMilestoneClick(item.id)}
           >
             {item.name}
           </Text>
-        </Link>
       </Table.Td>
       <Table.Td style={{ verticalAlign: 'top' }}>
         <Text>
@@ -333,6 +492,10 @@ export function ProjectMilestones() {
       </Table.Td>
     </Table.Tr>
   ));
+
+  // Check permissions for the selected milestone
+  const isProjectAdmin = selectedMilestone?.projectAdmins?.some(admin => admin.adminId === user?.userId);
+  const isAssigneeAndAccepted = selectedMilestone?.assigneeId === user?.userId && selectedMilestone?.inviteStatus === 'Accepted';
 
   return (
     <Container size="md" py="xl">
@@ -543,6 +706,256 @@ export function ProjectMilestones() {
             </Button>
           </Group>
         </Stack>
+      </Modal>
+
+      {/* Milestone Detail Modal */}
+      <Modal
+        opened={isDetailModalOpen}
+        onClose={handleCloseDetailModal}
+        title={selectedMilestone?.name || "Milestone Details"}
+        size="xl"
+      >
+        {detailLoading ? (
+          <Center p="xl">
+            <Loader size="lg" />
+          </Center>
+        ) : selectedMilestone ? (
+          <Stack gap="lg">
+            <div>
+              <Group gap="md" mb="md">
+                <Badge
+                  color={selectedMilestone.approvalStatus === 'Active' ? 'green' : 
+                          selectedMilestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                  variant="light"
+                >
+                  {selectedMilestone.approvalStatus}
+                </Badge>
+                {selectedMilestone.isComplete && (
+                  <Badge color="green" variant="filled">
+                    Completed
+                  </Badge>
+                )}
+              </Group>
+            </div>
+
+            <Grid>
+              <Grid.Col span={{ base: 12, sm: 12, md: 6, lg: 6 }}>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
+                <Text mb="lg">{selectedMilestone.description}</Text>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Definition of Done</Text>
+                <Text mb="lg">{selectedMilestone.definitionOfDone}</Text>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
+                <Text>{selectedMilestone.deliverables}</Text>
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee</Text>
+                <Text mb="lg">{selectedMilestone.assigneeName || 'Not assigned'}</Text>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Start Date</Text>
+                <Text mb="lg">
+                  {selectedMilestone.startDate 
+                    ? new Date(selectedMilestone.startDate).toLocaleDateString()
+                    : 'No start date set'
+                  }
+                </Text>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Due Date</Text>
+                <Text>
+                  {selectedMilestone.dueDate 
+                    ? new Date(selectedMilestone.dueDate).toLocaleDateString()
+                    : 'No due date set'
+                  }
+                </Text>
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
+                <Text mb="lg">{Number(selectedMilestone.allocatedLaunchTokens).toFixed(2)}</Text>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Invite Status</Text>
+                <Badge
+                  color={inviteStatusColors[selectedMilestone.inviteStatus] || 'gray'}
+                  variant="light"
+                  mb="lg"
+                >
+                  {selectedMilestone.inviteStatus}
+                </Badge>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Approval Status</Text>
+                <Badge
+                  color={selectedMilestone.approvalStatus === 'Active' ? 'green' : 
+                          selectedMilestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                  variant="light"
+                >
+                  {selectedMilestone.approvalStatus}
+                </Badge>
+              </Grid.Col>
+            </Grid>
+
+            {selectedMilestone.approvalStatus === 'Declined' && (
+              <>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Feedback</Text>
+                <Text c="red">{selectedMilestone.feedback}</Text>
+              </>
+            )}
+
+            {/* Completion Section - Only for assignees */}
+            {isAssigneeAndAccepted && selectedMilestone.approvalStatus !== 'Archived' && (
+              <>
+                <Divider />
+                <div>
+                  <Title order={4} mb="md">Completion Management</Title>
+                  
+                  {successMessage && (
+                    <Text c="green" size="sm" mb="md">{successMessage}</Text>
+                  )}
+
+                  {isCompletionEditing ? (
+                    <Stack gap="md">
+                      <Switch
+                        label="Mark as completed"
+                        checked={isComplete}
+                        onChange={(event) => setIsComplete(event.currentTarget.checked)}
+                      />
+                      <Textarea
+                        label="Completion Summary"
+                        placeholder="Describe what was accomplished..."
+                        value={completionSummary}
+                        onChange={(e) => setCompletionSummary(e.target.value)}
+                        minRows={4}
+                      />
+
+                      <div>
+                        <FileUpload
+                          onSuccess={(url) => {
+                            setArtifactUrl(url);
+                            setSuccessMessage("Artifact uploaded successfully.");
+                            setTimeout(() => setSuccessMessage(''), 3000);
+                          }}
+                        />
+                      </div>
+
+                      {selectedMilestone?.artifactUrl && (
+                        <Paper withBorder style={{ overflow: 'hidden', maxWidth: '100%' }}>
+                          <CSADocumentViewer 
+                            documentUrl={selectedMilestone.artifactUrl}
+                            allPagesRead={handleAgreementComplete}
+                          />
+                        </Paper>
+                      )}
+
+                      <Group gap="sm">
+                        <Button onClick={handleUpdateCompletion}>Save Changes</Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => {
+                            setIsCompletionEditing(false);
+                            setCompletionSummary(selectedMilestone.completionSummary || '');
+                            setIsComplete(selectedMilestone.isComplete || false);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </Group>
+                    </Stack>
+                  ) : (
+                    <Stack gap="md">
+                      <Text fw={600} size="sm">
+                        Status: {selectedMilestone.isComplete ? 'Completed' : 'In Progress'}
+                      </Text>
+                      {selectedMilestone.completionSummary && (
+                        <div>
+                          <Text fw={600} size="sm" c="dimmed" mb={4}>Completion Summary</Text>
+                          <Text>{selectedMilestone.completionSummary}</Text>
+                        </div>
+                      )}
+                      <Button
+                        variant="light"
+                        onClick={() => setIsCompletionEditing(true)}
+                      >
+                        Update Completion
+                      </Button>
+                    </Stack>
+                  )}
+                </div>
+              </>
+            )}
+
+            {/* Approval Section - Only for project admins when milestone is complete */}
+            {isProjectAdmin && selectedMilestone.isComplete && selectedMilestone.approvalStatus !== 'Archived' && (
+              <>
+                <Divider />
+                <div>
+                  <Title order={4} mb="md">Milestone Approval</Title>
+                  
+                  {successMessage && (
+                    <Text c="green" size="sm" mb="md">{successMessage}</Text>
+                  )}
+
+                  {isApprovalEditing ? (
+                    <Stack gap="md">
+                      <Group gap="md">
+                        <Button
+                          variant={approvalAction === 'approve' ? 'filled' : 'outline'}
+                          color="green"
+                          onClick={() => setApprovalAction('approve')}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          variant={approvalAction === 'decline' ? 'filled' : 'outline'}
+                          color="red"
+                          onClick={() => setApprovalAction('decline')}
+                        >
+                          Decline
+                        </Button>
+                      </Group>
+                      
+                      {approvalAction === 'decline' && (
+                        <Textarea
+                          label="Feedback (Required for decline)"
+                          placeholder="Please explain why this milestone is being declined..."
+                          value={feedback}
+                          onChange={(e) => setFeedback(e.target.value)}
+                          minRows={3}
+                          required
+                        />
+                      )}
+                      
+                      <Group gap="sm">
+                        <Button
+                          onClick={handleApprovalAction}
+                          disabled={!approvalAction || (approvalAction === 'decline' && !feedback.trim())}
+                        >
+                          Submit {approvalAction === 'approve' ? 'Approval' : 'Decline'}
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => {
+                            setIsApprovalEditing(false);
+                            setApprovalAction(null);
+                            setFeedback('');
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </Group>
+                    </Stack>
+                  ) : (
+                    <Stack gap="md">
+                      <Text size="sm" c="dimmed">
+                        This milestone has been marked complete and is awaiting approval.
+                      </Text>
+                      <Button
+                        variant="light"
+                        onClick={() => setIsApprovalEditing(true)}
+                      >
+                        Review & Approve
+                      </Button>
+                    </Stack>
+                  )}
+                </div>
+              </>
+            )}
+          </Stack>
+        ) : (
+          <Text c="red">Milestone not found.</Text>
+        )}
       </Modal>
     </Container>
   );
