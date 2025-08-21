@@ -213,6 +213,8 @@ export interface MilestoneDetail {
   id: number;
   name: string;
   description: string;
+  definitionOfDone: string;
+  deliverables: string;
   assigneeId: string;
   assigneeName: string;
   inviteStatus: string;
@@ -221,6 +223,7 @@ export interface MilestoneDetail {
   isComplete: boolean;
   completionSummary: string;
   artifactUrl: string;
+  startDate: string;
   dueDate: string;
   projectName: string;
   projectAdmins: { adminId: string; adminName: string }[];

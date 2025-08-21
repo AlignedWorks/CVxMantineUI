@@ -497,6 +497,7 @@ export function ProjectMilestones() {
               onChange={handleStartDateChange}
               error={startDateError}
               minDate={new Date()}
+              maxDate={dueDate ? dueDate : new Date()}
               required
             />
           </DatesProvider>

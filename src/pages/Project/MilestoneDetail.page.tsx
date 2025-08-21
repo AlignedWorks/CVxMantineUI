@@ -17,6 +17,7 @@ import {
   Divider,
   Paper,
   Center,
+  SimpleGrid,
 } from '@mantine/core';
 import { MilestoneDetail, inviteStatusColors } from '../../data.ts';
 import { FileUpload } from '../../components/uploads/FileUpload.tsx';
@@ -189,43 +190,26 @@ export function ProjectMilestoneDetail() {
               )}
             </Group>
           </div>
-          
-          <Group grow>
-            <div>
-            <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
-            <Text>{milestone.description}</Text>
-          </div>
-            <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Invite Status
-              </Text>
-              <Badge
-                  color={inviteStatusColors[milestone.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
-                  variant="light">
-                  {milestone.inviteStatus}
-              </Badge>
-            </div>
-             <div>
-              <Text fw={600} size="sm" c="dimmed" mb={4}>
-                Approval Status
-              </Text>
-              <Badge
-                color={milestone.approvalStatus === 'Active' ? 'green' : 
-                        milestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
-                variant="light"
-              >
-                {milestone.approvalStatus}
-              </Badge>
-             </div>
-          </Group>
-          
 
-          <Group grow>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
+            <div>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
+              <Text mb="md">{milestone.description}</Text>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>Definition of Done</Text>
+              <Text mb="md">{milestone.definitionOfDone}</Text>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
+              <Text>{milestone.deliverables}</Text>
+            </div>
             <div>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee</Text>
-              <Text>{milestone.assigneeName || 'Not assigned'}</Text>
-            </div>
-            <div>
+              <Text mb="md">{milestone.assigneeName || 'Not assigned'}</Text>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>Start Date</Text>
+              <Text mb="md">
+                {milestone.startDate 
+                  ? new Date(milestone.startDate).toLocaleDateString()
+                  : 'No start date set'
+                }
+              </Text>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Due Date</Text>
               <Text>
                 {milestone.dueDate 
@@ -237,8 +221,29 @@ export function ProjectMilestoneDetail() {
             <div>
               <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
               <Text>{Number(milestone.allocatedLaunchTokens).toFixed(2)}</Text>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Invite Status
+              </Text>
+              <Badge
+                  color={inviteStatusColors[milestone.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
+                  variant="light"
+                  mb="md"
+              >
+                  {milestone.inviteStatus}
+              </Badge>
+              <Text fw={600} size="sm" c="dimmed" mb={4}>
+                Approval Status
+              </Text>
+              <Badge
+                color={milestone.approvalStatus === 'Active' ? 'green' : 
+                        milestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                variant="light"
+                mb="md"
+              >
+                {milestone.approvalStatus}
+              </Badge>
             </div>
-          </Group>
+          </SimpleGrid>
 
           {milestone.approvalStatus === 'Declined' && (
             <>
