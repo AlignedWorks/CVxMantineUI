@@ -220,6 +220,7 @@ export interface MilestoneDetail {
   inviteStatus: string;
   approvalStatus: string;
   allocatedLaunchTokens: number;
+  cashEquivalent: number;
   isComplete: boolean;
   completionSummary: string;
   artifactUrl: string;

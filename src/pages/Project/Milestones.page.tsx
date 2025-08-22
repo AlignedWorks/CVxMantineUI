@@ -742,14 +742,18 @@ export function ProjectMilestones() {
               <Grid.Col span={{ base: 12, sm: 12, md: 6, lg: 6 }}>
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
                 <Text mb="lg">{selectedMilestone.description}</Text>
+
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Definition of Done</Text>
                 <Text mb="lg">{selectedMilestone.definitionOfDone}</Text>
+
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
                 <Text>{selectedMilestone.deliverables}</Text>
               </Grid.Col>
+
               <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee</Text>
                 <Text mb="lg">{selectedMilestone.assigneeName || 'Not assigned'}</Text>
+
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Start Date</Text>
                 <Text mb="lg">
                   {selectedMilestone.startDate 
@@ -757,6 +761,7 @@ export function ProjectMilestones() {
                     : 'No start date set'
                   }
                 </Text>
+
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Due Date</Text>
                 <Text>
                   {selectedMilestone.dueDate 
@@ -765,9 +770,19 @@ export function ProjectMilestones() {
                   }
                 </Text>
               </Grid.Col>
+              
               <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
                 <Text mb="lg">{Number(selectedMilestone.allocatedLaunchTokens).toFixed(2)}</Text>
+
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
+
+                {selectedMilestone.cashEquivalent > 0 ? (
+                  <Text mb="lg">${(selectedMilestone.cashEquivalent).toFixed(2)}</Text>
+                ) : (
+                  <Text mb="lg">N/A</Text>
+                )}
+
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Invite Status</Text>
                 <Badge
                   color={inviteStatusColors[selectedMilestone.inviteStatus] || 'gray'}
@@ -776,6 +791,7 @@ export function ProjectMilestones() {
                 >
                   {selectedMilestone.inviteStatus}
                 </Badge>
+
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Approval Status</Text>
                 <Badge
                   color={selectedMilestone.approvalStatus === 'Active' ? 'green' : 
