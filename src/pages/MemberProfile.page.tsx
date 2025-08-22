@@ -11,7 +11,6 @@ import {
   Grid,
   SimpleGrid,
   Stack,
-  Center,
 } from '@mantine/core';
 import {
   IconAt,
