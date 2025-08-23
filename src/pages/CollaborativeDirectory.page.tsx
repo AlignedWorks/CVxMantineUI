@@ -72,19 +72,20 @@ export function CollaborativeDirectory() {
       <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
         {filteredData.map((collaborative) => (
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
-            <Stack align="center" gap="0" style={{ height: '100%' }}>
+            <Stack align="center" gap="sm" style={{ height: '100%' }}>
                 <Image
                   radius="sm"
                   h="90"
                   w="auto"
+                  fit="contain"
                   src={collaborative.logoUrl}
                   alt="Collaborative Logo"
                 />
-                <Text ta="center" fz="lg" fw={500} mt="md">
+                <Text ta="center" fz="lg" fw={500}>
                     {collaborative.name}
                 </Text>
                 <Tooltip label={collaborative.description || 'No description available'} multiline w={300} color="gray">
-                  <Text lineClamp={3} ta="center" c="dimmed" size="sm" mb="lg">
+                  <Text lineClamp={3} ta="center" c="dimmed" size="sm">
                       {collaborative.description}
                   </Text>
                 </Tooltip>
@@ -95,8 +96,6 @@ export function CollaborativeDirectory() {
                 style={{
                   textDecoration: 'none',
                   color: 'inherit',
-                  display: 'flex',
-                  flexDirection: 'column',
                   marginTop: 'auto',
                 }}>
                 <Button variant="outline" size="sm">View Collaborative</Button>

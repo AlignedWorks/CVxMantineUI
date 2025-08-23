@@ -156,7 +156,7 @@ export function CreateProject() {
           const data = await response.json();
           console.log(data.message);
           
-          navigate(`/project/${data.projectId}`);
+          navigate(`/collaboratives/${collabId}/projects`);
         } else {
           const errorData = await response.json();
           const errorMessage = errorData.message;
