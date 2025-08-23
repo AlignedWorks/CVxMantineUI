@@ -158,8 +158,10 @@ export function CreateProject() {
           
           navigate(`/project/${data.projectId}`);
         } else {
-          console.error('Failed to create project:', response.statusText);
-          alert('Failed to create project. Please try again.');
+          const errorData = await response.json();
+          const errorMessage = errorData.message;
+          console.error('Failed to create project:', errorMessage);
+          alert(errorMessage || 'Failed to create project. Please try again.');
         }
       } catch (error) {
         console.error('Error submitting form:', error);
