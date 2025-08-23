@@ -73,14 +73,7 @@ export function CollaborativeDirectory() {
         {filteredData.map((collaborative) => (
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
             <Stack align="center" gap="sm" style={{ height: '100%' }}>
-                <Image
-                  radius="sm"
-                  h="90"
-                  w="auto"
-                  fit="contain"
-                  src={collaborative.logoUrl}
-                  alt="Collaborative Logo"
-                />
+                <img src={collaborative.logoUrl} alt="Collaborative Logo" width={90} />
                 <Text ta="center" fz="lg" fw={500}>
                     {collaborative.name}
                 </Text>

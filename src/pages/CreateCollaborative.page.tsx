@@ -189,9 +189,12 @@ export function CreateCollaborative() {
           console.log(data.message); // Log the message from the backend
 
           navigate('/');
+          
         } else {
-          console.error('Failed to create collaborative:', response.statusText);
-          alert('Failed to create collaborative. Please try again.');
+          const errorData = await response.json();
+          const errorMessage = errorData.message;
+          console.error('Failed to create collaborative:', errorMessage);
+          alert(errorMessage || 'Failed to create collaborative. Please try again.');
         }
       } catch (error) {
         console.error('Error submitting form:', error);

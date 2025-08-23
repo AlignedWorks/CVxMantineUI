@@ -536,15 +536,17 @@ export function Test() {
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
                 {mock_collab_data.map((collaborative) => (
                     <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
-                        <Stack align="center" gap="0" style={{ height: '100%' }}>
+                        <Stack align="center" gap="sm" style={{ height: '100%' }}>
                             <Image
                                 radius="sm"
-                                h="90"
+                                h={90}
                                 w="auto"
+                                fit="contain"
                                 src={collaborative.logoUrl}
                                 alt="Collaborative Logo"
                             />
-
+                            <img src={collaborative.logoUrl} alt="Collaborative Logo" width={90} />
+                            
                             <Text ta="center" fz="lg" fw={500} mt="md">
                                 {collaborative.name}
                             </Text>

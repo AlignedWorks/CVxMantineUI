@@ -121,6 +121,7 @@ export function CreateProject() {
 
     if (!formValues.name) newErrors.name = 'Project name is required.';
     if (!formValues.description) newErrors.description = 'Description is required.';
+    if (!formValues.projectAdminId) newErrors.projectAdminId = 'Project Admin is required.';
     if (formValues.launchTokenBudget <= 0) newErrors.launchTokenBudget = 'Launch token budget must be greater than 0.';
     if (formValues.projectAdminCompensation < 0 || formValues.projectAdminCompensation > 100) {
       newErrors.projectAdminCompensation = 'Admin compensation must be between 0 and 100.';
@@ -173,6 +174,7 @@ export function CreateProject() {
   // Check if form is valid
   const isFormValid = formValues.name && 
                      formValues.description && 
+                     formValues.projectAdminId &&
                      formValues.launchTokenBudget > 0 &&
                      formValues.projectAdminCompensation >= 0 &&
                      formValues.projectAdminCompensation <= 100 &&
