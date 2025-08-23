@@ -770,7 +770,7 @@ export function ProjectMilestones() {
                   }
                 </Text>
               </Grid.Col>
-              
+
               <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
                 <Text mb="lg">{Number(selectedMilestone.allocatedLaunchTokens).toFixed(2)}</Text>
@@ -783,7 +783,7 @@ export function ProjectMilestones() {
                   <Text mb="lg">N/A</Text>
                 )}
 
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Invite Status</Text>
+                <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee Status</Text>
                 <Badge
                   color={inviteStatusColors[selectedMilestone.inviteStatus] || 'gray'}
                   variant="light"
@@ -792,14 +792,6 @@ export function ProjectMilestones() {
                   {selectedMilestone.inviteStatus}
                 </Badge>
 
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Approval Status</Text>
-                <Badge
-                  color={selectedMilestone.approvalStatus === 'Active' ? 'green' : 
-                          selectedMilestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
-                  variant="light"
-                >
-                  {selectedMilestone.approvalStatus}
-                </Badge>
               </Grid.Col>
             </Grid>
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext.tsx';
 import { ImageField } from '../ImageField.tsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Container,
   Title,
@@ -21,6 +21,7 @@ import {
 } from '../data.ts';
 
 export function CreateCollaborative() {
+    const navigate = useNavigate();
     const [skills, setSkills] = useState<{ id: number; value: string }[]>([]); // State for skills
     const [experience, setExperience] = useState<{ id: number; value: string }[]>([]); // State for experience
     const { user } = useAuth();
@@ -186,7 +187,8 @@ export function CreateCollaborative() {
         if (response.ok) {
           const data = await response.json(); // Parse the JSON response
           console.log(data.message); // Log the message from the backend
-          alert(data.message); // Optionally display the message to the user
+
+          navigate('/');
         } else {
           console.error('Failed to create collaborative:', response.statusText);
           alert('Failed to create collaborative. Please try again.');

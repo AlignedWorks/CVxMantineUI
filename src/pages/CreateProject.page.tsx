@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Container, TextInput, NumberInput, Select, Textarea, Button, Group, Title, SimpleGrid } from '@mantine/core';
 import { Project, CollaborativeDataWithMembers } from '../data';
 
@@ -10,6 +10,7 @@ interface TokenDistribution {
 }
 
 export function CreateProject() {
+  const navigate = useNavigate();
   const { collabId } = useParams<{ collabId: string }>();
   const [collaborative, setCollaborative] = useState<CollaborativeDataWithMembers | null>(null);
   const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution | null>(null);
@@ -154,7 +155,8 @@ export function CreateProject() {
         if (response.ok) {
           const data = await response.json();
           console.log(data.message);
-          alert(data.message);
+          
+          navigate(`/project/${data.projectId}`);
         } else {
           console.error('Failed to create project:', response.statusText);
           alert('Failed to create project. Please try again.');

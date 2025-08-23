@@ -439,10 +439,11 @@ export function Test() {
                     <Grid.Col span={2}>
                         <Center>
                             <Image
+                                radius="md"
                                 w="80"
                                 src={testCollab.logoUrl}
                                 mt="xs"
-                                />
+                            />
                         </Center>
 
                     </Grid.Col>
@@ -511,6 +512,11 @@ export function Test() {
 
             <Card shadow="sm" padding="lg" radius="md" withBorder mt="lg" mb="lg">
                 <Group justify="space-between">
+                    <Image
+                        radius="md"
+                        w="60"
+                        src={testCollab.logoUrl}
+                    />
                     <img src={testCollab.logoUrl} alt="Collaborative Logo" width={60} />
                     <Text>
                         You've been invited to join the collaborative<br/><span color="blue"><strong>{testCollab.name}</strong></span> as a <strong>Collaborative Leader</strong>.
@@ -531,7 +537,14 @@ export function Test() {
                 {mock_collab_data.map((collaborative) => (
                     <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
                         <Stack align="center" gap="0" style={{ height: '100%' }}>
-                            <img src={collaborative.logoUrl} alt="Collaborative Logo" height={90}/>
+                            <Image
+                                radius="sm"
+                                h="90"
+                                w="auto"
+                                src={collaborative.logoUrl}
+                                alt="Collaborative Logo"
+                            />
+
                             <Text ta="center" fz="lg" fw={500} mt="md">
                                 {collaborative.name}
                             </Text>

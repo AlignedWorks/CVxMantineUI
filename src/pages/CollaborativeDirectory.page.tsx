@@ -10,6 +10,7 @@ import {
   TextInput,
   Stack,
   Tooltip,
+  Image,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { CollabDataCompact } from '../data.ts';
@@ -72,8 +73,13 @@ export function CollaborativeDirectory() {
         {filteredData.map((collaborative) => (
           <Card key={collaborative.id} shadow="sm" padding="lg" radius="md" withBorder>
             <Stack align="center" gap="0" style={{ height: '100%' }}>
-
-                <img src={collaborative.logoUrl} alt="Collaborative Logo" height={90} />
+                <Image
+                  radius="sm"
+                  h="90"
+                  w="auto"
+                  src={collaborative.logoUrl}
+                  alt="Collaborative Logo"
+                />
                 <Text ta="center" fz="lg" fw={500} mt="md">
                     {collaborative.name}
                 </Text>
