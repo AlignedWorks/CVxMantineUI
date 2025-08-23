@@ -136,7 +136,7 @@ export function RegistrationTile() {
   };
 
   return (
-    <Container size={420} my={40}>
+    <Container size="lg" my={40}>
       <Title ta="center" className={classes.title}>
         Join the network
       </Title>

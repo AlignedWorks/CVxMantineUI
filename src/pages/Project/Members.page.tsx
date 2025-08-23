@@ -329,7 +329,7 @@ export function ProjectMembers() {
               : "All Collaborative members are already part of this project"
           }>  
             <Button disabled mb="sm">
-              Add Member
+              Invite Members
             </Button>
           </Tooltip>
         </Group>
@@ -338,7 +338,7 @@ export function ProjectMembers() {
     <Modal
       opened={isModalOpen}
       onClose={() => setIsModalOpen(false)}
-      title="Add Members"
+      title="Invite Members"
       size="lg"
       >
       {loadingUsers ? (
@@ -393,7 +393,7 @@ export function ProjectMembers() {
                 />
               )}
 
-              <Group gap="lg">
+              <Group justify="flex-end" gap="md">
               {/* Submit Button */}
                 <Button
                     variant="outline"
@@ -408,7 +408,7 @@ export function ProjectMembers() {
                     variant="default"
                     onClick={() => setIsModalOpen(false)}
                 >
-                    Done
+                    Cancel
                 </Button>
               </Group>
 

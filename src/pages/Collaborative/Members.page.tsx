@@ -390,7 +390,7 @@ export function CollaborativeMembers() {
                   mb="lg"
               />
 
-              <Group gap="lg">
+              <Group gap="md" justify="flex-end">
               {/* Submit Button */}
                 <Button
                     variant="outline"

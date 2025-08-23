@@ -688,6 +688,13 @@ export function ProjectMilestones() {
           {/* Action Buttons */}
           <Group justify="flex-end" gap="md">
             <Button
+              onClick={handleAddMilestone}
+              disabled={!isFormValid}
+            >
+              Add Milestone
+            </Button>
+
+            <Button
               variant="outline"
               onClick={() => {
                 setIsModalOpen(false);
@@ -697,12 +704,6 @@ export function ProjectMilestones() {
               }}
             >
               Cancel
-            </Button>
-            <Button
-              onClick={handleAddMilestone}
-              disabled={!isFormValid}
-            >
-              Add Milestone
             </Button>
           </Group>
         </Stack>
