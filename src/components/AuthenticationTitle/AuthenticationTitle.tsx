@@ -82,7 +82,7 @@ export function AuthenticationTitle() {
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Do not have an account yet?{' '}
         <Link to="/register">
-          Join the network
+          Join the Network
         </Link>
       </Text>
 

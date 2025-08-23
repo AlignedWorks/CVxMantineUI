@@ -7,7 +7,6 @@ import {
   TextInput,
   PasswordInput,
   Button,
-  Stack,
   Text,
   Card,
   Group,
@@ -16,6 +15,7 @@ import {
   Progress,
   Textarea,
   Select,
+  SimpleGrid,
 } from '@mantine/core';
 import { us_states } from '../data';
 
@@ -167,13 +167,15 @@ export function Invite() {
           </Text>
         ) : (
           <form onSubmit={handleSubmit}>
-            <Stack>
+            <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="xl">
+              <div>
               <TextInput
                 label="First Name"
                 placeholder="Enter your first name"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.currentTarget.value)}
                 required
+                mt="sm"
               />
               <TextInput
                 label="Last Name"
@@ -181,6 +183,7 @@ export function Invite() {
                 value={formData.lastName}
                 onChange={(e) => handleInputChange('lastName', e.currentTarget.value)}
                 required
+                mt="md"
               />
               <Popover opened={popoverOpened} position="bottom" width="target" transitionProps={{ transition: 'pop' }}>
                 <Popover.Target>
@@ -210,7 +213,10 @@ export function Invite() {
                 value={formData.confirmPassword}
                 onChange={(e) => handleInputChange('confirmPassword', e.currentTarget.value)}
                 required
+                mt="md"
               />
+              </div>
+              <div>
               <Textarea
                 label="Bio"
                 placeholder="Tell us about yourself"
@@ -218,12 +224,14 @@ export function Invite() {
                 onChange={(event) => handleInputChange('bio', event.currentTarget.value)}
                 autosize
                 minRows={3}
+                mt="sm"
               />
               <TextInput
                 label="City"
                 placeholder="Your city"
                 value={formData.city}
                 onChange={(event) => handleInputChange('city', event.currentTarget.value)}
+                mt="md"
               />
               <Select
                 label="State"
@@ -231,6 +239,7 @@ export function Invite() {
                 value={formData.state}
                 searchable
                 onChange={(value) => handleInputChange('state', value ?? '')}
+                mt="md"
               />
               <TextInput
                 label="Phone Number"
@@ -241,19 +250,22 @@ export function Invite() {
                   handleInputChange('phoneNumber', formatted);
                 }}
                 maxLength={14}
+                mt="md"
               />
               <TextInput
                 label="LinkedIn Profile"
                 placeholder="https://linkedin.com/in/yourprofile"
                 value={formData.linkedIn}
                 onChange={(event) => handleInputChange('linkedIn', event.currentTarget.value)}
+                mt="md"
               />
-              <Group justify="right">
-                <Button type="submit" variant="default">
+              <Group mt="xl" justify="right">
+                <Button type="submit" variant="outline">
                   Complete Invitation
                 </Button>
               </Group>
-            </Stack>
+              </div>
+            </SimpleGrid>
           </form>
         )}
       </Card>

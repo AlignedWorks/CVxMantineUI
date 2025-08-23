@@ -12,6 +12,7 @@ import {
   Progress,
   Select,
   SimpleGrid,
+  Group,
 } from '@mantine/core';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -136,9 +137,9 @@ export function RegistrationTile() {
   };
 
   return (
-    <Container size="lg" my={40}>
+    <Container size="sm" my={40}>
       <Title ta="center" className={classes.title}>
-        Join the network
+        Join the Network
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already have an account?{' '}
@@ -149,13 +150,12 @@ export function RegistrationTile() {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={handleSubmit}>
-          <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="md">
+          <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="xl">
             <div>
               <TextInput
                 label="Email"
                 placeholder="Your email address"
                 required
-                mt="md"
                 value={formData.email}
                 onChange={(event) => handleInputChange('email', event.currentTarget.value)}
               />
@@ -215,11 +215,10 @@ export function RegistrationTile() {
               <Textarea
                 label="Bio"
                 placeholder="Tell us about yourself"
-                mt="md"
                 value={formData.bio}
                 onChange={(event) => handleInputChange('bio', event.currentTarget.value)}
                 autosize
-                minRows={3}
+                minRows={4}
               />
               <TextInput
                 label="City"
@@ -263,9 +262,9 @@ export function RegistrationTile() {
             </Text>
           )}
 
-          <Button fullWidth mt="xl" type="submit"> 
-            Sign up
-          </Button>
+          <Group mt="xl" justify="flex-end">
+            <Button type="submit" variant="outline">Sign up</Button>
+          </Group>
         </form>
       </Paper>
     </Container>
