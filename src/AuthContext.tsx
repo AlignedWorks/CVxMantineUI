@@ -61,8 +61,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           console.warn('Server logout failed', e);
         }
 
-        console.log('Session timed out, logging out');
-
         // Clear client state and redirect (replace so back doesn't return)
         logout();
         window.location.replace('/login');
