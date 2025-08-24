@@ -37,7 +37,7 @@ export function AuthenticationTitle() {
     const queryParam = remember ? 'useCookies=true' : 'useSessionCookies=true';
     const response = await fetch(
       new URL(`login?${queryParam}`, import.meta.env.VITE_API_BASE),
-     {
+    {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,6 +45,8 @@ export function AuthenticationTitle() {
       credentials: 'include',
       body: JSON.stringify(loginRequest),
     });
+
+    const data = await response.json();
 
     if (response.ok) {
       // Fetch user profile after login
@@ -71,7 +73,7 @@ export function AuthenticationTitle() {
         setError('Failed to fetch user profile');
       }
     } else {
-      setError('Invalid email or password');
+      setError(data.message || 'Login failed');
     }
   };
 
