@@ -24,6 +24,7 @@ export function AuthenticationTitle() {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -33,8 +34,9 @@ export function AuthenticationTitle() {
 
     const loginRequest: LoginRequest = { email, password };
 
+    const queryParam = remember ? 'useCookies=true' : 'useSessionCookies=true';
     const response = await fetch(
-      new URL("login?useCookies=true", import.meta.env.VITE_API_BASE),
+      new URL(`login?${queryParam}`, import.meta.env.VITE_API_BASE),
      {
       method: 'POST',
       headers: {
@@ -111,7 +113,11 @@ export function AuthenticationTitle() {
           )}
 
           <Group justify="space-between" mt="lg">
-            <Checkbox label="Remember me" />
+            <Checkbox
+              label="Remember me"
+              checked={remember}
+              onChange={(event) => setRemember(event.currentTarget.checked)}
+            />
             <Anchor component={Link} to="/forgot-password" size="sm">
               Forgot password?
             </Anchor>
