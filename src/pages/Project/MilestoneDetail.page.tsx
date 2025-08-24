@@ -19,7 +19,7 @@ import {
   Center,
   Grid,
 } from '@mantine/core';
-import { MilestoneDetail, inviteStatusColors } from '../../data.ts';
+import { MilestoneDetail, assigneeStatusColors } from '../../data.ts';
 import { FileUpload } from '../../components/uploads/FileUpload.tsx';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
@@ -172,7 +172,7 @@ export function ProjectMilestoneDetail() {
 
   // Check if user is a project admin
   const isProjectAdmin = milestone.projectAdmins?.some(admin => admin.adminId === user?.userId);
-  const isAssigneeAndAccepted = milestone.assigneeId === user?.userId && milestone.inviteStatus === 'Accepted';
+  const isAssigneeAndAccepted = milestone.assigneeId === user?.userId && milestone.assigneeStatus === 'Accepted';
 
   return (
     <Container size="md" py="xl">
@@ -228,11 +228,11 @@ export function ProjectMilestoneDetail() {
                 Invite Status
               </Text>
               <Badge
-                  color={inviteStatusColors[milestone.inviteStatus] || 'gray'} // Default to 'gray' if status is unknown
+                  color={assigneeStatusColors[milestone.assigneeStatus] || 'gray'} // Default to 'gray' if status is unknown
                   variant="light"
                   mb="lg"
               >
-                  {milestone.inviteStatus}
+                  {milestone.assigneeStatus}
               </Badge>
               <Text fw={600} size="sm" c="dimmed" mb={4}>
                 Approval Status
