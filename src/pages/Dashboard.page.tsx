@@ -156,13 +156,10 @@ export function Dashboard() {
         
         setSubmittedUsers((prev) => ({ ...prev, [userId]: true })); // Mark as submitted
 
-        // If the role is changed to Network Admin or Network Contributor
-        if (newRole === "Network Admin" || newRole === "Network Contributor") {
-          // Update the user in the user approvals array with the new role
-          setUserApprovals(prevUserApprovals => 
-          prevUserApprovals?.filter(user => user.id !== userId) || null
-          );
-        }
+        // Remove user from userApprovals list
+        setUserApprovals(prevUserApprovals => 
+        prevUserApprovals?.filter(user => user.id !== userId) || null
+        );
 
         setTimeout(() => {
           setSubmittedUsers((prev) => ({ ...prev, [userId]: false })); // Reset after 3 seconds
