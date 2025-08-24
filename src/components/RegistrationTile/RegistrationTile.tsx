@@ -117,7 +117,7 @@ export function RegistrationTile() {
                       };
 
       const response = await fetch(
-        new URL("register-custom", import.meta.env.VITE_API_BASE),
+        new URL("register", import.meta.env.VITE_API_BASE),
       {
         method: 'POST',
         headers: {
