@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSessionTimeout } from "./SessionTimeout.tsx";
 
 interface User {
@@ -20,7 +19,6 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(() => {
     // Check if running on localhost
     const isLocalhost = window.location.hostname === 'localhost';
@@ -45,7 +43,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // If more than the timeout period has passed, log them out
       if (timeElapsed > 59 * 60 * 1000) {
         logout();
-        navigate('/login', { replace: true });
+        // use a hard redirect that does not rely on react-router hook
+        window.location.replace('/login');
       } else {
         // Otherwise update the login time state and set a new timeout
         // for the remaining time
