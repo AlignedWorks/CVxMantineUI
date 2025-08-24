@@ -6,7 +6,8 @@ export function ResetPassword() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const token = params.get('token') || '';
-  const [password, setPassword] = useState('');
+  const email = params.get('email') || '';
+  const [newPassword, setNewPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +16,7 @@ export function ResetPassword() {
     e.preventDefault();
     setError(null);
 
-    if (password !== confirm) {
+    if (newPassword !== confirm) {
       setError('Passwords do not match');
       return;
     }
@@ -27,7 +28,7 @@ export function ResetPassword() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify({ token, password }),
+          body: JSON.stringify({ email, token, newPassword }),
         }
       );
 
@@ -55,8 +56,8 @@ export function ResetPassword() {
               <PasswordInput
                 label="New password"
                 required
-                value={password}
-                onChange={(e) => setPassword(e.currentTarget.value)}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.currentTarget.value)}
               />
               <PasswordInput
                 label="Confirm new password"
