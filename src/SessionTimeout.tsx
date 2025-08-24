@@ -23,21 +23,6 @@ export function useSessionTimeout({
         window.clearTimeout(timeoutRef.current);
       }
 
-      // Logout in the backend
-      try {
-        fetch(new URL('logout', import.meta.env.VITE_API_BASE), {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({})
-        });
-      } catch (e) {
-        // ignore network errors — still clear client state
-        console.warn('Server logout failed', e);
-      }
-
       // Set new timeout
       timeoutRef.current = window.setTimeout(() => {
         console.log('Session timeout reached. Logging out user.');
