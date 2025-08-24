@@ -203,7 +203,7 @@ export interface Milestone {
   name: string;
   description: string;
   assigneeName: string;
-  inviteStatus: string;
+  assigneeStatus: string;
   approvalStatus: string;
   allocatedLaunchTokens: number;
   createdAt: string;
@@ -217,7 +217,7 @@ export interface MilestoneDetail {
   deliverables: string;
   assigneeId: string;
   assigneeName: string;
-  inviteStatus: string;
+  assigneeStatus: string;
   approvalStatus: string;
   allocatedLaunchTokens: number;
   cashEquivalent: number;
@@ -269,6 +269,12 @@ export const collabRoles = ['Collaborative Admin','Collaborative Member']
 
 export const inviteStatusColors: { [key: string]: string } = {
   Invited: 'yellow',
+  Accepted: 'green',
+  Declined: 'red',
+};
+
+export const assigneeStatusColors: { [key: string]: string } = {
+  Assigned: 'yellow',
   Accepted: 'green',
   Declined: 'red',
 };

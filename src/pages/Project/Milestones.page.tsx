@@ -27,7 +27,7 @@ import {
   Switch,
   Paper,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, MilestoneDetail, inviteStatusColors } from '../../data.ts';
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, MilestoneDetail, assigneeStatusColors } from '../../data.ts';
 import { FileUpload } from '../../components/uploads/FileUpload.tsx';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
@@ -495,7 +495,7 @@ export function ProjectMilestones() {
 
   // Check permissions for the selected milestone
   const isProjectAdmin = selectedMilestone?.projectAdmins?.some(admin => admin.adminId === user?.userId);
-  const isAssigneeAndAccepted = selectedMilestone?.assigneeId === user?.userId && selectedMilestone?.inviteStatus === 'Accepted';
+  const isAssigneeAndAccepted = selectedMilestone?.assigneeId === user?.userId && selectedMilestone?.assigneeStatus === 'Accepted';
 
   return (
     <Container size="md" py="xl">
@@ -786,11 +786,11 @@ export function ProjectMilestones() {
 
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee Status</Text>
                 <Badge
-                  color={inviteStatusColors[selectedMilestone.inviteStatus] || 'gray'}
+                  color={assigneeStatusColors[selectedMilestone.assigneeStatus] || 'gray'}
                   variant="light"
                   mb="lg"
                 >
-                  {selectedMilestone.inviteStatus}
+                  {selectedMilestone.assigneeStatus}
                 </Badge>
 
               </Grid.Col>
