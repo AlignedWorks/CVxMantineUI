@@ -17,7 +17,7 @@ interface AuthContextProps {
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
-const timeOut = 59 * 5 * 1000;   // 59 minutes in milliseconds (cookie expires at 60 minutes)
+const timeOut = 59 * 60 * 1000;   // 59 minutes in milliseconds (cookie expires at 60 minutes)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(() => {
