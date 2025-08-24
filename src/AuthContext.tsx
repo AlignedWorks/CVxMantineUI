@@ -17,6 +17,7 @@ interface AuthContextProps {
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const timeOut = 59 * 5 * 1000;   // 59 minutes in milliseconds (cookie expires at 60 minutes)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
@@ -39,9 +40,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const loginTimestamp = parseInt(storedLoginTime, 10);
       const currentTime = Date.now();
       const timeElapsed = currentTime - loginTimestamp;
-      
-      // If more than the timeout period has passed, log them out
-      if (timeElapsed > 59 * 60 * 1000) {
+
+      // If more than the timeOut period has passed, log them out
+      if (timeElapsed > timeOut) {
         logout();
         // use a hard redirect that does not rely on react-router hook
         window.location.replace('/login');
@@ -72,10 +73,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Use the session timeout hook at the component level
   useSessionTimeout({
-    isLoggedIn: !!user,            // Convert user to boolean - true if user exists, false otherwise
-    logoutFunction: logout,        // Pass the logout function
-    timeoutMs: 59 * 60 * 1000,      // 59 minutes in milliseconds (cookie expires at 60 minutes)
-    loginTime: loginTime           // Pass the login timestamp
+    isLoggedIn: !!user,
+    logoutFunction: logout,
+    timeoutMs: timeOut,
+    loginTime: loginTime
   });
 
   return (
