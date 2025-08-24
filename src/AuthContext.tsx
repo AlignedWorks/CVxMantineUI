@@ -34,26 +34,41 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   });
 
   useEffect(() => {
-  if (user) {
+    if (!user) return;
+
     const storedLoginTime = localStorage.getItem('loginTime');
-    if (storedLoginTime) {
+    if (!storedLoginTime) return;
+
+    const checkTimeout = async () => {
       const loginTimestamp = parseInt(storedLoginTime, 10);
       const currentTime = Date.now();
       const timeElapsed = currentTime - loginTimestamp;
 
-      // If more than the timeOut period has passed, log them out
       if (timeElapsed > timeOut) {
+        // Ask server to clear the session cookie (must be server-side for httpOnly cookies)
+        try {
+          await fetch(new URL('logout', import.meta.env.VITE_API_BASE), {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({})
+          });
+        } catch (e) {
+          // ignore network errors — still clear client state
+          console.warn('Server logout failed', e);
+        }
+
+        // Clear client state and redirect (replace so back doesn't return)
         logout();
-        // use a hard redirect that does not rely on react-router hook
         window.location.replace('/login');
-      } else {
-        // Otherwise update the login time state and set a new timeout
-        // for the remaining time
-        setLoginTime(loginTimestamp);
+        return;
       }
-    }
-  }
-}, []);
+
+      // still valid — restore stored login time
+      setLoginTime(loginTimestamp);
+    };
+
+    checkTimeout();
+  }, []);
 
   // Track when the user logged in
   const [loginTime, setLoginTime] = useState<number | null>(null);
