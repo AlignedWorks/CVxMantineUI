@@ -20,7 +20,8 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 const timeOut = 59 * 5 * 1000;   // 59 minutes in milliseconds (cookie expires at 60 minutes)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
+    const [user, setUser] = useState<User | null>(() => {
+
     // Check if running on localhost
     const isLocalhost = window.location.hostname === 'localhost';
 
@@ -49,6 +50,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
           await fetch(new URL('logout', import.meta.env.VITE_API_BASE), {
             method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
             credentials: 'include',
             body: JSON.stringify({})
           });
@@ -56,6 +60,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           // ignore network errors — still clear client state
           console.warn('Server logout failed', e);
         }
+
+        console.log('Session timed out, logging out');
 
         // Clear client state and redirect (replace so back doesn't return)
         logout();
