@@ -17,6 +17,7 @@ import {
   Badge,
   Modal,
   TextInput,
+  Textarea,
   Center
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
@@ -44,6 +45,7 @@ interface User {
 }
 
 export function Dashboard() {
+  const [denialReasons, setDenialReasons] = useState<{ [userId: string]: string }>({});
   const [userApprovals, setUserApprovals] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
   const [collabs, setCollabs] = useState<CollabDataCompact[]>([]);
@@ -121,20 +123,33 @@ export function Dashboard() {
       ...prev,
       [userId]: newRole || "", // Update the temporary state with the selected role
     }));
+    // Clear denial reason if role is no longer "Denied Applicant"
+    if (newRole !== 'Denied Applicant') {
+      setDenialReasons(prev => {
+        const copy = { ...prev };
+        delete copy[userId];
+        return copy;
+      });
+    }
+  };
+
+  const handleDenialReasonChange = (userId: string, value: string) => {
+    setDenialReasons((prev) => ({ ...prev, [userId]: value }));
   };
 
   const handleSubmitRoleChange = (userId: string ) => {
     const newRole = selectedRoles[userId];
     console.log(`User ID: ${userId}, New Role: ${newRole}`);
-
+ 
     fetch(
-      new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
-    {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role: newRole }),
-    })
+       new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
+     {
+       method: "PATCH",
+       credentials: "include",
+       headers: { "Content-Type": "application/json" },
+      // include denial reason when denying an applicant
+      body: JSON.stringify({ role: newRole, reasonForDenial: denialReasons[userId] ?? '', networkAdmin: user }),
+     })
       .then((res) => res.json())
       .then((updatedUser) => {
         console.log("Role updated successfully:", updatedUser);
@@ -797,6 +812,16 @@ export function Dashboard() {
                 />
               )}
 
+              {selectedRoles[user.id] === 'Denied Applicant' && (
+                <Textarea
+                  label="Reason for denial"
+                  placeholder="Provide a brief reason for denying this applicant"
+                  mt="sm"
+                  value={denialReasons[user.id] || ''}
+                  onChange={(e) => handleDenialReasonChange(user.id, e.currentTarget.value)}
+                />
+              )}
+              
               <Button
                 variant="outline"
                 size="sm"
