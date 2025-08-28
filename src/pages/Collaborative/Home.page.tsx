@@ -148,6 +148,7 @@ export function CollaborativeHome() {
           })
           .then((data) => {
             console.log('Submission successful:', data);
+            setCollaborative((prev) => (prev ? { ...prev, approvalStatus: 'Submitted' } : prev));
           })
           .catch((error) => {
             console.error('API Error:', error);
@@ -297,7 +298,7 @@ export function CollaborativeHome() {
       <Group justify="right">
         {/* Submit for approval — visible only to collab admins; enabled only when readyForSubmittal
         and approvalStatus is Draft */}
-        {collaborative.userIsCollabAdmin && (
+        {collaborative.approvalStatus === 'Draft' && collaborative.userIsCollabAdmin && (
           collaborative.readyForSubmittal && collaborative.approvalStatus == 'Draft' ? (
               <Button variant="outline" color="green" mb="sm" ml="xs"
                 onClick={handleSubmitForApproval}>
