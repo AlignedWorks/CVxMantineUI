@@ -483,39 +483,29 @@ export function Dashboard() {
                   )}
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleCollabApproval(collab.id,'approve')}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="default"
+                    ml="md"
+                    onClick={() => handleInitiateDecline(collab.id)}
+                  >
+                    Decline
+                  </Button>
+
                   {decliningCollabId === collab.id ? (
-                    <>
-                      <Button
-                        variant="outline"
-                        onClick={() => handleSubmitDecline(collab.id)}
-                      >
-                        Submit Decline
-                      </Button>
-                      <Button
-                        variant="default"
-                        ml="sm"
-                        onClick={handleCancelDecline}
-                      >
-                        Cancel
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        variant="outline"
-                        onClick={() => handleCollabApproval(collab.id,'approve')}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        variant="default"
-                        ml="md"
-                        onClick={() => handleInitiateDecline(collab.id)}
-                      >
-                        Decline
-                      </Button>
-                    </>
-                  )}
+                    <Button
+                      color="red"
+                      variant="outline"
+                      onClick={() => handleSubmitDecline(collab.id)}
+                    >
+                      Submit Decline
+                    </Button>
+                  ) : null}
                 </Grid.Col>
               </Grid>
           </Card>
