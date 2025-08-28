@@ -323,24 +323,6 @@ export function Test() {
                         <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                             <div>
                             <Text fz="md" fw={500}>
-                                Revenue Share
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                {testCollab.revenueShare}%
-                            </Text>
-                            <Text fz="md" fw={500}>
-                                Payout Frequency
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                {testCollab.payoutFrequency}
-                            </Text>
-                            <Text fz="md" fw={500}>
-                                Indirect Costs
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                {testCollab.indirectCosts}%
-                            </Text>
-                            <Text fz="md" fw={500}>
                                 Collaborative Admin Compensation
                             </Text>
                             <Text fz="xl" c="#222" mb="lg">
@@ -888,21 +870,6 @@ export function Test() {
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", height: "100%" }}>
                             <Table variant="vertical" layout="fixed" withTableBorder>
                                 <Table.Tbody>
-
-                                    <Table.Tr>
-                                    <Table.Th>Shared Revenue</Table.Th>
-                                    <Table.Td>{collab.revenueShare}%</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>Payout Frequency</Table.Th>
-                                    <Table.Td>{collab.payoutFrequency}</Table.Td>
-                                    </Table.Tr>
-
-                                    <Table.Tr>
-                                    <Table.Th>Indirect Costs</Table.Th>
-                                    <Table.Td>{collab.indirectCosts}%</Table.Td>
-                                    </Table.Tr>
 
                                     <Table.Tr>
                                     <Table.Th>Leader Compensation</Table.Th>

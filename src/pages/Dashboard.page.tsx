@@ -234,33 +234,6 @@ export function Dashboard() {
       });
   };
 
-  const handleCollabApproval = (collabId: number, status: 'approve' | 'decline') => {
-    fetch(
-      new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
-    {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    })
-    .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((message) => {
-        console.log(message);
-
-        // Refresh the dashboard data after successful approval/decline
-        fetchDashboardData();
-      })
-      .catch((err) => {
-        console.error(`Error approving/declining collaborative:`, err);
-        // Optionally show an error message to the user
-      });
-    }
-
   const handleInviteSubmit = async () => {
     try {
       const response = await fetch(new URL('invite', import.meta.env.VITE_API_BASE), {
@@ -401,121 +374,38 @@ export function Dashboard() {
         )}
 
         {collabsNeedingApproval?.map((collab) => (
-          <Card key={collab.id} shadow="sm" radius="md" withBorder mt="lg" p="xl" bg="var(--mantine-color-body)">
-            <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
-                <div>
-                    <Text ta="left" fz="lg" fw={500}
-                      mb="lg"
-                      style={{ 
-                        color: '#0077b5', 
-                        cursor: 'pointer',
-                        textDecoration: 'none'
-                      }}
-                      component={Link}
+          <Card 
+            key={`${collab.id}`}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            mt="lg"
+            mb="lg">
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                  <Center>
+                    <img src={collab.logoUrl} alt="Collaborative Logo" width={60} />
+                  </Center>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                  <Text>
+                    The <strong>{collab.name}</strong><br/> collaborative is ready for your approval. 
+                  </Text>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                  <Button 
+                      component={Link} 
                       to={`/collaboratives/${collab.id}`}
-                      state={{ from: location.pathname }}>
-                        {collab.name}
-                    </Text>
-                    <Text ta="left" c="dimmed" fz="sm">
-                        {collab.description}
-                    </Text>
-                    <Text ta="left" fz="sm" mt="sm">
-                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Website:</span><br/>
-                        <a
-                          href={collab.websiteUrl}
-                          style={{ color: '#0077b5', textDecoration: 'none' }}
-                          target="_blank"
-                          rel="noopener noreferrer">
-                            {collab.websiteUrl}
-                        </a>
-                    </Text>
-                    <Text ta="left" fz="sm" mt="sm">
-                        <span style={{ color: "var(--mantine-color-dimmed)" }}>Collab Admin:</span><br/>{collab.admin}
-                    </Text>
-                    
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", height: "100%" }}>
-                    <Table variant="vertical" layout="fixed" withTableBorder>
-                        <Table.Tbody>
-
-                            <Table.Tr>
-                            <Table.Th>Shared Revenue</Table.Th>
-                            <Table.Td>{collab.revenueShare}%</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>Payout Frequency</Table.Th>
-                            <Table.Td>{collab.payoutFrequency}</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>Indirect Costs</Table.Th>
-                            <Table.Td>{collab.indirectCosts}%</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>Admin Compensation</Table.Th>
-                            <Table.Td>{collab.adminCompensation}%</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>Proposed On</Table.Th>
-                            <Table.Td>{collab.createdAt}</Table.Td>
-                            </Table.Tr>
-                            
-                        </Table.Tbody>
-                    </Table>
-                </div>
-                <div>
-                    <Title order={6}>
-                    Staking Tiers
-                    </Title>
-                    
-                    <Table variant="vertical" layout="fixed" withTableBorder mt="lg">
-                        <Table.Tbody>
-
-                            <Table.Tr>
-                            <Table.Th>Duration</Table.Th>
-                            <Table.Td>Exchange Rate</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>One Month</Table.Th>
-                            <Table.Td>100%</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>Two Months</Table.Th>
-                            <Table.Td>80%</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>One Quarter</Table.Th>
-                            <Table.Td>70%</Table.Td>
-                            </Table.Tr>
-
-                            <Table.Tr>
-                            <Table.Th>One Year</Table.Th>
-                            <Table.Td>40%</Table.Td>
-                            </Table.Tr>
-                        </Table.Tbody>
-                    </Table>
-                </div>
-            </SimpleGrid>
-
-            <Group justify="flex-start" mt="lg" gap="md">
-              <Button
-                variant="outline"
-                onClick={() => handleCollabApproval(collab.id,'approve')}>
-                  Approve
-              </Button>
-              <Button
-                variant="default"
-                onClick={() => handleCollabApproval(collab.id,'decline')}>
-                  Decline
-              </Button>
-            </Group>
-        </Card>
+                      state={{ from: location.pathname }}
+                      variant="default"
+                      mb="sm"
+                    >
+                      View and Approve Collaborative
+                    </Button>
+                </Grid.Col>
+              </Grid>
+          </Card>
         ))}
 
         {collabInvites?.map((invite) => (

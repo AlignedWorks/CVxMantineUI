@@ -17,7 +17,7 @@ import {
   Center,
   Image,
  } from '@mantine/core';
-import { CollaborativeData, PayoutFrequency } from '../../data.ts';
+import { CollaborativeData } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
@@ -36,10 +36,8 @@ const mockCollaborative: CollaborativeData =
   adminEmail: 'david@aligned.works',
   adminName: 'David Vader',
   createdAt: 'February 1, 2022',
-  revenueShare: 5,
-  indirectCosts: 5,
+  readyForSubmittal: false,
   collabLeaderCompensation: 5,
-  payoutFrequency: PayoutFrequency.Monthly,
   userIsCollabAdmin: false,
   userIsCollabContributor: true,
   skills: [
@@ -122,6 +120,43 @@ export function CollaborativeHome() {
       setLoading(false);
     }
   }, [id]);
+
+  const handleSubmitForApproval = () => {
+    // Logic to submit the collaborative for approval
+    if (collaborative) {
+      const apiBase = import.meta.env.VITE_API_BASE;
+
+      if (!apiBase) {
+        console.warn('VITE_API_BASE not configured');
+        return;
+      }
+
+      try {
+        const apiUrl = new URL(`collaboratives/${collaborative.id}/submit`, apiBase);
+        fetch(apiUrl, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to submit collaborative for approval');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log('Submission successful:', data);
+          })
+          .catch((error) => {
+            console.error('API Error:', error);
+          });
+      } catch (urlError) {
+        console.error('Invalid API URL:', urlError);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -260,6 +295,23 @@ export function CollaborativeHome() {
       </Card>
       
       <Group justify="right">
+        {/* Submit for approval — visible only to collab admins; enabled only when readyForSubmittal
+        and approvalStatus is Draft */}
+        {collaborative.userIsCollabAdmin && (
+          collaborative.readyForSubmittal && collaborative.approvalStatus == 'Draft' ? (
+              <Button variant="outline" color="green" mb="sm" ml="xs"
+                onClick={handleSubmitForApproval}>
+                Submit for Approval
+              </Button>
+          ) : (
+            <Tooltip label="Collaborative not ready for submittal">
+              <Button disabled mb="sm" ml="xs">
+                Submit for Approval
+              </Button>
+            </Tooltip>
+          )
+        )}
+
         {collaborative.userIsCollabContributor ? (
           <Button 
             component={Link} 

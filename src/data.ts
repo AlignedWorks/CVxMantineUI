@@ -41,15 +41,7 @@ export interface CollabApprovalRequest {
 export interface CollabsNeedingApproval {
   id: number,
   name: string,
-  description: string,
-  websiteUrl: string,
-  revenueShare: number,
-  indirectCosts: number,
-  payoutFrequency: string,
-  adminCompensation: number,
-  admin: string;
-  createdAt: string,
-  stakingTiers: { tier: string, exchangeRate: number }[],
+  logoUrl: string,
 }
 
 export interface CollaborativeData {
@@ -65,10 +57,8 @@ export interface CollaborativeData {
   adminEmail: string;
   adminName: string;
   createdAt: string;
-  revenueShare: number;
-  indirectCosts: number;
+  readyForSubmittal: boolean;
   collabLeaderCompensation: number;
-  payoutFrequency: PayoutFrequency;
   userIsCollabAdmin: boolean;
   userIsCollabContributor: boolean;
   skills: { id: number; value: string }[];
@@ -705,10 +695,8 @@ export const mock_collab_data: CollaborativeData[] = [
     adminEmail: 'david@aligned.works',
     adminName: 'David Vader',
     createdAt: 'February 1, 2022',
-    revenueShare: 5,
-    indirectCosts: 5,
+    readyForSubmittal: false,
     collabLeaderCompensation: 5,
-    payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
     userIsCollabContributor: false,
     skills: [
@@ -732,10 +720,8 @@ export const mock_collab_data: CollaborativeData[] = [
     adminEmail: 'alex@codeforge.com',
     adminName: 'Abdul Moosa',
     createdAt: '06-12-2023',
-    revenueShare: 5,
-    indirectCosts: 5,
+    readyForSubmittal: false,
     collabLeaderCompensation: 5,
-    payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
     userIsCollabContributor: true,  
     skills: [
@@ -759,10 +745,8 @@ export const mock_collab_data: CollaborativeData[] = [
     adminEmail: 'alex@codeforge.com',
     adminName: 'Dre',
     createdAt: '06-12-2023',
-    revenueShare: 5,
-    indirectCosts: 5,
+    readyForSubmittal: false,
     collabLeaderCompensation: 5,
-    payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
     userIsCollabContributor: false,
     skills: [
@@ -786,10 +770,8 @@ export const mock_collab_data: CollaborativeData[] = [
     adminEmail: 'alex@codeforge.com',
     adminName: 'Alex BobbyFay',
     createdAt: '06-12-2023',
-    revenueShare: 5,
-    indirectCosts: 5,
+    readyForSubmittal: false,
     collabLeaderCompensation: 5,
-    payoutFrequency: PayoutFrequency.Monthly,
     userIsCollabAdmin: false,
     userIsCollabContributor: false,
     skills: [
