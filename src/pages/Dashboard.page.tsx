@@ -200,17 +200,6 @@ export function Dashboard() {
     setDecliningCollabId(collabId);
   };
 
-  const handleCancelDecline = () => {
-    if (decliningCollabId !== null) {
-      setDeclineReasons((prev) => {
-        const copy = { ...prev };
-        delete copy[decliningCollabId];
-        return copy;
-      });
-   }
-    setDecliningCollabId(null);
-  };
-
   const handleDeclineReasonChange = (collabId: number, value: string) => {
     setDeclineReasons((prev) => ({ ...prev, [collabId]: value }));
   };
