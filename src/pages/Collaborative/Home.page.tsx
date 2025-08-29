@@ -292,8 +292,8 @@ export function CollaborativeHome() {
                 </div>
               </SimpleGrid>
 
-              {collaborative.reasonForDecline && collaborative.userIsCollabAdmin ? (
-                <Text c="red" mt="xs">
+              {collaborative.reasonForDecline && collaborative.approvalStatus === 'Declined' && collaborative.userIsCollabAdmin ? (
+                <Text c="red">
                   <strong>Reason this collaborative was declined:</strong> {collaborative.reasonForDecline}
                 </Text>
               ) : null}
