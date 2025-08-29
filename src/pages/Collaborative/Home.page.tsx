@@ -292,8 +292,8 @@ export function CollaborativeHome() {
                 </div>
               </SimpleGrid>
 
-              {collaborative.reasonForDecline ? (
-                <Text c="red" mt="lg">
+              {collaborative.reasonForDecline && collaborative.userIsCollabAdmin ? (
+                <Text c="red" mt="xs">
                   <strong>Reason this collaborative was declined:</strong> {collaborative.reasonForDecline}
                 </Text>
               ) : null}
@@ -304,9 +304,9 @@ export function CollaborativeHome() {
       
       <Group justify="right">
         {/* Submit for approval — visible only to collab admins; enabled only when readyForSubmittal
-        and approvalStatus is Draft */}
-        {collaborative.approvalStatus === 'Draft' && collaborative.userIsCollabAdmin && (
-          collaborative.readyForSubmittal && collaborative.approvalStatus == 'Draft' ? (
+        and approvalStatus is Draft or Declined */}
+        {(collaborative.approvalStatus === 'Draft' || collaborative.approvalStatus === 'Declined') && collaborative.userIsCollabAdmin && (
+          collaborative.readyForSubmittal ? (
               <Button variant="outline" color="green" mb="sm" ml="xs"
                 onClick={handleSubmitForApproval}>
                 Submit for Approval
