@@ -58,6 +58,7 @@ export interface CollaborativeData {
   adminName: string;
   createdAt: string;
   readyForSubmittal: boolean;
+  reasonForDecline: string;
   collabLeaderCompensation: number;
   userIsCollabAdmin: boolean;
   userIsCollabContributor: boolean;

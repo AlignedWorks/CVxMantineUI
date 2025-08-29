@@ -290,6 +290,12 @@ export function CollaborativeHome() {
                   </Text>
                 </div>
               </SimpleGrid>
+
+              {collaborative.reasonForDecline ? (
+                <Text c="red" mt="lg">
+                  <strong>Reason this collaborative was declined:</strong> {collaborative.reasonForDecline}
+                </Text>
+              ) : null}
             </Stack>
           </Grid.Col>
         </Grid>
