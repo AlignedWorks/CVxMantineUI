@@ -37,6 +37,7 @@ const mockCollaborative: CollaborativeData =
   adminName: 'David Vader',
   createdAt: 'February 1, 2022',
   readyForSubmittal: false,
+  reasonForDecline: '',
   collabLeaderCompensation: 5,
   userIsCollabAdmin: false,
   userIsCollabContributor: true,
