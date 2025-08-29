@@ -170,15 +170,17 @@ export function Dashboard() {
   };
 
   const handleCollabApproval = (collabId: number, status: 'approve' | 'decline') => {
-  fetch(
-    new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
-  {
-    method: "PATCH",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status }),
-  })
-  .then((res) => {
+    const reason = declineReasons[collabId] ?? '';
+
+    fetch(
+      new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status, reasonForDecline: reason }),
+    })
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
@@ -202,37 +204,6 @@ export function Dashboard() {
 
   const handleDeclineReasonChange = (collabId: number, value: string) => {
     setDeclineReasons((prev) => ({ ...prev, [collabId]: value }));
-  };
-
-  const handleSubmitDecline = (collabId: number) => {
-    const reason = declineReasons[collabId] ?? '';
-    fetch(
-      new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
-      {
-        method: "PATCH",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: 'decline', reasonForDecline: reason }),
-      }
-    )
-    .then((res) => {
-      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-      return res.json();
-    })
-    .then((data) => {
-      console.log('Decline submitted:', data);
-      // refresh and reset UI
-      fetchDashboardData();
-      setDecliningCollabId(null);
-      setDeclineReasons((prev) => {
-        const copy = { ...prev };
-        delete copy[collabId];
-        return copy;
-      });
-    })
-    .catch((err) => {
-      console.error('Error submitting decline:', err);
-    });
   };
 
   const handleCollabInvite = (collabId: number, userId: string, action: 'accept' | 'decline') => {
@@ -490,7 +461,8 @@ export function Dashboard() {
                     <Button
                       color="red"
                       variant="outline"
-                      onClick={() => handleSubmitDecline(collab.id)}
+                      mt="lg"
+                      onClick={() => handleCollabApproval(collab.id,'decline')}
                     >
                       Submit Decline
                     </Button>
