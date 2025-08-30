@@ -326,7 +326,7 @@ export function Test() {
                                 Collaborative Admin Compensation
                             </Text>
                             <Text fz="xl" c="#222" mb="lg">
-                                {testCollab.collabLeaderCompensation}%
+                                {testCollab.collabAdminCompensationPercent}%
                             </Text>
                             </div>
                             <div>
@@ -873,7 +873,7 @@ export function Test() {
 
                                     <Table.Tr>
                                     <Table.Th>Leader Compensation</Table.Th>
-                                    <Table.Td>{collab.collabLeaderCompensation}%</Table.Td>
+                                    <Table.Td>{collab.collabAdminCompensationPercent}%</Table.Td>
                                     </Table.Tr>
 
                                     <Table.Tr>
