@@ -101,6 +101,7 @@ export interface CollaborativeDataTreasury {
   tokensPriorWork: number;
   projectWorkPayment: number;
   nonTeamContributions: number;
+  collabAdminCompensationPercent: number;
 }
 
 export interface CollaborativeDataWallet {

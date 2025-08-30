@@ -151,6 +151,7 @@ export function EditCollaborativeTreasury() {
               mb="lg"
               rightSection="%"
             />
+
           </div>
           
           <div>  
