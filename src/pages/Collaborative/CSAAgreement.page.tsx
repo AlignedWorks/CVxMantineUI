@@ -67,7 +67,6 @@ export function CSAAgreement() {
   
   const CSAfeedback = {
     csaId: csaData?.csaId || 0,
-    userId: userId || "",
     csaAcceptedStatus: "NotAccepted",
   }
 
@@ -78,7 +77,7 @@ export function CSAAgreement() {
 
       // Send agreement confirmation to API
       const response = await fetch(
-        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+        new URL(`collaboratives/${id}/members/${userId}`, import.meta.env.VITE_API_BASE),
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
