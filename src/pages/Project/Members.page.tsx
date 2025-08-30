@@ -323,11 +323,16 @@ export function ProjectMembers() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label={
+          <Tooltip
+            color="gray"
+            label={
             !project.userIsProjectAdminAndStatusAccepted 
               ? "Only project admins who have accepted their invites can add members"
               : "All Collaborative members are already part of this project"
-          }>  
+            }
+            multiline
+            w={220}
+          >  
             <Button disabled mb="sm">
               Invite Members
             </Button>

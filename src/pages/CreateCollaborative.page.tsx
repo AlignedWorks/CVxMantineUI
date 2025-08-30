@@ -516,7 +516,7 @@ export function CreateCollaborative() {
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <div>
           <NumberInput
-            label="Collab Admin Compensation (%)"
+            label="Collab Admin Pay (%)"
             placeholder="Percentage of each release cycle allocated to the collaborative admin (default: 0%)"
             value={formValues.collabAdminCompensationPercent}
             onChange={(value) =>

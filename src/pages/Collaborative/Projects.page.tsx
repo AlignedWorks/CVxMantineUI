@@ -209,7 +209,12 @@ export function CollaborativeProjects() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only collaborative admins can add projects">
+          <Tooltip
+            color="gray"
+            label="Only collaborative admins can add projects"
+            multiline
+            w={220}
+          >
             <Button disabled mb="sm">
               Propose a Project
             </Button>

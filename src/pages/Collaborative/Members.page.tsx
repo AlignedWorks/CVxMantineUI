@@ -327,7 +327,12 @@ export function CollaborativeMembers() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only collaborative admins can invite members">
+          <Tooltip
+            color="gray"
+            label="Only collaborative admins can invite members"
+            multiline
+            w={220}
+          >
             <Button disabled mb="sm">
               Invite Members
             </Button>

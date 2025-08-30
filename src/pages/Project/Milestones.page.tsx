@@ -571,7 +571,12 @@ export function ProjectMilestones() {
         </Group>
       ) : (
         <Group justify="right">
-          <Tooltip label="Only project admins who have accepted their invites can add milestones">
+          <Tooltip
+            color="gray"
+            label="Only project admins who have accepted their invites can add milestones"
+            multiline
+            w={220}
+          >
             <Button disabled mb="sm">
               Add Milestone
             </Button>

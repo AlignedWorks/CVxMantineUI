@@ -336,11 +336,14 @@ export function CollaborativeHome() {
           </Button>
         ) : (
           <Tooltip
+            color="gray"
             label={
               !collaborative.userIsCollabContributor
                 ? 'Only collaborative contributors can view the CSA'
                 : 'Collaborative Sharing Agreement not available'
             }
+            multiline
+            w={220}
           >
             <Button disabled mb="sm">
               View Collaborative Sharing Agreement
@@ -355,7 +358,12 @@ export function CollaborativeHome() {
             </Button>
           </Link>
         ) : (
-          <Tooltip label="Only collaborative admins can edit the profile">
+          <Tooltip
+            color="gray"
+            label="Only collaborative admins can edit the profile"
+            multiline
+            w={220}
+          >
             <Button disabled mb="sm">
               Edit Collaborative Profile
             </Button>
