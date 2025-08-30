@@ -10,7 +10,7 @@ export interface Collaborative {
   // default: 10,000
   launchTokensCreated: number;
   // in weeks, default is 12
-  launchTokenPriorWorkPercent: number;
+  launchTokensPriorWorkPercent: number;
   // this is a percentage of launchTokensCreated to be set aside for work completed prior this collab being created
   launchCyclePeriod: number;
   // a percentage, default is 10%

@@ -40,7 +40,7 @@ export function CreateCollaborative() {
           experience: [],
           logoUrl: '',
           launchTokensCreated: 10000,
-          launchTokenPriorWorkPercent: 0,
+          launchTokensPriorWorkPercent: 0,
           launchCyclePeriod: 12,
           launchTokenReleaseRate: 10,
           launchTokenInitialReleaseWeeks: 0,
@@ -81,7 +81,7 @@ export function CreateCollaborative() {
     skills: [],
     experience: [],
     launchTokensCreated: 10000,
-    launchTokenPriorWorkPercent: 0,
+    launchTokensPriorWorkPercent: 0,
     launchCyclePeriod: 12,
     launchTokenReleaseRate: 10,
     launchTokenValue: 0,
@@ -211,7 +211,7 @@ export function CreateCollaborative() {
   const formatNumber = (n: number) =>
     n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
-  const numTokensSetAsideForPriorWork = Math.round((formValues.launchTokenPriorWorkPercent / 100) * (formValues.launchTokensCreated || 0));
+  const numTokensSetAsideForPriorWork = Math.round((formValues.launchTokensPriorWorkPercent / 100) * (formValues.launchTokensCreated || 0));
 
   // compute first three cycle balances (start of each cycle) using decay = (1 - releaseRate)
   const releaseCyclesPreview: React.ReactNode = (() => {
@@ -441,9 +441,9 @@ export function CreateCollaborative() {
           <NumberInput
             label="Tokens for Prior Work (%)"
             placeholder="Enter the expected token value increase percentage (default: 0%)"
-            value={formValues.launchTokenPriorWorkPercent }
+            value={formValues.launchTokensPriorWorkPercent }
             onChange={(value) =>
-              handleInputChange('launchTokenPriorWorkPercent', value)
+              handleInputChange('launchTokensPriorWorkPercent', value)
             }
             min={0}
             max={100}
@@ -452,7 +452,7 @@ export function CreateCollaborative() {
             mb="xs"
           />
           <Text size="sm" c="dimmed" mb="md">
-            # tokens: {formValues.launchTokenPriorWorkPercent > 0 ? `${((formValues.launchTokenPriorWorkPercent / 100) * formValues.launchTokensCreated).toLocaleString('en-US', {
+            # tokens: {formValues.launchTokensPriorWorkPercent > 0 ? `${((formValues.launchTokensPriorWorkPercent / 100) * formValues.launchTokensCreated).toLocaleString('en-US', {
               minimumFractionDigits: 0,
               maximumFractionDigits: 0
             })}` : 0}
