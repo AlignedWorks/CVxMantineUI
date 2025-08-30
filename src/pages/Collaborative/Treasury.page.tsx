@@ -65,7 +65,7 @@ export function CollaborativeTreasury() {
         console.log(data);
         setCollaborative(data);
         setTotalTokenAssets(data.tokensReceivable + data.tokenBalance);
-        setTotalTokenLiabilities(data.tokensCollabAdmin + data.projectWorkPayment + data.nonTeamContributions);
+        setTotalTokenLiabilities(data.tokensCollabAdmin + data.projectWorkPayment + data.nonTeamContributions + data.tokensPriorWork);
         // setFrom(location.state?.from || '/collaborative-directory');
         setLoading(false);
       })
@@ -197,23 +197,27 @@ export function CollaborativeTreasury() {
                   <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
                   <Paper p="lg" withBorder radius="md" mb="sm" mt="lg">
                     <Stack>
+
                       <Tooltip color="gray" label="Tokens budgeted to make future payments to the Collaborative Admin.">
                         <Text fz="md" fw={500} c="#999">Collaborative Admin</Text>
                       </Tooltip>
-
                       <Text fz="xl" fw={500} c="#444">{collaborative.tokensCollabAdmin}</Text>
 
                       <Tooltip color="gray" label="All unpaid Tokens in approved budgets to cover Project management and milestone completion.">
                         <Text fz="md" fw={500} c="#999">Project Work</Text>
                       </Tooltip>
-
                       <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment}</Text>
 
                       <Tooltip color="gray" label="All unpaid Tokens in approved budgets that are not going to members of the Project Team.">
                         <Text fz="md" fw={500} c="#999">Other Project Expenses</Text>
                       </Tooltip>
-
                       <Text fz="xl" fw={500} c="#444">{collaborative.nonTeamContributions}</Text>
+
+                      <Tooltip color="gray" label="Tokens set aside to pay for work completed prior to the creation of this Collaborative.">
+                        <Text fz="md" fw={500} c="#999">Prior Work</Text>
+                      </Tooltip>
+                      <Text fz="xl" fw={500} c="#444">{collaborative.tokensPriorWork}</Text>
+
                       <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
                       <Text fz="xl" fw={500} c="#444">{totalTokenLiabilities}</Text>
                     </Stack>

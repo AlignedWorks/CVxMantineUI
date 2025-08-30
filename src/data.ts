@@ -98,9 +98,9 @@ export interface CollaborativeDataTreasury {
   tokensReceivable: number;
   tokenBalance: number;
   tokensCollabAdmin: number;
+  tokensPriorWork: number;
   projectWorkPayment: number;
   nonTeamContributions: number;
-  collabAdminCompensationPercent: number;
 }
 
 export interface CollaborativeDataWallet {
