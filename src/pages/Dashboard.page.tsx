@@ -211,13 +211,12 @@ export function Dashboard() {
     const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
     
     fetch(
-      new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
+      new URL(`collaboratives/${collabId}/members/${userId}`, import.meta.env.VITE_API_BASE),
       {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          userId: userId,
           inviteStatus: newStatus 
         }),
       })
