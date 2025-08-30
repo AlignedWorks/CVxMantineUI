@@ -27,6 +27,12 @@ export function CollaborativeTreasury() {
   const [collaborative, setCollaborative] = useState<CollaborativeDataTreasury | null>(null);
   const [totalTokenAssets, setTotalTokenAssets] = useState<number>(0);
   const [totalTokenLiabilities, setTotalTokenLiabilities] = useState<number>(0);
+
+  // avoid NaN when liabilities are zero/invalid
+  const workingTokenRatio = (Number.isFinite(totalTokenAssets) && Number.isFinite(totalTokenLiabilities) && totalTokenLiabilities !== 0)
+    ? totalTokenAssets / totalTokenLiabilities
+    : 0;
+
   // const [from, setFrom] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -124,8 +130,8 @@ export function CollaborativeTreasury() {
                     <Tooltip color="gray" label="(Total Token Assets) / (Total Token Liabilities)">
                       <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
                     </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{(totalTokenAssets / totalTokenLiabilities).toFixed(2)}</Text>
-                  </div>
+                          <Text fz="xl" fw={700} c="#444">{workingTokenRatio.toFixed(2)}</Text>
+                        </div>
                   <div>
                     <Tooltip color="gray" label="(Total Token Assets) - (Total Token Liabilities)">
                       <Text fz="md" fw={500} c="#999">Working Token Capital</Text>

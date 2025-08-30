@@ -135,7 +135,12 @@ export function CollaborativeMemberWallet() {
                   <Text fz="xl" fw={700} c="#444">{collaborative.allAssignedLaunchTokens.toLocaleString()}</Text>
                 </div>
                 <div>
-                  <Tooltip color="gray" label="Your percent share of the payout to Token holders if the Tokens were retired today. This is calculated as [(My Assigned Tokens)/(All Assigned Tokens)] * 100">
+                  <Tooltip
+                    color="gray"
+                    label="Your percent share of the payout to Token holders if the Tokens were retired today. This is calculated as [(My Assigned Tokens)/(All Assigned Tokens)] * 100"
+                    multiline
+                    w={220}
+                  >
                     <Text fz="md" fw={500} c="#999">My Current Share</Text>
                   </Tooltip>
                   <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100).toFixed(2)}%</Text>
@@ -150,7 +155,12 @@ export function CollaborativeMemberWallet() {
                   <Text fz="xl" fw={700} c="#444">{collaborative.launchTokensCreated.toLocaleString()}</Text>
                 </div>
                 <div>
-                  <Tooltip color="gray" label="Your percent share of the payout to Token holders if you earn no additional Tokens beyond those assigned to you today, and all available Tokens are eventually earned by someone. This is calculated as [(My Assigned Tokens)/(All Tokens)] * 100">
+                  <Tooltip
+                    color="gray"
+                    label="Your percent share of the payout to Token holders if you earn no additional Tokens beyond those assigned to you today, and all available Tokens are eventually earned by someone. This is calculated as [(My Assigned Tokens)/(All Tokens)] * 100"
+                    multiline
+                    w={220}
+                  >
                     <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
                   </Tooltip>
                   <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>

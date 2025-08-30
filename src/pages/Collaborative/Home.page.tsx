@@ -312,7 +312,12 @@ export function CollaborativeHome() {
                 Submit for Approval
               </Button>
           ) : (
-            <Tooltip label="Collaborative not ready for submittal">
+            <Tooltip
+              color="gray"
+              label="Collaborative not ready for submittal. The CSA must be uploaded and approved by all members first."
+              multiline
+              w={220}
+            >
               <Button disabled mb="sm" ml="xs">
                 Submit for Approval
               </Button>
@@ -320,7 +325,7 @@ export function CollaborativeHome() {
           )
         )}
 
-        {collaborative.userIsCollabContributor ? (
+        {collaborative.userIsCollabContributor && collaborative.csaDocUrl ? (
           <Button 
             component={Link} 
             to={`/collaboratives/${collaborative.id}/csa-agreement`}
@@ -330,7 +335,13 @@ export function CollaborativeHome() {
             View Collaborative Sharing Agreement
           </Button>
         ) : (
-          <Tooltip label="Only collaborative contributors can view the CSA">
+          <Tooltip
+            label={
+              !collaborative.userIsCollabContributor
+                ? 'Only collaborative contributors can view the CSA'
+                : 'Collaborative Sharing Agreement not available'
+            }
+          >
             <Button disabled mb="sm">
               View Collaborative Sharing Agreement
             </Button>
