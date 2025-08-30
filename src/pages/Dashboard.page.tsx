@@ -173,7 +173,7 @@ export function Dashboard() {
     const reason = declineReasons[collabId] ?? '';
 
     fetch(
-      new URL(`collaboratives/${collabId}`, import.meta.env.VITE_API_BASE),
+      new URL(`collaboratives/${collabId}/status`, import.meta.env.VITE_API_BASE),
     {
       method: "PATCH",
       credentials: "include",

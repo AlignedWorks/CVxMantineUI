@@ -183,7 +183,11 @@ export function EditCollaborative() {
 
     setSubmitting(true);
     try {
-        // Create a modified payload for the API with only changed fields
+
+      // Separate CSA change from other changes so CSA is sent to its own endpoint
+      const csaChanged = Object.prototype.hasOwnProperty.call(changedFields, 'csaDocUrl');
+
+      // Create a modified payload for the API with only changed fields
       const payload: any = {};
       
       // Transform skills and experience to just arrays of IDs if they changed
@@ -192,6 +196,8 @@ export function EditCollaborative() {
           payload.skills = changedFields.skills.map(skill => skill.id);
         } else if (key === 'experience' && changedFields.experience) {
           payload.experience = changedFields.experience.map(exp => exp.id);
+        } else if (key === 'csaDocUrl') {
+          // intentionally skip CSA here; it'll be handled separately
         } else {
           payload[key] = (changedFields as any)[key];
         }
@@ -213,6 +219,28 @@ export function EditCollaborative() {
 
       if (!response.ok) {
         throw new Error(`Error updating collaborative: ${response.status}`);
+      }
+
+      // If CSA changed, call the dedicated CSA endpoint
+      if (csaChanged) {
+        console.log("Sending CSA payload (POST):", { csaDocUrl: (changedFields as any).csaDocUrl });
+
+        const csaResp = await fetch(
+          new URL(`collaboratives/${id}/csa`, import.meta.env.VITE_API_BASE),
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ csaDocUrl: (changedFields as any).csaDocUrl }),
+          }
+        );
+
+        if (!csaResp.ok) {
+          const text = await csaResp.text();
+          throw new Error(`Error updating CSA: ${csaResp.status} ${text}`);
+        }
       }
 
       // Navigate back to the collaborative page
