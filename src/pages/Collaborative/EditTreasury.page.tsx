@@ -24,7 +24,7 @@ export function EditCollaborativeTreasury() {
   
   // Form values
   const [formValues, setFormValues] = useState<{
-    collabLeaderCompensation: number;
+    collabAdminCompensationPercent: number;
   } | null>(null);
 
   // Set the collaborative ID in context
@@ -53,7 +53,7 @@ export function EditCollaborativeTreasury() {
       .then((data: CollaborativeDataTreasury) => {
         setCollaborative(data);
         setFormValues({
-          collabLeaderCompensation: data.collabLeaderCompensation,
+          collabAdminCompensationPercent: data.collabAdminCompensationPercent,
         });
         setLoading(false);
       })
@@ -141,10 +141,10 @@ export function EditCollaborativeTreasury() {
               Collaborative Leader Compensation
             </Text>
             <NumberInput
-              value={formValues.collabLeaderCompensation}
+              value={formValues.collabAdminCompensationPercent}
               onChange={(value) => setFormValues({
                 ...formValues,
-                collabLeaderCompensation: typeof value === 'number' ? value : formValues.collabLeaderCompensation
+                collabAdminCompensationPercent: typeof value === 'number' ? value : formValues.collabAdminCompensationPercent
               })}
               min={0}
               max={100}

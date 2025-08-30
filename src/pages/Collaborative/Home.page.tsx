@@ -38,7 +38,7 @@ const mockCollaborative: CollaborativeData =
   createdAt: 'February 1, 2022',
   readyForSubmittal: false,
   reasonForDecline: '',
-  collabLeaderCompensation: 5,
+  collabAdminCompensationPercent: 5,
   userIsCollabAdmin: false,
   userIsCollabContributor: true,
   skills: [

@@ -59,7 +59,7 @@ export function CollaborativeTreasury() {
         console.log(data);
         setCollaborative(data);
         setTotalTokenAssets(data.tokensReceivable + data.tokenBalance);
-        setTotalTokenLiabilities(data.collabLeaderCompensation + data.projectWorkPayment + data.nonTeamContributions);
+        setTotalTokenLiabilities(data.collabAdminCompensationPercent + data.projectWorkPayment + data.nonTeamContributions);
         // setFrom(location.state?.from || '/collaborative-directory');
         setLoading(false);
       })
@@ -195,7 +195,7 @@ export function CollaborativeTreasury() {
                         <Text fz="md" fw={500} c="#999">Collaborative Admin</Text>
                       </Tooltip>
 
-                      <Text fz="xl" fw={500} c="#444">{collaborative.collabLeaderCompensation}</Text>
+                      <Text fz="xl" fw={500} c="#444">{collaborative.collabAdminCompensationPercent}</Text>
 
                       <Tooltip color="gray" label="All unpaid Tokens in approved budgets to cover Project management and milestone completion.">
                         <Text fz="md" fw={500} c="#999">Project Work</Text>

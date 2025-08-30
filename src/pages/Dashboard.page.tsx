@@ -461,7 +461,7 @@ export function Dashboard() {
                     <Button
                       color="red"
                       variant="outline"
-                      mt="xl"
+                      mt="lg"
                       onClick={() => handleCollabApproval(collab.id,'decline')}
                     >
                       Submit Decline

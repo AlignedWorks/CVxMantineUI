@@ -10,6 +10,8 @@ export interface Collaborative {
   // default: 10,000
   launchTokensCreated: number;
   // in weeks, default is 12
+  launchTokenPriorWorkPercent: number;
+  // this is a percentage of launchTokensCreated to be set aside for work completed prior this collab being created
   launchCyclePeriod: number;
   // a percentage, default is 10%
   launchTokenReleaseRate: number;
@@ -18,6 +20,7 @@ export interface Collaborative {
   // this in relation to when the collaborative goes live, so uncertain at time of proposal
   // thus it's either 1) at the same time collab goes live (0) or 1,2,3,etc. weeks after
   launchTokenInitialReleaseWeeks: number;
+  collabAdminCompensationPercent: number;
 }
 
 export interface CollabInvite {
@@ -59,7 +62,7 @@ export interface CollaborativeData {
   createdAt: string;
   readyForSubmittal: boolean;
   reasonForDecline: string;
-  collabLeaderCompensation: number;
+  collabAdminCompensationPercent: number;
   userIsCollabAdmin: boolean;
   userIsCollabContributor: boolean;
   skills: { id: number; value: string }[];
@@ -87,7 +90,7 @@ export interface CollaborativeDataTreasury {
   id: number;
   name: string;
   logoUrl: string;
-  collabLeaderCompensation: number;
+  collabAdminCompensationPercent: number;
   userIsCollabAdmin: boolean;
   launchTokenValue: number;
   nextTokenReleaseDate: string;
@@ -698,7 +701,7 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: 'February 1, 2022',
     readyForSubmittal: false,
     reasonForDecline: '',
-    collabLeaderCompensation: 5,
+    collabAdminCompensationPercent: 5,
     userIsCollabAdmin: false,
     userIsCollabContributor: false,
     skills: [
@@ -724,7 +727,7 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '06-12-2023',
     readyForSubmittal: false,
     reasonForDecline: '',
-    collabLeaderCompensation: 5,
+    collabAdminCompensationPercent: 5,
     userIsCollabAdmin: false,
     userIsCollabContributor: true,  
     skills: [
@@ -750,7 +753,7 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '06-12-2023',
     readyForSubmittal: false,
     reasonForDecline: '',
-    collabLeaderCompensation: 5,
+    collabAdminCompensationPercent: 5,
     userIsCollabAdmin: false,
     userIsCollabContributor: false,
     skills: [
@@ -776,7 +779,7 @@ export const mock_collab_data: CollaborativeData[] = [
     createdAt: '06-12-2023',
     readyForSubmittal: false,
     reasonForDecline: '',
-    collabLeaderCompensation: 5,
+    collabAdminCompensationPercent: 5,
     userIsCollabAdmin: false,
     userIsCollabContributor: false,
     skills: [

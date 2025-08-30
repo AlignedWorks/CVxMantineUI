@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Container,
   Title,
+  Text,
   TextInput,
   Textarea,
   NumberInput,
@@ -39,10 +40,12 @@ export function CreateCollaborative() {
           experience: [],
           logoUrl: '',
           launchTokensCreated: 10000,
+          launchTokenPriorWorkPercent: 0,
           launchCyclePeriod: 12,
           launchTokenReleaseRate: 10,
           launchTokenInitialReleaseWeeks: 0,
           launchTokenValue: 0,
+          collabAdminCompensationPercent: 0,
         });
         setErrors({});
       }
@@ -78,10 +81,12 @@ export function CreateCollaborative() {
     skills: [],
     experience: [],
     launchTokensCreated: 10000,
+    launchTokenPriorWorkPercent: 0,
     launchCyclePeriod: 12,
     launchTokenReleaseRate: 10,
     launchTokenValue: 0,
     launchTokenInitialReleaseWeeks: 0,
+    collabAdminCompensationPercent: 0,
   });
 
   const [errors, setErrors] = useState<{
@@ -203,6 +208,66 @@ export function CreateCollaborative() {
     }
   };
 
+  const formatNumber = (n: number) =>
+    n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+  const numTokensSetAsideForPriorWork = Math.round((formValues.launchTokenPriorWorkPercent / 100) * (formValues.launchTokensCreated || 0));
+
+  // compute first three cycle balances (start of each cycle) using decay = (1 - releaseRate)
+  const releaseCyclesPreview: React.ReactNode = (() => {
+    const created = Math.max(0, Math.round(formValues.launchTokensCreated - numTokensSetAsideForPriorWork || 0));
+    const rate = Math.max(0, Math.min(100, formValues.launchTokenReleaseRate || 0)) / 100;
+
+    const first = Math.round(created * rate);
+    const second = Math.round(first * (1 - rate));
+    const third = Math.round(second * (1 - rate));
+
+    const cycles = [first, second, third];
+    const ord = (n: number) => (n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th');
+
+    return (
+      <>
+        # tokens&nbsp;
+        {cycles.map((v, i) => (
+          <span key={i}>
+            {i + 1}{ord(i + 1)} cycle:&nbsp;<strong>{formatNumber(v)}</strong>{i < cycles.length - 1 ? ', ' : ''}
+          </span>
+        ))}
+      </>
+    );
+  })();
+
+  // compute admin payouts for the first three cycles based on collabAdminCompensationPercent
+  const adminPaymentsPreview: React.ReactNode = (() => {
+    const compPct = Math.max(0, Math.min(100, formValues.collabAdminCompensationPercent || 0)) / 100;
+    if (compPct === 0) return '';
+
+    const created = Math.max(0, Math.round(formValues.launchTokensCreated - numTokensSetAsideForPriorWork || 0));
+    const rate = Math.max(0, Math.min(100, formValues.launchTokenReleaseRate || 0)) / 100;
+
+    const first = Math.round(created * rate);
+    const second = Math.round(first * (1 - rate));
+    const third = Math.round(second * (1 - rate));
+
+    const adminFirst = Math.round(first * compPct);
+    const adminSecond = Math.round(second * compPct);
+    const adminThird = Math.round(third * compPct);
+
+    const ord = (n: number) => (n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th');
+    const arr = [adminFirst, adminSecond, adminThird];
+
+    return (
+      <>
+        # tokens&nbsp;
+        {arr.map((v, i) => (
+          <span key={i}>
+            {i + 1}{ord(i + 1)} cycle:&nbsp;<strong>{formatNumber(v)}</strong>{i < arr.length - 1 ? ', ' : ''}
+          </span>
+        ))}
+      </>
+    );
+  })();
+
   return (
     <Container size="md" py="xl">
 
@@ -215,14 +280,14 @@ export function CreateCollaborative() {
           Propose a Collaborative
       </Title>
 
-      <Title order={2} mb="md" pt="sm" pb="xl" ta="center">
+      <Title order={2} pt="sm" pb="md" ta="center">
           Purpose and People
       </Title>
 
       <SimpleGrid mt="xl" cols={{ base: 1, md: 2 }}>
         <TextInput
             label="Collaborative Name"
-            placeholder="Enter your collaborative's name"
+            placeholder="Enter your Collab's name"
             value={formValues.name}
             onChange={(event) => handleInputChange('name', event.currentTarget.value)}
             error={errors.name} // Display validation error
@@ -326,7 +391,7 @@ export function CreateCollaborative() {
         onImageSelected={(url) => handleInputChange('logoUrl', url)}
       />
 
-      <Title order={2} mt="xl" mb="md" pt="xl" pb="xl" ta="center">
+      <Title order={2} mt="xl" mb="md" pt="xl" pb="md" ta="center">
         Launch Tokens
       </Title>
 
@@ -346,6 +411,76 @@ export function CreateCollaborative() {
           mb="md"
         />
 
+        <div>
+          <NumberInput
+            label="Current Token Price (USD)"
+            placeholder="Enter the current token price in USD (e.g., 1.00), this is optional"
+            value={formValues.launchTokenValue}
+            onChange={(value) =>
+              handleInputChange('launchTokenValue', value)
+            }
+            error={errors.launchTokenValue} // Display validation error
+
+            min={0}
+            prefix="$"
+            decimalScale={2}
+            allowNegative={false}
+            mb="xs" 
+          />
+          <Text size="sm" c="dimmed" mb="md">
+            {`Token Pool Value: $${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              })}`}
+          </Text>
+        </div>
+      </SimpleGrid>
+
+      <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
+        <div>
+          <NumberInput
+            label="Tokens for Prior Work (%)"
+            placeholder="Enter the expected token value increase percentage (default: 0%)"
+            value={formValues.launchTokenPriorWorkPercent }
+            onChange={(value) =>
+              handleInputChange('launchTokenPriorWorkPercent', value)
+            }
+            min={0}
+            max={100}
+            suffix="%"
+            decimalScale={2}
+            mb="xs"
+          />
+          <Text size="sm" c="dimmed" mb="md">
+            # tokens: {formValues.launchTokenPriorWorkPercent > 0 ? `${((formValues.launchTokenPriorWorkPercent / 100) * formValues.launchTokensCreated).toLocaleString('en-US', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0
+            })}` : 0}
+          </Text>
+        </div>
+
+        <div>
+          <NumberInput
+            label="Token Release Rate (%)"
+            placeholder="Enter the release rate percentage (default: 10%)"
+            value={formValues.launchTokenReleaseRate}
+            onChange={(value) =>
+              handleInputChange('launchTokenReleaseRate', value)
+            }
+            error={errors.launchTokenReleaseRate} // Display validation error
+            required
+            min={0}
+            max={100}
+            decimalScale={2}
+            mb="xs"
+          />
+          <Text size="sm" c="dimmed" mb="md">
+            {releaseCyclesPreview}
+          </Text>
+        </div>
+      </SimpleGrid>
+
+      <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <NumberInput
           label="Launch Cycle Period (weeks)"
           placeholder="Enter the cycle period in weeks (default: 12)"
@@ -358,55 +493,50 @@ export function CreateCollaborative() {
           allowNegative={false}
           mb="md"
         />
+
+        <div>
+          <NumberInput
+            label="Initial Release (weeks)"
+            placeholder="Enter weeks (0 = at approval)"
+            value={formValues.launchTokenInitialReleaseWeeks}
+            onChange={(value) =>
+              handleInputChange('launchTokenInitialReleaseWeeks', value)
+            }
+            error={errors.launchTokenInitialReleaseWeeks} // Display validation error
+            required
+            mb="xs"
+            allowNegative={false}
+          />
+          <Text size="sm" c="dimmed" mb="md">
+            # weeks after collab approval (0 = at approval)
+          </Text>
+        </div>
       </SimpleGrid>
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
-        <NumberInput
-          label="Token Release Rate (%)"
-          placeholder="Enter the release rate percentage (default: 10%)"
-          value={formValues.launchTokenReleaseRate}
-          onChange={(value) =>
-            handleInputChange('launchTokenReleaseRate', value)
-          }
-          error={errors.launchTokenReleaseRate} // Display validation error
-          required
-          min={0}
-          max={100}
-          decimalScale={2}
-          mb="md"
-        />
-
-        <NumberInput
-          label="Initial Token Release Date (# weeks after collab approval, 0 is default and at time of approval)"
-          placeholder="Enter the number of weeks (0 = at approval)"
-          value={formValues.launchTokenInitialReleaseWeeks}
-          onChange={(value) =>
-            handleInputChange('launchTokenInitialReleaseWeeks', value)
-          }
-          error={errors.launchTokenInitialReleaseWeeks} // Display validation error
-          required
-          mb="md"
-          allowNegative={false}
-        />
-
-        <NumberInput
-          label="Current Token Price (USD)"
-          placeholder="Enter the current token price in USD (e.g., 1.00), this is optional"
-          value={formValues.launchTokenValue}
-          onChange={(value) =>
-            handleInputChange('launchTokenValue', value)
-          }
-          error={errors.launchTokenValue} // Display validation error
-          description={`Token Pool Value: $${(formValues.launchTokenValue * formValues.launchTokensCreated).toLocaleString('en-US', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0
-            })}`}
-          min={0}
-          prefix="$"
-          decimalScale={2}
-          allowNegative={false}
-          mb="md"
-        />
+        <div>
+          <NumberInput
+            label="Collab Admin Compensation (%)"
+            placeholder="Percentage of each release cycle allocated to the collaborative admin (default: 0%)"
+            value={formValues.collabAdminCompensationPercent}
+            onChange={(value) =>
+              handleInputChange('collabAdminCompensationPercent', value)
+            }
+            required
+            min={0}
+            max={100}
+            decimalScale={2}
+            mb="xs"
+          />
+          <Text size="sm" c="dimmed" mb="md">
+            {adminPaymentsPreview
+              ? <>{adminPaymentsPreview}</>
+              : 'Percentage of tokens released to the collaborative admin every cycle as compensation'}
+          </Text>
+        </div>
+        <div>
+          {/* empty placeholder to reserve the second column so widths match */}
+        </div>
       </SimpleGrid>
 
       <Group justify="flex-end" mt="xl">
