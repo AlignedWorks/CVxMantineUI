@@ -90,7 +90,6 @@ export interface CollaborativeDataTreasury {
   id: number;
   name: string;
   logoUrl: string;
-  collabAdminCompensationPercent: number;
   userIsCollabAdmin: boolean;
   launchTokenValue: number;
   nextTokenReleaseDate: string;
