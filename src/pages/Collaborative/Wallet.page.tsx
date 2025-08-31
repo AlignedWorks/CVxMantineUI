@@ -90,8 +90,8 @@ export function CollaborativeMemberWallet() {
     </Table.Tr>
   ));
 
-  // Calculate total of all transaction amounts
-  const totalAmount = collaborative.launchTokenTransactions.reduce((sum, transaction) => {
+  // Calculate total number of user earned tokens from the collaborative of all transaction amounts
+  const userEarnedTokensFromCollabTotal = collaborative.launchTokenTransactions.reduce((sum, transaction) => {
     return sum + transaction.amount;
   }, 0);
 
@@ -123,10 +123,30 @@ export function CollaborativeMemberWallet() {
 
               <SimpleGrid cols={{ base: 1, sm: 1, md: 3 }} mb="md">
                 <div>
+                  <Tooltip
+                    color="gray"
+                    label="Tokens permanently assigned to you for work or other contributions satisfactorily completed"
+                    multiline
+                    w={220}
+                  >
+                    <Text fz="md" fw={500} c="#999">My Earned Tokens</Text>
+                  </Tooltip>
+                  <Text fz="xl" fw={700} c="#444">{(userEarnedTokensFromCollabTotal).toFixed(2)}</Text>
+
+                  <Tooltip
+                    color="gray"
+                    label="Tokens tentatively assigned to you for work or other contributions that are in process"
+                    multiline
+                    w={220}
+                  >
+                    <Text fz="md" fw={500} c="#999">My Pending Tokens</Text>
+                  </Tooltip>
+                  <Text fz="xl" fw={700} c="#444">+ {(collaborative.userAssignedLaunchTokens - userEarnedTokensFromCollabTotal).toFixed(2)}</Text>
+
                   <Tooltip color="gray" label="My Earned Tokens + My Pending Tokens">
                     <Text fz="md" fw={500} c="#999">My Assigned Tokens</Text>
                   </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens).toFixed(2)}</Text>
+                  <Text fz="xl" fw={700} c="#444">= {(collaborative.userAssignedLaunchTokens).toFixed(2)}</Text>
                 </div>
                 <div>
                   <Tooltip color="gray" label="All Earned Tokens + All Pending Tokens">
@@ -191,11 +211,11 @@ export function CollaborativeMemberWallet() {
                         </Table.Td>
                         <Table.Td>
                           <Badge 
-                            color={totalAmount > 0 ? 'green' : totalAmount < 0 ? 'red' : 'gray'} 
+                            color={userEarnedTokensFromCollabTotal > 0 ? 'green' : userEarnedTokensFromCollabTotal < 0 ? 'red' : 'gray'} 
                             variant="filled"
                             size="lg"
                           >
-                            {totalAmount > 0 ? '+' : ''}{totalAmount}
+                            {userEarnedTokensFromCollabTotal > 0 ? '+' : ''}{userEarnedTokensFromCollabTotal}
                           </Badge>
                         </Table.Td>
                       </Table.Tr>

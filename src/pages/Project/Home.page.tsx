@@ -150,15 +150,20 @@ export function ProjectHome() {
                     </Text>
                   </Text>
                   <Group mb="md">
-                      {project.approvalStatus === 'Active' ? (
-                          <Badge variant="light" color="yellow">
-                              {project.approvalStatus}
-                          </Badge>
-                      ) : (
-                          <Badge variant="light" color="pink">
-                              {project.approvalStatus}
-                          </Badge>
-                      )}
+                    {project.approvalStatus === 'Active' ? (
+                      <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
+                    ) : project.approvalStatus === 'Draft' ? (
+                      <Tooltip
+                        color="gray"
+                        label="Pending submission of a completed proposal by the assigned Project Admin"
+                        multiline
+                        w={220}
+                      >
+                        <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
+                      </Tooltip>
+                    ) : (
+                      <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
+                    )}
                   </Group>
                 </div>
                 <div>
@@ -168,7 +173,7 @@ export function ProjectHome() {
                     </Text>
                     <div>
                       <Text fz="md">
-                          {project.adminName}
+                        {project.adminName}
                       </Text>
                       <Text 
                         fz="sm" 
