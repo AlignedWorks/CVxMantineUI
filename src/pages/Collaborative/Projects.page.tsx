@@ -182,7 +182,7 @@ export function CollaborativeProjects() {
                             </Badge>
                           )}
                         </Table.Td>
-                        <Table.Td>{project.launchTokenBudget}</Table.Td>
+                        <Table.Td>{project.budget}</Table.Td>
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
                       </Table.Tr>
                     ))}
