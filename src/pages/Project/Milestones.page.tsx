@@ -738,9 +738,7 @@ export function ProjectMilestones() {
               variant="default"
               onClick={() => {
                 setIsModalOpen(false);
-                setStartDateError(null);
-                setDueDateError(null);
-                setLaunchTokenError(null);
+                setErrors({});
               }}
             >
               Cancel
