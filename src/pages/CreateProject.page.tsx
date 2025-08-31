@@ -21,21 +21,21 @@ export function CreateProject() {
   const [remainingProjectBalance, setRemainingProjectBalance] = useState<number | null>(null);
   const [percentOfProjectBudget, setPercentOfProjectBudget] = useState<number | null>(null);
   
-  type ProjectFormValues = Pick<Project, 'collabId' | 'name' | 'description' | 'launchTokenBudget' | 'projectAdminCompensation'> & {
-    projectAdminId?: string;
+  type ProjectFormValues = Pick<Project, 'collabId' | 'name' | 'description' | 'budget' | 'adminPay'> & {
+    adminId?: string;
   };
   
   const [formValues, setFormValues] = useState<ProjectFormValues>({
     collabId: parseInt(collabId || '0', 10),
     name: '',
     description: '',
-    launchTokenBudget: 0,
-    projectAdminCompensation: 0,
-    projectAdminId: '',
+    budget: 0,
+    adminPay: 0,
+    adminId: '',
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
+  const [budgetError, setBudgetError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCollaborativeMembers = async () => {
@@ -83,6 +83,7 @@ export function CreateProject() {
         setTokenDistribution(data);
       } catch (error) {
         console.error('Error fetching token distribution:', error);
+        setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
       }
     };
 
@@ -97,13 +98,14 @@ export function CreateProject() {
     }));
   };
 
-  // Function to handle launch token budget change with validation
-  const handleLaunchTokenBudgetChange = (value: number | string) => {
-    handleInputChange('launchTokenBudget', value);
+  // Function to handle budget change with validation
+  const handleBudgetChange = (value: number | string) => {
+
+    handleInputChange('budget', value);
     
     // Clear error when user changes value
-    if (launchTokenError) {
-      setLaunchTokenError(null);
+    if (budgetError) {
+      setBudgetError(null);
     }
     
     // Reset previews if no valid token distribution or no value
@@ -117,48 +119,46 @@ export function CreateProject() {
     
     // Validate if value is provided and token distribution is available
     if (value && Number(value) > 0 && tokenDistribution) {
-      const projectPercent = Number(value);
-      const tokenAmount = (projectPercent / 100) * tokenDistribution.currentTokenRelease;
-      if (tokenAmount > tokenDistribution.launchTokensBalance) {
-        setLaunchTokenError(`This allocation (${Math.round(tokenAmount).toLocaleString()} tokens) exceeds available balance (${Math.round(tokenDistribution.launchTokensBalance).toLocaleString()} tokens)`);
-        // still update previews to show negative/zero remaining if desired
-        setRemainingCollaborativeBalance(Math.round(tokenDistribution.launchTokensBalance - tokenAmount));
-        setPercentOfAvailableBalance(tokenDistribution.launchTokensBalance > 0 ? (tokenAmount / tokenDistribution.launchTokensBalance) * 100 : 0);
-        // update project-level previews using current admin compensation value
-        const adminComp = Number(formValues.projectAdminCompensation || 0);
-        setRemainingProjectBalance(Math.round(Math.max(0, tokenAmount - adminComp)));
-        setPercentOfProjectBudget(tokenAmount > 0 ? (adminComp / tokenAmount) * 100 : 0);
-        return;
-      }
-      // compute and store preview values
-      const remaining = tokenDistribution.launchTokensBalance - tokenAmount;
+
+      const projectBudgetTokens = Number(value);
+      const remaining = tokenDistribution.launchTokensBalance - projectBudgetTokens;
       const percentOfAvailable = tokenDistribution.launchTokensBalance > 0
-        ? (tokenAmount / tokenDistribution.launchTokensBalance) * 100
+        ? (projectBudgetTokens / tokenDistribution.launchTokensBalance) * 100
         : 0;
+
+      const adminComp = Number(formValues.adminPay || 0);
+      const remainingProject = Math.round(Math.max(0, projectBudgetTokens - adminComp));
+      const percentProject = projectBudgetTokens > 0 ? (adminComp / projectBudgetTokens) * 100 : 0;
+
+      let error: string | null = null;
+      if (projectBudgetTokens < adminComp) {
+        error = `This allocation (${Math.round(projectBudgetTokens).toLocaleString()} tokens) is less than the Project Admin Pay (${Math.round(adminComp).toLocaleString()} tokens)`;
+      }
+
+      setBudgetError(error);
       setRemainingCollaborativeBalance(Math.round(remaining));
       setPercentOfAvailableBalance(percentOfAvailable);
-      // update project-level previews using current admin compensation value
-      const adminComp = Number(formValues.projectAdminCompensation || 0);
-      setRemainingProjectBalance(Math.round(Math.max(0, tokenAmount - adminComp)));
-      setPercentOfProjectBudget(tokenAmount > 0 ? (adminComp / tokenAmount) * 100 : 0);
+      setRemainingProjectBalance(remainingProject);
+      setPercentOfProjectBudget(percentProject);
     }
   };
 
-  // When admin compensation changes, recompute project-level previews
-  const handleProjectAdminCompChange = (value: number | string) => {
-    handleInputChange('projectAdminCompensation', value);
-    const adminComp = Number(value || 0);
+  // When admin pay changes, recompute project-level previews
+  const handleAdminPayChange = (value: number | string) => {
 
-    // derive tokenAmount from current launchTokenBudget & tokenDistribution (same calc as above)
-    if (!tokenDistribution || !formValues.launchTokenBudget || Number(formValues.launchTokenBudget) <= 0) {
+    handleInputChange('adminPay', value);
+    const adminCompTokens = Number(value || 0);
+    const projectBudgetTokens = Number(formValues.budget || 0);
+
+    // derive tokenAmount from current budget & tokenDistribution (same calc as above)
+    if (!tokenDistribution || !formValues.budget || Number(formValues.budget) <= 0) {
       setRemainingProjectBalance(null);
       setPercentOfProjectBudget(null);
       return;
     }
 
-    const tokenAmount = (Number(formValues.launchTokenBudget) / 100) * tokenDistribution.currentTokenRelease;
-    setRemainingProjectBalance(Math.round(Math.max(0, tokenAmount - adminComp)));
-    setPercentOfProjectBudget(tokenAmount > 0 ? (adminComp / tokenAmount) * 100 : 0);
+    setRemainingProjectBalance(Math.round(Math.max(0, projectBudgetTokens - adminCompTokens)));
+    setPercentOfProjectBudget(projectBudgetTokens > 0 ? (adminCompTokens / projectBudgetTokens) * 100 : 0);
   };
   
   const handleSubmit = async (event: React.FormEvent) => {
@@ -168,24 +168,21 @@ export function CreateProject() {
 
     if (!formValues.name) newErrors.name = 'Project name is required.';
     if (!formValues.description) newErrors.description = 'Description is required.';
-    if (!formValues.projectAdminId) newErrors.projectAdminId = 'Project Admin is required.';
-    if (formValues.launchTokenBudget <= 0) newErrors.launchTokenBudget = 'Launch token budget must be greater than 0.';
-    if (formValues.projectAdminCompensation < 0 || formValues.projectAdminCompensation > 100) {
-      newErrors.projectAdminCompensation = 'Admin compensation must be between 0 and 100.';
-    }
+    if (!formValues.adminId) newErrors.adminId = 'Project Admin is required.';
+    if (formValues.budget <= 0) newErrors.budget = 'Project budget must be greater than 0.';
 
     // Validate launch token allocation
-    if (tokenDistribution && formValues.launchTokenBudget > 0) {
-      const tokenAmount = (Number(formValues.launchTokenBudget) / 100) * tokenDistribution.currentTokenRelease;
+    if (tokenDistribution && formValues.budget > 0) {
+      const tokenAmount = (Number(formValues.budget) / 100) * tokenDistribution.currentTokenRelease;
       if (tokenAmount > tokenDistribution.launchTokensBalance) {
-        setLaunchTokenError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`);
+        setBudgetError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`);
         return;
       }
     }
 
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0 && !launchTokenError) {
+    if (Object.keys(newErrors).length === 0 && !budgetError) {
       console.log('Form submitted:', formValues);
 
       try {
@@ -221,11 +218,9 @@ export function CreateProject() {
   // Check if form is valid
   const isFormValid = formValues.name && 
                      formValues.description && 
-                     formValues.projectAdminId &&
-                     formValues.launchTokenBudget > 0 &&
-                     formValues.projectAdminCompensation >= 0 &&
-                     formValues.projectAdminCompensation <= 100 &&
-                     !launchTokenError;
+                     formValues.adminId &&
+                     formValues.budget > 0 &&
+                     formValues.adminPay < formValues.budget
 
   return (
     <Container size="md" py="xl">
@@ -258,9 +253,9 @@ export function CreateProject() {
                     label: `${member.firstName} ${member.lastName}`,
                 }))
             }
-            value={formValues.projectAdminId || ''}
-            onChange={(value) => handleInputChange('projectAdminId', value)}
-            error={errors.projectAdminId}
+            value={formValues.adminId || ''}
+            onChange={(value) => handleInputChange('adminId', value)}
+            error={errors.adminId}
             required
             />
         </SimpleGrid>
@@ -280,35 +275,39 @@ export function CreateProject() {
             <NumberInput
               label="Project Budget"
               placeholder="Enter a Project Budget as a number of Launch Tokens"
-              value={formValues.launchTokenBudget}
-              onChange={handleLaunchTokenBudgetChange}
-              error={launchTokenError || errors.launchTokenBudget}
+              value={formValues.budget}
+              onChange={handleBudgetChange}
+              error={budgetError || errors.budget}
+              allowNegative={false}
               required
               min={0}
-
+              max={tokenDistribution ? tokenDistribution.launchTokensBalance : undefined}
+              suffix=" tokens"
             />
-            <Text size="sm" c="dimmed">
-              Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : '—'}
+            <Text size="sm" c="dimmed" mt="xs">
+              Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${tokenDistribution?.launchTokensBalance} tokens`}
             </Text>
             <Text size="sm" c="dimmed" mb="md">
-              {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance.toFixed(0)}% of available balance` : '—'}
+              {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance?.toFixed(0)}% of available balance` : '0% of available balance'}
             </Text>
           </div>
           <div>
           <NumberInput
             label="Project Admin Pay"
-            placeholder="Enter the Project Admin compensation as a # of Tokens"
-            value={formValues.projectAdminCompensation}
-            onChange={handleProjectAdminCompChange}
-            error={errors.projectAdminCompensation}
+            placeholder="Enter the Project Admin pay as a # of Tokens"
+            value={formValues.adminPay}
+            onChange={handleAdminPayChange}
+            allowNegative={false}
+            max={formValues.budget || 0}
             required
+            suffix=" tokens"
             step={1}
           />
-          <Text size="sm" c="dimmed">
-              Remaining Project Balance: {remainingProjectBalance !== null ? `${remainingProjectBalance.toLocaleString()} Tokens` : '—'}
+          <Text size="sm" c="dimmed" mt="xs">
+              Remaining Project Balance: {remainingProjectBalance !== null ? `${remainingProjectBalance.toLocaleString()} Tokens` : '0 tokens'}
             </Text>
             <Text size="sm" c="dimmed">
-              {percentOfProjectBudget !== null ? `${percentOfProjectBudget.toFixed(0)}% of Project Budget` : '—'}
+              {percentOfProjectBudget !== null ? `${percentOfProjectBudget.toFixed(0)}% of Project Budget` : '0% of Project Budget'}
             </Text>
           </div>
         </SimpleGrid>
