@@ -130,16 +130,23 @@ export function ProjectHome() {
               </Text>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
-                  <Tooltip color="gray" label="Total number of Launch Tokens budgeted for this budget">
-                    <Text mb="md">Project Budget: {Number(project.launchTokenBudget).toFixed(2)} Tokens</Text>
+                  <Tooltip color="gray" label="Total number of Launch Tokens allocated for this budget">
+                    <Text mb="md">Project Budget: {Number(project.budget).toFixed(2)} Tokens</Text>
                   </Tooltip>
                   <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated">
-                    <Text mb="md">Available Budget: {Number(project.launchTokenBalance).toFixed(2)} Tokens</Text>
+                    <Text mb="md">Available Budget: {Number(project.balance).toFixed(2)} Tokens</Text>
                   </Tooltip>
                   <Text mb="md">
-                    Project Admin Pay: {Number(project.projectAdminCompensation * project.launchTokenBudget).toFixed(2)} Tokens<br/>
+                    Project Admin Pay: {Number(project.adminPay).toFixed(2)} Tokens<br/>
                     <Text fz="sm" c="dimmed">
-                      ({Number(project.projectAdminCompensation * 100).toFixed(2)}% of budget)
+                      {(() => {
+                        const pay = Number(project.adminPay);
+                        const budget = Number(project.budget);
+                        const pct = budget > 0 && Number.isFinite(pay) && Number.isFinite(budget)
+                          ? (pay / budget) * 100
+                          : 0;
+                      return `(${pct.toFixed(2)}% of budget)`;
+                      })()}
                     </Text>
                   </Text>
                   <Group mb="md">
@@ -161,19 +168,19 @@ export function ProjectHome() {
                     </Text>
                     <div>
                       <Text fz="md">
-                          {project.projectAdminName}
+                          {project.adminName}
                       </Text>
                       <Text 
                         fz="sm" 
                         c="#0077b5"
                         component="a"
-                        href={`mailto:${project.projectAdminEmail}`}
+                        href={`mailto:${project.adminEmail}`}
                         style={{
                           textDecoration: 'none',
                           transition: 'color 0.2s ease'
                         }}
                       >
-                        {project.projectAdminEmail}
+                        {project.adminEmail}
                       </Text>
                     </div>
                   </Group>

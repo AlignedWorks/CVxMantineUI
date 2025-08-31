@@ -154,12 +154,12 @@ export interface ProjectDataHome {
   name: string;
   description: string;
   approvalStatus: string;
-  launchTokenBudget: number;
-  launchTokenBalance: number;
+  budget: number;
+  balance: number;
   createdAt: string;
-  projectAdminName: string;
-  projectAdminEmail: string;
-  projectAdminCompensation: number;
+  adminName: string;
+  adminEmail: string;
+  adminPay: number;
 }
 
 export interface ProjectDataWithMembers {
