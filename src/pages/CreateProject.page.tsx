@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Container, TextInput, NumberInput, Select, Textarea, Button, Group, Title, SimpleGrid } from '@mantine/core';
+import { Container, TextInput, NumberInput, Select, Text, Textarea, Button, Group, Title, SimpleGrid } from '@mantine/core';
 import { Project, CollaborativeDataWithMembers } from '../data';
 
 // Add interface for token distribution data
@@ -14,7 +14,13 @@ export function CreateProject() {
   const { collabId } = useParams<{ collabId: string }>();
   const [collaborative, setCollaborative] = useState<CollaborativeDataWithMembers | null>(null);
   const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution | null>(null);
-
+  // display helpers for Project Budget preview
+  const [remainingCollaborativeBalance, setRemainingCollaborativeBalance] = useState<number | null>(null);
+  const [percentOfAvailableBalance, setPercentOfAvailableBalance] = useState<number | null>(null);
+  // project-level derived values
+  const [remainingProjectBalance, setRemainingProjectBalance] = useState<number | null>(null);
+  const [percentOfProjectBudget, setPercentOfProjectBudget] = useState<number | null>(null);
+  
   type ProjectFormValues = Pick<Project, 'collabId' | 'name' | 'description' | 'launchTokenBudget' | 'projectAdminCompensation'> & {
     projectAdminId?: string;
   };
@@ -100,20 +106,61 @@ export function CreateProject() {
       setLaunchTokenError(null);
     }
     
+    // Reset previews if no valid token distribution or no value
+    if (!tokenDistribution || !value || Number(value) <= 0) {
+      setRemainingCollaborativeBalance(null);
+      setPercentOfAvailableBalance(null);
+      setRemainingProjectBalance(null);
+      setPercentOfProjectBudget(null);
+      return;
+    }
+    
     // Validate if value is provided and token distribution is available
     if (value && Number(value) > 0 && tokenDistribution) {
-      const tokenAmount = (Number(value) / 100) * tokenDistribution.currentTokenRelease;
+      const projectPercent = Number(value);
+      const tokenAmount = (projectPercent / 100) * tokenDistribution.currentTokenRelease;
       if (tokenAmount > tokenDistribution.launchTokensBalance) {
-        setLaunchTokenError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`);
+        setLaunchTokenError(`This allocation (${Math.round(tokenAmount).toLocaleString()} tokens) exceeds available balance (${Math.round(tokenDistribution.launchTokensBalance).toLocaleString()} tokens)`);
+        // still update previews to show negative/zero remaining if desired
+        setRemainingCollaborativeBalance(Math.round(tokenDistribution.launchTokensBalance - tokenAmount));
+        setPercentOfAvailableBalance(tokenDistribution.launchTokensBalance > 0 ? (tokenAmount / tokenDistribution.launchTokensBalance) * 100 : 0);
+        // update project-level previews using current admin compensation value
+        const adminComp = Number(formValues.projectAdminCompensation || 0);
+        setRemainingProjectBalance(Math.round(Math.max(0, tokenAmount - adminComp)));
+        setPercentOfProjectBudget(tokenAmount > 0 ? (adminComp / tokenAmount) * 100 : 0);
+        return;
       }
+      // compute and store preview values
+      const remaining = tokenDistribution.launchTokensBalance - tokenAmount;
+      const percentOfAvailable = tokenDistribution.launchTokensBalance > 0
+        ? (tokenAmount / tokenDistribution.launchTokensBalance) * 100
+        : 0;
+      setRemainingCollaborativeBalance(Math.round(remaining));
+      setPercentOfAvailableBalance(percentOfAvailable);
+      // update project-level previews using current admin compensation value
+      const adminComp = Number(formValues.projectAdminCompensation || 0);
+      setRemainingProjectBalance(Math.round(Math.max(0, tokenAmount - adminComp)));
+      setPercentOfProjectBudget(tokenAmount > 0 ? (adminComp / tokenAmount) * 100 : 0);
     }
   };
 
-  // Calculate maximum percentage allowed
-  const maxPercentage = tokenDistribution && tokenDistribution.currentTokenRelease > 0
-    ? Math.floor((tokenDistribution.launchTokensBalance / tokenDistribution.currentTokenRelease) * 100)
-    : 100;
+  // When admin compensation changes, recompute project-level previews
+  const handleProjectAdminCompChange = (value: number | string) => {
+    handleInputChange('projectAdminCompensation', value);
+    const adminComp = Number(value || 0);
 
+    // derive tokenAmount from current launchTokenBudget & tokenDistribution (same calc as above)
+    if (!tokenDistribution || !formValues.launchTokenBudget || Number(formValues.launchTokenBudget) <= 0) {
+      setRemainingProjectBalance(null);
+      setPercentOfProjectBudget(null);
+      return;
+    }
+
+    const tokenAmount = (Number(formValues.launchTokenBudget) / 100) * tokenDistribution.currentTokenRelease;
+    setRemainingProjectBalance(Math.round(Math.max(0, tokenAmount - adminComp)));
+    setPercentOfProjectBudget(tokenAmount > 0 ? (adminComp / tokenAmount) * 100 : 0);
+  };
+  
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -229,29 +276,41 @@ export function CreateProject() {
         />
 
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg" mt="lg">
-          <NumberInput
-            label="Project Budget"
-            placeholder="Enter a Project Budget as a number of Launch Tokens"
-            value={formValues.launchTokenBudget}
-            onChange={handleLaunchTokenBudgetChange}
-            error={launchTokenError || errors.launchTokenBudget}
-            required
-            min={0}
-            max={maxPercentage}
-            description={tokenDistribution ? `Available balance: ${tokenDistribution.launchTokensBalance} tokens (${maxPercentage}% of current token release)` : 'Loading token data...'}
-          />
+          <div>
+            <NumberInput
+              label="Project Budget"
+              placeholder="Enter a Project Budget as a number of Launch Tokens"
+              value={formValues.launchTokenBudget}
+              onChange={handleLaunchTokenBudgetChange}
+              error={launchTokenError || errors.launchTokenBudget}
+              required
+              min={0}
+
+            />
+            <Text size="sm" c="dimmed">
+              Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : '—'}
+            </Text>
+            <Text size="sm" c="dimmed" mb="md">
+              {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance.toFixed(0)}% of available balance` : '—'}
+            </Text>
+          </div>
+          <div>
           <NumberInput
             label="Project Admin Pay"
             placeholder="Enter the Project Admin compensation as a # of Tokens"
             value={formValues.projectAdminCompensation}
-            onChange={(value) => handleInputChange('projectAdminCompensation', value)}
+            onChange={handleProjectAdminCompChange}
             error={errors.projectAdminCompensation}
             required
-            min={0}
-            max={100}
             step={1}
-            description=""
           />
+          <Text size="sm" c="dimmed">
+              Remaining Project Balance: {remainingProjectBalance !== null ? `${remainingProjectBalance.toLocaleString()} Tokens` : '—'}
+            </Text>
+            <Text size="sm" c="dimmed">
+              {percentOfProjectBudget !== null ? `${percentOfProjectBudget.toFixed(0)}% of Project Budget` : '—'}
+            </Text>
+          </div>
         </SimpleGrid>
 
         <Group justify="flex-end" mt="xl">

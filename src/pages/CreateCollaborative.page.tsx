@@ -413,7 +413,7 @@ export function CreateCollaborative() {
 
         <div>
           <NumberInput
-            label="Current Token Price (USD)"
+            label="Current Token Price"
             placeholder="Enter the current token price in USD (e.g., 1.00), this is optional"
             value={formValues.launchTokenValue}
             onChange={(value) =>
@@ -439,7 +439,7 @@ export function CreateCollaborative() {
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <div>
           <NumberInput
-            label="Tokens for Prior Work (%)"
+            label="Tokens for Prior Work"
             placeholder="Enter the expected token value increase percentage (default: 0%)"
             value={formValues.launchTokensPriorWorkPercent }
             onChange={(value) =>
@@ -461,7 +461,7 @@ export function CreateCollaborative() {
 
         <div>
           <NumberInput
-            label="Token Release Rate (%)"
+            label="Token Release Rate"
             placeholder="Enter the release rate percentage (default: 10%)"
             value={formValues.launchTokenReleaseRate}
             onChange={(value) =>
@@ -471,6 +471,7 @@ export function CreateCollaborative() {
             required
             min={0}
             max={100}
+            suffix="%"
             decimalScale={2}
             mb="xs"
           />
@@ -516,7 +517,7 @@ export function CreateCollaborative() {
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <div>
           <NumberInput
-            label="Collab Admin Pay (%)"
+            label="Collab Admin Pay"
             placeholder="Percentage of each release cycle allocated to the collaborative admin (default: 0%)"
             value={formValues.collabAdminCompensationPercent}
             onChange={(value) =>
@@ -525,6 +526,7 @@ export function CreateCollaborative() {
             required
             min={0}
             max={100}
+            suffix="%"
             decimalScale={2}
             mb="xs"
           />
