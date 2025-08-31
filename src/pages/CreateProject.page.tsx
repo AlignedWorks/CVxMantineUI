@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Container, TextInput, NumberInput, Select, Text, Textarea, Button, Group, Title, SimpleGrid } from '@mantine/core';
+import { Container, TextInput, NumberInput, Select, Text, Textarea, Button, Group, Title, SimpleGrid, Tooltip } from '@mantine/core';
 import { Project, CollaborativeDataWithMembers } from '../data';
 
 // Add interface for token distribution data
@@ -266,6 +266,12 @@ export function CreateProject() {
 
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg" mt="lg">
           <div>
+            <Tooltip
+              color="gray"
+              label="Enter a Project Budget as a number of Launch Tokens"
+              multiline
+              w={220}
+            >
             <NumberInput
               label="Project Budget"
               placeholder="Enter a Project Budget as a number of Launch Tokens"
@@ -278,27 +284,49 @@ export function CreateProject() {
               max={tokenDistribution ? tokenDistribution.launchTokensBalance : undefined}
               suffix=" tokens"
             />
-            <Text size="sm" c="dimmed" mt="xs">
-              Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${tokenDistribution?.launchTokensBalance} tokens`}
-            </Text>
-            <Text size="sm" c="dimmed" mb="md">
-              {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance?.toFixed(0)}% of available balance` : '0% of available balance'}
-            </Text>
+            </Tooltip>
+            <Tooltip
+              color="gray"
+              label="The # of Tokens in the Collaborative released for use and still unassigned after this project is launched"
+              multiline
+              w={220}
+            >
+              <Text size="sm" c="dimmed" mt="xs">
+                Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${tokenDistribution?.launchTokensBalance} tokens`}
+              </Text>
+            </Tooltip>
+            <Tooltip
+              color="gray"
+              label="The percent of released and unassigned Tokens in the Collaborative needed to fund this project"
+              multiline
+              w={220}
+            >
+              <Text size="sm" c="dimmed" mb="md">
+                {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance?.toFixed(0)}% of available balance` : '0% of available balance'}
+              </Text>
+            </Tooltip>
           </div>
           <div>
-          <NumberInput
-            label="Project Admin Pay"
-            placeholder="Enter the Project Admin pay as a # of Tokens"
-            value={formValues.adminPay}
-            onChange={handleAdminPayChange}
-            error={errors.adminPay}
-            allowNegative={false}
-            max={formValues.budget || 0}
-            required
-            suffix=" tokens"
-            step={1}
-          />
-          <Text size="sm" c="dimmed" mt="xs">
+            <Tooltip
+              color="gray"
+              label="The percent of released and unassigned Tokens in the Collaborative needed to fund this project"
+              multiline
+              w={220}
+            >
+              <NumberInput
+                label="Project Admin Pay"
+                placeholder="Enter the Project Admin pay as a # of Tokens"
+                value={formValues.adminPay}
+                onChange={handleAdminPayChange}
+                error={errors.adminPay}
+                allowNegative={false}
+                max={formValues.budget || 0}
+                required
+                suffix=" tokens"
+                step={1}
+              />
+            </Tooltip>
+            <Text size="sm" c="dimmed" mt="xs">
               Remaining Project Balance: {remainingProjectBalance !== null ? `${remainingProjectBalance.toLocaleString()} Tokens` : '0 tokens'}
             </Text>
             <Text size="sm" c="dimmed">
