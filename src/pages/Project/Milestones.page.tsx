@@ -44,6 +44,7 @@ export function ProjectMilestones() {
   const [startDateError, setStartDateError] = useState<string | null>(null);
   const [dueDateError, setDueDateError] = useState<string | null>(null);
   const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Milestone Detail Modal State
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -294,21 +295,35 @@ export function ProjectMilestones() {
   const handleAddMilestone = async () => {
     if (!milestoneName || !milestoneDescription) return;
 
+    const newErrors: Record<string, string> = {};
+
+    if (!milestoneName) newErrors.name = 'Milestone name is required.';
+    if (!milestoneDescription) newErrors.description = 'Milestone description is required.';
+    if (!assigneeId) newErrors.adminId = 'Milestone assignee is required.';
+    if (launchTokenAmount === 0) newErrors.budget = 'Milestone budget must be greater than 0.';
+    if (startDate === null) newErrors.startDate = 'Milestone start date is required.';
+    if (dueDate === null) newErrors.dueDate = 'Milestone due date is required.';
+
+    setErrors(newErrors);
+
     // Validate due date is in the future
     if (dueDate && dueDate <= new Date()) {
-      setDueDateError('Due date must be in the future');
+      newErrors.dueDate = 'Due date must be in the future';
+      setErrors(newErrors);
       return;
     }
 
     // Validate start date is before due date
     if (startDate && dueDate && startDate >= dueDate) {
-      setStartDateError('Start date must be before due date');
+      newErrors.startDate = 'Start date must be before due date';
+      setErrors(newErrors);
       return;
     }
 
     // Validate launch token allocation
     if (launchTokenAmount && Number(launchTokenAmount) > project.launchTokenBalance) {
-      setLaunchTokenError(`This allocation (${Number(launchTokenAmount).toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
+      newErrors.launchTokenAmount = `This allocation (${Number(launchTokenAmount).toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`;
+      setErrors(newErrors);
       return;
     }
 
@@ -349,9 +364,7 @@ export function ProjectMilestones() {
         setLaunchTokenAmount('');
         setDueDate(null);
         setAssigneeId(null);
-        setStartDateError(null);
-        setDueDateError(null);
-        setLaunchTokenError(null);
+        setErrors({});
 
         // Close modal
         setIsModalOpen(false);
@@ -372,19 +385,20 @@ export function ProjectMilestones() {
   const handleDueDateChange = (date: Date | null) => {
     setDueDate(date);
     
-    // Clear error when user changes date
-    if (dueDateError) {
-      setDueDateError(null);
-    }
-    
-    // Validate if date is provided and is in the past
+    // clear previous dueDate error
+    setErrors(prev => {
+      const next = { ...prev };
+      delete next.dueDate;
+      return next;
+    });
+
     if (date && date <= new Date()) {
-      setDueDateError('Due date must be in the future');
+      setErrors(prev => ({ ...prev, dueDate: 'Due date must be in the future' }));
+      return;
     }
 
-    // Validate if date is after start date
     if (date && startDate && date <= startDate) {
-      setDueDateError('Due date must be after start date');
+      setErrors(prev => ({ ...prev, dueDate: 'Due date must be after start date' }));
     }
   };
 
@@ -392,19 +406,20 @@ export function ProjectMilestones() {
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
 
-    // Clear error when user changes date
-    if (startDateError) {
-      setStartDateError(null);
-    }
-    
-    // Validate if date is provided and is in the past
+    // clear previous startDate error
+    setErrors(prev => {
+      const next = { ...prev };
+      delete next.startDate;
+      return next;
+    });
+
     if (date && date <= new Date()) {
-      setStartDateError('Start date must be in the future');
+      setErrors(prev => ({ ...prev, startDate: 'Start date must be in the future' }));
+      return;
     }
 
-    // Validate if date is before due date
     if (date && dueDate && date >= dueDate) {
-      setStartDateError('Start date must be before due date');
+      setErrors(prev => ({ ...prev, startDate: 'Start date must be before due date' }));
     }
   };
 
@@ -412,15 +427,20 @@ export function ProjectMilestones() {
   const handleLaunchTokenChange = (value: number | string) => {
     setLaunchTokenAmount(value);
     
-    // Clear error when user changes value
-    if (launchTokenError) {
-      setLaunchTokenError(null);
-    }
-    
-    // Validate if value is provided
-    if (value && Number(value) > 0) {
-      if (launchTokenAmount && Number(launchTokenAmount) > project.launchTokenBalance) {
-        setLaunchTokenError(`This allocation (${Number(launchTokenAmount).toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`);
+    // clear previous launch token error
+    setErrors(prev => {
+      const next = { ...prev };
+      delete next.launchTokenAmount;
+      return next;
+    });
+
+    const num = Number(value || 0);
+    if (value && num > 0 && project) {
+      if (num > project.launchTokenBalance) {
+        setErrors(prev => ({
+          ...prev,
+          launchTokenAmount: `This allocation (${Math.round(num).toLocaleString()} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`,
+        }));
       }
     }
   };
@@ -590,6 +610,7 @@ export function ProjectMilestones() {
             placeholder="Enter milestone name"
             value={milestoneName}
             onChange={(e) => setMilestoneName(e.target.value)}
+            error={errors.name}
             required
           />
 
@@ -599,6 +620,7 @@ export function ProjectMilestones() {
             placeholder="Enter milestone description"
             value={milestoneDescription}
             onChange={(e) => setMilestoneDescription(e.target.value)}
+            error={errors.description}
             minRows={3}
             required
           />
@@ -628,6 +650,7 @@ export function ProjectMilestones() {
             value={assigneeId}
             onChange={setAssigneeId}
             data={assigneeOptions}
+            error={errors.assigneeId}
             required
             searchable
             clearable
@@ -648,7 +671,7 @@ export function ProjectMilestones() {
               onChange={handleLaunchTokenChange}
               min={0}
               max={project.launchTokenBalance}
-              error={launchTokenError}
+              error={errors.launchTokenAmount}
               suffix=" tokens"
               required
             />
@@ -660,17 +683,16 @@ export function ProjectMilestones() {
               multiline
               w={220}
             >
-            <Text size="sm" c="dimmed" mb="md">
-              Available balance: {project.launchTokenBalance} Tokens
+            <Text size="sm" c="dimmed" mt="xs">
+              Available Project Balance: {project.launchTokenBalance !== null ? project.launchTokenBalance - Number(launchTokenAmount) : 0} Tokens
             </Text>
           </Tooltip>
 
-          <Text size="sm" c="dimmed" mb="md">
+          <Text size="sm" c="dimmed">
             Percent of Project Balance: {
               project.launchTokenBudget !== null ? `${(Number(launchTokenAmount) / project.launchTokenBudget * 100).toFixed(2)}%` : '0%'
             }
           </Text>
-
 
           {/* Start Date */}
           <DatesProvider settings={{ firstDayOfWeek: 0}}>
@@ -679,7 +701,7 @@ export function ProjectMilestones() {
               placeholder="Select start date and time"
               value={startDate}
               onChange={handleStartDateChange}
-              error={startDateError}
+              error={errors.startDate}
               minDate={new Date()}
               maxDate={dueDate ? dueDate : new Date()}
               required
@@ -693,7 +715,7 @@ export function ProjectMilestones() {
               placeholder="Select due date and time"
               value={dueDate}
               onChange={handleDueDateChange}
-              error={dueDateError}
+              error={errors.dueDate}
               minDate={startDate ? startDate : new Date()}
               required
             />

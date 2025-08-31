@@ -167,10 +167,10 @@ export function CreateProject() {
     const newErrors: Record<string, string> = {};
 
     if (!formValues.name) newErrors.name = 'Project name is required.';
-    if (!formValues.description) newErrors.description = 'Description is required.';
-    if (!formValues.adminId) newErrors.adminId = 'Project Admin is required.';
+    if (!formValues.description) newErrors.description = 'Project description is required.';
+    if (!formValues.adminId) newErrors.adminId = 'Project admin is required.';
     if (formValues.budget <= 0) newErrors.budget = 'Project budget must be greater than 0.';
-    if (Number(formValues.adminPay) >= Number(formValues.budget)) newErrors.adminPay = 'Project Admin Pay must be less than the Project Budget.';
+    if (Number(formValues.adminPay) >= Number(formValues.budget)) newErrors.adminPay = 'Project admin pay must be less than the project budget.';
 
     // Validate launch token allocation
     if (tokenDistribution && formValues.budget > 0) {
