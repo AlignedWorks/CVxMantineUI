@@ -299,6 +299,8 @@ export function ProjectMilestones() {
     if (launchTokenAmount === 0) newErrors.budget = 'Milestone budget must be greater than 0.';
     if (startDate === null) newErrors.startDate = 'Milestone start date is required.';
     if (dueDate === null) newErrors.dueDate = 'Milestone due date is required.';
+    const numTokens = Number(launchTokenAmount || 0);
+    if (!Number.isFinite(numTokens) || numTokens <= 0) newErrors.launchTokenAmount = 'Milestone budget must be greater than 0.';
 
     setErrors(newErrors);
 
@@ -317,16 +319,17 @@ export function ProjectMilestones() {
     }
 
     // Validate launch token allocation
-    if (launchTokenAmount && Number(launchTokenAmount) > project.launchTokenBalance) {
-      newErrors.launchTokenAmount = `This allocation (${Number(launchTokenAmount).toFixed(0)} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`;
+    if (project && Number.isFinite(numTokens) && numTokens > project.launchTokenBalance) {
+      newErrors.launchTokenAmount = `This allocation (${Math.round(numTokens).toLocaleString()} tokens) exceeds available balance (${project.launchTokenBalance} tokens)`;
       setErrors(newErrors);
       return;
     }
 
     if (Object.keys(newErrors).length === 0) {
-      
+
       try {
-        const response = await fetch(
+        const response = 
+        await fetch(
           new URL("milestones", import.meta.env.VITE_API_BASE),
           {
             method: "POST",
@@ -683,13 +686,13 @@ export function ProjectMilestones() {
               w={220}
             >
             <Text size="sm" c="dimmed" mt="xs">
-              Available Project Balance: {project.launchTokenBalance !== null ? project.launchTokenBalance - Number(launchTokenAmount) : 0} Tokens
+              Available Project Budget: {project.launchTokenBalance !== null ? project.launchTokenBalance - Number(launchTokenAmount) : 0} Tokens
             </Text>
           </Tooltip>
 
           <Text size="sm" c="dimmed">
             Percent of Project Balance: {
-              project.launchTokenBudget !== null ? `${(Number(launchTokenAmount) / project.launchTokenBudget * 100).toFixed(2)}%` : '0%'
+              project.launchTokenBalance !== null ? `${(Number(launchTokenAmount) / project.launchTokenBalance * 100).toFixed(0)}%` : '0%'
             }
           </Text>
 
