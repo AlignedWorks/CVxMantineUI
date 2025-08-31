@@ -170,6 +170,7 @@ export function CreateProject() {
     if (!formValues.description) newErrors.description = 'Description is required.';
     if (!formValues.adminId) newErrors.adminId = 'Project Admin is required.';
     if (formValues.budget <= 0) newErrors.budget = 'Project budget must be greater than 0.';
+    if (Number(formValues.adminPay) >= Number(formValues.budget)) newErrors.adminPay = 'Project Admin Pay must be less than the Project Budget.';
 
     // Validate launch token allocation
     if (tokenDistribution && formValues.budget > 0) {
@@ -215,13 +216,6 @@ export function CreateProject() {
     }
   };
 
-  // Check if form is valid
-  const isFormValid = formValues.name && 
-                     formValues.description && 
-                     formValues.adminId &&
-                     formValues.budget > 0 &&
-                     formValues.adminPay < formValues.budget
-
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
@@ -232,7 +226,7 @@ export function CreateProject() {
       <Title order={2} mb="lg">
         Propose a Project
       </Title>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg">
           <TextInput
             label="Project Name"
@@ -297,6 +291,7 @@ export function CreateProject() {
             placeholder="Enter the Project Admin pay as a # of Tokens"
             value={formValues.adminPay}
             onChange={handleAdminPayChange}
+            error={errors.adminPay}
             allowNegative={false}
             max={formValues.budget || 0}
             required
@@ -316,7 +311,6 @@ export function CreateProject() {
           <Button 
             variant="default" 
             type="submit"
-            disabled={!isFormValid}
           >
             Submit Project Proposal
           </Button>
