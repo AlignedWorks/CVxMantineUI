@@ -425,13 +425,6 @@ export function ProjectMilestones() {
     }
   };
 
-  // Check if form is valid
-  const isFormValid = milestoneName && 
-                     milestoneDescription && 
-                     !dueDateError && 
-                     !launchTokenError &&
-                     (!dueDate || dueDate > new Date());
-
   // Prepare assignee options for the dropdown - only accepted members
   const assigneeOptions = projectMembers
     .filter(member => member.inviteStatus === 'Accepted')
@@ -617,7 +610,6 @@ export function ProjectMilestones() {
             value={milestoneDefinitionOfDone}
             onChange={(e) => setMilestoneDefinitionOfDone(e.target.value)}
             minRows={3}
-            required
           />
 
           {/* Milestone Deliverables */}
@@ -627,7 +619,6 @@ export function ProjectMilestones() {
             value={milestoneDeliverables}
             onChange={(e) => setMilestoneDeliverables(e.target.value)}
             minRows={3}
-            required
           />
 
           {/* Assignee Selection */}
@@ -644,17 +635,42 @@ export function ProjectMilestones() {
           />
 
           {/* Launch Tokens */}
-          <NumberInput
-            label="Payment Amount"
-            placeholder="Enter the number of Tokens to be paid upon satisfactory completion of the Milestone"
-            value={launchTokenAmount}
-            onChange={handleLaunchTokenChange}
-            min={0}
-            max={project.launchTokenBalance}
-            error={launchTokenError}
-            description={`Available balance: ${project.launchTokenBalance} tokens`}
-            required
-          />
+          <Tooltip
+              color="gray"
+              label="Enter the number of Tokens to be paid upon satisfactory completion of the Milestone"
+              multiline
+              w={220}
+            >
+            <NumberInput
+              label="Payment Amount"
+              placeholder="Enter the number of Tokens to be paid upon satisfactory completion of the Milestone"
+              value={launchTokenAmount}
+              onChange={handleLaunchTokenChange}
+              min={0}
+              max={project.launchTokenBalance}
+              error={launchTokenError}
+              suffix=" tokens"
+              required
+            />
+          </Tooltip>
+
+          <Tooltip
+              color="gray"
+              label="This is the # of tokens in the project budget that remain unassigned after payment for this milestone"
+              multiline
+              w={220}
+            >
+            <Text size="sm" c="dimmed" mb="md">
+              Available balance: {project.launchTokenBalance} Tokens
+            </Text>
+          </Tooltip>
+
+          <Text size="sm" c="dimmed" mb="md">
+            Percent of Project Balance: {
+              project.launchTokenBudget !== null ? `${(Number(launchTokenAmount) / project.launchTokenBudget * 100).toFixed(2)}%` : '0%'
+            }
+          </Text>
+
 
           {/* Start Date */}
           <DatesProvider settings={{ firstDayOfWeek: 0}}>
@@ -693,14 +709,14 @@ export function ProjectMilestones() {
           {/* Action Buttons */}
           <Group justify="flex-end" gap="md">
             <Button
+              variant="outline"
               onClick={handleAddMilestone}
-              disabled={!isFormValid}
             >
               Add Milestone
             </Button>
 
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => {
                 setIsModalOpen(false);
                 setStartDateError(null);
