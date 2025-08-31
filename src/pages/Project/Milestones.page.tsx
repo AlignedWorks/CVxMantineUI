@@ -41,9 +41,6 @@ export function ProjectMilestones() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectMembers, setProjectMembers] = useState<ProjectMember[]>([]);
   const [successMessage, setSuccessMessage] = useState('');
-  const [startDateError, setStartDateError] = useState<string | null>(null);
-  const [dueDateError, setDueDateError] = useState<string | null>(null);
-  const [launchTokenError, setLaunchTokenError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Milestone Detail Modal State
