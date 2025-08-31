@@ -290,7 +290,6 @@ export function ProjectMilestones() {
   };
 
   const handleAddMilestone = async () => {
-    if (!milestoneName || !milestoneDescription) return;
 
     const newErrors: Record<string, string> = {};
 
@@ -324,58 +323,61 @@ export function ProjectMilestones() {
       return;
     }
 
-    try {
-      const response = await fetch(
-        new URL("milestones", import.meta.env.VITE_API_BASE),
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            projectId: projectId,
-            name: milestoneName,
-            description: milestoneDescription,
-            definitionOfDone: milestoneDefinitionOfDone,
-            deliverables: milestoneDeliverables,
-            launchTokenAmount: Number(launchTokenAmount) || 0,
-            startDate: startDate ? startDate.toISOString() : null,
-            dueDate: dueDate ? dueDate.toISOString() : null,
-            assigneeId: assigneeId,
-          }),
+    if (Object.keys(newErrors).length === 0) {
+      
+      try {
+        const response = await fetch(
+          new URL("milestones", import.meta.env.VITE_API_BASE),
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+              projectId: projectId,
+              name: milestoneName,
+              description: milestoneDescription,
+              definitionOfDone: milestoneDefinitionOfDone,
+              deliverables: milestoneDeliverables,
+              launchTokenAmount: Number(launchTokenAmount) || 0,
+              startDate: startDate ? startDate.toISOString() : null,
+              dueDate: dueDate ? dueDate.toISOString() : null,
+              assigneeId: assigneeId,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          const newMilestone: Milestone = await response.json();
+          console.log("Milestone added successfully:", newMilestone);
+          
+          // Update the project state with the new milestone
+          setProject(prev => prev ? {
+            ...prev,
+            milestones: [...prev.milestones, newMilestone]
+          } : null);
+
+          // Reset form
+          setMilestoneName('');
+          setMilestoneDescription('');
+          setLaunchTokenAmount('');
+          setDueDate(null);
+          setAssigneeId(null);
+          setErrors({});
+
+          // Close modal
+          setIsModalOpen(false);
+          
+          // Show success message briefly on the main page
+          setSuccessMessage(`Milestone "${milestoneName}" has been added successfully.`);
+          setTimeout(() => setSuccessMessage(''), 3000);
+
+        } else {
+          console.error("Failed to add milestone");
         }
-      );
-
-      if (response.ok) {
-        const newMilestone: Milestone = await response.json();
-        console.log("Milestone added successfully:", newMilestone);
-        
-        // Update the project state with the new milestone
-        setProject(prev => prev ? {
-          ...prev,
-          milestones: [...prev.milestones, newMilestone]
-        } : null);
-
-        // Reset form
-        setMilestoneName('');
-        setMilestoneDescription('');
-        setLaunchTokenAmount('');
-        setDueDate(null);
-        setAssigneeId(null);
-        setErrors({});
-
-        // Close modal
-        setIsModalOpen(false);
-        
-        // Show success message briefly on the main page
-        setSuccessMessage(`Milestone "${milestoneName}" has been added successfully.`);
-        setTimeout(() => setSuccessMessage(''), 3000);
-
-      } else {
-        console.error("Failed to add milestone");
+      } catch (error) {
+        console.error("Error adding milestone:", error);
       }
-    } catch (error) {
-      console.error("Error adding milestone:", error);
-    }
+    };
   };
 
   // Function to handle due date change with validation
