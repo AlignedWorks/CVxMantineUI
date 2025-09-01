@@ -281,7 +281,7 @@ export function CreateProject() {
               allowNegative={false}
               required
               min={0}
-              max={tokenDistribution ? tokenDistribution.launchTokensBalance : undefined}
+              max={tokenDistribution ? tokenDistribution.launchTokensBalance - formValues.adminPay : undefined}
               suffix=" tokens"
             />
             </Tooltip>
@@ -320,7 +320,7 @@ export function CreateProject() {
                 onChange={handleAdminPayChange}
                 error={errors.adminPay}
                 allowNegative={false}
-                max={formValues.budget || 0}
+                max={formValues.budget - formValues.adminPay || 0}
                 required
                 suffix=" tokens"
                 step={1}

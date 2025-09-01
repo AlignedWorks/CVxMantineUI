@@ -232,7 +232,7 @@ export function CollaborativeMemberWallet() {
                 </>
 
               ) : (
-                <Text size="lg" ta="center" mt="xl">
+                <Text size="lg" mt="xl">
                   You must be a member of this collaborative to have a wallet.
                 </Text>
               )}
