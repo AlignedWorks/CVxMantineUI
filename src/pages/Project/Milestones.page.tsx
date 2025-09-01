@@ -328,8 +328,7 @@ export function ProjectMilestones() {
     if (Object.keys(newErrors).length === 0) {
 
       try {
-        const response = 
-        await fetch(
+        const response = await fetch(
           new URL("milestones", import.meta.env.VITE_API_BASE),
           {
             method: "POST",

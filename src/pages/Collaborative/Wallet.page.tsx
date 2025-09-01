@@ -123,37 +123,17 @@ export function CollaborativeMemberWallet() {
 
               <SimpleGrid cols={{ base: 1, sm: 1, md: 3 }} mb="md">
                 <div>
-                  <Tooltip
-                    color="gray"
-                    label="Tokens permanently assigned to you for work or other contributions satisfactorily completed"
-                    multiline
-                    w={220}
-                  >
-                    <Text fz="md" fw={500} c="#999">My Earned Tokens</Text>
-                  </Tooltip>
-                  <Text fz="xl" fw={700} c="#444">{(userEarnedTokensFromCollabTotal).toFixed(2)}</Text>
-                </div>
-                <div>
-                  <Tooltip color="gray" label="All Earned Tokens + All Pending Tokens">
-                    <Text fz="md" fw={500} c="#999">All Assigned Launch Tokens</Text>
-                  </Tooltip>
-                  <Text fz="xl" fw={700} c="#444">{collaborative.allAssignedLaunchTokens.toLocaleString()}</Text>
-                </div>
-                <div>
-                  <Tooltip
-                    color="gray"
-                    label="Your percent share of the payout to Token holders if the Tokens were retired today. This is calculated as [(My Assigned Tokens)/(All Assigned Tokens)] * 100"
-                    multiline
-                    w={220}
-                  >
-                    <Text fz="md" fw={500} c="#999">My Current Share</Text>
-                  </Tooltip>
-                  <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100).toFixed(2)}%</Text>
-                </div>
-              </SimpleGrid>
-
-              <SimpleGrid cols={{ base: 1, sm: 1, md: 3 }} mb="md">
-                <div>
+                  <Stack>
+                    <Tooltip
+                      color="gray"
+                      label="Tokens permanently assigned to you for work or other contributions satisfactorily completed"
+                      multiline
+                      w={220}
+                    >
+                      <Text fz="md" fw={500} c="#999">My Earned Tokens</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{(userEarnedTokensFromCollabTotal).toFixed(2)}</Text>
+                  </Stack>
                   <Tooltip
                     color="gray"
                     label="Tokens tentatively assigned to you for work or other contributions that are in process"
@@ -163,34 +143,42 @@ export function CollaborativeMemberWallet() {
                     <Text fz="md" fw={500} c="#999">My Pending Tokens</Text>
                   </Tooltip>
                   <Text fz="xl" fw={700} c="#444">+ {(collaborative.userAssignedLaunchTokens - userEarnedTokensFromCollabTotal).toFixed(2)}</Text>
-                </div>
-                <div>
-                  <Text fz="md" fw={500} c="#999">All Launch Tokens</Text>
-                  <Text fz="xl" fw={700} c="#444">{collaborative.launchTokensCreated.toLocaleString()}</Text>
-                </div>
-                <div>
-                  <Tooltip
-                    color="gray"
-                    label="Your percent share of the payout to Token holders if you earn no additional Tokens beyond those assigned to you today, and all available Tokens are eventually earned by someone. This is calculated as [(My Assigned Tokens)/(All Tokens)] * 100"
-                    multiline
-                    w={220}
-                  >
-                    <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
-                  </Tooltip>
-                  <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>
-                </div>
-              </SimpleGrid>
-
-              <SimpleGrid cols={{ base: 1, sm: 1, md: 3 }} mb="md">
-                <div>
                   <Tooltip color="gray" label="My Earned Tokens + My Pending Tokens">
                     <Text fz="md" fw={500} c="#999">My Assigned Tokens</Text>
                   </Tooltip>
                   <Text fz="xl" fw={700} c="#444">= {(collaborative.userAssignedLaunchTokens).toFixed(2)}</Text>
                 </div>
                 <div>
+                  <Stack>
+                    <Tooltip color="gray" label="All Earned Tokens + All Pending Tokens">
+                      <Text fz="md" fw={500} c="#999">All Assigned Launch Tokens</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{collaborative.allAssignedLaunchTokens.toLocaleString()}</Text>
+                    <Text fz="md" fw={500} c="#999">All Launch Tokens</Text>
+                    <Text fz="xl" fw={700} c="#444">{collaborative.launchTokensCreated.toLocaleString()}</Text>
+                  </Stack>
                 </div>
                 <div>
+                  <Stack>
+                    <Tooltip
+                      color="gray"
+                      label="Your percent share of the payout to Token holders if the Tokens were retired today. This is calculated as [(My Assigned Tokens)/(All Assigned Tokens)] * 100"
+                      multiline
+                      w={220}
+                    >
+                      <Text fz="md" fw={500} c="#999">My Current Share</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100).toFixed(2)}%</Text>
+                    <Tooltip
+                      color="gray"
+                      label="Your percent share of the payout to Token holders if you earn no additional Tokens beyond those assigned to you today, and all available Tokens are eventually earned by someone. This is calculated as [(My Assigned Tokens)/(All Tokens)] * 100"
+                      multiline
+                      w={220}
+                    >
+                      <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>
+                  </Stack>
                 </div>
               </SimpleGrid>
               
