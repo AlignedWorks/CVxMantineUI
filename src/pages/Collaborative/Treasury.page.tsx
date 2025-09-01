@@ -171,13 +171,21 @@ export function CollaborativeTreasury() {
                   <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
                   <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
                     <Stack>
-                      <Tooltip color="gray" label="The number of Launch Tokens Created but not yet been released for use.">
+                      <Tooltip
+                        color="gray"
+                          label="The number of Launch Tokens Created but not yet been released for use."
+                          multiline
+                          w={220}>
                         <Text fz="md" fw={500} c="#999">Tokens Receivable</Text>
                       </Tooltip>
 
                       <Text fz="xl" fw={500} c="#444">{collaborative.tokensReceivable}</Text>
 
-                      <Tooltip color="gray" label="The number of Tokens released for use and not yet assigned to a Collaborative member.">
+                      <Tooltip
+                        color="gray"
+                        label="The number of Tokens released for use and not yet assigned to a Collaborative member."
+                        multiline
+                        w={220}>
                         <Text fz="md" fw={500} c="#999">Tokens Balance</Text>
                       </Tooltip>
 
@@ -198,22 +206,38 @@ export function CollaborativeTreasury() {
                   <Paper p="lg" withBorder radius="md" mb="sm" mt="lg">
                     <Stack>
 
-                      <Tooltip color="gray" label="Tokens budgeted to make future payments to the Collaborative Admin.">
+                      <Tooltip
+                        color="gray"
+                        label="Tokens budgeted to make future payments to the Collaborative Admin."
+                        multiline
+                        w={220}>
                         <Text fz="md" fw={500} c="#999">Collaborative Admin</Text>
                       </Tooltip>
                       <Text fz="xl" fw={500} c="#444">{collaborative.tokensCollabAdmin}</Text>
 
-                      <Tooltip color="gray" label="All unpaid Tokens in approved budgets to cover Project management and milestone completion.">
+                      <Tooltip
+                        color="gray"
+                        label="All unpaid Tokens in approved budgets to cover Project management and milestone completion."
+                        multiline
+                        w={220}>
                         <Text fz="md" fw={500} c="#999">Project Work</Text>
                       </Tooltip>
                       <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment}</Text>
 
-                      <Tooltip color="gray" label="All unpaid Tokens in approved budgets that are not going to members of the Project Team.">
+                      <Tooltip
+                        color="gray"
+                        label="All unpaid Tokens in approved budgets that are not going to members of the Project Team."
+                        multiline
+                        w={220}>
                         <Text fz="md" fw={500} c="#999">Other Project Expenses</Text>
                       </Tooltip>
                       <Text fz="xl" fw={500} c="#444">{collaborative.nonTeamContributions}</Text>
 
-                      <Tooltip color="gray" label="Tokens set aside to pay for work completed prior to the creation of this Collaborative.">
+                      <Tooltip
+                        color="gray"
+                        label="Tokens set aside to pay for work completed prior to the creation of this Collaborative."
+                        multiline
+                        w={220}>
                         <Text fz="md" fw={500} c="#999">Prior Work</Text>
                       </Tooltip>
                       <Text fz="xl" fw={500} c="#444">{collaborative.tokensPriorWork}</Text>

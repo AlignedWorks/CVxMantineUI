@@ -112,6 +112,7 @@ export interface CollaborativeDataWallet {
   userAssignedLaunchTokens: number;
   allAssignedLaunchTokens: number;
   launchTokenTransactions: LaunchTokenTransaction[];
+  userIsCollabMember: boolean;
 }
 
 export interface LaunchTokenTransaction {
