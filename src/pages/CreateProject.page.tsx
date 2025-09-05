@@ -320,7 +320,7 @@ export function CreateProject() {
                 onChange={handleAdminPayChange}
                 error={errors.adminPay}
                 allowNegative={false}
-                max={formValues.budget - formValues.adminPay || 0}
+                max={formValues.budget || 0}
                 required
                 suffix=" tokens"
                 step={1}

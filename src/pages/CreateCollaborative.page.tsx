@@ -43,7 +43,7 @@ export function CreateCollaborative() {
           launchTokensPriorWorkPercent: 0,
           launchCyclePeriod: 12,
           launchTokenReleaseRate: 10,
-          launchTokenInitialReleaseWeeks: 0,
+          launchTokenSecondReleaseWeeks: 0,
           launchTokenValue: 0,
           collabAdminCompensationPercent: 0,
         });
@@ -85,7 +85,7 @@ export function CreateCollaborative() {
     launchCyclePeriod: 12,
     launchTokenReleaseRate: 10,
     launchTokenValue: 0,
-    launchTokenInitialReleaseWeeks: 0,
+    launchTokenSecondReleaseWeeks: 0,
     collabAdminCompensationPercent: 0,
   });
 
@@ -98,7 +98,7 @@ export function CreateCollaborative() {
     launchCyclePeriod?: string,
     launchTokenReleaseRate?: string,
     launchTokenValue?: string;
-    launchTokenInitialReleaseWeeks?: string,
+    launchTokenSecondReleaseWeeks?: string,
   }>({});
 
 
@@ -130,7 +130,7 @@ export function CreateCollaborative() {
         launchCyclePeriod?: string;
         launchTokenReleaseRate?: string;
         launchTokenValue?: string;
-        launchTokenInitialReleaseWeeks?: string;
+        launchTokenSecondReleaseWeeks?: string;
       } = {};
 
     // Validate name
@@ -162,8 +162,8 @@ export function CreateCollaborative() {
     if (!formValues.launchTokenReleaseRate || formValues.launchTokenReleaseRate <= 0 || formValues.launchTokenReleaseRate > 100) {
       newErrors.launchTokenReleaseRate = 'Launch Token Release Rate must be between 0 and 100.';
     }
-    if (formValues.launchTokenInitialReleaseWeeks === undefined) {
-      newErrors.launchTokenInitialReleaseWeeks = 'Initial Token Release Date is required.';
+    if (formValues.launchTokenSecondReleaseWeeks === undefined) {
+      newErrors.launchTokenSecondReleaseWeeks = 'Second Token Release Date is required.';
     }
 
     setErrors(newErrors);
@@ -497,13 +497,13 @@ export function CreateCollaborative() {
 
         <div>
           <NumberInput
-            label="Initial Release (weeks)"
+            label="Second Release (weeks)"
             placeholder="Enter weeks (0 = at approval)"
-            value={formValues.launchTokenInitialReleaseWeeks}
+            value={formValues.launchTokenSecondReleaseWeeks}
             onChange={(value) =>
-              handleInputChange('launchTokenInitialReleaseWeeks', value)
+              handleInputChange('launchTokenSecondReleaseWeeks', value)
             }
-            error={errors.launchTokenInitialReleaseWeeks} // Display validation error
+            error={errors.launchTokenSecondReleaseWeeks} // Display validation error
             required
             mb="xs"
             allowNegative={false}
