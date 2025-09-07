@@ -161,7 +161,17 @@ export function CollaborativeTreasury() {
                   </div>
                   <div>
                     <Text fz="md" fw={500} c="#999">Date of Next Release</Text>
-                    <Text fz="xl" fw={500} c="#444">{collaborative.nextTokenReleaseDate}</Text>
+                    {collaborative.nextTokenRelease === null ? (
+                      <Tooltip
+                        color="gray"
+                        label="This date isn't set until the Collaborative is approved"
+                        multiline
+                        w={220}>
+                        <Text fz="xl" fw={500} c="#444">N/A</Text>
+                      </Tooltip>
+                    ) : (
+                      <Text fz="xl" fw={500} c="#444">{collaborative.nextTokenReleaseDate}</Text>
+                    )}
                   </div>
                 </SimpleGrid>
               </Paper>

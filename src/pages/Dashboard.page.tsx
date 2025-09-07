@@ -24,7 +24,8 @@ import {
   CollabDataCompact,
   CollabInvite,
   CollabApprovalRequest,
-  CollabsNeedingApproval,
+  CollabNeedingApproval,
+  ProjectNeedingApproval,
   ProjectInvite,
   MilestoneAssignment,
   MilestoneCompletion,
@@ -48,11 +49,14 @@ export function Dashboard() {
   const [userApprovals, setUserApprovals] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
   const [collabs, setCollabs] = useState<CollabDataCompact[]>([]);
-  const [collabsNeedingApproval, setCollabsNeedingApproval] = useState<CollabsNeedingApproval[]>([]);
+  const [collabsNeedingApproval, setCollabsNeedingApproval] = useState<CollabNeedingApproval[]>([]);
   const [decliningCollabId, setDecliningCollabId] = useState<number | null>(null);
-  const [declineReasons, setDeclineReasons] = useState<Record<number, string>>({});
+  const [collabDeclineReasons, setCollabDeclineReasons] = useState<Record<number, string>>({});
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
+  const [projectsNeedingApproval, setProjectsNeedingApproval] = useState<ProjectNeedingApproval[]>([]);
+  const [decliningProjectId, setDecliningProjectId] = useState<number | null>(null);
+  const [projectDeclineReasons, setProjectDeclineReasons] = useState<Record<number, string>>({});
   const [projectInvites, setProjectInvites] = useState<ProjectInvite[]>([]);
   const [milestoneAssignments, setMilestoneAssignments] = useState<MilestoneAssignment[]>([]);
   const [milestoneCompletions, setMilestoneCompletions] = useState<MilestoneCompletion[]>([]);
@@ -79,6 +83,7 @@ export function Dashboard() {
             collabsNeedingApproval,
             collabInvites,
             csaApprovalRequests,
+            projectsNeedingApproval,
             projectInvites,
             milestoneAssignments,
             milestoneCompletions,
@@ -93,6 +98,7 @@ export function Dashboard() {
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
           setUserApprovals(users);
+          setProjectsNeedingApproval(projectsNeedingApproval);
           setProjectInvites(projectInvites);
           setMilestoneAssignments(milestoneAssignments);
           setMilestoneCompletions(milestoneCompletions);
@@ -170,7 +176,7 @@ export function Dashboard() {
   };
 
   const handleCollabApproval = (collabId: number, status: 'approve' | 'decline') => {
-    const reason = declineReasons[collabId] ?? '';
+    const reason = collabDeclineReasons[collabId] ?? '';
 
     fetch(
       new URL(`collaboratives/${collabId}/status`, import.meta.env.VITE_API_BASE),
@@ -189,8 +195,18 @@ export function Dashboard() {
     .then((message) => {
       console.log(message);
 
-      // Refresh the dashboard data after successful approval/decline
-      fetchDashboardData();
+      // Remove the approved/declined collaborative from state
+      setCollabsNeedingApproval(prev =>
+        prev ? prev.filter(collab => collab.id !== collabId) : prev
+      );
+
+      // Optionally clear decline reason and decliningCollabId
+      setDecliningCollabId(null);
+      setCollabDeclineReasons(prev => {
+        const copy = { ...prev };
+        delete copy[collabId];
+        return copy;
+      });
     })
     .catch((err) => {
       console.error(`Error approving/declining collaborative:`, err);
@@ -198,12 +214,20 @@ export function Dashboard() {
     });
   }
 
-  const handleInitiateDecline = (collabId: number) => {
-    setDecliningCollabId(collabId);
+  const handleInitiateDecline = (id: number, collabOrProject: string) => {
+    if (collabOrProject === 'collab') {
+      setDecliningCollabId(id);
+    } else {
+      setDecliningProjectId(id);
+    }
   };
 
-  const handleDeclineReasonChange = (collabId: number, value: string) => {
-    setDeclineReasons((prev) => ({ ...prev, [collabId]: value }));
+  const handleDeclineReasonChange = (id: number, collabOrProject: string, value: string) => {
+    if (collabOrProject === 'collab') {
+      setCollabDeclineReasons((prev) => ({ ...prev, [id]: value }));
+    } else {
+      setProjectDeclineReasons((prev) => ({ ...prev, [id]: value }));
+    }
   };
 
   const handleCollabInvite = (collabId: number, userId: string, action: 'accept' | 'decline') => {
@@ -237,6 +261,49 @@ export function Dashboard() {
         // Optionally show an error message to the user
       });
   };
+
+  const handleProjectApproval = (projectId: number, userId: string,status: 'approve' | 'decline') => {
+    const reason = projectDeclineReasons[projectId] ?? '';
+
+    fetch(
+      new URL(`projects/${projectId}/status`, import.meta.env.VITE_API_BASE),
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        status,
+        userId: userId,
+        reasonForDecline: reason
+      }),
+    })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((message) => {
+      console.log(message);
+
+      // Remove the approved/declined project from state
+      setProjectsNeedingApproval(prev =>
+        prev ? prev.filter(project => project.id !== projectId) : prev
+      );
+
+      // Optionally clear decline reason and decliningProjectId
+      setDecliningProjectId(null);
+      setProjectDeclineReasons(prev => {
+        const copy = { ...prev };
+        delete copy[projectId];
+        return copy;
+      });
+    })
+    .catch((err) => {
+      console.error(`Error approving/declining collaborative:`, err);
+      // Optionally show an error message to the user
+    });
+  }
 
   const handleProjectInvite = (projectId: number, userId: string, action: 'accept' | 'decline') => {
     // Determine the new status based on the action
@@ -436,8 +503,8 @@ export function Dashboard() {
                       mt="sm"
                       label="Reason for decline"
                       placeholder="Provide a brief reason for declining this collaborative"
-                      value={declineReasons[collab.id] ?? ''}
-                      onChange={(e) => handleDeclineReasonChange(collab.id, e.currentTarget.value)}
+                      value={collabDeclineReasons[collab.id] ?? ''}
+                      onChange={(e) => handleDeclineReasonChange(collab.id, 'collab', e.currentTarget.value)}
                     />
                   )}
                 </Grid.Col>
@@ -451,7 +518,7 @@ export function Dashboard() {
                   <Button
                     variant="default"
                     ml="md"
-                    onClick={() => handleInitiateDecline(collab.id)}
+                    onClick={() => handleInitiateDecline(collab.id, 'collab')}
                   >
                     Decline
                   </Button>
@@ -503,6 +570,67 @@ export function Dashboard() {
                     ml="md">
                       Decline
                   </Button>
+                </Grid.Col>
+              </Grid>
+          </Card>
+        ))}
+
+        {projectsNeedingApproval?.map((project) => (
+          <Card 
+            key={`${project.id}`}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            mt="lg"
+            mb="lg">
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                  <Center>
+                    <img src={project.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                  </Center>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                  <Text>
+                    The <strong><Link to={`/collaboratives/${project.collabId}/projects/${project.id}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{project.name}</Link></strong> project of the <strong>{project.collabName}</strong> collaborative is ready for your approval.
+                  </Text>
+
+                  {/* If this project is being declined, show the reason textarea here (second column) */}
+                  {decliningProjectId === project.id && (
+                    <Textarea
+                      mt="sm"
+                      label="Reason for decline"
+                      placeholder="Provide a brief reason for declining this project"
+                      value={projectDeclineReasons[project.id] ?? ''}
+                      onChange={(e) => handleDeclineReasonChange(project.id, 'project', e.currentTarget.value)}
+                    />
+                  )}
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleProjectApproval(project.id, project.userId, 'approve')}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="default"
+                    ml="md"
+                    onClick={() => handleInitiateDecline(project.id, 'project')}
+                  >
+                    Decline
+                  </Button>
+
+                  {decliningProjectId === project.id ? (
+                    <Button
+                      color="red"
+                      variant="outline"
+                      mt="lg"
+                      onClick={() => handleProjectApproval(project.id, project.userId, 'decline')}
+                    >
+                      Submit Decline
+                    </Button>
+                  ) : null}
                 </Grid.Col>
               </Grid>
           </Card>

@@ -41,7 +41,7 @@ export interface CollabApprovalRequest {
   currentCSAUrl: string;
 }
 
-export interface CollabsNeedingApproval {
+export interface CollabNeedingApproval {
   id: number,
   name: string,
   logoUrl: string,
@@ -148,10 +148,20 @@ export interface Project {
   adminPay: number;
 }
 
+export interface ProjectNeedingApproval {
+  id: number;
+  name: string;
+  collabId: number;
+  collabName: string;
+  collabLogoUrl: string;
+  userId: string;
+}
+
 export interface ProjectDataHome {
   collabId: number;
   collabName: string;
   collabLogoUrl: string;
+  id: number;
   name: string;
   description: string;
   approvalStatus: string;
@@ -161,6 +171,7 @@ export interface ProjectDataHome {
   adminName: string;
   adminEmail: string;
   adminPay: number;
+  userIsProjectAdmin: boolean;
 }
 
 export interface ProjectDataWithMembers {

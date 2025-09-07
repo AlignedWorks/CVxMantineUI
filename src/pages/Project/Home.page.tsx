@@ -5,6 +5,7 @@ import {
   Container,
   Text,
   Badge,
+  Button,
   Loader,
   Group,
   Grid,
@@ -70,6 +71,44 @@ export function ProjectHome() {
       setLoading(false);
     }
   }, [collabId]);
+
+  const handleSubmitForApproval = () => {
+    // Logic to submit the project for approval
+    if (project) {
+      const apiBase = import.meta.env.VITE_API_BASE;
+
+      if (!apiBase) {
+        console.warn('VITE_API_BASE not configured');
+        return;
+      }
+
+      try {
+        const apiUrl = new URL(`projects/${project.id}/submit`, apiBase);
+        fetch(apiUrl, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to submit project for approval');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log('Submission successful:', data);
+            setProject((prev) => (prev ? { ...prev, approvalStatus: 'Submitted' } : prev));
+          })
+          .catch((error) => {
+            console.error('API Error:', error);
+          });
+      } catch (urlError) {
+        console.error('Invalid API URL:', urlError);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -206,6 +245,34 @@ export function ProjectHome() {
           </Grid.Col>
         </Grid>
       </Card>
+
+      <Group justify="right">
+        {/* Submit for approval — visible only to project admins; approvalStatus is Draft or Declined */}
+        {(project.approvalStatus === 'Draft' || project.approvalStatus === 'Declined') && project.userIsProjectAdmin ? (
+          <Tooltip
+            color="gray"
+            label="Submit this project to all members for their approval. The project becomes active once all members approve it."
+            multiline
+            w={220}
+          >
+            <Button variant="outline" color="green" mb="sm" ml="xs"
+              onClick={handleSubmitForApproval}>
+              Submit for Approval
+            </Button>
+          </Tooltip>
+        ) : (
+          <Tooltip
+            color="gray"
+            label="Project is submitted for approval from project members"
+            multiline
+            w={220}
+          >
+            <Button disabled mb="sm" ml="xs">
+              Submit for Approval
+            </Button>
+          </Tooltip>
+        )}
+      </Group>
 
     </Container>
   );
