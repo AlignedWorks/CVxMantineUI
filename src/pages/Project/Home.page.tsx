@@ -99,7 +99,14 @@ export function ProjectHome() {
           })
           .then((data) => {
             console.log('Submission successful:', data);
-            setProject((prev) => (prev ? { ...prev, approvalStatus: 'Submitted' } : prev));
+            if (data.message === "submitted")
+            {
+              setProject((prev) => (prev ? { ...prev, approvalStatus: 'Submitted' } : prev));
+            }
+            else if (data.message === "active")
+            {
+              setProject((prev) => (prev ? { ...prev, approvalStatus: 'Active' } : prev));
+            }
           })
           .catch((error) => {
             console.error('API Error:', error);
