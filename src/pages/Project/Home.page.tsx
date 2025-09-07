@@ -261,16 +261,31 @@ export function ProjectHome() {
             </Button>
           </Tooltip>
         ) : (
-          <Tooltip
-            color="gray"
-            label="Project is submitted for approval from project members"
-            multiline
-            w={220}
-          >
-            <Button disabled mb="sm" ml="xs">
-              Submit for Approval
-            </Button>
-          </Tooltip>
+          <>
+            {project.userIsProjectAdmin ? (
+              <Tooltip
+                color="gray"
+                label="Project status must be either Draft or Declined"
+                multiline
+                w={220}
+              >
+                <Button disabled mb="sm" ml="xs">
+                  Submit for Approval
+                </Button>
+              </Tooltip>
+            ) : (
+              <Tooltip
+                color="gray"
+                label="Only project admins can submit the project for approval"
+                multiline
+                w={220}
+              >
+                <Button disabled mb="sm" ml="xs">
+                  Submit for Approval
+                </Button>
+              </Tooltip>
+            )}
+          </>
         )}
       </Group>
 
