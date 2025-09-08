@@ -592,7 +592,8 @@ export function Dashboard() {
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
                   <Text>
-                    The <strong><Link to={`/collaboratives/${project.collabId}/projects/${project.id}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{project.name}</Link></strong> project of the <strong>{project.collabName}</strong> collaborative is ready for your approval.<br/>
+                    The <strong><Link to={`/collaboratives/${project.collabId}/projects/${project.id}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{project.name}</Link></strong> project of the <strong>{project.collabName}</strong> collaborative is ready for your approval.
+                    <br/><br/>
                     This means looking through the project's member list and milestones to make sure you agree with the project's people, work assigned and launch token allocation.
                   </Text>
 

@@ -267,8 +267,8 @@ export function ProjectHome() {
       </Card>
 
       <Group justify="right">
-        {/* Submit for approval — visible only to project admins; approvalStatus is Draft or Declined */}
-        {(project.approvalStatus === 'Draft' || project.approvalStatus === 'Declined') && project.userIsProjectAdmin ? (
+        {/* Submit for approval — visible only to project admins; approvalStatus is Draft or Declined; all users have accepted their project invites */}
+        {(project.approvalStatus === 'Draft' || project.approvalStatus === 'Declined') && project.userIsProjectAdmin && project.allUsersAcceptedTheirInvites ? (
           <Tooltip
             color="gray"
             label="Submit this project to all members for their approval. The project becomes active once all members approve it."
@@ -283,16 +283,31 @@ export function ProjectHome() {
         ) : (
           <>
             {project.userIsProjectAdmin ? (
-              <Tooltip
-                color="gray"
-                label="Project status must be either Draft or Declined"
-                multiline
-                w={220}
-              >
-                <Button disabled mb="sm" ml="xs">
-                  Submit for Approval
-                </Button>
-              </Tooltip>
+              <>
+                {!project.allUsersAcceptedTheirInvites ? (
+                  <Tooltip
+                    color="gray"
+                    label="All users must accept their invites before submitting for approval"
+                    multiline
+                    w={220}
+                  >
+                    <Button disabled mb="sm" ml="xs">
+                      Submit for Approval
+                    </Button>
+                  </Tooltip>
+                ) : (
+                    <Tooltip
+                    color="gray"
+                    label="Project status must be either Draft or Declined"
+                    multiline
+                    w={220}
+                  >
+                    <Button disabled mb="sm" ml="xs">
+                      Submit for Approval
+                    </Button>
+                  </Tooltip>
+                )}
+              </>
             ) : (
               <Tooltip
                 color="gray"
