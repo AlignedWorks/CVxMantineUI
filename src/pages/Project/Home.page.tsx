@@ -298,7 +298,7 @@ export function ProjectHome() {
                 ) : (
                     <Tooltip
                     color="gray"
-                    label="Project status must be either Draft or Declined"
+                    label="Project is already submitted"
                     multiline
                     w={220}
                   >

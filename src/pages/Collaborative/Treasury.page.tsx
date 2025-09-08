@@ -136,13 +136,13 @@ export function CollaborativeTreasury() {
                     <Tooltip color="gray" label="(Total Token Assets) - (Total Token Liabilities)">
                       <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
                     </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{totalTokenAssets - totalTokenLiabilities}</Text>
+                    <Text fz="xl" fw={700} c="#444">{(totalTokenAssets - totalTokenLiabilities).toFixed(2)}</Text>
                   </div>
                   <div>
                     <Tooltip color="gray" label="(Current Token Balance) - (Total Token Liabilities)">
                       <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
                     </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{collaborative.tokenBalance - totalTokenLiabilities}</Text>
+                    <Text fz="xl" fw={700} c="#444">{(collaborative.tokenBalance - totalTokenLiabilities).toFixed(2)}</Text>
                   </div>
                 </SimpleGrid>
               </Paper>
@@ -199,13 +199,13 @@ export function CollaborativeTreasury() {
                         <Text fz="md" fw={500} c="#999">Tokens Balance</Text>
                       </Tooltip>
 
-                      <Text fz="xl" fw={500} c="#444">{collaborative.tokenBalance}</Text>
+                      <Text fz="xl" fw={500} c="#444">{(collaborative.tokenBalance).toFixed(2)}</Text>
 
                       <Tooltip color="gray" label="Tokens Receivable + Token Balance">
                         <Text fz="md" fw={500} c="red">Total Token Assets</Text>
                       </Tooltip>
-                      
-                      <Text fz="xl" fw={500} c="#444">{totalTokenAssets}</Text>
+
+                      <Text fz="xl" fw={500} c="#444">{totalTokenAssets.toFixed(2)}</Text>
                     </Stack>
                   </Paper>
                   <Text fz="md" fw={500} c="#999">Launch Token Price</Text>
@@ -232,7 +232,7 @@ export function CollaborativeTreasury() {
                         w={220}>
                         <Text fz="md" fw={500} c="#999">Project Work</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment}</Text>
+                      <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment.toFixed(2)}</Text>
 
                       <Tooltip
                         color="gray"
@@ -253,7 +253,7 @@ export function CollaborativeTreasury() {
                       <Text fz="xl" fw={500} c="#444">{collaborative.tokensPriorWork}</Text>
 
                       <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
-                      <Text fz="xl" fw={500} c="#444">{totalTokenLiabilities}</Text>
+                      <Text fz="xl" fw={500} c="#444">{totalTokenLiabilities.toFixed(2)}</Text>
                     </Stack>
                   </Paper>
                 </div>

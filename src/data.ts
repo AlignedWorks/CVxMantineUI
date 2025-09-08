@@ -238,6 +238,7 @@ export interface MilestoneDetail {
   projectName: string;
   projectAdmins: { adminId: string; adminName: string }[];
   feedback: string;
+  collabIsActive: boolean;
 }
 
 export interface ProjectInvite {

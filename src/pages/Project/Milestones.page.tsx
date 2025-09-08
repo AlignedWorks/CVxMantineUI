@@ -214,17 +214,20 @@ export function ProjectMilestones() {
             feedback: approvalAction === 'decline' ? feedback : undefined,
             isComplete: selectedMilestone.isComplete,
             completionSummary: selectedMilestone.completionSummary,
+            artifactUrl: selectedMilestone.artifactUrl,
           }),
         }
       );
 
       if (response.ok) {
+
         const updatedMilestone: MilestoneDetail = await response.json();
         setSelectedMilestone(updatedMilestone);
         setIsApprovalEditing(false);
         setApprovalAction(null);
         setFeedback('');
         setSuccessMessage(`Milestone ${approvalAction === 'approve' ? 'approved' : 'declined'} successfully.`);
+
         if (updatedMilestone.approvalStatus === 'Declined') {
           setIsComplete(false);
         }
@@ -708,6 +711,19 @@ export function ProjectMilestones() {
             }
           </Text>
 
+          {/* Due Date */}
+          <DatesProvider settings={{ firstDayOfWeek: 0}}>
+            <DateTimePicker
+              label="Due Date & Time"
+              placeholder="Select due date and time"
+              value={dueDate}
+              onChange={handleDueDateChange}
+              error={errors.dueDate}
+              minDate={startDate ? startDate : new Date()}
+              required
+            />
+          </DatesProvider>
+
           {/* Start Date */}
           <DatesProvider settings={{ firstDayOfWeek: 0}}>
             <DateTimePicker
@@ -718,19 +734,6 @@ export function ProjectMilestones() {
               error={errors.startDate}
               minDate={new Date()}
               maxDate={dueDate ? dueDate : new Date()}
-              required
-            />
-          </DatesProvider>
-
-          {/* Due Date */}
-          <DatesProvider settings={{ firstDayOfWeek: 0}}>
-            <DateTimePicker
-              label="Due Date & Time"
-              placeholder="Select due date and time"
-              value={dueDate}
-              onChange={handleDueDateChange}
-              error={errors.dueDate}
-              minDate={startDate ? startDate : new Date()}
               required
             />
           </DatesProvider>
@@ -884,6 +887,15 @@ export function ProjectMilestones() {
                         minRows={4}
                       />
 
+                      {selectedMilestone?.artifactUrl && (
+                        <Paper withBorder style={{ overflow: 'hidden', maxWidth: '100%' }}>
+                          <CSADocumentViewer 
+                            documentUrl={selectedMilestone.artifactUrl}
+                            allPagesRead={handleAgreementComplete}
+                          />
+                        </Paper>
+                      )}
+
                       <div>
                         <FileUpload
                           onSuccess={(url) => {
@@ -893,15 +905,6 @@ export function ProjectMilestones() {
                           }}
                         />
                       </div>
-
-                      {selectedMilestone?.artifactUrl && (
-                        <Paper withBorder style={{ overflow: 'hidden', maxWidth: '100%' }}>
-                          <CSADocumentViewer 
-                            documentUrl={selectedMilestone.artifactUrl}
-                            allPagesRead={handleAgreementComplete}
-                          />
-                        </Paper>
-                      )}
 
                       <Group gap="sm">
                         <Button onClick={handleUpdateCompletion}>Save Changes</Button>
@@ -1012,6 +1015,15 @@ export function ProjectMilestones() {
                         Review & Approve
                       </Button>
                     </Stack>
+                  )}
+
+                  {selectedMilestone?.artifactUrl && (
+                    <Paper withBorder style={{ overflow: 'hidden', maxWidth: '100%' }}>
+                      <CSADocumentViewer 
+                        documentUrl={selectedMilestone.artifactUrl}
+                        allPagesRead={handleAgreementComplete}
+                      />
+                    </Paper>
                   )}
                 </div>
               </>
