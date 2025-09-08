@@ -854,6 +854,15 @@ export function ProjectMilestones() {
               </Grid.Col>
             </Grid>
 
+            {selectedMilestone.approvalStatus === 'Archived' && selectedMilestone.artifactUrl && (
+              <Paper withBorder style={{ overflow: 'hidden', maxWidth: '100%' }}>
+                <CSADocumentViewer 
+                  documentUrl={selectedMilestone.artifactUrl}
+                  allPagesRead={handleAgreementComplete}
+                />
+              </Paper>
+            )}
+
             {selectedMilestone.approvalStatus === 'Declined' && (
               <>
                 <Text fw={600} size="sm" c="dimmed" mb={4}>Feedback</Text>
@@ -1016,16 +1025,16 @@ export function ProjectMilestones() {
                       </Button>
                     </Stack>
                   )}
-
-                  {selectedMilestone?.artifactUrl && (
-                    <Paper withBorder style={{ overflow: 'hidden', maxWidth: '100%' }}>
-                      <CSADocumentViewer 
-                        documentUrl={selectedMilestone.artifactUrl}
-                        allPagesRead={handleAgreementComplete}
-                      />
-                    </Paper>
-                  )}
                 </div>
+
+                {selectedMilestone?.artifactUrl && (
+                  <Paper withBorder style={{ overflow: 'hidden', maxWidth: '100%' }}>
+                    <CSADocumentViewer 
+                      documentUrl={selectedMilestone.artifactUrl}
+                      allPagesRead={handleAgreementComplete}
+                    />
+                  </Paper>
+                )}
               </>
             )}
           </Stack>
