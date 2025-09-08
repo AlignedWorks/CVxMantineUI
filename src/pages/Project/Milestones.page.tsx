@@ -570,18 +570,31 @@ export function ProjectMilestones() {
 
       {project.userIsProjectAdminAndStatusAccepted ? (
         <Group justify="right">
-          <Button
-            mb="sm"
-            variant="default"
-            onClick={() => {
-                setIsModalOpen(true);
-                if (projectMembers.length === 0) {
-                    fetchProjectMembers(); // Fetch users only if not already loaded
-                }
-            }}
+          {project.launchTokenBalance > 0 ? (
+            <Button
+              mb="sm"
+              variant="default"
+              onClick={() => {
+                  setIsModalOpen(true);
+                  if (projectMembers.length === 0) {
+                      fetchProjectMembers(); // Fetch users only if not already loaded
+                  }
+              }}
             >
             Add Milestone
           </Button>
+          ) : (
+            <Tooltip
+              color="gray"
+              label="Project budget is spent"
+              multiline
+              w={220}
+            >
+              <Button disabled mb="sm">
+                Add Milestone
+              </Button>
+            </Tooltip>
+          )}
         </Group>
       ) : (
         <Group justify="right">

@@ -172,6 +172,7 @@ export interface ProjectDataHome {
   adminEmail: string;
   adminPay: number;
   userIsProjectAdmin: boolean;
+  reasonsForDecline: { id: number; memberName: string; reason: string }[];
 }
 
 export interface ProjectDataWithMembers {

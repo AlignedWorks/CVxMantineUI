@@ -248,6 +248,19 @@ export function ProjectHome() {
 
               {project.description}<br /><br />
 
+              {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
+                <div>
+                  <Text c="red" mb="xs">
+                    <strong>Reasons this collaborative was declined:</strong>
+                  </Text>
+                  {project.reasonsForDecline.map((decline) => (
+                    <Text c="red" key={decline.id}>
+                      <strong>{decline.memberName}:</strong> {decline.reason}
+                    </Text>
+                  ))}
+                </div>
+              ) : null}
+
             </Stack>
           </Grid.Col>
         </Grid>
@@ -262,7 +275,7 @@ export function ProjectHome() {
             multiline
             w={220}
           >
-            <Button variant="outline" color="green" mb="sm" ml="xs"
+            <Button variant="default" mb="sm" ml="xs"
               onClick={handleSubmitForApproval}>
               Submit for Approval
             </Button>
