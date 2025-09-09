@@ -170,6 +170,7 @@ export function ProjectMilestones() {
             isComplete,
             completionSummary,
             artifactUrl,
+            assigneeId: selectedMilestone.assigneeId,
           }),
         }
       );
