@@ -16,6 +16,10 @@ import {
   Center,
   Image,
   Tooltip,
+  Modal,
+  TextInput,
+  NumberInput,
+  Textarea,
  } from '@mantine/core';
 import { ProjectDataHome } from '../../data.ts';
 
@@ -24,6 +28,16 @@ export function ProjectHome() {
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataHome | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Edit modal state + form
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: '',
+    budget: 0,
+    adminPay: 0,
+    description: '',
+  });
+  const [formErrors, setFormErrors] = useState<Record<string,string>>({});
 
   // Set the collaborative ID in context
   useEffect(() => {
@@ -84,6 +98,7 @@ export function ProjectHome() {
 
       try {
         const apiUrl = new URL(`projects/${project.id}/submit`, apiBase);
+
         fetch(apiUrl, {
           method: 'POST',
           credentials: 'include',
@@ -114,6 +129,63 @@ export function ProjectHome() {
       } catch (urlError) {
         console.error('Invalid API URL:', urlError);
       }
+    }
+  };
+
+  const handleEdit = () => {
+    if (!project) return;
+    setFormValues({
+      name: project.name,
+      budget: Number(project.budget || 0),
+      adminPay: Number(project.adminPay || 0),
+      description: project.description || '',
+    });
+    setFormErrors({});
+    setIsEditModalOpen(true);
+  };
+
+  const handleFormChange = (field: keyof typeof formValues, value: any) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+    setFormErrors((prev) => { const next = { ...prev }; delete next[field]; return next; });
+  };
+
+  const handleEditSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    const errs: Record<string,string> = {};
+    if (!formValues.name || !formValues.name.trim()) errs.name = 'Project name is required.';
+    const budget = Number(formValues.budget || 0);
+    const adminPay = Number(formValues.adminPay || 0);
+    if (!Number.isFinite(budget) || budget <= 0) errs.budget = 'Budget must be greater than 0.';
+    if (!Number.isFinite(adminPay) || adminPay < 0) errs.adminPay = 'Admin pay must be 0 or greater.';
+    if (adminPay > budget) errs.adminPay = 'Admin pay must be less than or equal to the budget.';
+    if (Object.keys(errs).length > 0) { setFormErrors(errs); return; }
+
+    if (!project) return;
+    const apiBase = import.meta.env.VITE_API_BASE;
+    if (!apiBase) { console.warn('VITE_API_BASE not configured'); return; }
+    try {
+      const apiUrl = new URL(`projects/${project.id}`, apiBase);
+      const response = await fetch(apiUrl, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formValues.name,
+          budget: budget,
+          adminPay: adminPay,
+          description: formValues.description,
+        }),
+      });
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        console.error('Failed to update project:', errData);
+        return;
+      }
+      const updated = await response.json();
+      setProject((prev) => prev ? { ...prev, ...updated } : prev);
+      setIsEditModalOpen(false);
+    } catch (error) {
+      console.error('Error updating project:', error);
     }
   };
 
@@ -246,7 +318,10 @@ export function ProjectHome() {
                 </div>
               </SimpleGrid>
 
-              {project.description}<br /><br />
+              <Text>
+                Description:<br />
+                {project.description}<br /><br />
+              </Text>
 
               {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
                 <div>
@@ -322,7 +397,75 @@ export function ProjectHome() {
             )}
           </>
         )}
+
+        {project.userIsProjectAdmin ? (
+          <Button variant="default" onClick={handleEdit}>
+            Edit Project Profile
+          </Button>
+        ) : (
+          <Tooltip
+            color="gray"
+            label="Only project admins can edit the profile"
+            multiline
+            w={220}
+          >
+            <Button disabled mb="sm" ml="xs">
+              Edit Project Profile
+            </Button>
+          </Tooltip>
+        )}
       </Group>
+
+      {/* Edit Project Modal */}
+      <Modal
+        opened={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Edit Project Profile"
+        size="lg"
+      >
+        <form onSubmit={handleEditSubmit} noValidate>
+          <Stack>
+            <TextInput
+              label="Project Name"
+              value={formValues.name}
+              onChange={(e) => handleFormChange('name', e.currentTarget.value)}
+              error={formErrors.name}
+              required
+            />
+            <NumberInput
+              label="Budget (tokens)"
+              value={formValues.budget}
+              onChange={(v) => handleFormChange('budget', v ?? 0)}
+              error={formErrors.budget}
+              min={0}
+              step={1}
+              required
+            />
+            <NumberInput
+              label="Project Admin Pay (tokens)"
+              value={formValues.adminPay}
+              onChange={(v) => handleFormChange('adminPay', v ?? 0)}
+              error={formErrors.adminPay}
+              min={0}
+              step={1}
+              required
+            />
+            <Textarea
+              label="Description"
+              value={formValues.description}
+              onChange={(e) => handleFormChange('description', e.currentTarget.value)}
+              error={formErrors.description}
+              minRows={3}
+            />
+            <Group justify="right" mt="md">
+              <Button variant="default" type="button" onClick={() => { setIsEditModalOpen(false); setFormErrors({}); }}>
+                Cancel
+              </Button>
+              <Button type="submit">Save</Button>
+            </Group>
+          </Stack>
+        </form>
+      </Modal>
 
     </Container>
   );

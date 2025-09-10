@@ -267,7 +267,10 @@ export function CollaborativeHome() {
                 </div>
               </SimpleGrid>
 
-              {collaborative.description}<br /><br />
+              <Text>
+                Description:<br />
+                {collaborative.description}<br /><br />
+              </Text>
               
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="lg">
                 <div>
