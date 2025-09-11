@@ -3,7 +3,6 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Container, TextInput, NumberInput, Select, Text, Textarea, Button, Group, Title, SimpleGrid, Tooltip } from '@mantine/core';
 import { Project, CollaborativeDataWithMembers } from '../data';
 
-// Add interface for token distribution data
 interface TokenDistribution {
   currentTokenRelease: number;
   launchTokensBalance: number;
@@ -35,7 +34,6 @@ export function CreateProject() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [budgetError, setBudgetError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCollaborativeMembers = async () => {
@@ -102,12 +100,13 @@ export function CreateProject() {
   const handleBudgetChange = (value: number | string) => {
 
     handleInputChange('budget', value);
-    
-    // Clear error when user changes value
-    if (budgetError) {
-      setBudgetError(null);
-    }
-    
+
+    setErrors(prev => {
+      const next = { ...prev };
+      delete next.budget;
+      return next;
+    });
+
     // Reset previews if no valid token distribution or no value
     if (!tokenDistribution || !value || Number(value) <= 0) {
       setRemainingCollaborativeBalance(null);
@@ -135,7 +134,12 @@ export function CreateProject() {
         error = `This allocation (${Math.round(projectBudgetTokens).toLocaleString()} tokens) is less than the Project Admin Pay (${Math.round(adminComp).toLocaleString()} tokens)`;
       }
 
-      setBudgetError(error);
+      setErrors(prev => {
+        const next = { ...prev };
+        if (error) next.budget = error;
+        else delete next.budget;
+        return next;
+      });
       setRemainingCollaborativeBalance(Math.round(remaining));
       setPercentOfAvailableBalance(percentOfAvailable);
       setRemainingProjectBalance(remainingProject);
@@ -176,14 +180,14 @@ export function CreateProject() {
     if (tokenDistribution && formValues.budget > 0) {
       const tokenAmount = (Number(formValues.budget) / 100) * tokenDistribution.currentTokenRelease;
       if (tokenAmount > tokenDistribution.launchTokensBalance) {
-        setBudgetError(`This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`);
+        newErrors.budget = `This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`;
         return;
       }
     }
 
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0 && !budgetError) {
+    if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted:', formValues);
 
       try {
@@ -277,7 +281,7 @@ export function CreateProject() {
               placeholder="Enter a Project Budget as a number of Launch Tokens"
               value={formValues.budget}
               onChange={handleBudgetChange}
-              error={budgetError || errors.budget}
+              error={errors.budget}
               allowNegative={false}
               required
               min={0}

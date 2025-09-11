@@ -23,11 +23,25 @@ import {
  } from '@mantine/core';
 import { ProjectDataHome } from '../../data.ts';
 
+interface TokenDistribution {
+  currentTokenRelease: number;
+  launchTokensBalance: number;
+}
+
 export function ProjectHome() {
   const { collabId, projectId } = useParams();
   const { setCollaborativeId } = useCollaborativeContext();
+  const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution | null>(null);
   const [project, setProject] = useState<ProjectDataHome | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // display helpers for Project Budget preview
+  const [remainingCollaborativeBalance, setRemainingCollaborativeBalance] = useState<number | null>(null);
+  const [percentOfAvailableBalance, setPercentOfAvailableBalance] = useState<number | null>(null);
+
+  // project-level derived values
+  const [remainingProjectBalance, setRemainingProjectBalance] = useState<number | null>(null);
+  const [percentOfProjectBudget, setPercentOfProjectBudget] = useState<number | null>(null);
 
   // Edit modal state + form
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -84,7 +98,103 @@ export function ProjectHome() {
       console.error('Invalid API URL:', urlError);
       setLoading(false);
     }
+
+    const fetchTokenDistribution = async () => {
+      try {
+        const response = await fetch(
+          new URL(`collaboratives/${collabId}/token-distribution`, import.meta.env.VITE_API_BASE),
+          {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch token distribution');
+        }
+
+        const data: TokenDistribution = await response.json();
+        setTokenDistribution(data);
+      } catch (error) {
+        console.error('Error fetching token distribution:', error);
+        setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
+      }
+    };
+
+    fetchTokenDistribution();
   }, [collabId]);
+
+  // Function to handle budget change with validation
+  const handleBudgetChange = (value: number | string) => {
+
+    handleFormChange('budget', value);
+    
+    setFormErrors(prev => {
+      const next = { ...prev };
+      delete next.budget;
+      return next;
+    });
+    
+    // Reset previews if no valid token distribution or no value
+    if (!tokenDistribution || !value || Number(value) <= 0) {
+      setRemainingCollaborativeBalance(null);
+      setPercentOfAvailableBalance(null);
+      setRemainingProjectBalance(null);
+      setPercentOfProjectBudget(null);
+      return;
+    }
+    
+    // Validate if value is provided and token distribution is available
+    if (value && Number(value) > 0 && tokenDistribution) {
+
+      const projectBudgetTokens = Number(value);
+      const remaining = tokenDistribution.launchTokensBalance - projectBudgetTokens;
+      const percentOfAvailable = tokenDistribution.launchTokensBalance > 0
+        ? (projectBudgetTokens / tokenDistribution.launchTokensBalance) * 100
+        : 0;
+
+      const adminComp = Number(formValues.adminPay || 0);
+      const remainingProject = Math.round(Math.max(0, projectBudgetTokens - adminComp));
+      const percentProject = projectBudgetTokens > 0 ? (adminComp / projectBudgetTokens) * 100 : 0;
+
+      let error: string | null = null;
+      if (projectBudgetTokens < adminComp) {
+        error = `This allocation (${Math.round(projectBudgetTokens).toLocaleString()} tokens) is less than the Project Admin Pay (${Math.round(adminComp).toLocaleString()} tokens)`;
+      }
+
+      setFormErrors(prev => {
+        const next = { ...prev };
+        if (error) next.budget = error;
+        else delete next.budget;
+        return next;
+      });
+      setRemainingCollaborativeBalance(Math.round(remaining));
+      setPercentOfAvailableBalance(percentOfAvailable);
+      setRemainingProjectBalance(remainingProject);
+      setPercentOfProjectBudget(percentProject);
+    }
+  };
+
+  // When admin pay changes, recompute project-level previews
+  const handleAdminPayChange = (value: number | string) => {
+
+    handleFormChange('adminPay', value);
+    const adminCompTokens = Number(value || 0);
+    const projectBudgetTokens = Number(formValues.budget || 0);
+
+    // derive tokenAmount from current budget & tokenDistribution (same calc as above)
+    if (!tokenDistribution || !formValues.budget || Number(formValues.budget) <= 0) {
+      setRemainingProjectBalance(null);
+      setPercentOfProjectBudget(null);
+      return;
+    }
+
+    setRemainingProjectBalance(Math.round(Math.max(0, projectBudgetTokens - adminCompTokens)));
+    setPercentOfProjectBudget(projectBudgetTokens > 0 ? (adminCompTokens / projectBudgetTokens) * 100 : 0);
+  };
 
   const handleSubmitForApproval = () => {
     // Logic to submit the project for approval
@@ -161,8 +271,11 @@ export function ProjectHome() {
     if (Object.keys(errs).length > 0) { setFormErrors(errs); return; }
 
     if (!project) return;
+
     const apiBase = import.meta.env.VITE_API_BASE;
+
     if (!apiBase) { console.warn('VITE_API_BASE not configured'); return; }
+    
     try {
       const apiUrl = new URL(`projects/${project.id}`, apiBase);
       const response = await fetch(apiUrl, {
@@ -399,7 +512,7 @@ export function ProjectHome() {
         )}
 
         {project.userIsProjectAdmin ? (
-          <Button variant="default" onClick={handleEdit}>
+          <Button variant="default" mb="sm" ml="xs" onClick={handleEdit}>
             Edit Project Profile
           </Button>
         ) : (
@@ -432,24 +545,6 @@ export function ProjectHome() {
               error={formErrors.name}
               required
             />
-            <NumberInput
-              label="Budget (tokens)"
-              value={formValues.budget}
-              onChange={(v) => handleFormChange('budget', v ?? 0)}
-              error={formErrors.budget}
-              min={0}
-              step={1}
-              required
-            />
-            <NumberInput
-              label="Project Admin Pay (tokens)"
-              value={formValues.adminPay}
-              onChange={(v) => handleFormChange('adminPay', v ?? 0)}
-              error={formErrors.adminPay}
-              min={0}
-              step={1}
-              required
-            />
             <Textarea
               label="Description"
               value={formValues.description}
@@ -457,11 +552,75 @@ export function ProjectHome() {
               error={formErrors.description}
               minRows={3}
             />
+            <Tooltip
+              color="gray"
+              label="Enter a Project Budget as a number of Launch Tokens"
+              multiline
+              w={220}
+            >
+              <NumberInput
+                label="Budget"
+                placeholder="Enter a Project Budget as a number of Launch Tokens"
+                value={formValues.budget}
+                onChange={handleBudgetChange}
+                error={formErrors.budget}
+                allowNegative={false}
+                required
+                min={0}
+                max={tokenDistribution ? tokenDistribution.launchTokensBalance - formValues.adminPay : undefined}
+                suffix=" tokens"
+              />
+            </Tooltip>
+            <Tooltip
+              color="gray"
+              label="The # of Tokens in the Collaborative released for use and still unassigned after this project is launched"
+              multiline
+              w={220}
+            >
+              <Text size="sm" c="dimmed" mt="xs">
+                Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${tokenDistribution?.launchTokensBalance} tokens`}
+              </Text>
+            </Tooltip>
+            <Tooltip
+              color="gray"
+              label="The percent of released and unassigned Tokens in the Collaborative needed to fund this project"
+              multiline
+              w={220}
+            >
+              <Text size="sm" c="dimmed" mb="md">
+                {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance?.toFixed(0)}% of available balance` : '0% of available balance'}
+              </Text>
+            </Tooltip>
+            <Tooltip
+              color="gray"
+              label="The percent of released and unassigned Tokens in the Collaborative needed to fund this project"
+              multiline
+              w={220}
+            >
+              <NumberInput
+                label="Project Admin Pay"
+                placeholder="Enter the Project Admin pay as a # of Tokens"
+                value={formValues.adminPay}
+                onChange={handleAdminPayChange}
+                error={formErrors.adminPay}
+                allowNegative={false}
+                max={formValues.budget || 0}
+                required
+                suffix=" tokens"
+                step={1}
+              />
+            </Tooltip>
+            <Text size="sm" c="dimmed" mt="xs">
+              Remaining Project Balance: {remainingProjectBalance !== null ? `${remainingProjectBalance.toLocaleString()} Tokens` : '0 tokens'}
+            </Text>
+            <Text size="sm" c="dimmed">
+              {percentOfProjectBudget !== null ? `${percentOfProjectBudget.toFixed(0)}% of Project Budget` : '0% of Project Budget'}
+            </Text>
             <Group justify="right" mt="md">
               <Button variant="default" type="button" onClick={() => { setIsEditModalOpen(false); setFormErrors({}); }}>
                 Cancel
               </Button>
-              <Button type="submit">Save</Button>
+              <Button variant="outline" type="submit">Save</Button>
             </Group>
           </Stack>
         </form>
