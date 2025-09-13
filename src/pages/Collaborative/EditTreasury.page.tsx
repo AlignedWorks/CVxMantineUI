@@ -78,7 +78,7 @@ export function EditCollaborativeTreasury() {
           tokenReleaseRate: data.tokenReleaseRate,
           tokenSecondReleaseWeeks: data.tokenSecondReleaseWeeks,
           tokensCreated: data.tokensCreated || 0,
-          tokensPriorWorkPercent: data.tokensPriorWork,
+          tokensPriorWorkPercent: data.tokensPriorWorkPercent || 0,
           tokenValue: data.tokenValue || 0,
         });
         setLoading(false);
@@ -176,7 +176,7 @@ export function EditCollaborativeTreasury() {
     setSaving(true);
     try {
       const response = await fetch(
-        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+        new URL(`collaboratives/${id}/treasury`, import.meta.env.VITE_API_BASE),
         {
           method: 'PATCH',
           credentials: 'include',
@@ -358,40 +358,6 @@ export function EditCollaborativeTreasury() {
           </div>
           <div>
             {/* empty placeholder to reserve the second column so widths match */}
-          </div>
-        </SimpleGrid>
-        
-        <SimpleGrid cols={{ base: 1, md: 2 }} mb="md">
-          <div>
-            {/* Revenue Share */}
-            <Text fz="md" fw={500} mb="xs">
-              Revenue Share
-            </Text>
-
-            {/* Indirect Costs */}
-            <Text fz="md" fw={500} mb="xs">
-              Indirect Costs
-            </Text>
-
-            {/* Collaborative Leader Compensation */}
-            <Text fz="md" fw={500} mb="xs">
-              Collaborative Leader Compensation
-            </Text>
-            <NumberInput
-              value={formValues.collabAdminCompensationPercent}
-              onChange={(value) => setFormValues({
-                ...formValues,
-                collabAdminCompensationPercent: typeof value === 'number' ? value : formValues.collabAdminCompensationPercent
-              })}
-              min={0}
-              max={100}
-              mb="lg"
-              rightSection="%"
-            />
-
-          </div>
-          
-          <div>  
           </div>
         </SimpleGrid>
         
