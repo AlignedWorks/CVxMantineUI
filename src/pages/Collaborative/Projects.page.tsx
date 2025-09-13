@@ -72,7 +72,7 @@ export function CollaborativeProjects() {
   const fetchTokenDistribution = async () => {
       try {
         const response = await fetch(
-          new URL(`collaboratives/${collaborative?.id}/token-distribution`, import.meta.env.VITE_API_BASE),
+          new URL(`collaboratives/${id}/token-distribution`, import.meta.env.VITE_API_BASE),
           {
             method: 'GET',
             credentials: 'include',
