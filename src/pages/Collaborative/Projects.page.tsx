@@ -179,7 +179,7 @@ export function CollaborativeProjects() {
                       <Table.Th>Description</Table.Th>
                       <Table.Th>Approval Status</Table.Th>
                       <Table.Th>Created</Table.Th>
-                      <Table.Th>Budget<br/><Text c="dimmed">Launch Tokens</Text></Table.Th>
+                      <Table.Th>Budget<br/><Text c="dimmed" inherit>Launch Tokens</Text></Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -217,7 +217,7 @@ export function CollaborativeProjects() {
                           )}
                         </Table.Td>
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
-                        <Table.Td>{project.budget} <Text c="dimmed">| {tokenDistribution ? (project.budget / tokenDistribution.currentTokenRelease * 100).toFixed(2) : 0}%</Text></Table.Td>
+                        <Table.Td>{project.budget} <Text span c="dimmed" inherit>| {tokenDistribution ? (project.budget / tokenDistribution.currentTokenRelease * 100).toFixed(2) : 0}%</Text></Table.Td>
                       </Table.Tr>
                       
                     ))}
@@ -228,9 +228,8 @@ export function CollaborativeProjects() {
                         Total:
                       </Table.Td>
                       <Table.Td>
-                        {totalBudget}
-                        <Text c="dimmed">
-                          {tokenDistribution ? ` | ${tokenDistribution.currentTokenRelease.toFixed(2)}` : ''}
+                        {totalBudget} <Text span c="dimmed" inherit>
+                        | {tokenDistribution ? ((totalBudget / tokenDistribution.currentTokenRelease) * 100).toFixed(2) : '0'}%
                         </Text>
                       </Table.Td>
                     </Table.Tr>
