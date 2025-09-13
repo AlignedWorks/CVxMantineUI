@@ -548,7 +548,7 @@ export function ProjectHome() {
                 allowNegative={false}
                 required
                 min={0}
-                max={project?.collabLaunchTokenBalance - formValues.adminPay : undefined}
+                max={project?.collabLaunchTokenBalance - formValues.adminPay || 0}
                 suffix=" tokens"
               />
             </Tooltip>
