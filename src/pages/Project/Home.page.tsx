@@ -156,8 +156,8 @@ export function ProjectHome() {
       const adminPayChange = Number(formValues.adminPay || 0) - (project ? Number(project.adminPay || 0) : 0);
 
       // Make sure new budget doesn't drop below already allocated tokens for milestones
-      if (project && project.budget - Number(value) > project.balance - adminPayChange) {
-        error = `The budget cannot be reduced below the amount already allocated to milestones + admin pay (${(project.budget - project.balance - adminPayChange).toLocaleString()} tokens)`;
+      if (project && project.budget - Number(value) > project.balance + adminPayChange) {
+        error = `The budget cannot be reduced below the amount already allocated to milestones + admin pay (${(project.budget - project.balance + adminPayChange).toLocaleString()} tokens)`;
       }
 
       const projectBudgetTokens = Number(value);
