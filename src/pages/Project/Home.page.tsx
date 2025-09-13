@@ -111,7 +111,7 @@ export function ProjectHome() {
     });
     
     // Reset previews if no valid token distribution or no value
-    if (!tokenDistribution || !value || Number(value) <= 0) {
+    if (!project?.collabLaunchTokenBalance || !value || Number(value) <= 0) {
       setRemainingCollaborativeBalance(null);
       setPercentOfAvailableBalance(null);
       setRemainingProjectBalance(null);
@@ -120,7 +120,7 @@ export function ProjectHome() {
     }
     
     // Validate if value is provided and token distribution is available
-    if (value && Number(value) > 0 && tokenDistribution) {
+    if (value && Number(value) > 0 && project?.collabLaunchTokenBalance) {
 
       let error: string | null = null;
 
@@ -133,9 +133,9 @@ export function ProjectHome() {
       }
 
       const projectBudgetTokens = Number(value);
-      const remaining = tokenDistribution.launchTokensBalance - projectBudgetTokens;
-      const percentOfAvailable = tokenDistribution.launchTokensBalance > 0
-        ? (projectBudgetTokens / tokenDistribution.launchTokensBalance) * 100
+      const remaining = project?.collabLaunchTokenBalance - projectBudgetTokens;
+      const percentOfAvailable = project?.collabLaunchTokenBalance > 0
+        ? (projectBudgetTokens / project?.collabLaunchTokenBalance) * 100
         : 0;
 
       const adminComp = Number(formValues.adminPay || 0);
@@ -167,8 +167,7 @@ export function ProjectHome() {
     const adminCompTokens = Number(value || 0);
     const projectBudgetTokens = Number(formValues.budget || 0);
 
-    // derive tokenAmount from current budget & tokenDistribution (same calc as above)
-    if (!tokenDistribution || !formValues.budget || Number(formValues.budget) <= 0) {
+    if (!project?.collabLaunchTokenBalance || !formValues.budget || Number(formValues.budget) <= 0) {
       setRemainingProjectBalance(null);
       setPercentOfProjectBudget(null);
       return;
@@ -549,7 +548,7 @@ export function ProjectHome() {
                 allowNegative={false}
                 required
                 min={0}
-                max={tokenDistribution ? tokenDistribution.launchTokensBalance - formValues.adminPay : undefined}
+                max={project?.collabLaunchTokenBalance - formValues.adminPay : undefined}
                 suffix=" tokens"
               />
             </Tooltip>
@@ -560,7 +559,7 @@ export function ProjectHome() {
               w={220}
             >
               <Text size="sm" c="dimmed" mt="xs">
-                Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${tokenDistribution?.launchTokensBalance} tokens`}
+                Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${project?.collabLaunchTokenBalance} tokens`}
               </Text>
             </Tooltip>
             <Tooltip
