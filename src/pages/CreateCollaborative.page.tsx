@@ -122,16 +122,16 @@ export function CreateCollaborative() {
 
   const handleSubmit = async () => {
     const newErrors: {
-        name?: string;
-        description?: string;
-        skills?: string;
-        experience?: string;
-        launchTokensCreated?: string;
-        launchCyclePeriod?: string;
-        launchTokenReleaseRate?: string;
-        launchTokenValue?: string;
-        launchTokenSecondReleaseWeeks?: string;
-      } = {};
+      name?: string;
+      description?: string;
+      skills?: string;
+      experience?: string;
+      launchTokensCreated?: string;
+      launchCyclePeriod?: string;
+      launchTokenReleaseRate?: string;
+      launchTokenValue?: string;
+      launchTokenSecondReleaseWeeks?: string;
+    } = {};
 
     // Validate name
     if (!formValues.name.trim()) {
@@ -156,12 +156,15 @@ export function CreateCollaborative() {
     if (!formValues.launchTokensCreated || formValues.launchTokensCreated <= 0) {
       newErrors.launchTokensCreated = 'Launch Tokens Created must be greater than 0.';
     }
+
     if (!formValues.launchCyclePeriod || formValues.launchCyclePeriod <= 0) {
       newErrors.launchCyclePeriod = 'Launch Cycle Period must be greater than 0.';
     }
+
     if (!formValues.launchTokenReleaseRate || formValues.launchTokenReleaseRate <= 0 || formValues.launchTokenReleaseRate > 100) {
       newErrors.launchTokenReleaseRate = 'Launch Token Release Rate must be between 0 and 100.';
     }
+    
     if (formValues.launchTokenSecondReleaseWeeks === undefined) {
       newErrors.launchTokenSecondReleaseWeeks = 'Second Token Release Date is required.';
     }

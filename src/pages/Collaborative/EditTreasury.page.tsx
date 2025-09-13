@@ -22,10 +22,30 @@ export function EditCollaborativeTreasury() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   
-  // Form values
-  const [formValues, setFormValues] = useState<{
+  type TreasuryForm = {
+    tokensCreated: number;
+    tokenValue: number;
+    tokensPriorWorkPercent: number;
+    tokenReleaseRate: number;
+    launchCyclePeriodWeeks: number;
+    tokenSecondReleaseWeeks: number;
     collabAdminCompensationPercent: number;
-  } | null>(null);
+  };
+
+  // Form values
+  const [formValues, setFormValues] = useState<TreasuryForm>({
+    tokensCreated: 10000,
+    tokenValue: 0,
+    tokensPriorWorkPercent: 0,
+    tokenReleaseRate: 0,
+    launchCyclePeriodWeeks: 12,
+    tokenSecondReleaseWeeks: 0,
+    collabAdminCompensationPercent: 0,
+  });
+
+  type FormErrors = Partial<Record<keyof TreasuryForm, string>>;
+
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   // Set the collaborative ID in context
   useEffect(() => {
@@ -54,6 +74,12 @@ export function EditCollaborativeTreasury() {
         setCollaborative(data);
         setFormValues({
           collabAdminCompensationPercent: data.collabAdminCompensationPercent,
+          launchCyclePeriodWeeks: data.launchCyclePeriodWeeks || 12,
+          tokenReleaseRate: data.tokenReleaseRate,
+          tokenSecondReleaseWeeks: data.tokenSecondReleaseWeeks,
+          tokensCreated: data.tokensCreated || 0,
+          tokensPriorWorkPercent: data.tokensPriorWork,
+          tokenValue: data.tokenValue || 0,
         });
         setLoading(false);
       })
@@ -62,6 +88,66 @@ export function EditCollaborativeTreasury() {
         setLoading(false);
       });
   }, [id]);
+
+  const formatNumber = (n: number) =>
+    n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+  const numTokensSetAsideForPriorWork = Math.round((formValues.tokensPriorWorkPercent / 100) * (formValues.tokensCreated || 0));
+
+  // compute first three cycle balances (start of each cycle) using decay = (1 - releaseRate)
+  const releaseCyclesPreview: React.ReactNode = (() => {
+    const created = Math.max(0, Math.round(formValues.tokensCreated - numTokensSetAsideForPriorWork || 0));
+    const rate = Math.max(0, Math.min(100, formValues.tokenReleaseRate || 0)) / 100;
+
+    const first = Math.round(created * rate);
+    const second = Math.round(first * (1 - rate));
+    const third = Math.round(second * (1 - rate));
+
+    const cycles = [first, second, third];
+    const ord = (n: number) => (n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th');
+
+    return (
+      <>
+        # tokens&nbsp;
+        {cycles.map((v, i) => (
+          <span key={i}>
+            {i + 1}{ord(i + 1)} cycle:&nbsp;<strong>{formatNumber(v)}</strong>{i < cycles.length - 1 ? ', ' : ''}
+          </span>
+        ))}
+      </>
+    );
+  })();
+
+  // compute admin payouts for the first three cycles based on collabAdminCompensationPercent
+  const adminPaymentsPreview: React.ReactNode = (() => {
+    const compPct = Math.max(0, Math.min(100, formValues.collabAdminCompensationPercent || 0)) / 100;
+    if (compPct === 0) return '';
+
+    const created = Math.max(0, Math.round(formValues.tokensCreated - numTokensSetAsideForPriorWork || 0));
+    const rate = Math.max(0, Math.min(100, formValues.tokenReleaseRate || 0)) / 100;
+
+    const first = Math.round(created * rate);
+    const second = Math.round(first * (1 - rate));
+    const third = Math.round(second * (1 - rate));
+
+    const adminFirst = Math.round(first * compPct);
+    const adminSecond = Math.round(second * compPct);
+    const adminThird = Math.round(third * compPct);
+
+    const ord = (n: number) => (n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th');
+    const arr = [adminFirst, adminSecond, adminThird];
+
+    return (
+      <>
+        # tokens&nbsp;
+        {arr.map((v, i) => (
+          <span key={i}>
+            {i + 1}{ord(i + 1)} cycle:&nbsp;<strong>{formatNumber(v)}</strong>{i < arr.length - 1 ? ', ' : ''}
+          </span>
+        ))}
+      </>
+    );
+  })();
 
   if (loading) {
     return (
@@ -80,6 +166,11 @@ export function EditCollaborativeTreasury() {
       </Container>
     );
   }
+
+  const handleFormChange = (field: keyof typeof formValues, value: any) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+    setFormErrors((prev) => { const next = { ...prev }; delete next[field]; return next; });
+  };
 
   const handleSubmit = async () => {
     setSaving(true);
@@ -123,6 +214,152 @@ export function EditCollaborativeTreasury() {
         <Title order={2} mb="xl">
           Edit Treasury
         </Title>
+
+        <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
+          <NumberInput
+            label="Tokens Created"
+            placeholder="Enter the number of tokens created (default: 10,000)"
+            value={formValues.tokensCreated}
+            onChange={(value) =>
+              handleFormChange('tokensCreated', value)
+            }
+            error={formErrors.tokensCreated} // Display validation error
+            required
+            step={100}
+            thousandSeparator=","
+            allowNegative={false}
+            mb="md"
+          />
+  
+          <div>
+            <NumberInput
+              label="Current Token Price"
+              placeholder="Enter the current token price in USD (e.g., 1.00), this is optional"
+              value={formValues.tokenValue}
+              onChange={(value) =>
+                handleFormChange('tokenValue', value)
+              }
+              error={formErrors.tokenValue} // Display validation error
+
+              min={0}
+              prefix="$"
+              decimalScale={2}
+              allowNegative={false}
+              mb="xs" 
+            />
+            <Text size="sm" c="dimmed" mb="md">
+              {`Token Pool Value: $${(formValues.tokenValue * formValues.tokensCreated).toLocaleString('en-US', {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
+                })}`}
+            </Text>
+          </div>
+        </SimpleGrid>
+  
+        <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
+          <div>
+            <NumberInput
+              label="Tokens for Prior Work"
+              placeholder="Enter the expected token value increase percentage (default: 0%)"
+              value={formValues.tokensPriorWorkPercent }
+              onChange={(value) =>
+                handleFormChange('tokensPriorWorkPercent', value)
+              }
+              min={0}
+              max={100}
+              suffix="%"
+              decimalScale={2}
+              mb="xs"
+            />
+            <Text size="sm" c="dimmed" mb="md">
+              # tokens: {formValues.tokensPriorWorkPercent > 0 ? `${((formValues.tokensPriorWorkPercent / 100) * formValues.tokensCreated).toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              })}` : 0}
+            </Text>
+          </div>
+  
+          <div>
+            <NumberInput
+              label="Token Release Rate"
+              placeholder="Enter the release rate percentage (default: 10%)"
+              value={formValues.tokenReleaseRate}
+              onChange={(value) =>
+                handleFormChange('tokenReleaseRate', value)
+              }
+              error={formErrors.tokenReleaseRate} // Display validation error
+              required
+              min={0}
+              max={100}
+              suffix="%"
+              decimalScale={2}
+              mb="xs"
+            />
+            <Text size="sm" c="dimmed" mb="md">
+              {releaseCyclesPreview}
+            </Text>
+          </div>
+        </SimpleGrid>
+  
+        <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
+          <NumberInput
+            label="Launch Cycle Period (weeks)"
+            placeholder="Enter the cycle period in weeks (default: 12)"
+            value={formValues.launchCyclePeriodWeeks}
+            onChange={(value) =>
+              handleFormChange('launchCyclePeriodWeeks', value)
+            }
+            error={formErrors.launchCyclePeriodWeeks} // Display validation error
+            required
+            allowNegative={false}
+            mb="md"
+          />
+  
+          <div>
+            <NumberInput
+              label="Second Release (weeks)"
+              placeholder="Enter weeks (0 = at approval)"
+              value={formValues.tokenSecondReleaseWeeks}
+              onChange={(value) =>
+                handleFormChange('tokenSecondReleaseWeeks', value)
+              }
+              error={formErrors.tokenSecondReleaseWeeks} // Display validation error
+              required
+              mb="xs"
+              allowNegative={false}
+            />
+            <Text size="sm" c="dimmed" mb="md">
+              # weeks after collab approval (0 = at approval)
+            </Text>
+          </div>
+        </SimpleGrid>
+  
+        <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
+          <div>
+            <NumberInput
+              label="Collab Admin Pay"
+              placeholder="Percentage of each release cycle allocated to the collaborative admin (default: 0%)"
+              value={formValues.collabAdminCompensationPercent}
+              onChange={(value) =>
+                handleFormChange('collabAdminCompensationPercent', value)
+              }
+              required
+              min={0}
+              max={100}
+              suffix="%"
+              decimalScale={2}
+              mb="xs"
+            />
+            <Text size="sm" c="dimmed" mb="md">
+              {adminPaymentsPreview
+                ? <>{adminPaymentsPreview}</>
+                : 'Percentage of tokens released to the collaborative admin every cycle as compensation'}
+            </Text>
+          </div>
+          <div>
+            {/* empty placeholder to reserve the second column so widths match */}
+          </div>
+        </SimpleGrid>
         
         <SimpleGrid cols={{ base: 1, md: 2 }} mb="md">
           <div>

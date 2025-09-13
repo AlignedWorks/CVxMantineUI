@@ -91,17 +91,22 @@ export interface CollaborativeDataTreasury {
   name: string;
   logoUrl: string;
   userIsCollabAdmin: boolean;
-  launchTokenValue: number;
+  tokenValue: number;
   nextTokenReleaseDate: string;
   currentTokenRelease: number;
   nextTokenRelease: number;
+  tokensCreated?: number;
   tokensReceivable: number;
   tokenBalance: number;
+  tokenReleaseRate: number;
+  tokenSecondReleaseWeeks: number;
   tokensCollabAdmin: number;
   tokensPriorWork: number;
+  tokensPriorWorkPercent?: number;
   projectWorkPayment: number;
   nonTeamContributions: number;
   collabAdminCompensationPercent: number;
+  launchCyclePeriodWeeks?: number;
 }
 
 export interface CollaborativeDataWallet {

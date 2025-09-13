@@ -209,7 +209,7 @@ export function CollaborativeTreasury() {
                     </Stack>
                   </Paper>
                   <Text fz="md" fw={500} c="#999">Launch Token Price</Text>
-                  <Text fz="xl" fw={700} c="#444">${(collaborative.launchTokenValue).toFixed(2)}</Text>
+                  <Text fz="xl" fw={700} c="#444">${(collaborative.tokenValue).toFixed(2)}</Text>
                 </div>
                 <div>
                   <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
