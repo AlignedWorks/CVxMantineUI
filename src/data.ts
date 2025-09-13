@@ -161,6 +161,7 @@ export interface ProjectDataHome {
   collabId: number;
   collabName: string;
   collabLogoUrl: string;
+  collabLaunchTokenBalance: number;
   id: number;
   name: string;
   description: string;

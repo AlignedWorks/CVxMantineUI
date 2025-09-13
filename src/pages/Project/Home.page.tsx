@@ -23,15 +23,9 @@ import {
  } from '@mantine/core';
 import { ProjectDataHome } from '../../data.ts';
 
-interface TokenDistribution {
-  currentTokenRelease: number;
-  launchTokensBalance: number;
-}
-
 export function ProjectHome() {
   const { collabId, projectId } = useParams();
   const { setCollaborativeId } = useCollaborativeContext();
-  const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution | null>(null);
   const [project, setProject] = useState<ProjectDataHome | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -88,6 +82,8 @@ export function ProjectHome() {
         .then((data: ProjectDataHome) => {
           console.log(data);
           setProject(data);
+          setRemainingCollaborativeBalance(data ? data.collabLaunchTokenBalance - project?.budget! : null);
+          setPercentOfAvailableBalance(data ? (project?.budget! / data.collabLaunchTokenBalance) * 100 : null);
           setRemainingProjectBalance(data ? Math.round(Math.max(0, data.budget - data.adminPay)) : null);
           setPercentOfProjectBudget(data ? (data.adminPay / data.budget) * 100 : null);
           setLoading(false);
@@ -101,35 +97,6 @@ export function ProjectHome() {
       setLoading(false);
     }
 
-    const fetchTokenDistribution = async () => {
-      try {
-        const response = await fetch(
-          new URL(`collaboratives/${collabId}/token-distribution`, import.meta.env.VITE_API_BASE),
-          {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch token distribution');
-        }
-
-        const data: TokenDistribution = await response.json();
-        setTokenDistribution(data);
-        setRemainingCollaborativeBalance(data.launchTokensBalance - project?.budget!);
-        setPercentOfAvailableBalance((project?.budget! / data.launchTokensBalance) * 100);
-        
-      } catch (error) {
-        console.error('Error fetching token distribution:', error);
-        setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
-      }
-    };
-
-    fetchTokenDistribution();
   }, [collabId]);
 
   // Function to handle budget change with validation
