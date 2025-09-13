@@ -19,13 +19,21 @@ import {
  } from '@mantine/core';
 import { CollaborativeData, Project } from '../../data.ts';
 
+interface TokenDistribution {
+  currentTokenRelease: number;
+  launchTokensBalance: number;
+}
 
 export function CollaborativeProjects() {
   const { id } = useParams(); // Get the 'id' parameter from the URL
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
+  const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // total budget for displayed projects
+  const totalBudget = projects.reduce((sum, p) => sum + (Number(p.budget || 0)), 0);
 
   // Set the collaborative ID in context
   useEffect(() => {
@@ -61,7 +69,33 @@ export function CollaborativeProjects() {
     }
   };
 
+  const fetchTokenDistribution = async () => {
+      try {
+        const response = await fetch(
+          new URL(`collaboratives/${collaborative?.id}/token-distribution`, import.meta.env.VITE_API_BASE),
+          {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch token distribution');
+        }
+
+        const data: TokenDistribution = await response.json();
+        setTokenDistribution(data);
+      } catch (error) {
+        console.error('Error fetching token distribution:', error);
+        setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
+      }
+    };
+
   fetchCollaborativeData();
+  fetchTokenDistribution();
 }, [id]);
 
   useEffect(() => {
@@ -144,8 +178,8 @@ export function CollaborativeProjects() {
                       <Table.Th>Projects</Table.Th>
                       <Table.Th>Description</Table.Th>
                       <Table.Th>Approval Status</Table.Th>
-                      <Table.Th>Launch Token Budget</Table.Th>
                       <Table.Th>Created</Table.Th>
+                      <Table.Th>Budget<br/><span color="dimmed">Launch Tokens</span></Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -182,10 +216,30 @@ export function CollaborativeProjects() {
                             </Badge>
                           )}
                         </Table.Td>
-                        <Table.Td>{project.budget}</Table.Td>
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
+                        <Table.Td>{project.budget} | <span color="dimmed">{tokenDistribution ? project.budget / tokenDistribution.currentTokenRelease * 100 : 0}%</span></Table.Td>
                       </Table.Tr>
+                      
                     ))}
+
+                    {/* Total row */}
+                    <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
+                      <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                        Total:
+                      </Table.Td>
+                      <Table.Td>
+                        <Badge
+                          color={totalBudget > 0 ? 'green' : 'gray'}
+                          variant="filled"
+                          size="lg"
+                        >
+                          {totalBudget.toLocaleString()}
+                        </Badge>
+                        <Text c="dimmed">
+                          {tokenDistribution ? ` | ${tokenDistribution.currentTokenRelease}` : ''}
+                        </Text>
+                      </Table.Td>
+                    </Table.Tr>
                   </Table.Tbody>
                 </Table>
               </Table.ScrollContainer>
