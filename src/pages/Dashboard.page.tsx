@@ -310,13 +310,12 @@ export function Dashboard() {
     const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
     
     fetch(
-      new URL(`projects/${projectId}`, import.meta.env.VITE_API_BASE),
+      new URL(`projects/${projectId}/members/${userId}`, import.meta.env.VITE_API_BASE),
       {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          userId: userId,
           inviteStatus: newStatus 
         }),
       })

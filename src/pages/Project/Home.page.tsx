@@ -150,6 +150,13 @@ export function ProjectHome() {
     // Validate if value is provided and token distribution is available
     if (value && Number(value) > 0 && tokenDistribution) {
 
+      let error: string | null = null;
+
+      // Make sure new budget doesn't drop below already allocated tokens for milestones
+      if (project && project.budget - Number(value) > project.balance) {
+        error = `The budget cannot be reduced below the amount already allocated to milestones (${(project.budget - project.balance).toLocaleString()} tokens)`;
+      }
+
       const projectBudgetTokens = Number(value);
       const remaining = tokenDistribution.launchTokensBalance - projectBudgetTokens;
       const percentOfAvailable = tokenDistribution.launchTokensBalance > 0
@@ -160,7 +167,6 @@ export function ProjectHome() {
       const remainingProject = Math.round(Math.max(0, projectBudgetTokens - adminComp));
       const percentProject = projectBudgetTokens > 0 ? (adminComp / projectBudgetTokens) * 100 : 0;
 
-      let error: string | null = null;
       if (projectBudgetTokens < adminComp) {
         error = `This allocation (${Math.round(projectBudgetTokens).toLocaleString()} tokens) is less than the Project Admin Pay (${Math.round(adminComp).toLocaleString()} tokens)`;
       }
@@ -171,6 +177,7 @@ export function ProjectHome() {
         else delete next.budget;
         return next;
       });
+      
       setRemainingCollaborativeBalance(Math.round(remaining));
       setPercentOfAvailableBalance(percentOfAvailable);
       setRemainingProjectBalance(remainingProject);
