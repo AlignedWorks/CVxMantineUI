@@ -179,7 +179,7 @@ export function CollaborativeProjects() {
                       <Table.Th>Description</Table.Th>
                       <Table.Th>Approval Status</Table.Th>
                       <Table.Th>Created</Table.Th>
-                      <Table.Th>Budget<br/><span color="dimmed">Launch Tokens</span></Table.Th>
+                      <Table.Th>Budget<br/><Text c="dimmed">Launch Tokens</Text></Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -217,7 +217,7 @@ export function CollaborativeProjects() {
                           )}
                         </Table.Td>
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
-                        <Table.Td>{project.budget} | <span color="dimmed">{tokenDistribution ? project.budget / tokenDistribution.currentTokenRelease * 100 : 0}%</span></Table.Td>
+                        <Table.Td>{project.budget} <Text c="dimmed">| {tokenDistribution ? (project.budget / tokenDistribution.currentTokenRelease * 100).toFixed(2) : 0}%</Text></Table.Td>
                       </Table.Tr>
                       
                     ))}
@@ -228,15 +228,9 @@ export function CollaborativeProjects() {
                         Total:
                       </Table.Td>
                       <Table.Td>
-                        <Badge
-                          color={totalBudget > 0 ? 'green' : 'gray'}
-                          variant="filled"
-                          size="lg"
-                        >
-                          {totalBudget.toLocaleString()}
-                        </Badge>
+                        {totalBudget}
                         <Text c="dimmed">
-                          {tokenDistribution ? ` | ${tokenDistribution.currentTokenRelease}` : ''}
+                          {tokenDistribution ? ` | ${tokenDistribution.currentTokenRelease.toFixed(2)}` : ''}
                         </Text>
                       </Table.Td>
                     </Table.Tr>
