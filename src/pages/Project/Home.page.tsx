@@ -88,6 +88,8 @@ export function ProjectHome() {
         .then((data: ProjectDataHome) => {
           console.log(data);
           setProject(data);
+          setRemainingProjectBalance(data ? Math.round(Math.max(0, data.budget - data.adminPay)) : null);
+          setPercentOfProjectBudget(data ? (data.adminPay / data.budget) * 100 : null);
           setLoading(false);
         })
         .catch((error) => {
@@ -118,6 +120,9 @@ export function ProjectHome() {
 
         const data: TokenDistribution = await response.json();
         setTokenDistribution(data);
+        setRemainingCollaborativeBalance(data.launchTokensBalance - project?.budget!);
+        setPercentOfAvailableBalance((project?.budget! / data.launchTokensBalance) * 100);
+        
       } catch (error) {
         console.error('Error fetching token distribution:', error);
         setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
@@ -156,7 +161,7 @@ export function ProjectHome() {
       const adminPayChange = Number(formValues.adminPay || 0) - (project ? Number(project.adminPay || 0) : 0);
 
       // Make sure new budget doesn't drop below already allocated tokens for milestones
-      if (project && project.budget - Number(value) > project.balance + adminPayChange) {
+      if (project && project.budget - Number(value) > project.balance - adminPayChange) {
         error = `The budget cannot be reduced below the amount already allocated to milestones + admin pay (${(project.budget - project.balance + adminPayChange).toLocaleString()} tokens)`;
       }
 
