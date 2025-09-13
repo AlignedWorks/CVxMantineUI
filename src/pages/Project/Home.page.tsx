@@ -242,13 +242,20 @@ export function ProjectHome() {
 
   const handleEditSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
+
     const errs: Record<string,string> = {};
+
     if (!formValues.name || !formValues.name.trim()) errs.name = 'Project name is required.';
     const budget = Number(formValues.budget || 0);
     const adminPay = Number(formValues.adminPay || 0);
     if (!Number.isFinite(budget) || budget <= 0) errs.budget = 'Budget must be greater than 0.';
     if (!Number.isFinite(adminPay) || adminPay < 0) errs.adminPay = 'Admin pay must be 0 or greater.';
     if (adminPay > budget) errs.adminPay = 'Admin pay must be less than or equal to the budget.';
+
+    if (formErrors && formErrors.budget) {  
+      errs.budget = formErrors.budget;
+    }
+    
     if (Object.keys(errs).length > 0) { setFormErrors(errs); return; }
 
     if (!project) return;
