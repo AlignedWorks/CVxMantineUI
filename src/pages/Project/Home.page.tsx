@@ -82,8 +82,8 @@ export function ProjectHome() {
         .then((data: ProjectDataHome) => {
           console.log(data);
           setProject(data);
-          setRemainingCollaborativeBalance(data ? data.collabLaunchTokenBalance - project?.budget! : null);
-          setPercentOfAvailableBalance(data ? (project?.budget! / data.collabLaunchTokenBalance) * 100 : null);
+          setRemainingCollaborativeBalance(data ? data.collabLaunchTokenBalance - data?.budget! : null);
+          setPercentOfAvailableBalance(data ? (data?.budget! / data.collabLaunchTokenBalance) * 100 : null);
           setRemainingProjectBalance(data ? Math.round(Math.max(0, data.budget - data.adminPay)) : null);
           setPercentOfProjectBudget(data ? (data.adminPay / data.budget) * 100 : null);
           setLoading(false);
