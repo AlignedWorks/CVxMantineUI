@@ -378,7 +378,7 @@ export function ProjectHome() {
                       </Text>
                     </div>
                   </Group>
-                  <Group>
+                  <Group mb="md">
                     <Text>
                         Created:
                     </Text>
@@ -386,13 +386,14 @@ export function ProjectHome() {
                       {project.createdAt}
                     </Text>
                   </Group>
-                  <Text>
-                    Description: {project.description}<br /><br />
-                  </Text>
-                  <Tooltip color="gray" label="Total number of Launch Tokens allocated for this budget">
-                    <Text fw={500} mb="md">Project Budget: {Number(project.budget).toFixed(2)} Tokens</Text>
-                  </Tooltip>
-
+                  <Group mb="md">
+                    <Text>
+                        Description:
+                    </Text>
+                    <Text lineClamp={4}>
+                      {project.description}
+                    </Text>
+                  </Group>
                   <Group mb="md">
                     {project.approvalStatus === 'Active' ? (
                       <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
@@ -411,6 +412,7 @@ export function ProjectHome() {
                   </Group>
                 </div>
                 <div>
+                  <Text fw={500} mb="md">Project Budget Overview</Text>
                   <Table variant="vertical" layout="fixed" withTableBorder>
                     <Table.Tbody>
                         <Table.Tr>
@@ -435,7 +437,7 @@ export function ProjectHome() {
 
                         <Table.Tr>
                             <Table.Th>Network Transaction Fee</Table.Th>
-                            <Table.Td>{(project.networkTransactionFee * 100).toFixed(2)}%</Table.Td>
+                            <Table.Td>{sumNetworkTransactionFees.toFixed(2)} Tokens</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
@@ -444,61 +446,6 @@ export function ProjectHome() {
                         </Table.Tr>
                     </Table.Tbody>
                 </Table>
-                </div>
-              </SimpleGrid>
-              <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
-                <div>
-
-                  <Text mb="md">
-                    Project Admin Pay: {Number(project.adminPay).toFixed(2)} Tokens<br/>
-                    <Text fz="sm" c="dimmed">
-                      {(() => {
-                        const pay = Number(project.adminPay);
-                        const budget = Number(project.budget);
-                        const pct = budget > 0 && Number.isFinite(pay) && Number.isFinite(budget)
-                          ? (pay / budget) * 100
-                          : 0;
-                      return `(${pct.toFixed(2)}% of budget)`;
-                      })()}
-                    </Text>
-                  </Text>
-                  <Text mb="md">
-                    Milestones: {project.sumMilestonesAllocatedLaunchTokens} Tokens<br/>
-                    <Text fz="sm" c="dimmed">
-                      {(() => {
-                        const milestones = Number(project.sumMilestonesAllocatedLaunchTokens);
-                        const budget = Number(project.budget);
-                        const pct = budget > 0 && Number.isFinite(milestones) && Number.isFinite(budget)
-                          ? (milestones / budget) * 100
-                          : 0;
-                      return `(${pct.toFixed(2)}% of budget)`;
-                      })()}
-                    </Text>
-                  </Text>
-                  <Text mb="md">
-                    SUBTOTAL: {budgetSubtotal.toFixed(2)} Tokens<br/>
-                  </Text>
-                  <Text mb="md">
-                    Non-Milestone Costs: {Number(project.nonMilestoneCosts).toFixed(2)} Tokens<br/>
-                  </Text>
-                  <Tooltip
-                        color="gray"
-                        label={`${project.networkTransactionFee * 100}% * (Project Admin Pay + Milestones)`}
-                        multiline
-                        w={220}
-                      >
-                    <Text mb="md">
-                      Network Transaction Fee: {sumNetworkTransactionFees.toFixed(2)} Tokens<br/>
-                    </Text>
-                  </Tooltip>
-                  <Text mb="md">
-                    TOTAL: {(sumNetworkTransactionFees + Number(project.nonMilestoneCosts) + budgetSubtotal).toFixed(2)} Tokens<br/>
-                  </Text>
-                </div>
-                <div>
-                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated">
-                    <Text fw={500} mb="md">Available Budget: {Number(project.balance).toFixed(2)} Tokens</Text>
-                  </Tooltip>
                 </div>
               </SimpleGrid>
 

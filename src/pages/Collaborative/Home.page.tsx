@@ -227,7 +227,7 @@ export function CollaborativeHome() {
                       </Text>
                     </div>
                   </Group>
-                  <Group>
+                  <Group mb="md">
                     <Text>
                         Created:
                     </Text>
@@ -235,11 +235,15 @@ export function CollaborativeHome() {
                       {collaborative.createdAt}
                     </Text>
                   </Group>
-                  <Text>
-                    Description:<br />
-                    {collaborative.description}<br /><br />
-                  </Text>
-                  <Group wrap="nowrap" gap={10} mt={10}>
+                  <Group mb="md">
+                    <Text>
+                        Description:
+                    </Text>
+                    <Text>
+                      {collaborative.description}
+                    </Text>
+                  </Group>
+                  <Group wrap="nowrap" gap={10}>
                     <IconAt stroke={1.5} size={16} />
                     <a
                       href={collaborative.websiteUrl}
