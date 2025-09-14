@@ -29,6 +29,9 @@ export function ProjectHome() {
   const [project, setProject] = useState<ProjectDataHome | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // budget values
+  const [budgetSubtotal, setBudgetSubtotal] = useState<number | 0>(0);
+
   // display helpers for Project Budget preview
   const [remainingCollaborativeBalance, setRemainingCollaborativeBalance] = useState<number | null>(null);
   const [percentOfAvailableBalance, setPercentOfAvailableBalance] = useState<number | null>(null);
@@ -82,6 +85,7 @@ export function ProjectHome() {
         .then((data: ProjectDataHome) => {
           console.log(data);
           setProject(data);
+          setBudgetSubtotal(data ? (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens)) : 0);
           setRemainingCollaborativeBalance(data ? data.collabLaunchTokenBalance - data?.budget! : null);
           setPercentOfAvailableBalance(data ? (data?.budget! / data.collabLaunchTokenBalance) * 100 : null);
           setRemainingProjectBalance(data ? Math.round(Math.max(0, data.budget - data.adminPay)) : null);
@@ -349,24 +353,9 @@ export function ProjectHome() {
               </Text>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
-                  <Tooltip color="gray" label="Total number of Launch Tokens allocated for this budget">
-                    <Text mb="md">Project Budget: {Number(project.budget).toFixed(2)} Tokens</Text>
-                  </Tooltip>
-                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated">
-                    <Text mb="md">Available Budget: {Number(project.balance).toFixed(2)} Tokens</Text>
-                  </Tooltip>
-                  <Text mb="md">
-                    Project Admin Pay: {Number(project.adminPay).toFixed(2)} Tokens<br/>
-                    <Text fz="sm" c="dimmed">
-                      {(() => {
-                        const pay = Number(project.adminPay);
-                        const budget = Number(project.budget);
-                        const pct = budget > 0 && Number.isFinite(pay) && Number.isFinite(budget)
-                          ? (pay / budget) * 100
-                          : 0;
-                      return `(${pct.toFixed(2)}% of budget)`;
-                      })()}
-                    </Text>
+                  <Text>
+                    Description:<br />
+                    {project.description}<br /><br />
                   </Text>
                   <Group mb="md">
                     {project.approvalStatus === 'Active' ? (
@@ -418,11 +407,56 @@ export function ProjectHome() {
                   </Group>
                 </div>
               </SimpleGrid>
-
-              <Text>
-                Description:<br />
-                {project.description}<br /><br />
-              </Text>
+              <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
+                <div>
+                  <Tooltip color="gray" label="Total number of Launch Tokens allocated for this budget">
+                    <Text mb="md">Project Budget: {Number(project.budget).toFixed(2)} Tokens</Text>
+                  </Tooltip>
+                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated">
+                    <Text mb="md">Available Budget: {Number(project.balance).toFixed(2)} Tokens</Text>
+                  </Tooltip>
+                  <Text mb="md">
+                    Project Admin Pay: {Number(project.adminPay).toFixed(2)} Tokens<br/>
+                    <Text fz="sm" c="dimmed">
+                      {(() => {
+                        const pay = Number(project.adminPay);
+                        const budget = Number(project.budget);
+                        const pct = budget > 0 && Number.isFinite(pay) && Number.isFinite(budget)
+                          ? (pay / budget) * 100
+                          : 0;
+                      return `(${pct.toFixed(2)}% of budget)`;
+                      })()}
+                    </Text>
+                  </Text>
+                  <Text mb="md">
+                    Milestones: {project.sumMilestonesAllocatedLaunchTokens} Tokens<br/>
+                    <Text fz="sm" c="dimmed">
+                      {(() => {
+                        const milestones = Number(project.sumMilestonesAllocatedLaunchTokens);
+                        const budget = Number(project.budget);
+                        const pct = budget > 0 && Number.isFinite(milestones) && Number.isFinite(budget)
+                          ? (milestones / budget) * 100
+                          : 0;
+                      return `(${pct.toFixed(2)}% of budget)`;
+                      })()}
+                    </Text>
+                  </Text>
+                  <Text mb="md">
+                    SUBTOTAL: {budgetSubtotal.toFixed(2)} Tokens<br/>
+                  </Text>
+                  <Text mb="md">
+                    Non-Milestone Costs: {Number(project.nonMilestoneCosts).toFixed(2)} Tokens<br/>
+                  </Text>
+                  <Text mb="md">
+                    Network Transaction Fee: {(Number(project.networkTransactionFee) * budgetSubtotal).toFixed(2)} Tokens<br/>
+                  </Text>
+                  <Text mb="md">
+                    TOTAL: {(Number(project.networkTransactionFee) + Number(project.nonMilestoneCosts) + budgetSubtotal).toFixed(2)} Tokens<br/>
+                  </Text>
+                </div>
+                <div>
+                </div>
+              </SimpleGrid>
 
               {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
                 <div>

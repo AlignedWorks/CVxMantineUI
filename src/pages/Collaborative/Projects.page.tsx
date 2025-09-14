@@ -229,7 +229,7 @@ export function CollaborativeProjects() {
                       </Table.Td>
                       <Table.Td>
                         {totalBudget} <Text span c="dimmed" inherit>
-                        | {tokenDistribution ? ((totalBudget / tokenDistribution.currentTokenRelease) * 100).toFixed(2) : '0'}%
+                        | {tokenDistribution ? (tokenDistribution.currentTokenRelease).toFixed(2) : '0'}%
                         </Text>
                       </Table.Td>
                     </Table.Tr>
