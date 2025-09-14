@@ -434,32 +434,7 @@ export function Test() {
                         <Title order={2} mb="md">{testCollab.name} Collaborative</Title>
                         <SimpleGrid cols={2} mb="md">
                         <div>
-                            <Group>
-                                {testCollab.approvalStatus === 'Active' ? (
-                                    <Badge color="yellow">
-                                        {testCollab.approvalStatus}
-                                    </Badge>
-                                ) : (
-                                    <Badge color="pink">
-                                        {testCollab.approvalStatus}
-                                    </Badge>
-                                )}
-                            </Group>
-                            <Group wrap="nowrap" gap={10} mt={10}>
-                                <IconAt stroke={1.5} size={16} />
-                                <Text>
-                                    {testCollab.websiteUrl}
-                                </Text>
-                            </Group>
-                            <Group wrap="nowrap" gap={10} mt={10}>
-                                <IconMapPin stroke={1.5} size={16} />
-                                <Text>
-                                    {testCollab.city}, {testCollab.state}
-                                </Text>
-                            </Group>
-
-                        </div>
-                        <div>
+                            <Text lineClamp={4}>{testCollab.description}</Text>
                             <Group mb="md" align="flex-start">
                                 <Text>
                                     Leader:
@@ -481,6 +456,60 @@ export function Test() {
                                     {testCollab.createdAt}
                                 </Text>
                             </Group>
+
+                            <Group wrap="nowrap" gap={10} mt={10}>
+                                <IconAt stroke={1.5} size={16} />
+                                <Text>
+                                    {testCollab.websiteUrl}
+                                </Text>
+                            </Group>
+                            <Group wrap="nowrap" gap={10} mt={10}>
+                                <IconMapPin stroke={1.5} size={16} />
+                                <Text>
+                                    {testCollab.city}, {testCollab.state}
+                                </Text>
+                            </Group>
+                            <Group>
+                                {testCollab.approvalStatus === 'Active' ? (
+                                    <Badge color="yellow">
+                                        {testCollab.approvalStatus}
+                                    </Badge>
+                                ) : (
+                                    <Badge color="pink">
+                                        {testCollab.approvalStatus}
+                                    </Badge>
+                                )}
+                            </Group>
+                        </div>
+                        <div>
+                            <Table variant="vertical" layout="fixed" withTableBorder>
+                                <Table.Tbody>
+                                    <Table.Tr>
+                                        <Table.Th>Project Admin Pay</Table.Th>
+                                        <Table.Td>5 tokens</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                        <Table.Th>Milestones</Table.Th>
+                                        <Table.Td>20 tokens</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                        <Table.Th>SUBTOTAL</Table.Th>
+                                        <Table.Td>25 tokens</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                        <Table.Th>One Quarter</Table.Th>
+                                        <Table.Td>70%</Table.Td>
+                                    </Table.Tr>
+
+                                    <Table.Tr>
+                                        <Table.Th>One Year</Table.Th>
+                                        <Table.Td>40%</Table.Td>
+                                    </Table.Tr>
+                                </Table.Tbody>
+                            </Table>
                         </div>
                         </SimpleGrid> 
                     </Stack>

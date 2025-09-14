@@ -20,6 +20,7 @@ import {
   TextInput,
   NumberInput,
   Textarea,
+  Table,
  } from '@mantine/core';
 import { ProjectDataHome } from '../../data.ts';
 
@@ -31,6 +32,7 @@ export function ProjectHome() {
 
   // budget values
   const [budgetSubtotal, setBudgetSubtotal] = useState<number | 0>(0);
+  const [sumNetworkTransactionFees, setSumNetworkTransactionFees] = useState<number | 0>(0);
 
   // display helpers for Project Budget preview
   const [remainingCollaborativeBalance, setRemainingCollaborativeBalance] = useState<number | null>(null);
@@ -86,6 +88,7 @@ export function ProjectHome() {
           console.log(data);
           setProject(data);
           setBudgetSubtotal(data ? (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens)) : 0);
+          setSumNetworkTransactionFees(data ? (Number(data.networkTransactionFee) * (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens))) : 0);
           setRemainingCollaborativeBalance(data ? data.collabLaunchTokenBalance - data?.budget! : null);
           setPercentOfAvailableBalance(data ? (data?.budget! / data.collabLaunchTokenBalance) * 100 : null);
           setRemainingProjectBalance(data ? Math.round(Math.max(0, data.budget - data.adminPay)) : null);
@@ -353,28 +356,6 @@ export function ProjectHome() {
               </Text>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
-                  <Text>
-                    Description:<br />
-                    {project.description}<br /><br />
-                  </Text>
-                  <Group mb="md">
-                    {project.approvalStatus === 'Active' ? (
-                      <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
-                    ) : project.approvalStatus === 'Draft' ? (
-                      <Tooltip
-                        color="gray"
-                        label="Pending submission of a completed proposal by the assigned Project Admin"
-                        multiline
-                        w={220}
-                      >
-                        <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
-                      </Tooltip>
-                    ) : (
-                      <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
-                    )}
-                  </Group>
-                </div>
-                <div>
                   <Group mb="md" align="flex-start">
                     <Text>
                       Admin:
@@ -405,16 +386,69 @@ export function ProjectHome() {
                       {project.createdAt}
                     </Text>
                   </Group>
+                  <Text>
+                    Description: {project.description}<br /><br />
+                  </Text>
+                  <Tooltip color="gray" label="Total number of Launch Tokens allocated for this budget">
+                    <Text fw={500} mb="md">Project Budget: {Number(project.budget).toFixed(2)} Tokens</Text>
+                  </Tooltip>
+
+                  <Group mb="md">
+                    {project.approvalStatus === 'Active' ? (
+                      <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
+                    ) : project.approvalStatus === 'Draft' ? (
+                      <Tooltip
+                        color="gray"
+                        label="Pending submission of a completed proposal by the assigned Project Admin"
+                        multiline
+                        w={220}
+                      >
+                        <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
+                      </Tooltip>
+                    ) : (
+                      <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
+                    )}
+                  </Group>
+                </div>
+                <div>
+                  <Table variant="vertical" layout="fixed" withTableBorder>
+                    <Table.Tbody>
+                        <Table.Tr>
+                            <Table.Th>Project Admin Pay</Table.Th>
+                            <Table.Td>{Number(project.adminPay).toFixed(2)} Tokens</Table.Td>
+                        </Table.Tr>
+
+                        <Table.Tr>
+                            <Table.Th>Milestones</Table.Th>
+                            <Table.Td>{project.sumMilestonesAllocatedLaunchTokens} Tokens</Table.Td>
+                        </Table.Tr>
+
+                        <Table.Tr>
+                            <Table.Th>SUBTOTAL</Table.Th>
+                            <Table.Td>{budgetSubtotal.toFixed(2)} Tokens</Table.Td>
+                        </Table.Tr>
+
+                        <Table.Tr>
+                            <Table.Th>Non-Milestone Costs</Table.Th>
+                            <Table.Td>{Number(project.nonMilestoneCosts).toFixed(2)} Tokens</Table.Td>
+                        </Table.Tr>
+
+                        <Table.Tr>
+                            <Table.Th>Network Transaction Fee</Table.Th>
+                            <Table.Td>{(project.networkTransactionFee * 100).toFixed(2)}%</Table.Td>
+                        </Table.Tr>
+
+                        <Table.Tr>
+                            <Table.Th>TOTAL</Table.Th>
+                            <Table.Td>{(sumNetworkTransactionFees + Number(project.nonMilestoneCosts) + budgetSubtotal).toFixed(2)} Tokens</Table.Td>
+                        </Table.Tr>
+                    </Table.Tbody>
+                </Table>
                 </div>
               </SimpleGrid>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
-                  <Tooltip color="gray" label="Total number of Launch Tokens allocated for this budget">
-                    <Text mb="md">Project Budget: {Number(project.budget).toFixed(2)} Tokens</Text>
-                  </Tooltip>
-                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated">
-                    <Text mb="md">Available Budget: {Number(project.balance).toFixed(2)} Tokens</Text>
-                  </Tooltip>
+
                   <Text mb="md">
                     Project Admin Pay: {Number(project.adminPay).toFixed(2)} Tokens<br/>
                     <Text fz="sm" c="dimmed">
@@ -447,14 +481,24 @@ export function ProjectHome() {
                   <Text mb="md">
                     Non-Milestone Costs: {Number(project.nonMilestoneCosts).toFixed(2)} Tokens<br/>
                   </Text>
+                  <Tooltip
+                        color="gray"
+                        label={`${project.networkTransactionFee * 100}% * (Project Admin Pay + Milestones)`}
+                        multiline
+                        w={220}
+                      >
+                    <Text mb="md">
+                      Network Transaction Fee: {sumNetworkTransactionFees.toFixed(2)} Tokens<br/>
+                    </Text>
+                  </Tooltip>
                   <Text mb="md">
-                    Network Transaction Fee: {(Number(project.networkTransactionFee) * budgetSubtotal).toFixed(2)} Tokens<br/>
-                  </Text>
-                  <Text mb="md">
-                    TOTAL: {(Number(project.networkTransactionFee) + Number(project.nonMilestoneCosts) + budgetSubtotal).toFixed(2)} Tokens<br/>
+                    TOTAL: {(sumNetworkTransactionFees + Number(project.nonMilestoneCosts) + budgetSubtotal).toFixed(2)} Tokens<br/>
                   </Text>
                 </div>
                 <div>
+                  <Tooltip color="gray" label="Tokens in the project budget that have not yet been allocated">
+                    <Text fw={500} mb="md">Available Budget: {Number(project.balance).toFixed(2)} Tokens</Text>
+                  </Tooltip>
                 </div>
               </SimpleGrid>
 

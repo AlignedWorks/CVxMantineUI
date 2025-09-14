@@ -205,35 +205,6 @@ export function CollaborativeHome() {
               </Title>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>
-                  <Group wrap="nowrap" gap={10} mt={10}>
-                    <IconAt stroke={1.5} size={16} />
-                    <a
-                      href={collaborative.websiteUrl}
-                      style={{ color: '#0077b5', textDecoration: 'none' }}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                        {getDisplayUrl(collaborative.websiteUrl)}
-                    </a>
-                  </Group>
-                  <Group wrap="nowrap" gap={10} mt={10}>
-                    <IconMapPin stroke={1.5} size={16} />
-                    <Text>
-                        {collaborative.city}, {collaborative.state}
-                    </Text>
-                  </Group>
-                  <Group mt={10}>
-                    {collaborative.approvalStatus === 'Active' ? (
-                      <Badge variant="light" color="yellow">
-                          {collaborative.approvalStatus}
-                      </Badge>
-                    ) : (
-                      <Badge variant="light" color="pink">
-                          {collaborative.approvalStatus}
-                      </Badge>
-                    )}
-                  </Group>
-                </div>
-                <div>
                   <Group mb="md" align="flex-start">
                     <Text>
                       Admin:
@@ -264,17 +235,40 @@ export function CollaborativeHome() {
                       {collaborative.createdAt}
                     </Text>
                   </Group>
+                  <Text>
+                    Description:<br />
+                    {collaborative.description}<br /><br />
+                  </Text>
+                  <Group wrap="nowrap" gap={10} mt={10}>
+                    <IconAt stroke={1.5} size={16} />
+                    <a
+                      href={collaborative.websiteUrl}
+                      style={{ color: '#0077b5', textDecoration: 'none' }}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                        {getDisplayUrl(collaborative.websiteUrl)}
+                    </a>
+                  </Group>
+                  <Group wrap="nowrap" gap={10} mt={10}>
+                    <IconMapPin stroke={1.5} size={16} />
+                    <Text>
+                        {collaborative.city}, {collaborative.state}
+                    </Text>
+                  </Group>
+                  <Group mt={10}>
+                    {collaborative.approvalStatus === 'Active' ? (
+                      <Badge variant="light" color="yellow">
+                          {collaborative.approvalStatus}
+                      </Badge>
+                    ) : (
+                      <Badge variant="light" color="pink">
+                          {collaborative.approvalStatus}
+                      </Badge>
+                    )}
+                  </Group>
                 </div>
-              </SimpleGrid>
-
-              <Text>
-                Description:<br />
-                {collaborative.description}<br /><br />
-              </Text>
-              
-              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="lg">
                 <div>
-                <Text mb="md">
+                  <Text mb="md">
                   Skills<br/>
                   {collaborative.skills.map((skill, index) => (
                     <Badge key={index} variant="light" color="blue">
@@ -282,9 +276,7 @@ export function CollaborativeHome() {
                     </Badge>
                   ))}
                 </Text>
-                </div>
-                <div>
-                  <Text mb="md">
+                <Text mb="md">
                     Experience<br/>
                     {collaborative.experience.map((exp, index) => (
                       <Badge key={index} variant="light" color="green">
