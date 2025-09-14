@@ -32,9 +32,6 @@ export function CollaborativeProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // total budget for displayed projects
-  const totalBudget = projects.reduce((sum, p) => sum + (Number(p.budget || 0)), 0);
-
   // Set the collaborative ID in context
   useEffect(() => {
     setCollaborativeId(id || null);
@@ -88,12 +85,14 @@ export function CollaborativeProjects() {
 
         const data: TokenDistribution = await response.json();
         setTokenDistribution(data);
+        console.log('Token Distribution:', tokenDistribution);
+
       } catch (error) {
         console.error('Error fetching token distribution:', error);
         setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
       }
     };
-
+    
   fetchCollaborativeData();
   fetchTokenDistribution();
 }, [id]);
