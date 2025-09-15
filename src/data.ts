@@ -105,7 +105,6 @@ export interface CollaborativeDataTreasury {
   tokensPriorWork: number;
   tokensPriorWorkPercent?: number;
   projectWorkPayment: number;
-  nonTeamContributions: number;
   collabAdminCompensationPercent: number;
   launchCyclePeriodWeeks?: number;
 }
@@ -175,7 +174,6 @@ export interface ProjectDataHome {
   budget: number;
   balance: number;
   sumMilestonesAllocatedLaunchTokens: number;
-  nonMilestoneCosts: number;
   networkTransactionFee: number;
   createdAt: string;
   adminName: string;

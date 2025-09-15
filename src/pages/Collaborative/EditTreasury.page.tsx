@@ -259,8 +259,8 @@ export function EditCollaborativeTreasury() {
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
           <div>
             <NumberInput
-              label="Tokens for Prior Work"
-              placeholder="Enter the expected token value increase percentage (default: 0%)"
+              label="Reserved Launch Tokens"
+              placeholder="Tokens set aside to pay for work completed prior to the creation of this Collaborative"
               value={formValues.tokensPriorWorkPercent }
               onChange={(value) =>
                 handleFormChange('tokensPriorWorkPercent', value)

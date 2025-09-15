@@ -65,7 +65,7 @@ export function CollaborativeTreasury() {
         console.log(data);
         setCollaborative(data);
         setTotalTokenAssets(data.tokensReceivable + data.tokenBalance);
-        setTotalTokenLiabilities(data.tokensCollabAdmin + data.projectWorkPayment + data.nonTeamContributions + data.tokensPriorWork);
+        setTotalTokenLiabilities(data.tokensCollabAdmin + data.tokensNetworkFee + data.projectWorkPayment + data.tokensPriorWork);
         // setFrom(location.state?.from || '/collaborative-directory');
         setLoading(false);
       })
@@ -236,19 +236,10 @@ export function CollaborativeTreasury() {
 
                       <Tooltip
                         color="gray"
-                        label="All unpaid Tokens in approved budgets that are not going to members of the Project Team."
-                        multiline
-                        w={220}>
-                        <Text fz="md" fw={500} c="#999">Other Project Expenses</Text>
-                      </Tooltip>
-                      <Text fz="xl" fw={500} c="#444">{collaborative.nonTeamContributions}</Text>
-
-                      <Tooltip
-                        color="gray"
                         label="Tokens set aside to pay for work completed prior to the creation of this Collaborative."
                         multiline
                         w={220}>
-                        <Text fz="md" fw={500} c="#999">Prior Work</Text>
+                        <Text fz="md" fw={500} c="#999">Reserved Launch Tokens</Text>
                       </Tooltip>
                       <Text fz="xl" fw={500} c="#444">{collaborative.tokensPriorWork}</Text>
 

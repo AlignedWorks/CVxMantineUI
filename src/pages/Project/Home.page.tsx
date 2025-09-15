@@ -88,7 +88,7 @@ export function ProjectHome() {
           console.log(data);
           setProject(data);
           setBudgetSubtotal(data ? (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens)) : 0);
-          setSumNetworkTransactionFees(data ? (Number(data.networkTransactionFee) * (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens))) : 0);
+          setSumNetworkTransactionFees(data ? Number(data.networkTransactionFee * (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens))) : 0);
           setRemainingCollaborativeBalance(data ? data.collabLaunchTokenBalance - data?.budget! : null);
           setPercentOfAvailableBalance(data ? (data?.budget! / data.collabLaunchTokenBalance) * 100 : null);
           setRemainingProjectBalance(data ? Math.round(Math.max(0, data.budget - data.adminPay)) : null);
@@ -431,18 +431,13 @@ export function ProjectHome() {
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Th>Non-Milestone Costs</Table.Th>
-                            <Table.Td>{Number(project.nonMilestoneCosts).toFixed(2)} Tokens</Table.Td>
-                        </Table.Tr>
-
-                        <Table.Tr>
                             <Table.Th>Network Transaction Fee</Table.Th>
                             <Table.Td>{sumNetworkTransactionFees.toFixed(2)} Tokens</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
                             <Table.Th>TOTAL</Table.Th>
-                            <Table.Td>{(sumNetworkTransactionFees + Number(project.nonMilestoneCosts) + budgetSubtotal).toFixed(2)} Tokens</Table.Td>
+                            <Table.Td>{(sumNetworkTransactionFees + budgetSubtotal).toFixed(2)} Tokens</Table.Td>
                         </Table.Tr>
                     </Table.Tbody>
                 </Table>
