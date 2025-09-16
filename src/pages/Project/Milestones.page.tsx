@@ -134,11 +134,23 @@ export function ProjectMilestones() {
   const from = location.state?.from || `/collaboratives/${collabId}/projects/${projectId}`;
   const openMilestoneId = (location.state as any)?.openMilestoneId;
   
-  if (openMilestoneId && !isDetailModalOpen) {
-    // Open the milestone detail modal for the specified milestone
+  // If page was opened with an openMilestoneId in location.state, open it once and then remove it
+  useEffect(() => {
+    if (!openMilestoneId) return;
+    // Open the milestone detail modal
     fetchMilestoneDetails(openMilestoneId);
     setIsDetailModalOpen(true);
-  }
+
+    // Remove the value from history state so closing the modal doesn't reopen it
+    try {
+      const newState = { ...(location.state || {}) };
+      delete (newState as any).openMilestoneId;
+      // Keep the rest of the browser state intact, replace only state object
+      window.history.replaceState(newState, '');
+    } catch (err) {
+      console.warn('Could not clear openMilestoneId from history state', err);
+    }
+  }, [openMilestoneId]);
 
   // Handle milestone row click
   const handleMilestoneClick = (milestoneId: number) => {
