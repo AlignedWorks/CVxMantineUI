@@ -597,6 +597,18 @@ export function ProjectMilestones() {
                           </Text>
                         </Table.Td>
                       </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                          <Text c="dimmed">
+                            Project Budget:
+                          </Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text c="dimmed" fw={700}>
+                            {Number(project.launchTokenBudget).toFixed(2)}
+                          </Text>
+                        </Table.Td>
+                      </Table.Tr>
                     </Table.Tbody>
                   </Table>
                 </Table.ScrollContainer>
