@@ -514,11 +514,6 @@ export function ProjectMilestones() {
         </Text>
       </Table.Td>
       <Table.Td style={{ verticalAlign: 'top' }}>
-        <Text>
-          {Number(item.allocatedLaunchTokens).toFixed(2)}
-        </Text>
-      </Table.Td>
-      <Table.Td style={{ verticalAlign: 'top' }}>
         <Badge
           color={item.approvalStatus === 'Active' ? 'green' : 
                   item.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
@@ -527,8 +522,20 @@ export function ProjectMilestones() {
           {item.approvalStatus}
         </Badge>
       </Table.Td>
+      <Table.Td style={{ verticalAlign: 'top' }}>
+        <Text>
+          {Number(item.allocatedLaunchTokens).toFixed(2)}
+        </Text>
+      </Table.Td>
+      
     </Table.Tr>
   ));
+
+  // Sum all milestone budget launch tokens
+  const totalMilestoneTokens = project.milestones.reduce((sum, milestone) => {
+    return sum + milestone.allocatedLaunchTokens;
+  }, 0);
+
 
   // Check permissions for the selected milestone
   const isProjectAdmin = selectedMilestone?.projectAdmins?.some(admin => admin.adminId === user?.userId);
@@ -574,11 +581,23 @@ export function ProjectMilestones() {
                         <Table.Th>Milestones</Table.Th>
                         <Table.Th>Description</Table.Th>
                         <Table.Th>Assignee</Table.Th>
-                        <Table.Th>Launch Tokens</Table.Th>
                         <Table.Th>Status</Table.Th>
+                        <Table.Th>Payout (tokens)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
-                    <Table.Tbody>{milestoneRows}</Table.Tbody>
+                    <Table.Tbody>
+                      {milestoneRows}
+                      <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
+                        <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                          Total:
+                        </Table.Td>
+                        <Table.Td>
+                          <Text fw={700}>
+                            {Number(totalMilestoneTokens).toFixed(2)}
+                          </Text>
+                        </Table.Td>
+                      </Table.Tr>
+                    </Table.Tbody>
                   </Table>
                 </Table.ScrollContainer>
               ) : (

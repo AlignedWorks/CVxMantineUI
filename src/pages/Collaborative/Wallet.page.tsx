@@ -84,7 +84,7 @@ export function CollaborativeMemberWallet() {
       <Table.Td>{transaction.milestone}</Table.Td>
       <Table.Td>
         <Badge color={transaction.amount > 0 ? 'green' : 'red'} variant="light">
-          {transaction.amount > 0 ? '+' : ''}{transaction.amount}
+          {transaction.amount > 0 ? '+' : ''}{transaction.amount.toFixed(2)}
         </Badge>
       </Table.Td>
     </Table.Tr>
@@ -217,7 +217,7 @@ export function CollaborativeMemberWallet() {
                               variant="filled"
                               size="lg"
                             >
-                              {userEarnedTokensFromCollabTotal > 0 ? '+' : ''}{userEarnedTokensFromCollabTotal}
+                              {userEarnedTokensFromCollabTotal > 0 ? '+' : ''}{userEarnedTokensFromCollabTotal.toFixed(2)}
                             </Badge>
                           </Table.Td>
                         </Table.Tr>

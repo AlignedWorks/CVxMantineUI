@@ -416,37 +416,39 @@ export function ProjectHome() {
                   </Group>
                 </div>
                 <div>
-                  <Text fw={500} mb="md">Project Budget Overview</Text>
+                  <Text fw={500} mb="md">Project Budget Overview (launch tokens)</Text>
                   <Table variant="vertical" layout="fixed" withTableBorder>
                     <Table.Tbody>
                         <Table.Tr>
                             <Table.Th>Project Admin Pay</Table.Th>
-                            <Table.Td>{Number(project.adminPay).toFixed(2)} Tokens</Table.Td>
+                            <Table.Td>{Number(project.adminPay).toFixed(2)}</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
                             <Table.Th>Milestones</Table.Th>
-                            <Table.Td>{project.sumMilestonesAllocatedLaunchTokens} Tokens</Table.Td>
+                            <Table.Td>{project.sumMilestonesAllocatedLaunchTokens}</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
                             <Table.Th>SUBTOTAL</Table.Th>
-                            <Table.Td>{budgetSubtotal.toFixed(2)} Tokens</Table.Td>
+                            <Table.Td>{budgetSubtotal.toFixed(2)}</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
                             <Table.Th>Network Transaction Fee</Table.Th>
-                            <Table.Td>{sumNetworkTransactionFees.toFixed(2)} Tokens</Table.Td>
+                            <Table.Td>{sumNetworkTransactionFees.toFixed(2)}</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
                             <Table.Th>TOTAL</Table.Th>
-                            <Table.Td>{(sumNetworkTransactionFees + budgetSubtotal).toFixed(2)} Tokens</Table.Td>
+                            <Table.Td>{(sumNetworkTransactionFees + budgetSubtotal).toFixed(2)}</Table.Td>
                         </Table.Tr>
                     </Table.Tbody>
                 </Table>
                 </div>
               </SimpleGrid>
+
+              <Text mb="md">Project Budget Total: {project.budget.toFixed(2)}</Text>
 
               {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
                 <div>
