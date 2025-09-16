@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../AuthContext.tsx';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import { DatesProvider, DateTimePicker } from '@mantine/dates';
@@ -32,7 +32,7 @@ import { FileUpload } from '../../components/uploads/FileUpload.tsx';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
 export function ProjectMilestones() {
-  // const location = useLocation();
+  const location = useLocation();
   const { collabId, projectId } = useParams();
   const { user } = useAuth();
   const { setCollaborativeId } = useCollaborativeContext();
@@ -69,9 +69,6 @@ export function ProjectMilestones() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
-
-  // Get the "from" state or default to a fallback
-  // const from = location.state?.from || '/collaborative-directory';
 
   // Set the collaborative ID in context
   useEffect(() => {
@@ -132,6 +129,16 @@ export function ProjectMilestones() {
       setDetailLoading(false);
     }
   };
+
+  // Get the "from" state or default to a fallback
+  const from = location.state?.from || `/collaboratives/${collabId}/projects/${projectId}`;
+  const openMilestoneId = (location.state as any)?.openMilestoneId;
+  
+  if (openMilestoneId && !isDetailModalOpen) {
+    // Open the milestone detail modal for the specified milestone
+    fetchMilestoneDetails(openMilestoneId);
+    setIsDetailModalOpen(true);
+  }
 
   // Handle milestone row click
   const handleMilestoneClick = (milestoneId: number) => {
@@ -518,7 +525,7 @@ export function ProjectMilestones() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <Link to={`/collaboratives/${collabId}/projects/${projectId}`} style={{ textDecoration: 'none', color: '#0077b5' }}>
+      <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">

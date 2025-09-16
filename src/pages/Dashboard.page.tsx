@@ -755,7 +755,8 @@ export function Dashboard() {
                     </Text>
                     <Button
                       component={Link}
-                      to={`/collaboratives/${completion.collabId}/projects/${completion.projectId}/milestones/${completion.id}`}
+                      to={`/collaboratives/${completion.collabId}/projects/${completion.projectId}/milestones`}
+                      state={{ openMilestoneId: completion.id, from: location.pathname }}
                       variant="outline">
                         Review Milestone
                     </Button>

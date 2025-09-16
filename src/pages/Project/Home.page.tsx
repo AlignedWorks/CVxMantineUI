@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
 import {
   Container,
@@ -25,6 +25,7 @@ import {
 import { ProjectDataHome } from '../../data.ts';
 
 export function ProjectHome() {
+  const location = useLocation();
   const { collabId, projectId } = useParams();
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataHome | null>(null);
@@ -51,6 +52,9 @@ export function ProjectHome() {
     description: '',
   });
   const [formErrors, setFormErrors] = useState<Record<string,string>>({});
+
+  // Get the "from" state or default to a fallback
+  const from = location.state?.from || `/collaboratives/${collabId}/projects`;
 
   // Set the collaborative ID in context
   useEffect(() => {
@@ -326,7 +330,7 @@ export function ProjectHome() {
   return (
     <Container size="md" py="xl">
       {/* Back Link */}
-      <Link to={`/collaboratives/${collabId}/projects`} style={{ textDecoration: 'none', color: '#0077b5' }}>
+      <Link to={from} style={{ textDecoration: 'none', color: '#0077b5' }}>
         &larr; Back
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
