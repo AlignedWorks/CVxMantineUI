@@ -70,6 +70,16 @@ export function ProjectMilestones() {
   const [dueDate, setDueDate] = useState<Date | null>(null);
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
 
+  // Edit-in-modal state for selected milestone
+  const [isEditingMilestone, setIsEditingMilestone] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editLaunchTokenAmount, setEditLaunchTokenAmount] = useState<number | string>('');
+  const [editStartDate, setEditStartDate] = useState<Date | null>(null);
+  const [editDueDate, setEditDueDate] = useState<Date | null>(null);
+  const [editAssigneeId, setEditAssigneeId] = useState<string | null>(null);
+  const [editErrors, setEditErrors] = useState<Record<string, string>>({});
+
   // Set the collaborative ID in context
   useEffect(() => {
     setCollaborativeId(collabId || null);
@@ -122,6 +132,17 @@ export function ProjectMilestones() {
         setCompletionSummary(milestoneDetails.completionSummary || '');
         setIsComplete(milestoneDetails.isComplete || false);
         setArtifactUrl(milestoneDetails.artifactUrl || '');
+
+        // initialize edit fields so toggling Edit shows current values
+        setEditName(milestoneDetails.name || '');
+        setEditDescription(milestoneDetails.description || '');
+        // prefer allocatedLaunchTokens (used for display elsewhere)
+        setEditLaunchTokenAmount(milestoneDetails.allocatedLaunchTokens ?? milestoneDetails.allocatedLaunchTokens ?? '');
+        setEditStartDate(milestoneDetails.startDate ? new Date(milestoneDetails.startDate) : null);
+        setEditDueDate(milestoneDetails.dueDate ? new Date(milestoneDetails.dueDate) : null);
+        setEditAssigneeId(milestoneDetails.assigneeId ?? null);
+        setIsEditingMilestone(false);
+        setEditErrors({});
       }
     } catch (error) {
       console.error("Error fetching milestone:", error);
@@ -146,7 +167,7 @@ export function ProjectMilestones() {
       const newState = { ...(location.state || {}) };
       delete (newState as any).openMilestoneId;
       // Keep the rest of the browser state intact, replace only state object
-      window.history.replaceState(newState, '');
+      window.history.replaceState(newState, '' );
     } catch (err) {
       console.warn('Could not clear openMilestoneId from history state', err);
     }
@@ -403,6 +424,60 @@ export function ProjectMilestones() {
         console.error("Error adding milestone:", error);
       }
     };
+  };
+
+   // Save milestone edits (in-modal)
+  const handleSaveMilestoneEdits = async () => {
+    if (!selectedMilestone) return;
+
+    const newErrors: Record<string, string> = {};
+    const numTokens = Number(editLaunchTokenAmount || 0);
+    if (!editName.trim()) newErrors.name = 'Name is required.';
+    if (!editDescription.trim()) newErrors.description = 'Description is required.';
+    if (!Number.isFinite(numTokens) || numTokens <= 0) newErrors.allocatedLaunchTokens = 'Payment amount must be greater than 0.';
+    // simple date validation
+   if (editStartDate && editDueDate && editStartDate >= editDueDate) newErrors.dates = 'Start date must be before due date.';
+    setEditErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
+
+    try {
+      const response = await fetch(
+        new URL(`milestones/${selectedMilestone.id}`, import.meta.env.VITE_API_BASE),
+        {
+          method: 'PATCH',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: editName,
+            description: editDescription,
+            allocatedLaunchTokens: Number(editLaunchTokenAmount) || 0,
+            startDate: editStartDate ? editStartDate.toISOString() : null,
+            dueDate: editDueDate ? editDueDate.toISOString() : null,
+            assigneeId: editAssigneeId,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updated: MilestoneDetail = await response.json();
+        setSelectedMilestone(updated);
+        // update list in parent project state
+        setProject(prev => prev ? {
+          ...prev,
+          milestones: prev.milestones.map(m => m.id === updated.id
+            ? { ...m, name: updated.name, description: updated.description, allocatedLaunchTokens: updated.allocatedLaunchTokens ?? updated.allocatedLaunchTokens ?? m.allocatedLaunchTokens }
+            : m)
+        } : null);
+
+        setIsEditingMilestone(false);
+        setSuccessMessage('Milestone updated.');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } else {
+        console.error('Failed to save milestone edits');
+      }
+    } catch (err) {
+      console.error('Error saving milestone edits', err);
+    }
   };
 
   // Function to handle due date change with validation
@@ -827,75 +902,151 @@ export function ProjectMilestones() {
           <Stack gap="lg">
             <div>
               <Group gap="md" mb="md">
-                <Badge
-                  color={selectedMilestone.approvalStatus === 'Active' ? 'green' : 
-                          selectedMilestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
-                  variant="light"
-                >
-                  {selectedMilestone.approvalStatus}
-                </Badge>
-                {selectedMilestone.isComplete && (
-                  <Badge color="green" variant="filled">
-                    Completed
+                <Group gap="md">
+                  <Badge
+                    color={selectedMilestone.approvalStatus === 'Active' ? 'green' : 
+                            selectedMilestone.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                    variant="light"
+                  >
+                    {selectedMilestone.approvalStatus}
                   </Badge>
-                )}
+                  {selectedMilestone.isComplete && (
+                    <Badge color="green" variant="filled">
+                      Completed
+                    </Badge>
+                  )}
+                </Group>
+
+                <Group>
+                  {!isEditingMilestone ? (
+                    <Button size="xs" variant="outline" onClick={() => setIsEditingMilestone(true)}>Edit</Button>
+                  ) : (
+                    <>
+                      <Button size="xs" color="green" onClick={handleSaveMilestoneEdits}>Save</Button>
+                      <Button size="xs" variant="outline" onClick={() => {
+                        // cancel: restore edit fields from selectedMilestone
+                        setIsEditingMilestone(false);
+                        setEditName(selectedMilestone.name || '');
+                        setEditDescription(selectedMilestone.description || '');
+                        setEditLaunchTokenAmount(selectedMilestone.allocatedLaunchTokens ?? selectedMilestone.allocatedLaunchTokens ?? '');
+                        setEditStartDate(selectedMilestone.startDate ? new Date(selectedMilestone.startDate) : null);
+                        setEditDueDate(selectedMilestone.dueDate ? new Date(selectedMilestone.dueDate) : null);
+                        setEditAssigneeId(selectedMilestone.assigneeId ?? null);
+                        setEditErrors({});
+                      }}>Cancel</Button>
+                    </>
+                  )}
+                </Group>
               </Group>
             </div>
 
             <Grid>
               <Grid.Col span={{ base: 12, sm: 12, md: 6, lg: 6 }}>
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
-                <Text mb="lg">{selectedMilestone.description}</Text>
-
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Definition of Done</Text>
-                <Text mb="lg">{selectedMilestone.definitionOfDone}</Text>
-
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
-                <Text>{selectedMilestone.deliverables}</Text>
-              </Grid.Col>
-
-              <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee</Text>
-                <Text mb="lg">{selectedMilestone.assigneeName || 'Not assigned'}</Text>
-
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Start Date</Text>
-                <Text mb="lg">
-                  {selectedMilestone.startDate 
-                    ? new Date(selectedMilestone.startDate).toLocaleDateString()
-                    : 'No start date set'
-                  }
-                </Text>
-
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Due Date</Text>
-                <Text>
-                  {selectedMilestone.dueDate 
-                    ? new Date(selectedMilestone.dueDate).toLocaleDateString()
-                    : 'No due date set'
-                  }
-                </Text>
-              </Grid.Col>
-
-              <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
-                <Text mb="lg">{Number(selectedMilestone.allocatedLaunchTokens).toFixed(2)}</Text>
-
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
-
-                {selectedMilestone.cashEquivalent > 0 ? (
-                  <Text mb="lg">${(selectedMilestone.cashEquivalent).toFixed(2)}</Text>
+                {/* Editable area */}
+                {isEditingMilestone ? (
+                  <Stack gap="sm">
+                    <TextInput label="Name" value={editName} onChange={(e) => setEditName(e.target.value)} error={editErrors.name} />
+                    <Textarea label="Description" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} minRows={3} error={editErrors.description} />
+                    <Textarea label="Definition of Done" value={selectedMilestone.definitionOfDone} readOnly />
+                    <Textarea label="Deliverables" value={selectedMilestone.deliverables} readOnly />
+                  </Stack>
                 ) : (
-                  <Text mb="lg">N/A</Text>
+                  <>
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Description</Text>
+                    <Text mb="lg">{selectedMilestone.description}</Text>
+
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Definition of Done</Text>
+                    <Text mb="lg">{selectedMilestone.definitionOfDone}</Text>
+
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
+                    <Text>{selectedMilestone.deliverables}</Text>
+                  </>
                 )}
 
-                <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee Status</Text>
-                <Badge
-                  color={assigneeStatusColors[selectedMilestone.assigneeStatus] || 'gray'}
-                  variant="light"
-                  mb="lg"
-                >
-                  {selectedMilestone.assigneeStatus}
-                </Badge>
+                {selectedMilestone.approvalStatus === 'Archived' && selectedMilestone.completionSummary && (
+                  <>
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Completion Summary</Text>
+                    <Text mb="lg">{selectedMilestone.completionSummary}</Text>
+                  </>
+                )}
+              </Grid.Col>
 
+              <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                {isEditingMilestone ? (
+                  <>
+                    <Select label="Assignee" value={editAssigneeId} onChange={setEditAssigneeId} data={assigneeOptions} clearable searchable />
+                    <DatesProvider settings={{ firstDayOfWeek: 0 }}>
+                      <DateTimePicker label="Start Date & Time" value={editStartDate} onChange={setEditStartDate} />
+                      <DateTimePicker label="Due Date & Time" value={editDueDate} onChange={setEditDueDate} />
+                    </DatesProvider>
+                    {editErrors.dates && <Text c="red" size="sm">{editErrors.dates}</Text>}
+                  </>
+                ) : (
+                  <>
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee</Text>
+                    <Text mb="lg">{selectedMilestone.assigneeName || 'Not assigned'}</Text>
+
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Start Date</Text>
+                    <Text mb="lg">
+                      {selectedMilestone.startDate 
+                        ? new Date(selectedMilestone.startDate).toLocaleDateString()
+                        : 'No start date set'
+                      }
+                    </Text>
+
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Due Date</Text>
+                    <Text>
+                      {selectedMilestone.dueDate 
+                        ? new Date(selectedMilestone.dueDate).toLocaleDateString()
+                        : 'No due date set'
+                      }
+                    </Text>
+                  </>
+                )}
+              </Grid.Col>
+
+              <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                {isEditingMilestone ? (
+                  <Stack>
+                    <NumberInput label="Payment Amount" value={editLaunchTokenAmount} onChange={(v) => setEditLaunchTokenAmount(v)} min={0} error={editErrors.allocatedLaunchTokens} suffix="tokens" />
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
+                    {selectedMilestone.cashEquivalent > 0 ? (
+                      <Text mb="lg">${(selectedMilestone.cashEquivalent).toFixed(2)}</Text>
+                    ) : (
+                      <Text mb="lg">N/A</Text>
+                    )}
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee Status</Text>
+                    <Badge
+                      color={assigneeStatusColors[selectedMilestone.assigneeStatus] || 'gray'}
+                      variant="light"
+                      mb="lg"
+                    >
+                      {selectedMilestone.assigneeStatus}
+                    </Badge>
+                  </Stack>
+                ) : (
+                  <>
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Launch Tokens</Text>
+                    <Text mb="lg">{Number(selectedMilestone.allocatedLaunchTokens).toFixed(2)}</Text>
+
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
+
+                    {selectedMilestone.cashEquivalent > 0 ? (
+                      <Text mb="lg">${(selectedMilestone.cashEquivalent).toFixed(2)}</Text>
+                    ) : (
+                      <Text mb="lg">N/A</Text>
+                    )}
+
+                    <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee Status</Text>
+                    <Badge
+                      color={assigneeStatusColors[selectedMilestone.assigneeStatus] || 'gray'}
+                      variant="light"
+                      mb="lg"
+                    >
+                      {selectedMilestone.assigneeStatus}
+                    </Badge>
+                  </>
+                )}
               </Grid.Col>
             </Grid>
 
