@@ -273,14 +273,14 @@ export function CollaborativeHome() {
                 </div>
                 <div>
                   <Text mb="md">
-                  Skills<br/>
-                  {collaborative.skills.map((skill, index) => (
-                    <Badge key={index} variant="light" color="blue">
-                      {skill.value}
-                    </Badge>
-                  ))}
-                </Text>
-                <Text mb="md">
+                    Skills<br/>
+                    {collaborative.skills.map((skill, index) => (
+                      <Badge key={index} variant="light" color="blue">
+                        {skill.value}
+                      </Badge>
+                    ))}
+                  </Text>
+                  <Text mb="md">
                     Experience<br/>
                     {collaborative.experience.map((exp, index) => (
                       <Badge key={index} variant="light" color="green">

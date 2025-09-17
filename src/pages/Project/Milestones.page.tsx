@@ -589,22 +589,16 @@ export function ProjectMilestones() {
                       {milestoneRows}
                       <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
                         <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
-                          Total:
-                        </Table.Td>
-                        <Table.Td>
-                          <Text fw={700}>
-                            {Number(totalMilestoneTokens).toFixed(2)}
-                          </Text>
-                        </Table.Td>
-                      </Table.Tr>
-                      <Table.Tr>
-                        <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                          Total:<br />
                           <Text c="dimmed">
                             Project Budget:
                           </Text>
                         </Table.Td>
                         <Table.Td>
-                          <Text c="dimmed" fw={700}>
+                          <Text fw={700}>
+                            {Number(totalMilestoneTokens).toFixed(2)}
+                          </Text>
+                          <Text c="dimmed" fw={500}>
                             {Number(project.launchTokenBudget).toFixed(2)}
                           </Text>
                         </Table.Td>
