@@ -74,6 +74,8 @@ export function ProjectMilestones() {
   const [isEditingMilestone, setIsEditingMilestone] = useState(false);
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [editDefinitionOfDone, setEditDefinitionOfDone] = useState('');
+  const [editDeliverables, setEditDeliverables] = useState('');
   const [editLaunchTokenAmount, setEditLaunchTokenAmount] = useState<number | string>('');
   const [editStartDate, setEditStartDate] = useState<Date | null>(null);
   const [editDueDate, setEditDueDate] = useState<Date | null>(null);
@@ -136,6 +138,8 @@ export function ProjectMilestones() {
         // initialize edit fields so toggling Edit shows current values
         setEditName(milestoneDetails.name || '');
         setEditDescription(milestoneDetails.description || '');
+        setEditDefinitionOfDone(milestoneDetails.definitionOfDone || '');
+        setEditDeliverables(milestoneDetails.deliverables || '');
         // prefer allocatedLaunchTokens (used for display elsewhere)
         setEditLaunchTokenAmount(milestoneDetails.allocatedLaunchTokens ?? milestoneDetails.allocatedLaunchTokens ?? '');
         setEditStartDate(milestoneDetails.startDate ? new Date(milestoneDetails.startDate) : null);
@@ -450,6 +454,8 @@ export function ProjectMilestones() {
           body: JSON.stringify({
             name: editName,
             description: editDescription,
+            definitionOfDone: editDefinitionOfDone,
+            deliverables: editDeliverables,
             allocatedLaunchTokens: Number(editLaunchTokenAmount) || 0,
             startDate: editStartDate ? editStartDate.toISOString() : null,
             dueDate: editDueDate ? editDueDate.toISOString() : null,
@@ -465,7 +471,7 @@ export function ProjectMilestones() {
         setProject(prev => prev ? {
           ...prev,
           milestones: prev.milestones.map(m => m.id === updated.id
-            ? { ...m, name: updated.name, description: updated.description, allocatedLaunchTokens: updated.allocatedLaunchTokens ?? updated.allocatedLaunchTokens ?? m.allocatedLaunchTokens }
+            ? { ...m, name: updated.name, description: updated.description, definitionOfDone: updated.definitionOfDone, deliverables: updated.deliverables, allocatedLaunchTokens: updated.allocatedLaunchTokens ?? m.allocatedLaunchTokens }
             : m)
         } : null);
 
@@ -919,7 +925,10 @@ export function ProjectMilestones() {
 
                 <Group>
                   {!isEditingMilestone ? (
-                    <Button size="xs" variant="outline" onClick={() => setIsEditingMilestone(true)}>Edit</Button>
+                    // Only show the edit button to project admins who have accepted
+                    project.userIsProjectAdminAndStatusAccepted ? (
+                      <Button size="xs" variant="outline" onClick={() => setIsEditingMilestone(true)}>Edit</Button>
+                    ) : null
                   ) : (
                     <>
                       <Button size="xs" color="green" onClick={handleSaveMilestoneEdits}>Save</Button>
@@ -947,8 +956,8 @@ export function ProjectMilestones() {
                   <Stack gap="sm">
                     <TextInput label="Name" value={editName} onChange={(e) => setEditName(e.target.value)} error={editErrors.name} />
                     <Textarea label="Description" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} minRows={3} error={editErrors.description} />
-                    <Textarea label="Definition of Done" value={selectedMilestone.definitionOfDone} readOnly />
-                    <Textarea label="Deliverables" value={selectedMilestone.deliverables} readOnly />
+                    <Textarea label="Definition of Done" value={editDefinitionOfDone} onChange={(e) => setEditDefinitionOfDone(e.target.value)} />
+                    <Textarea label="Deliverables" value={editDeliverables} onChange={(e) => setEditDeliverables(e.target.value)} />
                   </Stack>
                 ) : (
                   <>
@@ -1008,7 +1017,7 @@ export function ProjectMilestones() {
               <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                 {isEditingMilestone ? (
                   <Stack>
-                    <NumberInput label="Payment Amount" value={editLaunchTokenAmount} onChange={(v) => setEditLaunchTokenAmount(v)} min={0} error={editErrors.allocatedLaunchTokens} suffix="tokens" />
+                    <NumberInput label="Payment Amount" value={editLaunchTokenAmount} onChange={(v) => setEditLaunchTokenAmount(v)} min={0} error={editErrors.allocatedLaunchTokens} suffix=" tokens" />
                     <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
                     {selectedMilestone.cashEquivalent > 0 ? (
                       <Text mb="lg">${(selectedMilestone.cashEquivalent).toFixed(2)}</Text>
