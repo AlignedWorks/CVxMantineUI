@@ -153,7 +153,7 @@ export function MemberProfile() {
                       ) : (
                         <Text size="sm" c="dimmed">No collaboratives listed</Text>
                       )}
-                      <br/><br/>
+                      <br/>
 
                       Skills<br/>
                       {user.skills && user.skills.length > 0 ? (
@@ -171,7 +171,7 @@ export function MemberProfile() {
                       ) : (
                         <Text size="sm" c="dimmed">No skills listed</Text>
                       )}
-                      <br/><br/>
+                      <br/>
 
                       Experience<br/>
                       {user.experience && user.experience.length > 0 ? (
@@ -192,24 +192,6 @@ export function MemberProfile() {
                     </div>
                   </SimpleGrid>
                 </Stack>
-
-                <div>
-                  Collaboratives<br/>
-                  {user.collaboratives && user.collaboratives.length > 0 ? (
-                    <Group gap="xs" mt="xs">
-                      {user.collaboratives.map((collab) => (
-                        <Badge
-                          variant="light"
-                          color="yellow"
-                        >
-                          {collab}
-                        </Badge>
-                      ))}
-                    </Group>
-                  ) : (
-                    <Text size="sm" c="dimmed">No collaboratives listed</Text>
-                  )}
-                </div>
               </Grid.Col>
             </Grid>
           </Card>

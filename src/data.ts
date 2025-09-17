@@ -106,6 +106,7 @@ export interface CollaborativeDataTreasury {
   tokensPriorWorkPercent?: number;
   projectWorkPayment: number;
   collabAdminCompensationPercent: number;
+  networkFeePercent: number;
   launchCyclePeriodWeeks?: number;
 }
 

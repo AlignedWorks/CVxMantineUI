@@ -218,7 +218,7 @@ export function CollaborativeTreasury() {
 
                       <Tooltip
                         color="gray"
-                        label="Tokens budgeted to make future payments to the Collaborative Admin and Network."
+                        label="Tokens budgeted to make future payments to the Collaborative Admin ({collaborative.collabAdminCompensationPercent}%) and Network ({collaborative.networkFeePercent}%)."
                         multiline
                         w={220}>
                         <Text fz="md" fw={500} c="#999">Collaborative Admin + Network Fee</Text>

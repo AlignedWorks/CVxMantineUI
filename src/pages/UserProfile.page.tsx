@@ -175,7 +175,7 @@ export function UserProfile() {
                     ) : (
                       <Text size="sm" c="dimmed">No collaboratives listed</Text>
                     )}
-                    <br/><br/>
+                    <br/>
 
                     Skills<br/>
                     {user.skills && user.skills.length > 0 ? (
@@ -193,8 +193,8 @@ export function UserProfile() {
                     ) : (
                       <Text size="sm" c="dimmed">No skills listed</Text>
                     )}
+                    <br/>
                     
-                    <br/><br/>
                     Experience<br/>
                     {user.experience && user.experience.length > 0 ? (
                       <Group gap="xs" mt="xs">
