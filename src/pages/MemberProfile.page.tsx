@@ -103,20 +103,6 @@ export function MemberProfile() {
                         </Text>
                       </Group>
                       <Group wrap="nowrap" gap={10} mt={5}>
-                        <IconPhoneCall stroke={1.5} size={16} />
-                        <Text>
-                          {user.phoneNumber}
-                        </Text>
-                      </Group>
-                      <Group wrap="nowrap" gap={10} mt={5}>
-                        <IconMapPin stroke={1.5} size={16} />
-                        <Text>
-                          {user.city}, {user.state}
-                        </Text>
-                      </Group>
-                    </div>
-                    <div>
-                      <Group wrap="nowrap" gap={10} mt={5}>
                         <IconBrandLinkedin stroke={1.5} size={18} />
                         <Text>
                         {user?.linkedIn ? (
@@ -135,31 +121,40 @@ export function MemberProfile() {
                       <span style={{ color: 'grey'}}>Member since:</span>  {user.createdAt}
                       <br/>
                       <span style={{ color: 'grey'}}>Member status:</span>  {user.memberStatus}
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconPhoneCall stroke={1.5} size={16} />
+                        <Text>
+                          {user.phoneNumber}
+                        </Text>
+                      </Group>
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconMapPin stroke={1.5} size={16} />
+                        <Text>
+                          {user.city}, {user.state}
+                        </Text>
+                      </Group>
+                      <p>
+                        {user.bio}<br /><br />
+                      </p>
                     </div>
-                  </SimpleGrid>
-                </Stack>
-                <p>
-                  {user.bio}<br /><br />
-                </p>
-                <div>
-                  Collaboratives<br/>
-                  {user.collaboratives && user.collaboratives.length > 0 ? (
-                    <Group gap="xs" mt="xs">
-                      {user.collaboratives.map((collab) => (
-                        <Badge
-                          variant="light"
-                          color="yellow"
-                        >
-                          {collab}
-                        </Badge>
-                      ))}
-                    </Group>
-                  ) : (
-                    <Text size="sm" c="dimmed">No collaboratives listed</Text>
-                  )}
-                </div>
-                <SimpleGrid cols={{ base: 1, sm: 2 }} mt="lg" mb="lg">
                     <div>
+                      Collaboratives<br/>
+                      {user.collaboratives && user.collaboratives.length > 0 ? (
+                        <Group gap="xs" mt="xs">
+                          {user.collaboratives.map((collab) => (
+                            <Badge
+                              variant="light"
+                              color="yellow"
+                            >
+                              {collab}
+                            </Badge>
+                          ))}
+                        </Group>
+                      ) : (
+                        <Text size="sm" c="dimmed">No collaboratives listed</Text>
+                      )}
+                      <br/><br/>
+
                       Skills<br/>
                       {user.skills && user.skills.length > 0 ? (
                         <Group gap="xs" mt="xs">
@@ -176,8 +171,8 @@ export function MemberProfile() {
                       ) : (
                         <Text size="sm" c="dimmed">No skills listed</Text>
                       )}
-                    </div>
-                    <div>
+                      <br/><br/>
+
                       Experience<br/>
                       {user.experience && user.experience.length > 0 ? (
                         <Group gap="xs" mt="xs">
@@ -196,6 +191,25 @@ export function MemberProfile() {
                       )}
                     </div>
                   </SimpleGrid>
+                </Stack>
+
+                <div>
+                  Collaboratives<br/>
+                  {user.collaboratives && user.collaboratives.length > 0 ? (
+                    <Group gap="xs" mt="xs">
+                      {user.collaboratives.map((collab) => (
+                        <Badge
+                          variant="light"
+                          color="yellow"
+                        >
+                          {collab}
+                        </Badge>
+                      ))}
+                    </Group>
+                  ) : (
+                    <Text size="sm" c="dimmed">No collaboratives listed</Text>
+                  )}
+                </div>
               </Grid.Col>
             </Grid>
           </Card>
