@@ -1,0 +1,36 @@
+name: Keep backend warm
+
+on:
+  schedule:
+    # every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl backend or keepalive endpoint
+        env:
+          KEEPALIVE_URL: ${{ secrets.KEEPALIVE_URL }}
+          KEEPALIVE_AUTH: ${{ secrets.KEEPALIVE_AUTH }}
+        run: |
+          if [ -z "$KEEPALIVE_URL" ]; then
+            echo "KEEPALIVE_URL is not set. Skipping keepalive (no secret configured in this repository)." 
+            exit 0
+          fi
+
+          echo "Pinging $KEEPALIVE_URL"
+
+          # Use header-based auth if KEEPALIVE_AUTH is set (optional)
+          if [ -n "$KEEPALIVE_AUTH" ]; then
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "x-keepalive-secret: $KEEPALIVE_AUTH" "$KEEPALIVE_URL")
+          else
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$KEEPALIVE_URL")
+          fi
+
+          echo "status=$STATUS"
+          if [ "$STATUS" -ge 400 ]; then
+            echo "Keepalive request returned $STATUS" >&2
+            exit 1
+          fi

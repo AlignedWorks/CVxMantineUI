@@ -842,6 +842,7 @@ export function ProjectMilestones() {
             <DateTimePicker
               label="Due Date & Time"
               placeholder="Select due date and time"
+              valueFormat="MMM DD YYYY hh:mm A"
               value={dueDate}
               onChange={handleDueDateChange}
               error={errors.dueDate}
@@ -855,6 +856,7 @@ export function ProjectMilestones() {
             <DateTimePicker
               label="Start Date & Time"
               placeholder="Select start date and time"
+              valueFormat="MMM DD YYYY hh:mm A"
               value={startDate}
               onChange={handleStartDateChange}
               error={errors.startDate}
@@ -926,7 +928,7 @@ export function ProjectMilestones() {
                 <Group>
                   {!isEditingMilestone ? (
                     // Only show the edit button to project admins who have accepted
-                    project.userIsProjectAdminAndStatusAccepted ? (
+                    project.userIsProjectAdminAndStatusAccepted && selectedMilestone.approvalStatus !== 'Archived' ? (
                       <Button size="xs" variant="outline" onClick={() => setIsEditingMilestone(true)}>Edit</Button>
                     ) : null
                   ) : (
@@ -968,7 +970,7 @@ export function ProjectMilestones() {
                     <Text mb="lg">{selectedMilestone.definitionOfDone}</Text>
 
                     <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
-                    <Text>{selectedMilestone.deliverables}</Text>
+                    <Text mb="lg">{selectedMilestone.deliverables}</Text>
                   </>
                 )}
 
@@ -985,8 +987,8 @@ export function ProjectMilestones() {
                   <>
                     <Select label="Assignee" value={editAssigneeId} onChange={setEditAssigneeId} data={assigneeOptions} clearable searchable />
                     <DatesProvider settings={{ firstDayOfWeek: 0 }}>
-                      <DateTimePicker label="Start Date & Time" value={editStartDate} onChange={setEditStartDate} />
-                      <DateTimePicker label="Due Date & Time" value={editDueDate} onChange={setEditDueDate} />
+                      <DateTimePicker label="Start Date & Time" valueFormat="MMM DD YYYY hh:mm A" value={editStartDate} onChange={setEditStartDate} />
+                      <DateTimePicker label="Due Date & Time" valueFormat="MMM DD YYYY hh:mm A" value={editDueDate} onChange={setEditDueDate} />
                     </DatesProvider>
                     {editErrors.dates && <Text c="red" size="sm">{editErrors.dates}</Text>}
                   </>
