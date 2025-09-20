@@ -9,6 +9,7 @@ import {
   TextInput,
   Textarea,
   NumberInput,
+  NumberFormatter,
   Button,
   Loader,
   Group,
@@ -79,7 +80,6 @@ export function ProjectMilestones() {
   const [editLaunchTokenAmount, setEditLaunchTokenAmount] = useState<number | string>('');
   const [editStartDate, setEditStartDate] = useState<Date | null>(null);
   const [editDueDate, setEditDueDate] = useState<Date | null>(null);
-  const [editAssigneeId, setEditAssigneeId] = useState<string | null>(null);
   const [editErrors, setEditErrors] = useState<Record<string, string>>({});
 
   // Set the collaborative ID in context
@@ -144,7 +144,6 @@ export function ProjectMilestones() {
         setEditLaunchTokenAmount(milestoneDetails.allocatedLaunchTokens ?? milestoneDetails.allocatedLaunchTokens ?? '');
         setEditStartDate(milestoneDetails.startDate ? new Date(milestoneDetails.startDate) : null);
         setEditDueDate(milestoneDetails.dueDate ? new Date(milestoneDetails.dueDate) : null);
-        setEditAssigneeId(milestoneDetails.assigneeId ?? null);
         setIsEditingMilestone(false);
         setEditErrors({});
       }
@@ -459,7 +458,6 @@ export function ProjectMilestones() {
             allocatedLaunchTokens: Number(editLaunchTokenAmount) || 0,
             startDate: editStartDate ? editStartDate.toISOString() : null,
             dueDate: editDueDate ? editDueDate.toISOString() : null,
-            assigneeId: editAssigneeId,
           }),
         }
       );
@@ -471,7 +469,12 @@ export function ProjectMilestones() {
         setProject(prev => prev ? {
           ...prev,
           milestones: prev.milestones.map(m => m.id === updated.id
-            ? { ...m, name: updated.name, description: updated.description, definitionOfDone: updated.definitionOfDone, deliverables: updated.deliverables, allocatedLaunchTokens: updated.allocatedLaunchTokens ?? m.allocatedLaunchTokens }
+            ? { ...m,
+                name: updated.name,
+                description: updated.description,
+                definitionOfDone: updated.definitionOfDone,
+                deliverables: updated.deliverables,
+                allocatedLaunchTokens: updated.allocatedLaunchTokens ?? m.allocatedLaunchTokens }
             : m)
         } : null);
 
@@ -942,7 +945,6 @@ export function ProjectMilestones() {
                         setEditLaunchTokenAmount(selectedMilestone.allocatedLaunchTokens ?? selectedMilestone.allocatedLaunchTokens ?? '');
                         setEditStartDate(selectedMilestone.startDate ? new Date(selectedMilestone.startDate) : null);
                         setEditDueDate(selectedMilestone.dueDate ? new Date(selectedMilestone.dueDate) : null);
-                        setEditAssigneeId(selectedMilestone.assigneeId ?? null);
                         setEditErrors({});
                       }}>Cancel</Button>
                     </>
@@ -984,14 +986,13 @@ export function ProjectMilestones() {
 
               <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                 {isEditingMilestone ? (
-                  <>
-                    <Select label="Assignee" value={editAssigneeId} onChange={setEditAssigneeId} data={assigneeOptions} clearable searchable />
+                  <Stack gap="sm">
                     <DatesProvider settings={{ firstDayOfWeek: 0 }}>
                       <DateTimePicker label="Start Date & Time" valueFormat="MMM DD YYYY hh:mm A" value={editStartDate} onChange={setEditStartDate} />
                       <DateTimePicker label="Due Date & Time" valueFormat="MMM DD YYYY hh:mm A" value={editDueDate} onChange={setEditDueDate} />
                     </DatesProvider>
                     {editErrors.dates && <Text c="red" size="sm">{editErrors.dates}</Text>}
-                  </>
+                  </Stack>
                 ) : (
                   <>
                     <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee</Text>
@@ -1020,13 +1021,13 @@ export function ProjectMilestones() {
                 {isEditingMilestone ? (
                   <Stack>
                     <NumberInput label="Payment Amount" value={editLaunchTokenAmount} onChange={(v) => setEditLaunchTokenAmount(v)} min={0} error={editErrors.allocatedLaunchTokens} suffix=" tokens" />
-                    <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
+                    <Text fw={600} size="sm" mb={4}>Cash Equivalent</Text>
                     {selectedMilestone.cashEquivalent > 0 ? (
-                      <Text mb="lg">${(selectedMilestone.cashEquivalent).toFixed(2)}</Text>
+                      <Text mb="lg"><NumberFormatter prefix="$ " value={selectedMilestone.cashEquivalent} thousandSeparator decimalScale={2}/></Text>
                     ) : (
                       <Text mb="lg">N/A</Text>
                     )}
-                    <Text fw={600} size="sm" c="dimmed" mb={4}>Assignee Status</Text>
+                    <Text fw={600} size="sm" mb={4}>Assignee Status</Text>
                     <Badge
                       color={assigneeStatusColors[selectedMilestone.assigneeStatus] || 'gray'}
                       variant="light"
@@ -1041,9 +1042,8 @@ export function ProjectMilestones() {
                     <Text mb="lg">{Number(selectedMilestone.allocatedLaunchTokens).toFixed(2)}</Text>
 
                     <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
-
                     {selectedMilestone.cashEquivalent > 0 ? (
-                      <Text mb="lg">${(selectedMilestone.cashEquivalent).toFixed(2)}</Text>
+                      <Text mb="lg"><NumberFormatter prefix="$ " value={selectedMilestone.cashEquivalent} thousandSeparator decimalScale={2}/></Text>
                     ) : (
                       <Text mb="lg">N/A</Text>
                     )}
