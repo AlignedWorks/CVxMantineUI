@@ -323,14 +323,39 @@ export function Test() {
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
                         <Stack>
-                        <Title ta="center" hiddenFrom="sm" order={2} mt="xs">
+                        <Title order={1} ta="center" hiddenFrom="md" mt="xs">
                             {testCollab.name} Collaborative
                         </Title>
-                        <Title order={2} visibleFrom="sm" mt="xs">
+                        <Text lts="2px" ta="center" c="dimmed" hiddenFrom="md" mb="md">
+                            {testCollab.name.toUpperCase()} COLLABORATIVE
+                        </Text>
+                        <Title order={1} visibleFrom="md" mt="xs">
                             {testCollab.name} Collaborative
                         </Title>
+                        <Group visibleFrom="md">
+                            {testProject.approvalStatus === 'Active' ? (
+                                <Badge variant="light" color="yellow" mb="md">{testProject.approvalStatus}</Badge>
+                            ) : testProject.approvalStatus === 'Draft' ? (
+                                <Tooltip
+                                color="gray"
+                                label="Pending submission of a completed proposal by the assigned Project Admin"
+                                multiline
+                                w={220}
+                                >
+                                <Badge variant="light" color="pink" mb="md">{testProject.approvalStatus}</Badge>
+                                </Tooltip>
+                            ) : (
+                                <Badge variant="light" color="pink" mb="md">{testProject.approvalStatus}</Badge>
+                            )}
+                            <Text lts="2px" c="dimmed" mb="md">
+                                {testCollab.name.toUpperCase()} COLLABORATIVE
+                            </Text>
+                        </Group>
+                        
                         {testProject.approvalStatus === 'Active' ? (
-                            <Badge variant="light" color="yellow" mb="xl">{testProject.approvalStatus}</Badge>
+                            <Center>
+                            <Badge hiddenFrom="md" variant="light" color="yellow" mb="xl">{testProject.approvalStatus}</Badge>
+                            </Center>
                         ) : testProject.approvalStatus === 'Draft' ? (
                             <Tooltip
                             color="gray"
@@ -338,10 +363,10 @@ export function Test() {
                             multiline
                             w={220}
                             >
-                            <Badge variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
+                            <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
                             </Tooltip>
                         ) : (
-                            <Badge variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
+                            <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
                         )}
                         <Title order={3} fw={500} c="green" mt="lg" mb="md">
                             Revenue Sharing Pool

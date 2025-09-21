@@ -357,18 +357,58 @@ export function ProjectHome() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10 }}>
             <Stack>
-              <Title order={1} ta="center" hiddenFrom="sm" mt="xs">
+              <Title order={1} ta="center" hiddenFrom="md" mt="xs">
                 {project.name} Project
               </Title>
-              <Text lts="2px" ta="center" c="dimmed" hiddenFrom="sm" mb="md">
+              <Text lts="2px" ta="center" c="dimmed" hiddenFrom="md" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
-              <Title order={1} visibleFrom="sm" mt="xs">
+              <Title order={1} visibleFrom="md" mt="xs">
                 {project.name} Project
               </Title>
-              <Text lts="2px" visibleFrom="sm" c="dimmed" mb="md">
-                {project.collabName.toUpperCase()} COLLABORATIVE
-              </Text>
+
+              // group status badge with collab name, visible on medium+ screens
+              <Group visibleFrom="md">
+                  {project.approvalStatus === 'Active' ? (
+                      <Badge visibleFrom="md" variant="light" color="yellow" mb="md">{project.approvalStatus}</Badge>
+                  ) : project.approvalStatus === 'Draft' ? (
+                      <Tooltip
+                      color="gray"
+                      label="Pending submission of a completed proposal by the assigned Project Admin"
+                      multiline
+                      w={220}
+                      >
+                      <Badge variant="light" color="pink" mb="md">{project.approvalStatus}</Badge>
+                      </Tooltip>
+                  ) : (
+                      <Badge variant="light" color="pink" mb="md">{project.approvalStatus}</Badge>
+                  )}
+                  <Text lts="2px" c="dimmed" mb="md">
+                      {project.collabName.toUpperCase()} COLLABORATIVE
+                  </Text>
+              </Group>
+
+              // show status badge centered on small screens
+              {project.approvalStatus === 'Active' ? (
+                <Center>
+                  <Badge hiddenFrom="md" variant="light" color="yellow">{project.approvalStatus}</Badge>
+                </Center>
+              ) : project.approvalStatus === 'Draft' ? (
+                <Tooltip
+                  color="gray"
+                  label="Pending submission of a completed proposal by the assigned Project Admin"
+                  multiline
+                  w={220}
+                >
+                  <Center>
+                    <Badge hiddenFrom="md" variant="light" color="pink">{project.approvalStatus}</Badge>
+                  </Center>
+                </Tooltip>
+              ) : (
+                <Center>
+                  <Badge hiddenFrom="md" variant="light" color="pink">{project.approvalStatus}</Badge>
+                </Center>
+              )}
 
               <Grid>
                 <Grid.Col span={{ base: 12, sm: 12, md: 6 }}>
@@ -410,25 +450,12 @@ export function ProjectHome() {
                       </Text>
                     </div>
                     <Group mb="md">
-                      {project.approvalStatus === 'Active' ? (
-                        <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
-                      ) : project.approvalStatus === 'Draft' ? (
-                        <Tooltip
-                          color="gray"
-                          label="Pending submission of a completed proposal by the assigned Project Admin"
-                          multiline
-                          w={220}
-                        >
-                          <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
-                        </Tooltip>
-                      ) : (
-                        <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
-                      )}
+                      
                     </Group>
                   </Stack>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 6 }}>
-                  <Paper shadow="xs" p="lg" radius="md" bg="#fafafa">
+                  <Paper shadow="xs" p="lg" radius="md" bg="#fafafa" mt="lg">
                     <div>
                         <Text fz="sm" c="dimmed">
                             Project Admin Pay
@@ -436,15 +463,15 @@ export function ProjectHome() {
                         <Text fw={500 } fz="xl">
                             {formatAmount(project.adminPay)}
                         </Text>
-                        <Text fz="sm" c="teal" mb="xl">
-                            Total Budget * {formatAmount((project.adminPay / project.budget) * 100)}%
+                        <Text fz="sm" c="teal" mb="lg">
+                            Total Budget x {formatAmount((project.adminPay / project.budget) * 100)}%
                         </Text>
                     </div>
                     <div>
                         <Text fz="sm" c="dimmed">
                             Milestones
                         </Text>
-                        <Text fw={500 } fz="xl" mb="xl">
+                        <Text fw={500 } fz="xl" mb="lg">
                             {formatAmount(project.sumMilestonesAllocatedLaunchTokens)}
                         </Text>
                     </div>
@@ -455,8 +482,8 @@ export function ProjectHome() {
                         <Text fw={500 } fz="xl">
                             {sumNetworkTransactionFees.toFixed(2)}
                         </Text>
-                        <Text fz="sm" c="teal" mb="xl">
-                            (Project Admin Pay + Milestones) * {project.networkTransactionFee * 100}%
+                        <Text fz="sm" c="teal" mb="lg">
+                            (Project Admin Pay + Milestones) x {project.networkTransactionFee * 100}%
                         </Text>
                     </div>
                     <Group>
@@ -464,7 +491,7 @@ export function ProjectHome() {
                             <Text fz="sm" c="dimmed">
                                 Total Tokens Committed
                             </Text>
-                            <Text fw={500 } fz="xl" mb="xl">
+                            <Text fw={500 } fz="xl" mb="xlg">
                                 {formatAmount(sumNetworkTransactionFees + budgetSubtotal)}
                             </Text>
                         </div>
@@ -472,13 +499,13 @@ export function ProjectHome() {
                             <Text fz="sm" c="dimmed">
                                 Total Budget
                             </Text>
-                            <Text fw={500 } fz="xl" mb="xl">
+                            <Text fw={500 } fz="xl" mb="lg">
                                 {formatAmount(project.budget)}
                             </Text>
                         </div>
                     </Group>
                     <Group mb="xs">
-                        <Text size="sm" c="dimmed">Budget utilization</Text>
+                        <Text size="sm" c="dimmed">Budget Utilization</Text>
                         <Text size="sm" fw={700}>{((sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100).toFixed(2)}%</Text>
                     </Group>
                     <Progress color="teal" value={(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100} size="lg" radius="xl" />

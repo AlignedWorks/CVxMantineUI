@@ -213,16 +213,17 @@ export function CollaborativeHome() {
                 </Badge>
               )}
 
-              <Text fz="sm" c="dimmed" mt="lg">
-                Description
-              </Text>
-              <Text fz="md" mb="xl">
-                {collaborative.description ? collaborative.description : 'No description available.'}
-              </Text>
-
               <Grid>
                 <Grid.Col span={{ base: 12, sm: 12, md: 7 }}>
                   <Stack>
+                    <div>
+                      <Text fz="sm" c="dimmed" mt="lg">
+                        Description
+                      </Text>
+                      <Text fz="md">
+                        {collaborative.description ? collaborative.description : 'No description available.'}
+                      </Text>
+                    </div>
                     <div>
                       <Text fz="sm" c="dimmed">
                         Collab Admin
