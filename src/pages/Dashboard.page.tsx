@@ -18,7 +18,8 @@ import {
   TextInput,
   Textarea,
   Center,
-  Tabs
+  Tabs,
+  Table,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { 
@@ -26,6 +27,7 @@ import {
   CollabInvite,
   CollabApprovalRequest,
   CollabNeedingApproval,
+  ProjectSlim,
   ProjectNeedingApproval,
   ProjectInvite,
   MilestoneAssignment,
@@ -55,6 +57,7 @@ export function Dashboard() {
   const [collabDeclineReasons, setCollabDeclineReasons] = useState<Record<number, string>>({});
   const [collabInvites, setCollabInvites] = useState<CollabInvite[]>([]);
   const [csaApprovalRequests, setCsaApprovalRequests] = useState<CollabApprovalRequest[]>([]);
+  const [projects, setProjects] = useState<ProjectSlim[]>([]);
   const [projectsNeedingApproval, setProjectsNeedingApproval] = useState<ProjectNeedingApproval[]>([]);
   const [decliningProjectId, setDecliningProjectId] = useState<number | null>(null);
   const [projectDeclineReasons, setProjectDeclineReasons] = useState<Record<number, string>>({});
@@ -85,6 +88,7 @@ export function Dashboard() {
             collabsNeedingApproval,
             collabInvites,
             csaApprovalRequests,
+            projects,
             projectsNeedingApproval,
             projectInvites,
             milestoneAssignments,
@@ -100,6 +104,7 @@ export function Dashboard() {
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
           setUserApprovals(users);
+          setProjects(projects);
           setProjectsNeedingApproval(projectsNeedingApproval);
           setProjectInvites(projectInvites);
           setMilestoneAssignments(milestoneAssignments);
@@ -424,14 +429,14 @@ export function Dashboard() {
         </Group>
         )}
 
-        <Tabs value={activeTab} onChange={setActiveTab}>
+        <Tabs value={activeTab} onChange={setActiveTab} mt="xl">
           <Tabs.List>
-            <Tabs.Tab value="first">Notifications</Tabs.Tab>
-            <Tabs.Tab value="second">Collaboratives</Tabs.Tab>
-            <Tabs.Tab value="third">Projects</Tabs.Tab>
+            <Tabs.Tab value="first" fz="lg" fw={500}>Notifications</Tabs.Tab>
+            <Tabs.Tab value="second" fz="lg" fw={500}>Collaboratives</Tabs.Tab>
+            <Tabs.Tab value="third" fz="lg" fw={500}>Projects</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="first">
+          <Tabs.Panel value="first" pt="xl">
             {collabsNeedingApproval?.map((collab) => (
               <Card 
                 key={`${collab.id}`}
@@ -876,7 +881,8 @@ export function Dashboard() {
               </Card>
             ))}
           </Tabs.Panel>
-          <Tabs.Panel value="second">
+
+          <Tabs.Panel value="second" pt="xl">
             <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
               {collabs?.map((collab) => (
                 <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
@@ -922,22 +928,58 @@ export function Dashboard() {
               ))}
             </SimpleGrid>
           </Tabs.Panel>
-          <Tabs.Panel value="third">
-            Second panel
-          </Tabs.Panel>
+
+          <Tabs.Panel value="third" pt="xl">
+            
+            {/* Projects list */}
+            {projects && projects.length > 0 ? (
+              <Card withBorder shadow="xs" mt="md">
+                <Table verticalSpacing="sm" highlightOnHover>
+                  <thead>
+                    <tr>
+                      <th>Project</th>
+                      <th>Collaborative</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      <th style={{ textAlign: 'right' }}>Budget (tokens)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {projects.map((p) => (
+                      <tr key={p.id}>
+                        <td>
+                          <Text
+                            component={Link}
+                            to={`/collaboratives/${p.collabId}/projects/${p.id}`}
+                            state={{ from: location.pathname }}
+                            style={{ textDecoration: 'none', color: '#0077b5' }}
+                          >
+                            {p.name}
+                          </Text>
+                        </td>
+                        <td>{p.collabName ?? '—'}</td>
+                        <td>{p.description ?? '—'}</td>
+                        <td>
+                          <Badge
+                            color={p.approvalStatus === 'Active' ? 'green' : p.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                            variant="light"
+                          >
+                            {p.approvalStatus}
+                          </Badge>
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          {typeof p.budget === 'number' ? p.budget.toLocaleString() : (p.budget ?? '—')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Card>
+            ) : (
+              <Text c="dimmed" mt="md">No projects available.</Text>
+            )}
+           </Tabs.Panel>
         </Tabs>
-
-        <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
-          My Collaboratives
-        </Title>
-        
-        
-        {user?.memberStatus === 'Network Admin' && (
-        <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
-            Approve collaboratives
-        </Title>
-        )}
-
 
 
         {/* Invite Member Modal */}

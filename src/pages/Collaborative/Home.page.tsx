@@ -206,24 +206,24 @@ export function CollaborativeHome() {
               {/* Center status badge on small screens */}
               {collaborative.approvalStatus === 'Active' ? (
                 <Center>
-                  <Badge hiddenFrom="md" variant="light" color="yellow" mb="xl">
+                  <Badge hiddenFrom="md" variant="light" color="yellow" mb="md">
                       {collaborative.approvalStatus}
                   </Badge>
                 </Center>
               ) : (
                 <Center>
-                  <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">
+                  <Badge hiddenFrom="md" variant="light" color="pink" mb="md">
                       {collaborative.approvalStatus}
                   </Badge>
                 </Center>
               )}
 
               {collaborative.approvalStatus === 'Active' ? (
-                <Badge visibleFrom="md" variant="light" color="yellow" mb="xl">
+                <Badge visibleFrom="md" variant="light" color="yellow" mb="md">
                     {collaborative.approvalStatus}
                 </Badge>
               ) : (
-                <Badge visibleFrom="md" variant="light" color="pink" mb="xl">
+                <Badge visibleFrom="md" variant="light" color="pink" mb="md">
                     {collaborative.approvalStatus}
                 </Badge>
               )}

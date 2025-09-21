@@ -211,12 +211,12 @@ export function Test() {
 
             <Tabs value={activeTab} onChange={setActiveTab} mt="lg">
                 <Tabs.List>
-                    <Tabs.Tab value="first">First tab</Tabs.Tab>
-                    <Tabs.Tab value="second">Second tab</Tabs.Tab>
+                    <Tabs.Tab value="first" fz="lg" fw={500}>First tab</Tabs.Tab>
+                    <Tabs.Tab value="second" fz="lg" fw={500}>Second tab</Tabs.Tab>
                 </Tabs.List>
 
-                <Tabs.Panel value="first">
-                    <Card padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
+                <Tabs.Panel value="first" pt="xl">
+                    <Card padding="lg" radius="md" withBorder mb="xl" mt="xl" ml="lx" pr="xl">
                         <Grid>
                             <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
                                 <Center>
@@ -321,7 +321,7 @@ export function Test() {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="second">
-                    <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
+                    <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="xl" ml="lx" pr="xl">
                         <Grid>
                             <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
                                 <Center>

@@ -154,6 +154,17 @@ export interface Project {
   adminPay: number;
 }
 
+export interface ProjectSlim {
+  id: number;
+  collabId: number;
+  collabName: string;
+  name: string;
+  description: string;
+  approvalStatus: string;
+  budget: number;
+  createdAt: string;
+}
+
 export interface ProjectNeedingApproval {
   id: number;
   name: string;

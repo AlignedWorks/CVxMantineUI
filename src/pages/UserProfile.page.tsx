@@ -107,7 +107,7 @@ export function UserProfile() {
               </Center>
             </Grid.Col>
             <Grid.Col span={{ base: 12, sm: 12, md: 9 }}>
-              <Title order={1} ta="center" hiddenFrom="md" mb="xl">
+              <Title order={2} ta="center" hiddenFrom="md" mb="xl">
                 {user.firstName + " " + user.lastName}
               </Title>
               <Title order={1} visibleFrom="md" mb="xl">
