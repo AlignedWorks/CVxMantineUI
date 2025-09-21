@@ -20,7 +20,6 @@ import {
   TextInput,
   NumberInput,
   Textarea,
-  Table,
   Progress,
  } from '@mantine/core';
 import { ProjectDataHome } from '../../data.ts';
