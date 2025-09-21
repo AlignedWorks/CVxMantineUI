@@ -438,7 +438,7 @@ export function Test() {
                                         <Text fz="sm" c="dimmed">
                                             Admin
                                         </Text>
-                                        <Text fz="lg">
+                                        <Text fz="md">
                                         {testProject.adminName}
                                         </Text>
                                         <Text 
@@ -459,7 +459,7 @@ export function Test() {
                                         <Text fz="sm" c="dimmed">
                                             Created
                                         </Text>
-                                        <Text fz="lg">
+                                        <Text fz="md">
                                             {testProject.createdAt}
                                         </Text>
                                     </div>
@@ -468,7 +468,7 @@ export function Test() {
                                         <Text fz="sm" c="dimmed">
                                             Description
                                         </Text>
-                                        <Text fz="lg" lineClamp={4}>
+                                        <Text fz="md" lineClamp={4}>
                                             {testProject.description}
                                         </Text>
                                     </div>

@@ -255,16 +255,18 @@ export function CollaborativeHome() {
                         {collaborative.description}
                       </Text>
                     </div>
-                    <Group wrap="nowrap" gap={10}>
-                      <IconAt stroke={1.5} size={18} />
-                      <a
-                        href={collaborative.websiteUrl}
-                        style={{ color: '#0077b5', textDecoration: 'none' }}
-                        target="_blank"
-                        rel="noopener noreferrer">
-                          {getDisplayUrl(collaborative.websiteUrl)}
-                      </a>
-                    </Group>
+                    {collaborative.websiteUrl && (
+                      <Group wrap="nowrap" gap={10}>
+                        <IconAt stroke={1.5} size={18} />
+                        <a
+                          href={collaborative.websiteUrl}
+                          style={{ color: '#0077b5', textDecoration: 'none' }}
+                          target="_blank"
+                          rel="noopener noreferrer">
+                            {getDisplayUrl(collaborative.websiteUrl)}
+                        </a>
+                      </Group>
+                    )}
                     <Group wrap="nowrap" gap={10} mt={10}>
                       <IconMapPin stroke={1.5} size={18} />
                       <Text fz="lg">
