@@ -160,7 +160,7 @@ export function UserProfile() {
                       </Text>
                     </Group>
                     <Group wrap="nowrap" gap={10} mt={5}>
-                      <IconMapPin stroke={1.5} size={16} />
+                      <IconMapPin stroke={1.5} size={18} />
                       <Text>
                         {user.city}, {user.state}
                       </Text>

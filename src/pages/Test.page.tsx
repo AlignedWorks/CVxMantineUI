@@ -23,6 +23,7 @@ import {
   Tooltip,
   Progress,
   Image,
+  Tabs,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
 import { Link } from 'react-router-dom';
@@ -59,6 +60,7 @@ export function Test() {
     const [inviteEmail, setInviteEmail] = useState('');
     const [inviteSuccess, setInviteSuccess] = useState(false);
     const [inviteError, setInviteError] = useState('');
+    const [activeTab, setActiveTab] = useState<string | null>('first');
 
     const fetchAllUsers = async () => {
         setLoadingUsers(true);
@@ -207,317 +209,160 @@ export function Test() {
                 </form>
             </Card>
 
-            
-            <Text fz="h5" c="dimmed" mt="lg">HOME  |  MILESTONES  |  MEMBERS  |  BUDGET</Text>
-            <h5>HOME  |  MILESTONES  |  MEMBERS  |  BUDGET</h5>
+            <Tabs value={activeTab} onChange={setActiveTab} mt="lg">
+                <Tabs.List>
+                    <Tabs.Tab value="first">First tab</Tabs.Tab>
+                    <Tabs.Tab value="second">Second tab</Tabs.Tab>
+                </Tabs.List>
 
-            <Card padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
-                <Grid>
-                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                        <Center>
-                            <Image
-                                w="80"
-                                src={testCollab.logoUrl}
-                                mt="md"
-                            />
-                        </Center>
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
-                        <Stack>
-                        <Title order={2} mt="xs">
-                            {testCollab.name} Collaborative
-                        </Title>
-                        <Text lts="2px">BREADCOIN COLLABORATIVE</Text>
-                        <Group justify="space-between">
-                            <Text fz="md" fw={500} c="green">Tokens Released this Cycle: 1000</Text>
-                            <Text fz="md" fw={500} c="#333">Total Tokens: 10,000</Text>
-                        </Group>
-                        <Progress.Root size="xl">
-                            <Progress.Section value={3} color="gray" />
-                            <Progress.Section value={7} color="green" />
-                            <Progress.Section value={90} color="blue" />
-                        </Progress.Root>
-                        <Group justify="flex-start">
-                            <Text fz="md" fw={500} c="grey">Tokens Already Allocated this Cycle: 300</Text>
-                        </Group>
-                        <Title order={4} lts="1px" mt="xl" c="green">Financial Health Metrics</Title>
-                        <Paper p="lg" radius="md" bg="#fafafa">
-                            <Group justify="space-between">
-                                <div>
-                                    <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
-                                    <Text fz="xl" fw={700} c="#444">0.50</Text>
-                                </div>
-                                <div>
-                                    <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
-                                    <Text fz="xl" fw={700} c="#444">10,000</Text>
-                                </div>
-                                <div>
-                                    <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
-                                    <Text fz="xl" fw={700} c="#444">10,000</Text>
-                                </div>
-                            </Group>
-                        </Paper>
-                        <Title order={4} lts="1px" mt="xl" c="green">Launch Token Release</Title>
-                        <Paper p="lg" radius="md" bg="#fafafa">
-                            <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
-                                <div>
-                                    <Text fz="md" fw={500} c="#999">Current Token Release</Text>
-                                    <Text fz="xl" fw={500} c="#444">1000 (10% of total)</Text>
-                                </div>
-                                <div>
-                                    <Text fz="md" fw={500} c="#999">Next Token Release</Text>
-                                    <Text fz="xl" fw={500} c="#444">900 (9% of total)</Text>
-                                </div>
-                                <div>
-                                    <Text fz="md" fw={500} c="#999">Date of Next Release</Text>
-                                    <Text fz="xl" fw={500} c="#444">October 6th, 2025</Text>
-                                </div>
-                            </SimpleGrid>
-
-                        </Paper>
-                        <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md" spacing="xl">
-                            <div>
-                                <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
-                                <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
-                                    <Stack>
-                                        <Text fz="md" fw={500} c="#999">Launch Tokens Receivable</Text>
-                                        <Text fz="xl" fw={500} c="#444">1000</Text>
-                                        <Text fz="md" fw={500} c="#999">Launch Tokens Balance</Text>
-                                        <Text fz="xl" fw={500} c="#444">1000</Text>
-                                        <Text fz="md" fw={500} c="red">Total Token Assets</Text>
-                                        <Text fz="xl" fw={500} c="#444">1000</Text>
-                                    </Stack>
-                                </Paper>
-                            </div>
-                            <div>
-                                <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
-                                <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
-                                    <Stack>
-                                        <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay the Collaborative Leader</Text>
-                                        <Text fz="xl" fw={500} c="#444">1000</Text>
-                                        <Text fz="md" fw={500} c="#999">Launch Tokens committed for the payment of Project work upon completion</Text>
-                                        <Text fz="xl" fw={500} c="#444">1000</Text>
-                                        <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay for Non-Team Contributions to Projects</Text>
-                                        <Text fz="xl" fw={500} c="#444">1000</Text>
-                                        <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
-                                        <Text fz="xl" fw={500} c="#444">1000</Text>
-                                    </Stack>
-                                </Paper>
-                            </div>
-                            <div>
-                            </div>
-                        </SimpleGrid>
-                        </Stack>
-                    </Grid.Col>
-                    <Grid.Col span={1}>
-                    </Grid.Col>
-                </Grid>
-            </Card>
-
-            <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
-                <Grid>
-                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                        <Center>
-                            <img src={testCollab.logoUrl} width={80}/>
-                        </Center>
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
-                        <Stack>
-                        <Title order={1} ta="center" hiddenFrom="md" mt="xs">
-                            {testCollab.name} Collaborative
-                        </Title>
-                        <Text lts="2px" ta="center" c="dimmed" hiddenFrom="md" mb="md">
-                            {testCollab.name.toUpperCase()} COLLABORATIVE
-                        </Text>
-                        <Title order={1} visibleFrom="md" mt="xs">
-                            {testCollab.name} Collaborative
-                        </Title>
-                        <Group visibleFrom="md">
-                            {testProject.approvalStatus === 'Active' ? (
-                                <Badge variant="light" color="yellow" mb="md">{testProject.approvalStatus}</Badge>
-                            ) : testProject.approvalStatus === 'Draft' ? (
-                                <Tooltip
-                                color="gray"
-                                label="Pending submission of a completed proposal by the assigned Project Admin"
-                                multiline
-                                w={220}
-                                >
-                                <Badge variant="light" color="pink" mb="md">{testProject.approvalStatus}</Badge>
-                                </Tooltip>
-                            ) : (
-                                <Badge variant="light" color="pink" mb="md">{testProject.approvalStatus}</Badge>
-                            )}
-                            <Text lts="2px" c="dimmed" mb="md">
-                                {testCollab.name.toUpperCase()} COLLABORATIVE
-                            </Text>
-                        </Group>
-                        
-                        {testProject.approvalStatus === 'Active' ? (
-                            <Center>
-                            <Badge hiddenFrom="md" variant="light" color="yellow" mb="xl">{testProject.approvalStatus}</Badge>
-                            </Center>
-                        ) : testProject.approvalStatus === 'Draft' ? (
-                            <Tooltip
-                            color="gray"
-                            label="Pending submission of a completed proposal by the assigned Project Admin"
-                            multiline
-                            w={220}
-                            >
-                            <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
-                            </Tooltip>
-                        ) : (
-                            <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
-                        )}
-                        <Title order={3} fw={500} c="green" mt="lg" mb="md">
-                            Revenue Sharing Pool
-                        </Title>
-                        <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
-                            <div>
-                            <Text fz="md" fw={500}>
-                                Collaborative Admin Compensation
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                {testCollab.collabAdminCompensationPercent}%
-                            </Text>
-                            </div>
-                            <div>
-                            <Text fz="md" fw={500} mb="lg">
-                                Staking Tiers
-                            </Text>
-                            <Table variant="vertical" layout="fixed" withTableBorder>
-                            <Table.Thead>
-                                <Table.Tr>
-                                    <Table.Th>Duration</Table.Th>
-                                    <Table.Th>Exchange Rate</Table.Th>
-                                </Table.Tr>
-                                </Table.Thead>
-                                <Table.Tbody>
-                                    <Table.Tr>
-                                        <Table.Td>1 year</Table.Td>
-                                        <Table.Td>100%</Table.Td>
-                                    </Table.Tr>
-                                    <Table.Tr>
-                                        <Table.Td>3 years</Table.Td>
-                                        <Table.Td>70%</Table.Td>
-                                    </Table.Tr>
-                                    <Table.Tr>
-                                        <Table.Td>5 years</Table.Td>
-                                        <Table.Td>50%</Table.Td>
-                                    </Table.Tr>
-                                </Table.Tbody>
-                            </Table>
-                            </div>
-                        </SimpleGrid>
-                        <Divider my="lg" />
-                        <Title order={3} fw={500} c="green" mt="md" mb="md">
-                            Launch Tokens
-                        </Title>
-                        <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
-                            <div>
-                            <Text fz="md" fw={500}>
-                                Next Token Release Date
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                October 6th, 2025
-                            </Text>
-                            <Text fz="md" fw={500}>
-                                Next Token Release
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                900
-                            </Text>
-                            <Text fz="md" fw={500}>
-                                Current Token Release
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                1000
-                            </Text>
-                            </div>
-                            <div>
-                            <Text fz="md" fw={500}>
-                                Collaborative Admin Compensation (Launch tokens)
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                0
-                            </Text>
-                            <Text fz="md" fw={500}>
-                                Launch Tokens Receivable
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                9000
-                            </Text>
-                            <Text fz="md" fw={500}>
-                                Launch Tokens Balance
-                            </Text>
-                            <Text fz="xl" c="#222" mb="lg">
-                                1000
-                            </Text>
-                            </div>
-                            <div>
-                            </div>
-                        </SimpleGrid>
-                        <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
-                            <div>
+                <Tabs.Panel value="first">
+                    <Card padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
+                        <Grid>
+                            <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                                <Center>
+                                    <Image
+                                        w="80"
+                                        src={testCollab.logoUrl}
+                                        mt="md"
+                                    />
+                                </Center>
+                            </Grid.Col>
+                            <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
                                 <Stack>
+                                <Title order={2} mt="xs">
+                                    {testCollab.name} Collaborative
+                                </Title>
+                                <Text lts="2px">BREADCOIN COLLABORATIVE</Text>
+                                <Group justify="space-between">
+                                    <Text fz="md" fw={500} c="green">Tokens Released this Cycle: 1000</Text>
+                                    <Text fz="md" fw={500} c="#333">Total Tokens: 10,000</Text>
+                                </Group>
+                                <Progress.Root size="xl">
+                                    <Progress.Section value={3} color="gray" />
+                                    <Progress.Section value={7} color="green" />
+                                    <Progress.Section value={90} color="blue" />
+                                </Progress.Root>
+                                <Group justify="flex-start">
+                                    <Text fz="md" fw={500} c="grey">Tokens Already Allocated this Cycle: 300</Text>
+                                </Group>
+                                <Title order={4} lts="1px" mt="xl" c="green">Financial Health Metrics</Title>
+                                <Paper p="lg" radius="md" bg="#fafafa">
+                                    <Group justify="space-between">
+                                        <div>
+                                            <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
+                                            <Text fz="xl" fw={700} c="#444">0.50</Text>
+                                        </div>
+                                        <div>
+                                            <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
+                                            <Text fz="xl" fw={700} c="#444">10,000</Text>
+                                        </div>
+                                        <div>
+                                            <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
+                                            <Text fz="xl" fw={700} c="#444">10,000</Text>
+                                        </div>
+                                    </Group>
+                                </Paper>
+                                <Title order={4} lts="1px" mt="xl" c="green">Launch Token Release</Title>
+                                <Paper p="lg" radius="md" bg="#fafafa">
+                                    <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
+                                        <div>
+                                            <Text fz="md" fw={500} c="#999">Current Token Release</Text>
+                                            <Text fz="xl" fw={500} c="#444">1000 (10% of total)</Text>
+                                        </div>
+                                        <div>
+                                            <Text fz="md" fw={500} c="#999">Next Token Release</Text>
+                                            <Text fz="xl" fw={500} c="#444">900 (9% of total)</Text>
+                                        </div>
+                                        <div>
+                                            <Text fz="md" fw={500} c="#999">Date of Next Release</Text>
+                                            <Text fz="xl" fw={500} c="#444">October 6th, 2025</Text>
+                                        </div>
+                                    </SimpleGrid>
+
+                                </Paper>
+                                <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md" spacing="xl">
                                     <div>
-                                        <Text fz="sm" c="dimmed">
-                                            Admin
-                                        </Text>
-                                        <Text fz="md">
-                                        {testProject.adminName}
-                                        </Text>
-                                        <Text 
-                                        fz="sm" 
-                                        c="#0077b5"
-                                        component="a"
-                                        href={`mailto:${testProject.adminEmail}`}
-                                        style={{
-                                            textDecoration: 'none',
-                                            transition: 'color 0.2s ease'
-                                        }}
+                                        <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
+                                        <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
+                                            <Stack>
+                                                <Text fz="md" fw={500} c="#999">Launch Tokens Receivable</Text>
+                                                <Text fz="xl" fw={500} c="#444">1000</Text>
+                                                <Text fz="md" fw={500} c="#999">Launch Tokens Balance</Text>
+                                                <Text fz="xl" fw={500} c="#444">1000</Text>
+                                                <Text fz="md" fw={500} c="red">Total Token Assets</Text>
+                                                <Text fz="xl" fw={500} c="#444">1000</Text>
+                                            </Stack>
+                                        </Paper>
+                                    </div>
+                                    <div>
+                                        <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
+                                        <Paper p="lg" withBorder radius="md" mb="xl" mt="lg">
+                                            <Stack>
+                                                <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay the Collaborative Leader</Text>
+                                                <Text fz="xl" fw={500} c="#444">1000</Text>
+                                                <Text fz="md" fw={500} c="#999">Launch Tokens committed for the payment of Project work upon completion</Text>
+                                                <Text fz="xl" fw={500} c="#444">1000</Text>
+                                                <Text fz="md" fw={500} c="#999">Launch Tokens committed to pay for Non-Team Contributions to Projects</Text>
+                                                <Text fz="xl" fw={500} c="#444">1000</Text>
+                                                <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
+                                                <Text fz="xl" fw={500} c="#444">1000</Text>
+                                            </Stack>
+                                        </Paper>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </SimpleGrid>
+                                </Stack>
+                            </Grid.Col>
+                            <Grid.Col span={1}>
+                            </Grid.Col>
+                        </Grid>
+                    </Card>
+                </Tabs.Panel>
+
+                <Tabs.Panel value="second">
+                    <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx" pr="xl">
+                        <Grid>
+                            <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                                <Center>
+                                    <img src={testCollab.logoUrl} width={80}/>
+                                </Center>
+                            </Grid.Col>
+                            <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
+                                <Stack>
+                                <Title order={1} ta="center" hiddenFrom="md" mt="xs">
+                                    {testCollab.name} Collaborative
+                                </Title>
+                                <Text lts="2px" ta="center" c="dimmed" hiddenFrom="md" mb="md">
+                                    {testCollab.name.toUpperCase()} COLLABORATIVE
+                                </Text>
+                                <Title order={1} visibleFrom="md" mt="xs">
+                                    {testCollab.name} Collaborative
+                                </Title>
+                                <Group visibleFrom="md">
+                                    {testProject.approvalStatus === 'Active' ? (
+                                        <Badge variant="light" color="yellow" mb="md">{testProject.approvalStatus}</Badge>
+                                    ) : testProject.approvalStatus === 'Draft' ? (
+                                        <Tooltip
+                                        color="gray"
+                                        label="Pending submission of a completed proposal by the assigned Project Admin"
+                                        multiline
+                                        w={220}
                                         >
-                                        {testProject.adminEmail}
-                                        </Text>
-                                    </div>
-
-                                    <div>
-                                        <Text fz="sm" c="dimmed">
-                                            Created
-                                        </Text>
-                                        <Text fz="md">
-                                            {testProject.createdAt}
-                                        </Text>
-                                    </div>
-
-                                    <div>
-                                        <Text fz="sm" c="dimmed">
-                                            Description
-                                        </Text>
-                                        <Text fz="md" lineClamp={4}>
-                                            {testProject.description}
-                                        </Text>
-                                    </div>
-
-                                    <Group wrap="nowrap" gap={10}>
-                                        <IconAt stroke={1.5} size={18} />
-                                        <a
-                                            href={"https://www.apple.com"}
-                                            style={{ color: '#0077b5', textDecoration: 'none' }}
-                                            target="_blank"
-                                            rel="noopener noreferrer">
-                                            https://www.apple.com
-                                        </a>
-                                    </Group>
-                                    <Group wrap="nowrap" gap={10}>
-                                        <IconMapPin stroke={1.5} size={18} />
-                                        <Text fz="lg">
-                                            Lexington, KY
-                                        </Text>
-                                    </Group>
-
-                                <Group mb="md">
+                                        <Badge variant="light" color="pink" mb="md">{testProject.approvalStatus}</Badge>
+                                        </Tooltip>
+                                    ) : (
+                                        <Badge variant="light" color="pink" mb="md">{testProject.approvalStatus}</Badge>
+                                    )}
+                                    <Text lts="2px" c="dimmed" mb="md">
+                                        {testCollab.name.toUpperCase()} COLLABORATIVE
+                                    </Text>
+                                </Group>
+                                
                                 {testProject.approvalStatus === 'Active' ? (
-                                    <Badge variant="light" color="yellow">{testProject.approvalStatus}</Badge>
+                                    <Center>
+                                    <Badge hiddenFrom="md" variant="light" color="yellow" mb="xl">{testProject.approvalStatus}</Badge>
+                                    </Center>
                                 ) : testProject.approvalStatus === 'Draft' ? (
                                     <Tooltip
                                     color="gray"
@@ -525,131 +370,295 @@ export function Test() {
                                     multiline
                                     w={220}
                                     >
-                                    <Badge variant="light" color="pink">{testProject.approvalStatus}</Badge>
+                                    <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
                                     </Tooltip>
                                 ) : (
-                                    <Badge variant="light" color="pink">{testProject.approvalStatus}</Badge>
+                                    <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
                                 )}
-                                </Group>
-                                </Stack>
-                            </div>
-                            <div>
-                                <Paper shadow="xs" p="lg" radius="md" bg="#fafafa">
+                                <Title order={3} fw={500} c="green" mt="lg" mb="md">
+                                    Revenue Sharing Pool
+                                </Title>
+                                <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                                     <div>
-                                        <Text fz="sm" c="dimmed">
-                                            Project Admin Pay
-                                        </Text>
-                                        <Text fw={500 } fz="xl">
-                                            15 lt 
-                                        </Text>
-                                        <Text fz="sm" c="teal" mb="xl">
-                                            Total Budget * 5%
-                                        </Text>
+                                    <Text fz="md" fw={500}>
+                                        Collaborative Admin Compensation
+                                    </Text>
+                                    <Text fz="xl" c="#222" mb="lg">
+                                        {testCollab.collabAdminCompensationPercent}%
+                                    </Text>
                                     </div>
                                     <div>
-                                        <Text fz="sm" c="dimmed">
-                                            Milestones
-                                        </Text>
-                                        <Text fw={500 } fz="xl" mb="xl">
-                                            250 lt
-                                        </Text>
+                                    <Text fz="md" fw={500} mb="lg">
+                                        Staking Tiers
+                                    </Text>
+                                    <Table variant="vertical" layout="fixed" withTableBorder>
+                                    <Table.Thead>
+                                        <Table.Tr>
+                                            <Table.Th>Duration</Table.Th>
+                                            <Table.Th>Exchange Rate</Table.Th>
+                                        </Table.Tr>
+                                        </Table.Thead>
+                                        <Table.Tbody>
+                                            <Table.Tr>
+                                                <Table.Td>1 year</Table.Td>
+                                                <Table.Td>100%</Table.Td>
+                                            </Table.Tr>
+                                            <Table.Tr>
+                                                <Table.Td>3 years</Table.Td>
+                                                <Table.Td>70%</Table.Td>
+                                            </Table.Tr>
+                                            <Table.Tr>
+                                                <Table.Td>5 years</Table.Td>
+                                                <Table.Td>50%</Table.Td>
+                                            </Table.Tr>
+                                        </Table.Tbody>
+                                    </Table>
+                                    </div>
+                                </SimpleGrid>
+                                <Divider my="lg" />
+                                <Title order={3} fw={500} c="green" mt="md" mb="md">
+                                    Launch Tokens
+                                </Title>
+                                <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
+                                    <div>
+                                    <Text fz="md" fw={500}>
+                                        Next Token Release Date
+                                    </Text>
+                                    <Text fz="xl" c="#222" mb="lg">
+                                        October 6th, 2025
+                                    </Text>
+                                    <Text fz="md" fw={500}>
+                                        Next Token Release
+                                    </Text>
+                                    <Text fz="xl" c="#222" mb="lg">
+                                        900
+                                    </Text>
+                                    <Text fz="md" fw={500}>
+                                        Current Token Release
+                                    </Text>
+                                    <Text fz="xl" c="#222" mb="lg">
+                                        1000
+                                    </Text>
                                     </div>
                                     <div>
-                                        <Text fz="sm" c="dimmed">
-                                            Network Transaction Fees
-                                        </Text>
-                                        <Text fw={500 } fz="xl">
-                                            5.70 lt
-                                        </Text>
-                                        <Text fz="sm" c="teal" mb="xl">
-                                            (Project Admin Pay + Miletones) * 2%
-                                        </Text>
+                                    <Text fz="md" fw={500}>
+                                        Collaborative Admin Compensation (Launch tokens)
+                                    </Text>
+                                    <Text fz="xl" c="#222" mb="lg">
+                                        0
+                                    </Text>
+                                    <Text fz="md" fw={500}>
+                                        Launch Tokens Receivable
+                                    </Text>
+                                    <Text fz="xl" c="#222" mb="lg">
+                                        9000
+                                    </Text>
+                                    <Text fz="md" fw={500}>
+                                        Launch Tokens Balance
+                                    </Text>
+                                    <Text fz="xl" c="#222" mb="lg">
+                                        1000
+                                    </Text>
                                     </div>
-                                    <Group>
-                                        <div>
-                                            <Text fz="sm" c="dimmed">
-                                                Total Tokens Committed
-                                            </Text>
-                                            <Text fw={500 } fz="xl" mb="xl">
-                                                290.70
-                                            </Text>
-                                        </div>
-                                        <div>
-                                            <Text fz="sm" c="dimmed">
-                                                Total Budget
-                                            </Text>
-                                            <Text fw={500 } fz="xl" mb="xl">
-                                                300
-                                            </Text>
-                                        </div>
-                                    </Group>
-                                    <Group mb="xs">
-                                        <Text size="sm" c="dimmed">Budget utilization</Text>
-                                        <Text size="sm" fw={700}>97%</Text>
-                                    </Group>
-                                    <Progress color="teal" value={97} size="lg" radius="xl" />
-                                    <Group mt="xs">
-                                        <Text size="sm" c="dimmed">Remaining</Text>
-                                        <Text size="sm" fw={700}>9 tokens</Text>
-                                    </Group>
-                                </Paper>
+                                    <div>
+                                    </div>
+                                </SimpleGrid>
+                                <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
+                                    <div>
+                                        <Stack>
+                                            <div>
+                                                <Text fz="sm" c="dimmed">
+                                                    Admin
+                                                </Text>
+                                                <Text fz="md">
+                                                {testProject.adminName}
+                                                </Text>
+                                                <Text 
+                                                fz="sm" 
+                                                c="#0077b5"
+                                                component="a"
+                                                href={`mailto:${testProject.adminEmail}`}
+                                                style={{
+                                                    textDecoration: 'none',
+                                                    transition: 'color 0.2s ease'
+                                                }}
+                                                >
+                                                {testProject.adminEmail}
+                                                </Text>
+                                            </div>
 
-                                {/* Compact budget overview: stat cards + progress */}
-                                <Text fw={500} mb="md">Project Budget Overview (tokens)</Text>
-                                {(() => {
-                                    const totalCommitted = Number((testProject.adminPay + testProject.sumMilestonesAllocatedLaunchTokens) || 0) + Number(testProject.sumMilestonesAllocatedLaunchTokens || 0);
-                                    const budget = Number(testProject.budget || 0) || 1;
-                                    const pctUsed = Math.min(100, (totalCommitted / budget) * 100);
-                                    return (
-                                        <>
+                                            <div>
+                                                <Text fz="sm" c="dimmed">
+                                                    Created
+                                                </Text>
+                                                <Text fz="md">
+                                                    {testProject.createdAt}
+                                                </Text>
+                                            </div>
 
-                                            <Card shadow="xs" radius="md" p="md">
-                                                <Text size="xs" c="dimmed">Admin Pay</Text>
-                                                <Text fw={700} mt={4}>{Number(testProject.adminPay || 0).toLocaleString()} tokens</Text>
-                                                <Text size="xs" c="dimmed" mt={6}>{((testProject.adminPay / testProject.budget) * 100).toFixed(1)}% of budget</Text>
-                                            </Card>
+                                            <div>
+                                                <Text fz="sm" c="dimmed">
+                                                    Description
+                                                </Text>
+                                                <Text fz="md" lineClamp={4}>
+                                                    {testProject.description}
+                                                </Text>
+                                            </div>
 
-                                            <Card shadow="xs" radius="md" p="md">
-                                                <Text size="xs" c="dimmed">Milestones</Text>
-                                                <Text fw={700} mt={4}>{Number(testProject.sumMilestonesAllocatedLaunchTokens || 0).toLocaleString()} tokens</Text>
-                                                <Text size="xs" c="dimmed" mt={6}>Committed to milestones</Text>
-                                            </Card>
+                                            <Group wrap="nowrap" gap={10}>
+                                                <IconAt stroke={1.5} size={18} />
+                                                <a
+                                                    href={"https://www.apple.com"}
+                                                    style={{ color: '#0077b5', textDecoration: 'none' }}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer">
+                                                    https://www.apple.com
+                                                </a>
+                                            </Group>
+                                            <Group wrap="nowrap" gap={10}>
+                                                <IconMapPin stroke={1.5} size={18} />
+                                                <Text fz="lg">
+                                                    Lexington, KY
+                                                </Text>
+                                            </Group>
 
-                                            <Card shadow="xs" radius="md" p="md">
-                                                <Text size="xs" c="dimmed">Network Fees</Text>
-                                                <Text fw={700} mt={4}>0.50 tokens</Text>
-                                                <Text size="xs" c="dimmed" mt={6}>{(testProject.networkTransactionFee * 100).toFixed(2)}% of committed</Text>
-                                            </Card>
-
-                                            <Card shadow="xs" radius="md" p="md">
-                                                <Text size="xs" c="dimmed">Total Committed</Text>
-                                                <Text fw={700} mt={4}>{totalCommitted.toFixed(2)} tokens</Text>
-                                                <Text size="xs" c="dimmed" mt={6}>of {budget.toLocaleString()} budget</Text>
-                                            </Card>
-
-                                            <Card p="md" shadow="xs" radius="md">
+                                        <Group mb="md">
+                                        {testProject.approvalStatus === 'Active' ? (
+                                            <Badge variant="light" color="yellow">{testProject.approvalStatus}</Badge>
+                                        ) : testProject.approvalStatus === 'Draft' ? (
+                                            <Tooltip
+                                            color="gray"
+                                            label="Pending submission of a completed proposal by the assigned Project Admin"
+                                            multiline
+                                            w={220}
+                                            >
+                                            <Badge variant="light" color="pink">{testProject.approvalStatus}</Badge>
+                                            </Tooltip>
+                                        ) : (
+                                            <Badge variant="light" color="pink">{testProject.approvalStatus}</Badge>
+                                        )}
+                                        </Group>
+                                        </Stack>
+                                    </div>
+                                    <div>
+                                        <Paper shadow="xs" p="lg" radius="md" bg="#fafafa">
+                                            <div>
+                                                <Text fz="sm" c="dimmed">
+                                                    Project Admin Pay
+                                                </Text>
+                                                <Text fw={500 } fz="xl">
+                                                    15 lt 
+                                                </Text>
+                                                <Text fz="sm" c="teal" mb="xl">
+                                                    Total Budget * 5%
+                                                </Text>
+                                            </div>
+                                            <div>
+                                                <Text fz="sm" c="dimmed">
+                                                    Milestones
+                                                </Text>
+                                                <Text fw={500 } fz="xl" mb="xl">
+                                                    250 lt
+                                                </Text>
+                                            </div>
+                                            <div>
+                                                <Text fz="sm" c="dimmed">
+                                                    Network Transaction Fees
+                                                </Text>
+                                                <Text fw={500 } fz="xl">
+                                                    5.70 lt
+                                                </Text>
+                                                <Text fz="sm" c="teal" mb="xl">
+                                                    (Project Admin Pay + Miletones) * 2%
+                                                </Text>
+                                            </div>
+                                            <Group>
+                                                <div>
+                                                    <Text fz="sm" c="dimmed">
+                                                        Total Tokens Committed
+                                                    </Text>
+                                                    <Text fw={500 } fz="xl" mb="xl">
+                                                        290.70
+                                                    </Text>
+                                                </div>
+                                                <div>
+                                                    <Text fz="sm" c="dimmed">
+                                                        Total Budget
+                                                    </Text>
+                                                    <Text fw={500 } fz="xl" mb="xl">
+                                                        300
+                                                    </Text>
+                                                </div>
+                                            </Group>
                                             <Group mb="xs">
                                                 <Text size="sm" c="dimmed">Budget utilization</Text>
-                                                <Text size="sm" fw={700}>{pctUsed.toFixed(0)}%</Text>
+                                                <Text size="sm" fw={700}>97%</Text>
                                             </Group>
-                                            <Progress value={pctUsed} size="lg" radius="xl" />
+                                            <Progress color="teal" value={97} size="lg" radius="xl" />
                                             <Group mt="xs">
                                                 <Text size="sm" c="dimmed">Remaining</Text>
-                                                <Text size="sm" fw={700}>{Math.max(0, (budget - totalCommitted)).toLocaleString()} tokens</Text>
+                                                <Text size="sm" fw={700}>9 tokens</Text>
                                             </Group>
-                                            </Card>
-                                        </>
-                                    );
-                                })()}
-                            </div>
-                            </SimpleGrid>
-                            
-                        </Stack>
-                    </Grid.Col>
-                    <Grid.Col span={1}>
-                    </Grid.Col>
-                </Grid>
-            </Card>
+                                        </Paper>
+
+                                        {/* Compact budget overview: stat cards + progress */}
+                                        <Text fw={500} mb="md">Project Budget Overview (tokens)</Text>
+                                        {(() => {
+                                            const totalCommitted = Number((testProject.adminPay + testProject.sumMilestonesAllocatedLaunchTokens) || 0) + Number(testProject.sumMilestonesAllocatedLaunchTokens || 0);
+                                            const budget = Number(testProject.budget || 0) || 1;
+                                            const pctUsed = Math.min(100, (totalCommitted / budget) * 100);
+                                            return (
+                                                <>
+
+                                                    <Card shadow="xs" radius="md" p="md">
+                                                        <Text size="xs" c="dimmed">Admin Pay</Text>
+                                                        <Text fw={700} mt={4}>{Number(testProject.adminPay || 0).toLocaleString()} tokens</Text>
+                                                        <Text size="xs" c="dimmed" mt={6}>{((testProject.adminPay / testProject.budget) * 100).toFixed(1)}% of budget</Text>
+                                                    </Card>
+
+                                                    <Card shadow="xs" radius="md" p="md">
+                                                        <Text size="xs" c="dimmed">Milestones</Text>
+                                                        <Text fw={700} mt={4}>{Number(testProject.sumMilestonesAllocatedLaunchTokens || 0).toLocaleString()} tokens</Text>
+                                                        <Text size="xs" c="dimmed" mt={6}>Committed to milestones</Text>
+                                                    </Card>
+
+                                                    <Card shadow="xs" radius="md" p="md">
+                                                        <Text size="xs" c="dimmed">Network Fees</Text>
+                                                        <Text fw={700} mt={4}>0.50 tokens</Text>
+                                                        <Text size="xs" c="dimmed" mt={6}>{(testProject.networkTransactionFee * 100).toFixed(2)}% of committed</Text>
+                                                    </Card>
+
+                                                    <Card shadow="xs" radius="md" p="md">
+                                                        <Text size="xs" c="dimmed">Total Committed</Text>
+                                                        <Text fw={700} mt={4}>{totalCommitted.toFixed(2)} tokens</Text>
+                                                        <Text size="xs" c="dimmed" mt={6}>of {budget.toLocaleString()} budget</Text>
+                                                    </Card>
+
+                                                    <Card p="md" shadow="xs" radius="md">
+                                                    <Group mb="xs">
+                                                        <Text size="sm" c="dimmed">Budget utilization</Text>
+                                                        <Text size="sm" fw={700}>{pctUsed.toFixed(0)}%</Text>
+                                                    </Group>
+                                                    <Progress value={pctUsed} size="lg" radius="xl" />
+                                                    <Group mt="xs">
+                                                        <Text size="sm" c="dimmed">Remaining</Text>
+                                                        <Text size="sm" fw={700}>{Math.max(0, (budget - totalCommitted)).toLocaleString()} tokens</Text>
+                                                    </Group>
+                                                    </Card>
+                                                </>
+                                            );
+                                        })()}
+                                    </div>
+                                    </SimpleGrid>
+                                    
+                                </Stack>
+                            </Grid.Col>
+                            <Grid.Col span={1}>
+                            </Grid.Col>
+                        </Grid>
+                    </Card>
+                </Tabs.Panel>
+            </Tabs>
 
             <Title order={2} lts="4px" c="dimmed">
                 COLLABORATIVE VALUE EXCHANGE

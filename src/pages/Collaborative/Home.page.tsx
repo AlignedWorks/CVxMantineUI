@@ -196,19 +196,34 @@ export function CollaborativeHome() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={1} ta="center" hiddenFrom="sm" mt="xs">
+              <Title order={2} ta="center" hiddenFrom="sm" mt="xs">
                 {collaborative.name} Collaborative
               </Title>
               <Title order={1} visibleFrom="sm" mt="xs" >
                 {collaborative.name} Collaborative
               </Title>
 
+              {/* Center status badge on small screens */}
               {collaborative.approvalStatus === 'Active' ? (
-                <Badge variant="light" color="yellow" mb="xl">
+                <Center>
+                  <Badge hiddenFrom="md" variant="light" color="yellow" mb="xl">
+                      {collaborative.approvalStatus}
+                  </Badge>
+                </Center>
+              ) : (
+                <Center>
+                  <Badge hiddenFrom="md" variant="light" color="pink" mb="xl">
+                      {collaborative.approvalStatus}
+                  </Badge>
+                </Center>
+              )}
+
+              {collaborative.approvalStatus === 'Active' ? (
+                <Badge visibleFrom="md" variant="light" color="yellow" mb="xl">
                     {collaborative.approvalStatus}
                 </Badge>
               ) : (
-                <Badge variant="light" color="pink" mb="xl">
+                <Badge visibleFrom="md" variant="light" color="pink" mb="xl">
                     {collaborative.approvalStatus}
                 </Badge>
               )}

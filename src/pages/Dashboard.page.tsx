@@ -17,7 +17,8 @@ import {
   Modal,
   TextInput,
   Textarea,
-  Center
+  Center,
+  Tabs
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { 
@@ -65,6 +66,7 @@ export function Dashboard() {
   const [inviteModalOpen, setInviteModalOpen] = useState(false); // State to control modal visibility
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteError, setInviteError] = useState('');
+  const [activeTab, setActiveTab] = useState<string | null>('first');
   const { user } = useAuth();
   // const [loading, setLoading] = useState(true);
 
@@ -422,53 +424,513 @@ export function Dashboard() {
         </Group>
         )}
 
+        <Tabs value={activeTab} onChange={setActiveTab}>
+          <Tabs.List>
+            <Tabs.Tab value="first">Notifications</Tabs.Tab>
+            <Tabs.Tab value="second">Collaboratives</Tabs.Tab>
+            <Tabs.Tab value="third">Projects</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="first">
+            {collabsNeedingApproval?.map((collab) => (
+              <Card 
+                key={`${collab.id}`}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                mt="lg"
+                mb="lg">
+                  <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                      <Center>
+                        <img src={collab.logoUrl} alt="Collaborative Logo" width={60} />
+                      </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                      <Text>
+                        The <strong><Link to={`/collaboratives/${collab.id}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{collab.name}</Link></strong> collaborative is ready for your approval.
+                      </Text>
+
+                      {/* If this collab is being declined, show the reason textarea here (second column) */}
+                      {decliningCollabId === collab.id && (
+                        <Textarea
+                          mt="sm"
+                          label="Reason for decline"
+                          placeholder="Provide a brief reason for declining this collaborative"
+                          value={collabDeclineReasons[collab.id] ?? ''}
+                          onChange={(e) => handleDeclineReasonChange(collab.id, 'collab', e.currentTarget.value)}
+                        />
+                      )}
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleCollabApproval(collab.id,'approve')}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant="default"
+                        ml="md"
+                        onClick={() => handleInitiateDecline(collab.id, 'collab')}
+                      >
+                        Decline
+                      </Button>
+
+                      {decliningCollabId === collab.id ? (
+                        <Button
+                          color="red"
+                          variant="outline"
+                          mt="lg"
+                          onClick={() => handleCollabApproval(collab.id,'decline')}
+                        >
+                          Submit Decline
+                        </Button>
+                      ) : null}
+                    </Grid.Col>
+                  </Grid>
+              </Card>
+            ))}
+
+            {collabInvites?.map((invite) => (
+              <Card 
+                key={`${invite.userId}-${invite.collabId}`}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                mt="lg"
+                mb="lg">
+                  <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                      <Center>
+                        <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                      </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                      <Text>
+                        You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                      </Text>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
+                          Accept
+                      </Button>
+                      <Button
+                        variant="default"
+                        onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
+                        ml="md">
+                          Decline
+                      </Button>
+                    </Grid.Col>
+                  </Grid>
+              </Card>
+            ))}
+
+            {projectsNeedingApproval?.map((project) => (
+              <Card 
+                key={`${project.id}`}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                mt="lg"
+                mb="lg">
+                  <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                      <Center>
+                        <img src={project.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                      </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                      <Text>
+                        The <strong><Link to={`/collaboratives/${project.collabId}/projects/${project.id}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{project.name}</Link></strong> project of the <strong>{project.collabName}</strong> collaborative is ready for your approval.
+                        <br/><br/>
+                        This means looking through the project's member list and milestones to make sure you agree with the project's people, work assigned and launch token allocation.
+                      </Text>
+
+                      {/* If this project is being declined, show the reason textarea here (second column) */}
+                      {decliningProjectId === project.id && (
+                        <Textarea
+                          mt="sm"
+                          label="Reason for decline"
+                          placeholder="Provide a brief reason for declining this project"
+                          value={projectDeclineReasons[project.id] ?? ''}
+                          onChange={(e) => handleDeclineReasonChange(project.id, 'project', e.currentTarget.value)}
+                        />
+                      )}
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleProjectApproval(project.id, project.userId, 'approve')}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant="default"
+                        ml="md"
+                        onClick={() => handleInitiateDecline(project.id, 'project')}
+                      >
+                        Decline
+                      </Button>
+
+                      {decliningProjectId === project.id ? (
+                        <Button
+                          color="red"
+                          variant="outline"
+                          mt="lg"
+                          onClick={() => handleProjectApproval(project.id, project.userId, 'decline')}
+                        >
+                          Submit Decline
+                        </Button>
+                      ) : null}
+                    </Grid.Col>
+                  </Grid>
+              </Card>
+            ))}
+
+            {projectInvites?.map((invite) => (
+              <Card 
+                key={`${invite.userId}-${invite.projectId}`}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                mt="lg"
+                mb="lg">
+                  <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                      <Center>
+                        <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                      </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                      <Text>
+                        You've been invited to join the project<br/><strong><Link to={`/collaboratives/${invite.collabId}/projects/${invite.projectId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.projectName}</Link></strong> as a <strong>{invite.userRole}</strong>.
+                      </Text>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'accept')}>
+                          Accept
+                      </Button>
+                      <Button
+                        variant="default"
+                        onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'decline')}
+                        ml="md">
+                          Decline
+                      </Button>
+                    </Grid.Col>
+                  </Grid>
+              </Card>
+            ))}
+
+            {milestoneAssignments?.map((assignment) => (
+              <Card 
+                key={`${assignment.id}`}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                mt="lg"
+                mb="lg">
+                  <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                      <Center>
+                        <img src={assignment.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                      </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                      <Stack gap="xs">
+                        <Text size="lg" fw={500}>
+                          Milestone: <Text component="span" fw={400}>{assignment.name}</Text>
+                        </Text>
+                        <Text size="sm" c="dimmed">
+                          Project: {assignment.projectName} • Collaborative: {assignment.collabName}
+                        </Text>
+                        <Text size="sm" mt="sm">
+                          <strong>Task:</strong> {assignment.description || 'No description provided'}
+                        </Text>
+                        <Group gap="lg" mt="xs">
+                          <Text size="sm">
+                            <strong>Launch Tokens:</strong> {assignment.launchTokens}
+                          </Text>
+                          <Text size="sm">
+                            <strong>Due Date:</strong> {new Date(assignment.dueDate).toLocaleDateString()}
+                          </Text>
+                        </Group>
+                      </Stack>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleMilestoneAssignment(assignment.id, 'accept')}>
+                          Accept
+                      </Button>
+                      <Button
+                        variant="default"
+                        onClick={() => handleMilestoneAssignment(assignment.id, 'decline')}
+                        ml="md">
+                          Decline
+                      </Button>
+                    </Grid.Col>
+                  </Grid>
+              </Card>
+            ))}
+
+            {milestoneCompletions?.map((completion) => (
+              <Card 
+                key={`${completion.id}`}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                mt="lg"
+                mb="lg">
+                  <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                      <Center>
+                        <img src={completion.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                      </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
+                      <Stack gap="xs" align="flex-start">
+                        <Text size="lg" fw={500}>
+                          Milestone: <Text component="span" fw={400}>{completion.name}</Text>
+                        </Text>
+                        <Text size="sm" c="dimmed">
+                          Project: {completion.projectName} • Collaborative: {completion.collabName}
+                        </Text>
+                        <Text size="sm" mt="sm">
+                          This milestone has been marked complete and is awaiting your approval.
+                        </Text>
+                        <Button
+                          component={Link}
+                          to={`/collaboratives/${completion.collabId}/projects/${completion.projectId}/milestones`}
+                          state={{ openMilestoneId: completion.id, from: location.pathname }}
+                          variant="outline">
+                            Review Milestone
+                        </Button>
+                      </Stack>
+                    </Grid.Col>
+                  </Grid>
+              </Card>
+            ))}
+
+            {csaApprovalRequests?.map((csaAR) => (
+              <Card 
+                key={`${csaAR.userId}-${csaAR.collabId}`}
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                mt="lg"
+                mb="lg">
+                  <Grid>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+                      <Center>
+                        <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
+                      </Center>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
+                      <Text>
+                        To become an active member of the <strong>{csaAR.collabName}</strong><br/>collaborative please click the button on the right.
+                      </Text>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
+                      <Button 
+                          component={Link} 
+                          to={`/collaboratives/${csaAR.collabId}/csa-agreement?userId=${csaAR.userId}`}
+                          state={{ from: location.pathname }}
+                          variant="default"
+                          mb="sm"
+                        >
+                          Read and Accept CSA
+                        </Button>
+                    </Grid.Col>
+                  </Grid>
+              </Card>
+            ))}
+
+            {user?.memberStatus === 'Network Admin' && Array.isArray(userApprovals) && userApprovals.length > 0 && (
+              <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
+                  Approve users
+              </Title>
+            )}
+
+            {userApprovals?.map((user) => (
+              <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
+                <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
+                  <div>
+                    <Grid>
+                      <Grid.Col span={4}>
+                        <Avatar src={user.avatarUrl} size={60} radius="xl" mx="auto"/>
+                      </Grid.Col>
+                      <Grid.Col span={8}>
+                        <Text fz="lg" fw={500} 
+                          style={{ 
+                            color: '#0077b5', 
+                            cursor: 'pointer',
+                            textDecoration: 'none'
+                          }}
+                          component={Link}
+                          to={`/members/${user.id}`}
+                          state={{ from: location.pathname }}
+                          >
+                          {user.firstName} {user.lastName}
+                        </Text>
+                        <br/>
+                        <Text 
+                          fz="sm" 
+                          c="dimmed"
+                          component="a"
+                          href={`mailto:${user.username}`}
+                          style={{
+                            textDecoration: 'none',
+                            transition: 'color 0.2s ease'
+                          }}
+                        >
+                          {user.username}
+                        </Text>
+                        <br/>
+                        <Text size="sm" c="dimmed">
+                          {user.linkedIn && user.linkedIn.trim() !== '' ? (
+                            <a
+                              href={user.linkedIn}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: "#0077b5", textDecoration: "none" }}
+                            >
+                              LinkedIn
+                            </a>
+                          ) : (
+                            "No LinkedIn provided"
+                          )}
+                        </Text>
+                      </Grid.Col>
+                    </Grid>
+                  </div>
+                  <div>
+                    <Text fw={500}>
+                        Bio
+                    </Text>
+                    <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
+                      <Text
+                          size="sm"
+                          style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 4, // Limit to 4 lines
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          minHeight: '3.6em', // Ensure consistent height for 3 lines of text
+                          lineHeight: '1.2em', // Adjust line height to match the text
+                          }}
+                      >
+                          {user.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
+                      </Text>
+                    </Tooltip>
+                  </div>
+                  <div>
+
+                  {user.memberStatus.length > 0 && (
+                    <Select
+                      label="User Status"
+                      data={rolesData}
+                      value={selectedRoles[user.id] || user.memberStatus} // Use the temporary state or fallback to the current role
+                      allowDeselect={false}
+                      onChange={(value) => handleRoleChange(user.id, value)}
+                    />
+                  )}
+
+                  {selectedRoles[user.id] === 'Denied Applicant' && (
+                    <Textarea
+                      label="Reason for denial"
+                      placeholder="Provide a brief reason for denying this applicant"
+                      mt="sm"
+                      value={denialReasons[user.id] || ''}
+                      onChange={(e) => handleDenialReasonChange(user.id, e.currentTarget.value)}
+                    />
+                  )}
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    mt="sm"
+                    onClick={() => handleSubmitRoleChange(user.id)} // Submit the role change
+                  >
+                    Submit
+                  </Button>
+                    {submittedUsers[user.id] && (
+                      <Text size="sm" c="green" mt="xs">
+                        Role updated successfully!
+                      </Text>
+                    )}
+                  </div>        
+                </SimpleGrid>
+              </Card>
+            ))}
+          </Tabs.Panel>
+          <Tabs.Panel value="second">
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
+              {collabs?.map((collab) => (
+                <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
+                  <Stack align="center" gap="0" style={{ height: '100%' }}>
+
+                      <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
+                      <Text ta="center" fz="lg" fw={500} mt="md">
+                          {collab.name}
+                      </Text>
+                      <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
+                        <Text lineClamp={3} ta="center" c="dimmed" size="sm">
+                            {collab.description}
+                        </Text>
+                      </Tooltip>
+                      <Badge 
+                        color={
+                          collab.status === 'Active' ? 'green' : 
+                          collab.status === 'Submitted' ? 'yellow' : 
+                          'pink'
+                        } 
+                        variant="light" 
+                        mt="sm" 
+                        mb="lg"
+                      >
+                        {collab.status}
+                      </Badge>
+                    
+                    <Link
+                      to={`/collaboratives/${collab.id}`}
+                      state={{ from: location.pathname }}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        display: 'flex', // Make the Link a flex container
+                        flexDirection: 'column', // Ensure the button aligns properly
+                        marginTop: 'auto', // Push the button to the bottom
+                      }}
+                    >
+                      <Button variant="outline" size="sm">View Collaborative</Button>
+                    </Link>
+                  </Stack>
+                </Card>
+              ))}
+            </SimpleGrid>
+          </Tabs.Panel>
+          <Tabs.Panel value="third">
+            Second panel
+          </Tabs.Panel>
+        </Tabs>
+
         <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
           My Collaboratives
         </Title>
-        <SimpleGrid cols={{ base: 1, sm: 2, md: 2, lg: 3, xl: 3 }} spacing="xl">
-          {collabs?.map((collab) => (
-            <Card key={collab.id} shadow="sm" padding="lg" radius="md" withBorder>
-              <Stack align="center" gap="0" style={{ height: '100%' }}>
-
-                  <img src={collab.logoUrl} alt="Collaborative Logo" height={90} />
-                  <Text ta="center" fz="lg" fw={500} mt="md">
-                      {collab.name}
-                  </Text>
-                  <Tooltip label={collab.description || 'No description available'} multiline w={300} color="gray">
-                    <Text lineClamp={3} ta="center" c="dimmed" size="sm">
-                        {collab.description}
-                    </Text>
-                  </Tooltip>
-                  <Badge 
-                    color={
-                      collab.status === 'Active' ? 'green' : 
-                      collab.status === 'Submitted' ? 'yellow' : 
-                      'pink'
-                    } 
-                    variant="light" 
-                    mt="sm" 
-                    mb="lg"
-                  >
-                    {collab.status}
-                  </Badge>
-                
-                <Link
-                  to={`/collaboratives/${collab.id}`}
-                  state={{ from: location.pathname }}
-                  style={{
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    display: 'flex', // Make the Link a flex container
-                    flexDirection: 'column', // Ensure the button aligns properly
-                    marginTop: 'auto', // Push the button to the bottom
-                  }}
-                >
-                  <Button variant="outline" size="sm">View Collaborative</Button>
-                </Link>
-              </Stack>
-            </Card>
-          ))}
-        </SimpleGrid>
+        
         
         {user?.memberStatus === 'Network Admin' && (
         <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
@@ -476,449 +938,7 @@ export function Dashboard() {
         </Title>
         )}
 
-        {collabsNeedingApproval?.map((collab) => (
-          <Card 
-            key={`${collab.id}`}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            mt="lg"
-            mb="lg">
-              <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                  <Center>
-                    <img src={collab.logoUrl} alt="Collaborative Logo" width={60} />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
-                  <Text>
-                    The <strong><Link to={`/collaboratives/${collab.id}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{collab.name}</Link></strong> collaborative is ready for your approval.
-                  </Text>
 
-                  {/* If this collab is being declined, show the reason textarea here (second column) */}
-                  {decliningCollabId === collab.id && (
-                    <Textarea
-                      mt="sm"
-                      label="Reason for decline"
-                      placeholder="Provide a brief reason for declining this collaborative"
-                      value={collabDeclineReasons[collab.id] ?? ''}
-                      onChange={(e) => handleDeclineReasonChange(collab.id, 'collab', e.currentTarget.value)}
-                    />
-                  )}
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleCollabApproval(collab.id,'approve')}
-                  >
-                    Approve
-                  </Button>
-                  <Button
-                    variant="default"
-                    ml="md"
-                    onClick={() => handleInitiateDecline(collab.id, 'collab')}
-                  >
-                    Decline
-                  </Button>
-
-                  {decliningCollabId === collab.id ? (
-                    <Button
-                      color="red"
-                      variant="outline"
-                      mt="lg"
-                      onClick={() => handleCollabApproval(collab.id,'decline')}
-                    >
-                      Submit Decline
-                    </Button>
-                  ) : null}
-                </Grid.Col>
-              </Grid>
-          </Card>
-        ))}
-
-        {collabInvites?.map((invite) => (
-          <Card 
-            key={`${invite.userId}-${invite.collabId}`}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            mt="lg"
-            mb="lg">
-              <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                  <Center>
-                    <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
-                  <Text>
-                    You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'accept')}>
-                      Accept
-                  </Button>
-                  <Button
-                    variant="default"
-                    onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
-                    ml="md">
-                      Decline
-                  </Button>
-                </Grid.Col>
-              </Grid>
-          </Card>
-        ))}
-
-        {projectsNeedingApproval?.map((project) => (
-          <Card 
-            key={`${project.id}`}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            mt="lg"
-            mb="lg">
-              <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                  <Center>
-                    <img src={project.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
-                  <Text>
-                    The <strong><Link to={`/collaboratives/${project.collabId}/projects/${project.id}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{project.name}</Link></strong> project of the <strong>{project.collabName}</strong> collaborative is ready for your approval.
-                    <br/><br/>
-                    This means looking through the project's member list and milestones to make sure you agree with the project's people, work assigned and launch token allocation.
-                  </Text>
-
-                  {/* If this project is being declined, show the reason textarea here (second column) */}
-                  {decliningProjectId === project.id && (
-                    <Textarea
-                      mt="sm"
-                      label="Reason for decline"
-                      placeholder="Provide a brief reason for declining this project"
-                      value={projectDeclineReasons[project.id] ?? ''}
-                      onChange={(e) => handleDeclineReasonChange(project.id, 'project', e.currentTarget.value)}
-                    />
-                  )}
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleProjectApproval(project.id, project.userId, 'approve')}
-                  >
-                    Approve
-                  </Button>
-                  <Button
-                    variant="default"
-                    ml="md"
-                    onClick={() => handleInitiateDecline(project.id, 'project')}
-                  >
-                    Decline
-                  </Button>
-
-                  {decliningProjectId === project.id ? (
-                    <Button
-                      color="red"
-                      variant="outline"
-                      mt="lg"
-                      onClick={() => handleProjectApproval(project.id, project.userId, 'decline')}
-                    >
-                      Submit Decline
-                    </Button>
-                  ) : null}
-                </Grid.Col>
-              </Grid>
-          </Card>
-        ))}
-
-        {projectInvites?.map((invite) => (
-          <Card 
-            key={`${invite.userId}-${invite.projectId}`}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            mt="lg"
-            mb="lg">
-              <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                  <Center>
-                    <img src={invite.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
-                  <Text>
-                    You've been invited to join the project<br/><strong><Link to={`/collaboratives/${invite.collabId}/projects/${invite.projectId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.projectName}</Link></strong> as a <strong>{invite.userRole}</strong>.
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'accept')}>
-                      Accept
-                  </Button>
-                  <Button
-                    variant="default"
-                    onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'decline')}
-                    ml="md">
-                      Decline
-                  </Button>
-                </Grid.Col>
-              </Grid>
-          </Card>
-        ))}
-
-        {milestoneAssignments?.map((assignment) => (
-          <Card 
-            key={`${assignment.id}`}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            mt="lg"
-            mb="lg">
-              <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                  <Center>
-                    <img src={assignment.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
-                  <Stack gap="xs">
-                    <Text size="lg" fw={500}>
-                      Milestone: <Text component="span" fw={400}>{assignment.name}</Text>
-                    </Text>
-                    <Text size="sm" c="dimmed">
-                      Project: {assignment.projectName} • Collaborative: {assignment.collabName}
-                    </Text>
-                    <Text size="sm" mt="sm">
-                      <strong>Task:</strong> {assignment.description || 'No description provided'}
-                    </Text>
-                    <Group gap="lg" mt="xs">
-                      <Text size="sm">
-                        <strong>Launch Tokens:</strong> {assignment.launchTokens}
-                      </Text>
-                      <Text size="sm">
-                        <strong>Due Date:</strong> {new Date(assignment.dueDate).toLocaleDateString()}
-                      </Text>
-                    </Group>
-                  </Stack>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleMilestoneAssignment(assignment.id, 'accept')}>
-                      Accept
-                  </Button>
-                  <Button
-                    variant="default"
-                    onClick={() => handleMilestoneAssignment(assignment.id, 'decline')}
-                    ml="md">
-                      Decline
-                  </Button>
-                </Grid.Col>
-              </Grid>
-          </Card>
-        ))}
-
-        {milestoneCompletions?.map((completion) => (
-          <Card 
-            key={`${completion.id}`}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            mt="lg"
-            mb="lg">
-              <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                  <Center>
-                    <img src={completion.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
-                  <Stack gap="xs" align="flex-start">
-                    <Text size="lg" fw={500}>
-                      Milestone: <Text component="span" fw={400}>{completion.name}</Text>
-                    </Text>
-                    <Text size="sm" c="dimmed">
-                      Project: {completion.projectName} • Collaborative: {completion.collabName}
-                    </Text>
-                    <Text size="sm" mt="sm">
-                      This milestone has been marked complete and is awaiting your approval.
-                    </Text>
-                    <Button
-                      component={Link}
-                      to={`/collaboratives/${completion.collabId}/projects/${completion.projectId}/milestones`}
-                      state={{ openMilestoneId: completion.id, from: location.pathname }}
-                      variant="outline">
-                        Review Milestone
-                    </Button>
-                  </Stack>
-                </Grid.Col>
-              </Grid>
-          </Card>
-        ))}
-
-        {csaApprovalRequests?.map((csaAR) => (
-          <Card 
-            key={`${csaAR.userId}-${csaAR.collabId}`}
-            shadow="sm"
-            padding="lg"
-            radius="md"
-            withBorder
-            mt="lg"
-            mb="lg">
-              <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                  <Center>
-                    <img src={csaAR.collabLogoUrl} alt="Collaborative Logo" width={60} />
-                  </Center>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 7, lg: 7 }}>
-                  <Text>
-                    To become an active member of the <strong>{csaAR.collabName}</strong><br/>collaborative please click the button on the right.
-                  </Text>
-                </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
-                  <Button 
-                      component={Link} 
-                      to={`/collaboratives/${csaAR.collabId}/csa-agreement?userId=${csaAR.userId}`}
-                      state={{ from: location.pathname }}
-                      variant="default"
-                      mb="sm"
-                    >
-                      Read and Accept CSA
-                    </Button>
-                </Grid.Col>
-              </Grid>
-          </Card>
-        ))}
-
-        {user?.memberStatus === 'Network Admin' && Array.isArray(userApprovals) && userApprovals.length > 0 && (
-          <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
-              Approve users
-          </Title>
-        )}
-
-        {userApprovals?.map((user) => (
-          <Card key={user.id} shadow="sm" radius="md" mt="xl" withBorder>
-            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
-              <div>
-                <Grid>
-                  <Grid.Col span={4}>
-                    <Avatar src={user.avatarUrl} size={60} radius="xl" mx="auto"/>
-                  </Grid.Col>
-                  <Grid.Col span={8}>
-                    <Text fz="lg" fw={500} 
-                      style={{ 
-                        color: '#0077b5', 
-                        cursor: 'pointer',
-                        textDecoration: 'none'
-                      }}
-                      component={Link}
-                      to={`/members/${user.id}`}
-                      state={{ from: location.pathname }}
-                      >
-                      {user.firstName} {user.lastName}
-                    </Text>
-                    <br/>
-                    <Text 
-                      fz="sm" 
-                      c="dimmed"
-                      component="a"
-                      href={`mailto:${user.username}`}
-                      style={{
-                        textDecoration: 'none',
-                        transition: 'color 0.2s ease'
-                      }}
-                    >
-                      {user.username}
-                    </Text>
-                    <br/>
-                    <Text size="sm" c="dimmed">
-                      {user.linkedIn && user.linkedIn.trim() !== '' ? (
-                        <a
-                          href={user.linkedIn}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: "#0077b5", textDecoration: "none" }}
-                        >
-                          LinkedIn
-                        </a>
-                      ) : (
-                        "No LinkedIn provided"
-                      )}
-                    </Text>
-                  </Grid.Col>
-                </Grid>
-              </div>
-              <div>
-                <Text fw={500}>
-                    Bio
-                </Text>
-                <Tooltip label={user.bio || 'No bio available'} multiline w={300} position="bottom" color="gray">
-                  <Text
-                      size="sm"
-                      style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: 4, // Limit to 4 lines
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      minHeight: '3.6em', // Ensure consistent height for 3 lines of text
-                      lineHeight: '1.2em', // Adjust line height to match the text
-                      }}
-                  >
-                      {user.bio || '\u00A0\u00A0\u00A0'} {/* Render empty space if no bio */}
-                  </Text>
-                </Tooltip>
-              </div>
-              <div>
-
-              {user.memberStatus.length > 0 && (
-                <Select
-                  label="User Status"
-                  data={rolesData}
-                  value={selectedRoles[user.id] || user.memberStatus} // Use the temporary state or fallback to the current role
-                  allowDeselect={false}
-                  onChange={(value) => handleRoleChange(user.id, value)}
-                />
-              )}
-
-              {selectedRoles[user.id] === 'Denied Applicant' && (
-                <Textarea
-                  label="Reason for denial"
-                  placeholder="Provide a brief reason for denying this applicant"
-                  mt="sm"
-                  value={denialReasons[user.id] || ''}
-                  onChange={(e) => handleDenialReasonChange(user.id, e.currentTarget.value)}
-                />
-              )}
-              
-              <Button
-                variant="outline"
-                size="sm"
-                mt="sm"
-                onClick={() => handleSubmitRoleChange(user.id)} // Submit the role change
-              >
-                Submit
-              </Button>
-                {submittedUsers[user.id] && (
-                  <Text size="sm" c="green" mt="xs">
-                    Role updated successfully!
-                  </Text>
-                )}
-              </div>        
-            </SimpleGrid>
-          </Card>
-        ))}
 
         {/* Invite Member Modal */}
         <Modal

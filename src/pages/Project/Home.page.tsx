@@ -357,7 +357,7 @@ export function ProjectHome() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10 }}>
             <Stack>
-              <Title order={1} ta="center" hiddenFrom="md" mt="xs">
+              <Title order={2} ta="center" hiddenFrom="md" mt="xs">
                 {project.name} Project
               </Title>
               <Text lts="2px" ta="center" c="dimmed" hiddenFrom="md" mb="md">
@@ -423,7 +423,7 @@ export function ProjectHome() {
                     </div>
                     <div>
                       <Text fz="sm" c="dimmed">
-                        Admin
+                        Project Admin
                       </Text>
                       <Text fz="md">
                         {project.adminName}

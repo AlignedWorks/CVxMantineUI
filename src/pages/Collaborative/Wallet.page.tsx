@@ -118,7 +118,7 @@ export function CollaborativeMemberWallet() {
                 <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
                 {collaborative.name} Collaborative
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
+              <Title order={1} visibleFrom="sm" mt="xs" mb="xl">
                 {collaborative.name} Collaborative
               </Title>
 

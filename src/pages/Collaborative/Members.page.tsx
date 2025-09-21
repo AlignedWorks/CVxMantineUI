@@ -287,7 +287,7 @@ export function CollaborativeMembers() {
               <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
                 {collaborative.name} Collaborative
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" mb="md">
+              <Title order={1} visibleFrom="sm" mt="xs" mb="md">
                 {collaborative.name} Collaborative
               </Title>
               <Table.ScrollContainer minWidth={400} mt="xl">
