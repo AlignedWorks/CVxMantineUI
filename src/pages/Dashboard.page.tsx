@@ -934,46 +934,48 @@ export function Dashboard() {
             {/* Projects list */}
             {projects && projects.length > 0 ? (
               <Card withBorder shadow="xs" mt="md">
-                <Table verticalSpacing="sm" highlightOnHover>
-                  <thead>
-                    <tr>
-                      <th>Project</th>
-                      <th>Collaborative</th>
-                      <th>Description</th>
-                      <th>Status</th>
-                      <th style={{ textAlign: 'right' }}>Budget (tokens)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projects.map((p) => (
-                      <tr key={p.id}>
-                        <td>
-                          <Text
-                            component={Link}
-                            to={`/collaboratives/${p.collabId}/projects/${p.id}`}
-                            state={{ from: location.pathname }}
-                            style={{ textDecoration: 'none', color: '#0077b5' }}
-                          >
-                            {p.name}
-                          </Text>
-                        </td>
-                        <td>{p.collabName ?? '—'}</td>
-                        <td>{p.description ?? '—'}</td>
-                        <td>
-                          <Badge
-                            color={p.approvalStatus === 'Active' ? 'green' : p.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
-                            variant="light"
-                          >
-                            {p.approvalStatus}
-                          </Badge>
-                        </td>
-                        <td style={{ textAlign: 'right' }}>
-                          {typeof p.budget === 'number' ? p.budget.toLocaleString() : (p.budget ?? '—')}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                <Table.ScrollContainer minWidth={400}>
+                  <Table verticalSpacing="sm" highlightOnHover>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Project</Table.Th>
+                        <Table.Th>Collaborative</Table.Th>
+                        <Table.Th>Description</Table.Th>
+                        <Table.Th>Status</Table.Th>
+                        <Table.Th style={{ textAlign: 'right' }}>Budget (tokens)</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {projects.map((p) => (
+                        <Table.Tr key={p.id}>
+                          <Table.Td>
+                            <Text
+                              component={Link}
+                              to={`/collaboratives/${p.collabId}/projects/${p.id}`}
+                              state={{ from: location.pathname }}
+                              style={{ textDecoration: 'none', color: '#0077b5' }}
+                            >
+                              {p.name}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td>{p.collabName ?? '—'}</Table.Td>
+                          <Table.Td>{p.description ?? '—'}</Table.Td>
+                          <Table.Td>
+                            <Badge
+                              color={p.approvalStatus === 'Active' ? 'green' : p.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                              variant="light"
+                            >
+                              {p.approvalStatus}
+                            </Badge>
+                          </Table.Td>
+                          <Table.Td style={{ textAlign: 'right' }}>
+                            {typeof p.budget === 'number' ? p.budget.toLocaleString() : (p.budget ?? '—')}
+                          </Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Table.ScrollContainer>
               </Card>
             ) : (
               <Text c="dimmed" mt="md">No projects available.</Text>

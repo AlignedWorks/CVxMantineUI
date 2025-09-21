@@ -162,7 +162,7 @@ export function CollaborativeProjects() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={2} ta="center" hiddenFrom="sm"  mt="xs" mb="md">
+              <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="md">
                   {collaborative.name} Collaborative
               </Title>
               <Title order={1} visibleFrom="sm" mt="xs" mb="md">
@@ -218,7 +218,6 @@ export function CollaborativeProjects() {
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
                         <Table.Td>{project.budget}</Table.Td>
                       </Table.Tr>
-                      
                     ))}
                   </Table.Tbody>
                 </Table>

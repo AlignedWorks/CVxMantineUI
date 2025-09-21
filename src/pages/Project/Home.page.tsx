@@ -370,7 +370,7 @@ export function ProjectHome() {
               {/* Group status badge with collab name on medium+ screens */}
               <Group visibleFrom="md">
                   {project.approvalStatus === 'Active' ? (
-                      <Badge visibleFrom="md" variant="light" color="yellow" mb="md">{project.approvalStatus}</Badge>
+                    <Badge visibleFrom="md" variant="light" color="yellow" mb="md">{project.approvalStatus}</Badge>
                   ) : project.approvalStatus === 'Draft' ? (
                       <Tooltip
                       color="gray"
@@ -449,9 +449,19 @@ export function ProjectHome() {
                         {project.createdAt}
                       </Text>
                     </div>
-                    <Group mb="md">
-                      
-                    </Group>
+                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
+                      <div>
+                        <Text c="red" mb="xs">
+                          <strong>Reasons this collaborative was declined:</strong>
+                        </Text>
+                        {project.reasonsForDecline.map((decline) => (
+                          <Text c="red" key={decline.id}>
+                            <strong>{decline.memberName}:</strong> {decline.reason}
+                          </Text>
+                        ))}
+                      </div>
+                    ) : null}
+
                   </Stack>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 6 }}>
@@ -516,20 +526,6 @@ export function ProjectHome() {
                   </Paper>
                 </Grid.Col>
               </Grid>
-
-              {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
-                <div>
-                  <Text c="red" mb="xs">
-                    <strong>Reasons this collaborative was declined:</strong>
-                  </Text>
-                  {project.reasonsForDecline.map((decline) => (
-                    <Text c="red" key={decline.id}>
-                      <strong>{decline.memberName}:</strong> {decline.reason}
-                    </Text>
-                  ))}
-                </div>
-              ) : null}
-
             </Stack>
           </Grid.Col>
         </Grid>
