@@ -10,7 +10,7 @@ import {
   Button,
   Badge,
   Grid,
-  SimpleGrid,
+  Center,
   Stack,
   Loader,
 } from '@mantine/core';
@@ -101,30 +101,28 @@ export function UserProfile() {
       ) : user ? (
         <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
           <Grid>
-            <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-              <Avatar src={user.avatarUrl} size={100} radius={120} mb="xl" ml="lg" />
+            <Grid.Col span={{ base: 12, sm: 12, md: 3 }}>
+              <Center>
+                <Avatar src={user.avatarUrl} size={120} radius={120}/>
+              </Center>
             </Grid.Col>
-            <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
-              <Title order={2} mb="xl">{user.firstName + " " + user.lastName}</Title>
-              <SimpleGrid cols={{ base: 1, sm: 2 }} mb="lg">
-                <div>
-                  <Stack>
-                    <div>
-                      <Text fz="sm" c="dimmed">
-                        Member Since
-                      </Text>
-                      <Text fz="lg">
-                        {user.createdAt}
-                      </Text>
-                    </div>
-                    <div>
-                      <Text fz="sm" c="dimmed">
-                        Member Status
-                      </Text>
-                      <Text fz="lg">
-                        {user.memberStatus}
-                      </Text>
-                    </div>
+            <Grid.Col span={{ base: 12, sm: 12, md: 9 }}>
+              <Title order={1} ta="center" hiddenFrom="md" mb="xl">
+                {user.firstName + " " + user.lastName}
+              </Title>
+              <Title order={1} visibleFrom="md" mb="xl">
+                {user.firstName + " " + user.lastName}
+              </Title>
+
+              <Text fz="sm" c="dimmed" mt="lg">
+                Bio
+              </Text>
+              <Text fz="md" mb="xl">
+                {user.bio ? user.bio : 'No bio available.'}
+              </Text>
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7 }}>
+                  <Stack mt="sm">
                     <Group wrap="nowrap" gap={10}>
                       <IconAt stroke={1.5} size={18} />
                       <Text 
@@ -169,16 +167,24 @@ export function UserProfile() {
                     </Group>
                     <div>
                       <Text fz="sm" c="dimmed">
-                        Description
+                        Member Since
                       </Text>
-                      <Text fz="lg">
-                        {user.bio ? user.bio : 'No bio available.'}
+                      <Text fz="md">
+                        {user.createdAt}
+                      </Text>
+                    </div>
+                    <div>
+                      <Text fz="sm" c="dimmed">
+                        Member Status
+                      </Text>
+                      <Text fz="md">
+                        {user.memberStatus}
                       </Text>
                     </div>
                   </Stack>
-                </div>
-                <div>
-                  <Text fz="sm" c="dimmed">
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
+                  <Text fz="sm" c="dimmed" mt="sm">
                     Collaboratives
                   </Text>
                   {user.collaboratives && user.collaboratives.length > 0 ? (
@@ -235,8 +241,8 @@ export function UserProfile() {
                   ) : (
                     <Text size="sm" c="dimmed">No experience listed</Text>
                   )}
-                </div>
-              </SimpleGrid>
+                </Grid.Col>
+              </Grid>
             </Grid.Col>
           </Grid>
         </Card>

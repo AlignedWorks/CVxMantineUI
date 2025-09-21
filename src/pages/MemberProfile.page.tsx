@@ -9,8 +9,8 @@ import {
   Group,
   Badge,
   Grid,
-  SimpleGrid,
   Stack,
+  Center,
 } from '@mantine/core';
 import {
   IconAt,
@@ -80,142 +80,148 @@ export function MemberProfile() {
       { user ? (
           <Card shadow="sm" padding="xl" radius="md" withBorder mt="lg" ml="lx">
             <Grid>
-              <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
-                <Avatar src={user.avatarUrl} size={100} radius={120} mb="xl" ml="lg" />
+              <Grid.Col span={{ base: 12, sm: 12, md: 3 }}>
+                <Center>
+                  <Avatar src={user.avatarUrl} size={120} radius={120}/>
+                </Center>
               </Grid.Col>
-              <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
-                <Title order={2} mb="xl">{user.firstName + " " + user.lastName}</Title>
-                <SimpleGrid cols={{ base: 1, sm: 2 }} mb="lg">
-                  <div>
-                  <Stack>
-                    <div>
-                      <Text fz="sm" c="dimmed">
-                        Member Since
-                      </Text>
-                      <Text fz="lg">
-                        {user.createdAt}
-                      </Text>
-                    </div>
-                    <div>
-                      <Text fz="sm" c="dimmed">
-                        Member Status
-                      </Text>
-                      <Text fz="lg">
-                        {user.memberStatus}
-                      </Text>
-                    </div>
-                    <Group wrap="nowrap" gap={10}>
-                      <IconAt stroke={1.5} size={18} />
-                      <Text 
-                        component="a"
-                        href={`mailto:${user.userName}`}
-                        style={{
-                          color: '#0077b5',
-                          textDecoration: 'none',
-                          transition: 'color 0.2s ease'
-                        }}
-                      >
-                        {user.userName}
-                      </Text>
-                    </Group>
-                    <Group wrap="nowrap" gap={10}>
-                      <IconBrandLinkedin stroke={1.5} size={18} />
-                      <Text>
-                        {user?.linkedIn ? (
-                          <a
-                            href={user.linkedIn}
-                            style={{ color: '#0077b5', textDecoration: 'none' }}
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            {user.linkedIn.split('linkedin.com/in/')[1]}
-                          </a>
-                        ) : (
-                          "No LinkedIn provided"
-                        )}
-                      </Text>
-                    </Group>
-                    <Group wrap="nowrap" gap={10} mt={5}>
-                      <IconPhoneCall stroke={1.5} size={18} />
-                      <Text>
-                        {user.phoneNumber}
-                      </Text>
-                    </Group>
-                    <Group wrap="nowrap" gap={10} mt={5}>
-                      <IconMapPin stroke={1.5} size={16} />
-                      <Text>
-                        {user.city}, {user.state}
-                      </Text>
-                    </Group>
-                    <div>
-                      <Text fz="sm" c="dimmed">
-                        Description
-                      </Text>
-                      <Text fz="lg">
-                        {user.bio ? user.bio : 'No bio available.'}
-                      </Text>
-                    </div>
-                  </Stack>
-                </div>
-                <div>
-                  <Text fz="sm" c="dimmed">
-                    Collaboratives
-                  </Text>
-                  {user.collaboratives && user.collaboratives.length > 0 ? (
-                    <Group gap="xs" mt="xs">
-                      {user.collaboratives.map((collab) => (
-                        <Badge
-                          variant="light"
-                          color="yellow"
+              <Grid.Col span={{ base: 12, sm: 12, md: 9 }}>
+                <Title order={1} ta="center" hiddenFrom="md" mb="xl">
+                  {user.firstName + " " + user.lastName}
+                </Title>
+                <Title order={1} visibleFrom="md" mb="xl">
+                  {user.firstName + " " + user.lastName}
+                </Title>
+  
+                <Text fz="sm" c="dimmed" mt="lg">
+                  Bio
+                </Text>
+                <Text fz="md" mb="xl">
+                  {user.bio ? user.bio : 'No bio available.'}
+                </Text>
+                <Grid>
+                  <Grid.Col span={{ base: 12, sm: 12, md: 7 }}>
+                    <Stack mt="sm">
+                      <Group wrap="nowrap" gap={10}>
+                        <IconAt stroke={1.5} size={18} />
+                        <Text 
+                          component="a"
+                          href={`mailto:${user.userName}`}
+                          style={{
+                            color: '#0077b5',
+                            textDecoration: 'none',
+                            transition: 'color 0.2s ease'
+                          }}
                         >
-                          {collab}
-                        </Badge>
-                      ))}
-                    </Group>
-                  ) : (
-                    <Text size="sm" c="dimmed">No collaboratives listed</Text>
-                  )}
-                  <br/>
-
-                  <Text fz="sm" c="dimmed">
-                    Skills
-                  </Text>
-                  {user.skills && user.skills.length > 0 ? (
-                    <Group gap="xs" mt="xs">
-                      {user.skills.map((skill) => (
-                        <Badge
-                          key={skill.id}
-                          variant="light"
-                          color="blue"
-                        >
-                          {skill.value}
-                        </Badge>
-                      ))}
-                    </Group>
-                  ) : (
-                    <Text size="sm" c="dimmed">No skills listed</Text>
-                  )}
-                  <br/>
-                  
-                  <Text fz="sm" c="dimmed">
-                    Experience
-                  </Text>
-                  {user.experience && user.experience.length > 0 ? (
-                    <Group gap="xs" mt="xs">
-                      {user.experience.map((exp) => (
-                        <Badge
-                          key={exp.id}
-                          variant="light"
-                          color="green"
-                        >
-                          {exp.value}
-                        </Badge>
-                      ))}
-                    </Group>
-                  ) : (
-                    <Text size="sm" c="dimmed">No experience listed</Text>
-                  )}
-                </div>
-                </SimpleGrid>
+                          {user.userName}
+                        </Text>
+                      </Group>
+                      <Group wrap="nowrap" gap={10}>
+                        <IconBrandLinkedin stroke={1.5} size={18} />
+                        <Text>
+                          {user?.linkedIn ? (
+                            <a
+                              href={user.linkedIn}
+                              style={{ color: '#0077b5', textDecoration: 'none' }}
+                              target="_blank"
+                              rel="noopener noreferrer">
+                              {user.linkedIn.split('linkedin.com/in/')[1]}
+                            </a>
+                          ) : (
+                            "No LinkedIn provided"
+                          )}
+                        </Text>
+                      </Group>
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconPhoneCall stroke={1.5} size={18} />
+                        <Text>
+                          {user.phoneNumber}
+                        </Text>
+                      </Group>
+                      <Group wrap="nowrap" gap={10} mt={5}>
+                        <IconMapPin stroke={1.5} size={16} />
+                        <Text>
+                          {user.city}, {user.state}
+                        </Text>
+                      </Group>
+                      <div>
+                        <Text fz="sm" c="dimmed">
+                          Member Since
+                        </Text>
+                        <Text fz="md">
+                          {user.createdAt}
+                        </Text>
+                      </div>
+                      <div>
+                        <Text fz="sm" c="dimmed">
+                          Member Status
+                        </Text>
+                        <Text fz="md">
+                          {user.memberStatus}
+                        </Text>
+                      </div>
+                    </Stack>
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
+                    <Text fz="sm" c="dimmed" mt="sm">
+                      Collaboratives
+                    </Text>
+                    {user.collaboratives && user.collaboratives.length > 0 ? (
+                      <Group gap="xs" mt="xs">
+                        {user.collaboratives.map((collab) => (
+                          <Badge
+                            variant="light"
+                            color="yellow"
+                          >
+                            {collab}
+                          </Badge>
+                        ))}
+                      </Group>
+                    ) : (
+                      <Text size="sm" c="dimmed">No collaboratives listed</Text>
+                    )}
+                    <br/>
+  
+                    <Text fz="sm" c="dimmed">
+                      Skills
+                    </Text>
+                    {user.skills && user.skills.length > 0 ? (
+                      <Group gap="xs" mt="xs">
+                        {user.skills.map((skill) => (
+                          <Badge
+                            key={skill.id}
+                            variant="light"
+                            color="blue"
+                          >
+                            {skill.value}
+                          </Badge>
+                        ))}
+                      </Group>
+                    ) : (
+                      <Text size="sm" c="dimmed">No skills listed</Text>
+                    )}
+                    <br/>
+                    
+                    <Text fz="sm" c="dimmed">
+                      Experience
+                    </Text>
+                    {user.experience && user.experience.length > 0 ? (
+                      <Group gap="xs" mt="xs">
+                        {user.experience.map((exp) => (
+                          <Badge
+                            key={exp.id}
+                            variant="light"
+                            color="green"
+                          >
+                            {exp.value}
+                          </Badge>
+                        ))}
+                      </Group>
+                    ) : (
+                      <Text size="sm" c="dimmed">No experience listed</Text>
+                    )}
+                  </Grid.Col>
+                </Grid>
               </Grid.Col>
             </Grid>
           </Card>

@@ -509,53 +509,113 @@ export function Test() {
                                 </Stack>
                             </div>
                             <div>
+                                <Paper shadow="xs" p="lg" radius="md" bg="#fafafa">
+                                    <div>
+                                        <Text fz="sm" c="dimmed">
+                                            Project Admin Pay
+                                        </Text>
+                                        <Text fw={500 } fz="xl">
+                                            15
+                                        </Text>
+                                        <Text fz="sm" c="teal" mb="xl">
+                                            Total Budget * 5%
+                                        </Text>
+                                    </div>
+                                    <div>
+                                        <Text fz="sm" c="dimmed">
+                                            Milestones
+                                        </Text>
+                                        <Text fw={500 } fz="xl" mb="xl">
+                                            250
+                                        </Text>
+                                    </div>
+                                    <div>
+                                        <Text fz="sm" c="dimmed">
+                                            Network Transaction Fees
+                                        </Text>
+                                        <Text fw={500 } fz="xl">
+                                            5.70
+                                        </Text>
+                                        <Text fz="sm" c="teal" mb="xl">
+                                            (Project Admin Pay + Miletones) * 2%
+                                        </Text>
+                                    </div>
+                                    <Group>
+                                        <div>
+                                            <Text fz="sm" c="dimmed">
+                                                Total Tokens Committed
+                                            </Text>
+                                            <Text fw={500 } fz="xl" mb="xl">
+                                                290.70
+                                            </Text>
+                                        </div>
+                                        <div>
+                                            <Text fz="sm" c="dimmed">
+                                                Total Budget
+                                            </Text>
+                                            <Text fw={500 } fz="xl" mb="xl">
+                                                300
+                                            </Text>
+                                        </div>
+                                    </Group>
+                                    <Group mb="xs">
+                                        <Text size="sm" c="dimmed">Budget utilization</Text>
+                                        <Text size="sm" fw={700}>97%</Text>
+                                    </Group>
+                                    <Progress color="teal" value={97} size="lg" radius="xl" />
+                                    <Group mt="xs">
+                                        <Text size="sm" c="dimmed">Remaining</Text>
+                                        <Text size="sm" fw={700}>9 tokens</Text>
+                                    </Group>
+                                </Paper>
+
                                 {/* Compact budget overview: stat cards + progress */}
-                            <Text fw={500} mb="md">Project Budget Overview (tokens)</Text>
-                            {(() => {
-                                const totalCommitted = Number((testProject.adminPay + testProject.sumMilestonesAllocatedLaunchTokens) || 0) + Number(testProject.sumMilestonesAllocatedLaunchTokens || 0);
-                                const budget = Number(testProject.budget || 0) || 1;
-                                const pctUsed = Math.min(100, (totalCommitted / budget) * 100);
-                                return (
-                                    <>
+                                <Text fw={500} mb="md">Project Budget Overview (tokens)</Text>
+                                {(() => {
+                                    const totalCommitted = Number((testProject.adminPay + testProject.sumMilestonesAllocatedLaunchTokens) || 0) + Number(testProject.sumMilestonesAllocatedLaunchTokens || 0);
+                                    const budget = Number(testProject.budget || 0) || 1;
+                                    const pctUsed = Math.min(100, (totalCommitted / budget) * 100);
+                                    return (
+                                        <>
 
-                                        <Card shadow="xs" radius="md" p="md">
-                                            <Text size="xs" c="dimmed">Admin Pay</Text>
-                                            <Text fw={700} mt={4}>{Number(testProject.adminPay || 0).toLocaleString()} tokens</Text>
-                                            <Text size="xs" c="dimmed" mt={6}>{((testProject.adminPay / testProject.budget) * 100).toFixed(1)}% of budget</Text>
-                                        </Card>
+                                            <Card shadow="xs" radius="md" p="md">
+                                                <Text size="xs" c="dimmed">Admin Pay</Text>
+                                                <Text fw={700} mt={4}>{Number(testProject.adminPay || 0).toLocaleString()} tokens</Text>
+                                                <Text size="xs" c="dimmed" mt={6}>{((testProject.adminPay / testProject.budget) * 100).toFixed(1)}% of budget</Text>
+                                            </Card>
 
-                                        <Card shadow="xs" radius="md" p="md">
-                                            <Text size="xs" c="dimmed">Milestones</Text>
-                                            <Text fw={700} mt={4}>{Number(testProject.sumMilestonesAllocatedLaunchTokens || 0).toLocaleString()} tokens</Text>
-                                            <Text size="xs" c="dimmed" mt={6}>Committed to milestones</Text>
-                                        </Card>
+                                            <Card shadow="xs" radius="md" p="md">
+                                                <Text size="xs" c="dimmed">Milestones</Text>
+                                                <Text fw={700} mt={4}>{Number(testProject.sumMilestonesAllocatedLaunchTokens || 0).toLocaleString()} tokens</Text>
+                                                <Text size="xs" c="dimmed" mt={6}>Committed to milestones</Text>
+                                            </Card>
 
-                                        <Card shadow="xs" radius="md" p="md">
-                                            <Text size="xs" c="dimmed">Network Fees</Text>
-                                            <Text fw={700} mt={4}>0.50 tokens</Text>
-                                            <Text size="xs" c="dimmed" mt={6}>{(testProject.networkTransactionFee * 100).toFixed(2)}% of committed</Text>
-                                        </Card>
+                                            <Card shadow="xs" radius="md" p="md">
+                                                <Text size="xs" c="dimmed">Network Fees</Text>
+                                                <Text fw={700} mt={4}>0.50 tokens</Text>
+                                                <Text size="xs" c="dimmed" mt={6}>{(testProject.networkTransactionFee * 100).toFixed(2)}% of committed</Text>
+                                            </Card>
 
-                                        <Card shadow="xs" radius="md" p="md">
-                                            <Text size="xs" c="dimmed">Total Committed</Text>
-                                            <Text fw={700} mt={4}>{totalCommitted.toFixed(2)} tokens</Text>
-                                            <Text size="xs" c="dimmed" mt={6}>of {budget.toLocaleString()} budget</Text>
-                                        </Card>
+                                            <Card shadow="xs" radius="md" p="md">
+                                                <Text size="xs" c="dimmed">Total Committed</Text>
+                                                <Text fw={700} mt={4}>{totalCommitted.toFixed(2)} tokens</Text>
+                                                <Text size="xs" c="dimmed" mt={6}>of {budget.toLocaleString()} budget</Text>
+                                            </Card>
 
-                                        <Card p="md" shadow="xs" radius="md">
-                                        <Group mb="xs">
-                                            <Text size="sm" c="dimmed">Budget utilization</Text>
-                                            <Text size="sm" fw={700}>{pctUsed.toFixed(0)}%</Text>
-                                        </Group>
-                                        <Progress value={pctUsed} size="lg" radius="xl" />
-                                        <Group mt="xs">
-                                            <Text size="sm" c="dimmed">Remaining</Text>
-                                            <Text size="sm" fw={700}>{Math.max(0, (budget - totalCommitted)).toLocaleString()} tokens</Text>
-                                        </Group>
-                                        </Card>
-                                    </>
-                                );
-                             })()}
+                                            <Card p="md" shadow="xs" radius="md">
+                                            <Group mb="xs">
+                                                <Text size="sm" c="dimmed">Budget utilization</Text>
+                                                <Text size="sm" fw={700}>{pctUsed.toFixed(0)}%</Text>
+                                            </Group>
+                                            <Progress value={pctUsed} size="lg" radius="xl" />
+                                            <Group mt="xs">
+                                                <Text size="sm" c="dimmed">Remaining</Text>
+                                                <Text size="sm" fw={700}>{Math.max(0, (budget - totalCommitted)).toLocaleString()} tokens</Text>
+                                            </Group>
+                                            </Card>
+                                        </>
+                                    );
+                                })()}
                             </div>
                             </SimpleGrid>
                             

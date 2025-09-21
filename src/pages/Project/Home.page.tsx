@@ -10,8 +10,8 @@ import {
   Group,
   Grid,
   Card,
+  Paper,
   Stack,
-  SimpleGrid,
   Title,
   Center,
   Image,
@@ -21,6 +21,7 @@ import {
   NumberInput,
   Textarea,
   Table,
+  Progress,
  } from '@mantine/core';
 import { ProjectDataHome } from '../../data.ts';
 
@@ -338,7 +339,7 @@ export function ProjectHome() {
       </Link>
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="xl" mt="lg" ml="lx">
         <Grid>
-          <Grid.Col span={{ base: 12, sm: 12, md: 2, lg: 2 }}>
+          <Grid.Col span={{ base: 12, sm: 12, md: 2 }}>
             <Center>
               <Image
                 w="80"
@@ -347,28 +348,36 @@ export function ProjectHome() {
               />
             </Center>
           </Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
+          <Grid.Col span={{ base: 12, sm: 12, md: 10 }}>
             <Stack>
-              <Title order={2} ta="center" hiddenFrom="sm" mt="xs">
+              <Title order={1} ta="center" hiddenFrom="sm" mt="xs">
                 {project.name} Project
               </Title>
               <Text lts="2px" ta="center" c="dimmed" hiddenFrom="sm" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
-              <Title order={2} visibleFrom="sm" mt="xs">
+              <Title order={1} visibleFrom="sm" mt="xs">
                 {project.name} Project
               </Title>
               <Text lts="2px" visibleFrom="sm" c="dimmed" mb="md">
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
-              <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
-                <div>
+
+              <Text fz="sm" c="dimmed" mt="lg">
+                Description
+              </Text>
+              <Text fz="md" mb="xl">
+                {project.description ? project.description : 'No description available.'}
+              </Text>
+
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7 }}>
                   <Stack>
                     <div>
                       <Text fz="sm" c="dimmed">
                         Admin
                       </Text>
-                      <Text fz="lg">
+                      <Text fz="md">
                         {project.adminName}
                       </Text>
                       <Text 
@@ -388,7 +397,7 @@ export function ProjectHome() {
                       <Text fz="sm" c="dimmed">
                           Created
                       </Text>
-                      <Text fz="lg">
+                      <Text fz="md">
                         {project.createdAt}
                       </Text>
                     </div>
@@ -396,7 +405,7 @@ export function ProjectHome() {
                       <Text fz="sm" c="dimmed">
                           Description
                       </Text>
-                      <Text fz="lg" lineClamp={4}>
+                      <Text fz="md" lineClamp={4}>
                         {project.description}
                       </Text>
                     </div>
@@ -417,44 +426,69 @@ export function ProjectHome() {
                       )}
                     </Group>
                   </Stack>
-                </div>
-                <div>
-                  <Text fw={500} mb="md">Project Budget Overview (launch tokens)</Text>
-                  <Table variant="vertical" layout="fixed" withTableBorder>
-                    <Table.Tbody>
-                        <Table.Tr>
-                            <Table.Th>
-                              Project Admin Pay<br />
-                              <Text size="sm" c="dimmed">({(project.adminPay / project.budget * 100).toFixed(2)}% of budget total)</Text>
-                            </Table.Th>
-                            <Table.Td>{Number(project.adminPay).toFixed(2)}</Table.Td>
-                        </Table.Tr>
-
-                        <Table.Tr>
-                            <Table.Th>Milestones</Table.Th>
-                            <Table.Td>{project.sumMilestonesAllocatedLaunchTokens}</Table.Td>
-                        </Table.Tr>
-
-                        <Table.Tr>
-                            <Table.Th align="right">SUBTOTAL</Table.Th>
-                            <Table.Td>{budgetSubtotal.toFixed(2)}</Table.Td>
-                        </Table.Tr>
-
-                        <Table.Tr>
-                            <Table.Th>Network Transaction Fee
-                              <Text size="sm" c="dimmed">({project.networkTransactionFee * 100}% of subtotal)</Text>
-                            </Table.Th>
-                            <Table.Td>{sumNetworkTransactionFees.toFixed(2)}</Table.Td>
-                        </Table.Tr>
-
-                        <Table.Tr>
-                            <Table.Th align="right">TOTAL</Table.Th>
-                            <Table.Td>{(sumNetworkTransactionFees + budgetSubtotal).toFixed(2)}</Table.Td>
-                        </Table.Tr>
-                    </Table.Tbody>
-                </Table>
-                </div>
-              </SimpleGrid>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
+                  <Paper shadow="xs" p="lg" radius="md" bg="#fafafa">
+                    <div>
+                        <Text fz="sm" c="dimmed">
+                            Project Admin Pay
+                        </Text>
+                        <Text fw={500 } fz="xl">
+                            {Number(project.adminPay).toFixed(2)}
+                        </Text>
+                        <Text fz="sm" c="teal" mb="xl">
+                            Total Budget * 5%
+                        </Text>
+                    </div>
+                    <div>
+                        <Text fz="sm" c="dimmed">
+                            Milestones
+                        </Text>
+                        <Text fw={500 } fz="xl" mb="xl">
+                            {project.sumMilestonesAllocatedLaunchTokens}
+                        </Text>
+                    </div>
+                    <div>
+                        <Text fz="sm" c="dimmed">
+                            Network Transaction Fees
+                        </Text>
+                        <Text fw={500 } fz="xl">
+                            {sumNetworkTransactionFees.toFixed(2)}
+                        </Text>
+                        <Text fz="sm" c="teal" mb="xl">
+                            (Project Admin Pay + Milestones) * {project.networkTransactionFee * 100}%
+                        </Text>
+                    </div>
+                    <Group>
+                        <div>
+                            <Text fz="sm" c="dimmed">
+                                Total Tokens Committed
+                            </Text>
+                            <Text fw={500 } fz="xl" mb="xl">
+                                {(sumNetworkTransactionFees + budgetSubtotal).toFixed(2)}
+                            </Text>
+                        </div>
+                        <div>
+                            <Text fz="sm" c="dimmed">
+                                Total Budget
+                            </Text>
+                            <Text fw={500 } fz="xl" mb="xl">
+                                {project.budget.toFixed(2)}
+                            </Text>
+                        </div>
+                    </Group>
+                    <Group mb="xs">
+                        <Text size="sm" c="dimmed">Budget utilization</Text>
+                        <Text size="sm" fw={700}>{(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100}%</Text>
+                    </Group>
+                    <Progress color="teal" value={(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100} size="lg" radius="xl" />
+                    <Group mt="xs">
+                        <Text size="sm" c="dimmed">Remaining</Text>
+                        <Text size="sm" fw={700}>{project.budget - (sumNetworkTransactionFees + budgetSubtotal)} tokens</Text>
+                    </Group>
+                  </Paper>
+                </Grid.Col>
+              </Grid>
 
               <Text mb="md">Project Budget Total: {project.budget.toFixed(2)}</Text>
 

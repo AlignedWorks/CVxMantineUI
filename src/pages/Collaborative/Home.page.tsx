@@ -11,7 +11,6 @@ import {
   Grid,
   Card,
   Stack,
-  SimpleGrid,
   Title,
   Tooltip,
   Center,
@@ -197,10 +196,10 @@ export function CollaborativeHome() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={2} ta="center" hiddenFrom="sm" mt="xs">
+              <Title order={1} ta="center" hiddenFrom="sm" mt="xs">
                 {collaborative.name} Collaborative
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" >
+              <Title order={1} visibleFrom="sm" mt="xs" >
                 {collaborative.name} Collaborative
               </Title>
 
@@ -214,15 +213,22 @@ export function CollaborativeHome() {
                 </Badge>
               )}
 
-              <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
-                <div>
+              <Text fz="sm" c="dimmed" mt="lg">
+                Description
+              </Text>
+              <Text fz="md" mb="xl">
+                {collaborative.description ? collaborative.description : 'No description available.'}
+              </Text>
+
+              <Grid>
+                <Grid.Col span={{ base: 12, sm: 12, md: 7 }}>
                   <Stack>
                     <div>
                       <Text fz="sm" c="dimmed">
                         Collab Admin
                       </Text>
                       <div>
-                        <Text fz="lg">
+                        <Text fz="md">
                             {collaborative.adminName}
                         </Text>
                         <Text 
@@ -243,16 +249,8 @@ export function CollaborativeHome() {
                       <Text fz="sm" c="dimmed">
                           Created
                       </Text>
-                      <Text fz="lg">
+                      <Text fz="md">
                         {collaborative.createdAt}
-                      </Text>
-                    </div>
-                    <div>
-                      <Text fz="sm" c="dimmed">
-                          Description
-                      </Text>
-                      <Text fz="lg">
-                        {collaborative.description}
                       </Text>
                     </div>
                     {collaborative.websiteUrl && (
@@ -274,26 +272,30 @@ export function CollaborativeHome() {
                       </Text>
                     </Group>
                   </Stack>
-                </div>
-                <div>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
+                  <Text fz="sm" c="dimmed">
+                    Skills
+                  </Text>
                   <Text mb="md">
-                    Skills<br/>
                     {collaborative.skills.map((skill, index) => (
                       <Badge key={index} variant="light" color="blue">
                         {skill.value}
                       </Badge>
                     ))}
                   </Text>
+                  <Text fz="sm" c="dimmed">
+                    Experience
+                  </Text>
                   <Text mb="md">
-                    Experience<br/>
                     {collaborative.experience.map((exp, index) => (
                       <Badge key={index} variant="light" color="green">
                         {exp.value}
                       </Badge>
                     ))}
                   </Text>
-                </div>
-              </SimpleGrid>
+                </Grid.Col>
+              </Grid>
 
               {collaborative.reasonForDecline && collaborative.approvalStatus === 'Declined' && collaborative.userIsCollabAdmin ? (
                 <Text c="red">
