@@ -267,7 +267,7 @@ export function CollaborativeHome() {
                     )}
                     <Group wrap="nowrap" gap={10} mt={10}>
                       <IconMapPin stroke={1.5} size={18} />
-                      <Text fz="lg">
+                      <Text fz="md">
                           {collaborative.city}, {collaborative.state}
                       </Text>
                     </Group>

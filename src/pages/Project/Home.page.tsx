@@ -56,6 +56,14 @@ export function ProjectHome() {
   // Get the "from" state or default to a fallback
   const from = location.state?.from || `/collaboratives/${collabId}/projects`;
 
+  // Format numbers: drop ".00" for whole numbers, otherwise show two decimals
+  const formatAmount = (value: number | string | null | undefined) => {
+    const n = Number(value ?? 0);
+    if (!Number.isFinite(n)) return '-';
+    if (Number.isInteger(n)) return n.toLocaleString();
+    return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+
   // Set the collaborative ID in context
   useEffect(() => {
     setCollaborativeId(collabId || null);
@@ -362,16 +370,17 @@ export function ProjectHome() {
                 {project.collabName.toUpperCase()} COLLABORATIVE
               </Text>
 
-              <Text fz="sm" c="dimmed" mt="lg">
-                Description
-              </Text>
-              <Text fz="md" mb="xl">
-                {project.description ? project.description : 'No description available.'}
-              </Text>
-
               <Grid>
-                <Grid.Col span={{ base: 12, sm: 12, md: 7 }}>
+                <Grid.Col span={{ base: 12, sm: 12, md: 6 }}>
                   <Stack>
+                    <div>
+                      <Text fz="sm" c="dimmed" mt="lg">
+                        Description
+                      </Text>
+                      <Text fz="md" mb="xl">
+                        {project.description ? project.description : 'No description available.'}
+                      </Text>
+                    </div>
                     <div>
                       <Text fz="sm" c="dimmed">
                         Admin
@@ -400,14 +409,6 @@ export function ProjectHome() {
                         {project.createdAt}
                       </Text>
                     </div>
-                    <div>
-                      <Text fz="sm" c="dimmed">
-                          Description
-                      </Text>
-                      <Text fz="md" lineClamp={4}>
-                        {project.description}
-                      </Text>
-                    </div>
                     <Group mb="md">
                       {project.approvalStatus === 'Active' ? (
                         <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
@@ -426,17 +427,17 @@ export function ProjectHome() {
                     </Group>
                   </Stack>
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
+                <Grid.Col span={{ base: 12, sm: 12, md: 6 }}>
                   <Paper shadow="xs" p="lg" radius="md" bg="#fafafa">
                     <div>
                         <Text fz="sm" c="dimmed">
                             Project Admin Pay
                         </Text>
                         <Text fw={500 } fz="xl">
-                            {Number(project.adminPay).toFixed(2)}
+                            {formatAmount(project.adminPay)}
                         </Text>
                         <Text fz="sm" c="teal" mb="xl">
-                            Total Budget * 5%
+                            Total Budget * {formatAmount((project.adminPay / project.budget) * 100)}%
                         </Text>
                     </div>
                     <div>
@@ -444,7 +445,7 @@ export function ProjectHome() {
                             Milestones
                         </Text>
                         <Text fw={500 } fz="xl" mb="xl">
-                            {project.sumMilestonesAllocatedLaunchTokens}
+                            {formatAmount(project.sumMilestonesAllocatedLaunchTokens)}
                         </Text>
                     </div>
                     <div>
@@ -464,7 +465,7 @@ export function ProjectHome() {
                                 Total Tokens Committed
                             </Text>
                             <Text fw={500 } fz="xl" mb="xl">
-                                {(sumNetworkTransactionFees + budgetSubtotal).toFixed(2)}
+                                {formatAmount(sumNetworkTransactionFees + budgetSubtotal)}
                             </Text>
                         </div>
                         <div>
@@ -472,24 +473,22 @@ export function ProjectHome() {
                                 Total Budget
                             </Text>
                             <Text fw={500 } fz="xl" mb="xl">
-                                {project.budget.toFixed(2)}
+                                {formatAmount(project.budget)}
                             </Text>
                         </div>
                     </Group>
                     <Group mb="xs">
                         <Text size="sm" c="dimmed">Budget utilization</Text>
-                        <Text size="sm" fw={700}>{(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100}%</Text>
+                        <Text size="sm" fw={700}>{((sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100).toFixed(2)}%</Text>
                     </Group>
                     <Progress color="teal" value={(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100} size="lg" radius="xl" />
                     <Group mt="xs">
                         <Text size="sm" c="dimmed">Remaining</Text>
-                        <Text size="sm" fw={700}>{project.budget - (sumNetworkTransactionFees + budgetSubtotal)} tokens</Text>
+                        <Text size="sm" fw={700}>{(project.budget - (sumNetworkTransactionFees + budgetSubtotal)).toFixed(2)} tokens</Text>
                     </Group>
                   </Paper>
                 </Grid.Col>
               </Grid>
-
-              <Text mb="md">Project Budget Total: {project.budget.toFixed(2)}</Text>
 
               {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
                 <div>
