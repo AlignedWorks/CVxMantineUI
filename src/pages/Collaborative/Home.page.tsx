@@ -275,7 +275,7 @@ export function CollaborativeHome() {
                   </Stack>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
-                  <Text fz="sm" c="dimmed">
+                  <Text fz="sm" c="dimmed" mt="lg">
                     Skills
                   </Text>
                   <Text mb="md">

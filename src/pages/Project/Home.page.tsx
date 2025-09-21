@@ -367,7 +367,7 @@ export function ProjectHome() {
                 {project.name} Project
               </Title>
 
-              // group status badge with collab name, visible on medium+ screens
+              {/* Group status badge with collab name on medium+ screens */}
               <Group visibleFrom="md">
                   {project.approvalStatus === 'Active' ? (
                       <Badge visibleFrom="md" variant="light" color="yellow" mb="md">{project.approvalStatus}</Badge>
@@ -388,7 +388,7 @@ export function ProjectHome() {
                   </Text>
               </Group>
 
-              // show status badge centered on small screens
+              {/* Center status badge on small screens */}
               {project.approvalStatus === 'Active' ? (
                 <Center>
                   <Badge hiddenFrom="md" variant="light" color="yellow">{project.approvalStatus}</Badge>
@@ -417,7 +417,7 @@ export function ProjectHome() {
                       <Text fz="sm" c="dimmed" mt="lg">
                         Description
                       </Text>
-                      <Text fz="md" mb="xl">
+                      <Text fz="md">
                         {project.description ? project.description : 'No description available.'}
                       </Text>
                     </div>
@@ -491,7 +491,7 @@ export function ProjectHome() {
                             <Text fz="sm" c="dimmed">
                                 Total Tokens Committed
                             </Text>
-                            <Text fw={500 } fz="xl" mb="xlg">
+                            <Text fw={500 } fz="xl" mb="lg">
                                 {formatAmount(sumNetworkTransactionFees + budgetSubtotal)}
                             </Text>
                         </div>

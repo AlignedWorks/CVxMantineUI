@@ -540,7 +540,7 @@ export function Test() {
                                             Project Admin Pay
                                         </Text>
                                         <Text fw={500 } fz="xl">
-                                            15
+                                            15 lt 
                                         </Text>
                                         <Text fz="sm" c="teal" mb="xl">
                                             Total Budget * 5%
@@ -551,7 +551,7 @@ export function Test() {
                                             Milestones
                                         </Text>
                                         <Text fw={500 } fz="xl" mb="xl">
-                                            250
+                                            250 lt
                                         </Text>
                                     </div>
                                     <div>
@@ -559,7 +559,7 @@ export function Test() {
                                             Network Transaction Fees
                                         </Text>
                                         <Text fw={500 } fz="xl">
-                                            5.70
+                                            5.70 lt
                                         </Text>
                                         <Text fz="sm" c="teal" mb="xl">
                                             (Project Admin Pay + Miletones) * 2%
