@@ -178,7 +178,7 @@ export function CollaborativeProjects() {
                       <Table.Th>Description</Table.Th>
                       <Table.Th>Approval Status</Table.Th>
                       <Table.Th>Created</Table.Th>
-                      <Table.Th>Budget (tokens)</Table.Th>
+                      <Table.Th style={{ textAlign: 'right' }}>Budget (tokens)</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -216,7 +216,7 @@ export function CollaborativeProjects() {
                           )}
                         </Table.Td>
                         <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
-                        <Table.Td>{project.budget}</Table.Td>
+                        <Table.Td style={{ textAlign: 'right' }}>{project.budget}</Table.Td>
                       </Table.Tr>
                     ))}
                   </Table.Tbody>

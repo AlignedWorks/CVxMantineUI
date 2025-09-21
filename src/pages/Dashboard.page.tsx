@@ -933,7 +933,7 @@ export function Dashboard() {
             
             {/* Projects list */}
             {projects && projects.length > 0 ? (
-              <Card withBorder shadow="xs" mt="md">
+              <Card padding="lg" withBorder shadow="xs" mt="md">
                 <Table.ScrollContainer minWidth={400}>
                   <Table verticalSpacing="sm" highlightOnHover>
                     <Table.Thead>

@@ -606,7 +606,7 @@ export function ProjectMilestones() {
           {item.approvalStatus}
         </Badge>
       </Table.Td>
-      <Table.Td style={{ verticalAlign: 'top' }}>
+      <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
         <Text>
           {Number(item.allocatedLaunchTokens).toFixed(2)}
         </Text>
@@ -666,7 +666,7 @@ export function ProjectMilestones() {
                         <Table.Th>Description</Table.Th>
                         <Table.Th>Assignee</Table.Th>
                         <Table.Th>Status</Table.Th>
-                        <Table.Th>Payout (tokens)</Table.Th>
+                        <Table.Th style={{ textAlign: 'right' }}>Payout (tokens)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -678,7 +678,7 @@ export function ProjectMilestones() {
                             Project Budget:
                           </Text>
                         </Table.Td>
-                        <Table.Td>
+                        <Table.Td style={{ textAlign: 'right' }}>
                           <Text fw={700}>
                             {Number(totalMilestoneTokens).toFixed(2)}
                           </Text>

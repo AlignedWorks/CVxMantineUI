@@ -293,7 +293,7 @@ export function ProjectMembers() {
                         <Table.Th>Members</Table.Th>
                         <Table.Th>Role</Table.Th>
                         <Table.Th>Status</Table.Th>
-                        <Table.Th>Active</Table.Th>
+                        <Table.Th style={{ textAlign: 'center' }}>Active</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>{memberRows}</Table.Tbody>
