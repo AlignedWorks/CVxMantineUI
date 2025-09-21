@@ -36,6 +36,18 @@ const rolesData = ['Network Owner','Network Contributor']
 
 const testCollab = mock_collab_data[0]
 
+const testProject = {
+    adminName: 'Jordon Byers',
+    adminEmail: 'jordon.byers@example.com',
+    createdAt: 'October 10th, 2025',
+    description: 'This is a sample project description that gives an overview of the project objectives and goals.',
+    approvalStatus: 'Active', // Can be 'Active', 'Draft', 'Pending', etc.
+    adminPay: 5,
+    budget: 250,
+    sumMilestonesAllocatedLaunchTokens: 20,
+    networkTransactionFee: 0.02, // 2%  
+}
+
 export function Test() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [allUsers, setAllUsers] = useState<User[]>([]); // Store all users
@@ -311,12 +323,26 @@ export function Test() {
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
                         <Stack>
-                        <Title ta="center" hiddenFrom="sm" order={2} mt="xs" mb="xl">
+                        <Title ta="center" hiddenFrom="sm" order={2} mt="xs">
                             {testCollab.name} Collaborative
                         </Title>
-                        <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
+                        <Title order={2} visibleFrom="sm" mt="xs">
                             {testCollab.name} Collaborative
                         </Title>
+                        {testProject.approvalStatus === 'Active' ? (
+                            <Badge variant="light" color="yellow" mb="xl">{testProject.approvalStatus}</Badge>
+                        ) : testProject.approvalStatus === 'Draft' ? (
+                            <Tooltip
+                            color="gray"
+                            label="Pending submission of a completed proposal by the assigned Project Admin"
+                            multiline
+                            w={220}
+                            >
+                            <Badge variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
+                            </Tooltip>
+                        ) : (
+                            <Badge variant="light" color="pink" mb="xl">{testProject.approvalStatus}</Badge>
+                        )}
                         <Title order={3} fw={500} c="green" mt="lg" mb="md">
                             Revenue Sharing Pool
                         </Title>
@@ -405,6 +431,134 @@ export function Test() {
                             <div>
                             </div>
                         </SimpleGrid>
+                        <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
+                            <div>
+                                <Stack>
+                                    <div>
+                                        <Text fz="sm" c="dimmed">
+                                            Admin
+                                        </Text>
+                                        <Text fz="lg">
+                                        {testProject.adminName}
+                                        </Text>
+                                        <Text 
+                                        fz="sm" 
+                                        c="#0077b5"
+                                        component="a"
+                                        href={`mailto:${testProject.adminEmail}`}
+                                        style={{
+                                            textDecoration: 'none',
+                                            transition: 'color 0.2s ease'
+                                        }}
+                                        >
+                                        {testProject.adminEmail}
+                                        </Text>
+                                    </div>
+
+                                    <div>
+                                        <Text fz="sm" c="dimmed">
+                                            Created
+                                        </Text>
+                                        <Text fz="lg">
+                                            {testProject.createdAt}
+                                        </Text>
+                                    </div>
+
+                                    <div>
+                                        <Text fz="sm" c="dimmed">
+                                            Description
+                                        </Text>
+                                        <Text fz="lg" lineClamp={4}>
+                                            {testProject.description}
+                                        </Text>
+                                    </div>
+
+                                    <Group wrap="nowrap" gap={10}>
+                                        <IconAt stroke={1.5} size={18} />
+                                        <a
+                                            href={"https://www.apple.com"}
+                                            style={{ color: '#0077b5', textDecoration: 'none' }}
+                                            target="_blank"
+                                            rel="noopener noreferrer">
+                                            https://www.apple.com
+                                        </a>
+                                    </Group>
+                                    <Group wrap="nowrap" gap={10}>
+                                        <IconMapPin stroke={1.5} size={18} />
+                                        <Text fz="lg">
+                                            Lexington, KY
+                                        </Text>
+                                    </Group>
+
+                                <Group mb="md">
+                                {testProject.approvalStatus === 'Active' ? (
+                                    <Badge variant="light" color="yellow">{testProject.approvalStatus}</Badge>
+                                ) : testProject.approvalStatus === 'Draft' ? (
+                                    <Tooltip
+                                    color="gray"
+                                    label="Pending submission of a completed proposal by the assigned Project Admin"
+                                    multiline
+                                    w={220}
+                                    >
+                                    <Badge variant="light" color="pink">{testProject.approvalStatus}</Badge>
+                                    </Tooltip>
+                                ) : (
+                                    <Badge variant="light" color="pink">{testProject.approvalStatus}</Badge>
+                                )}
+                                </Group>
+                                </Stack>
+                            </div>
+                            <div>
+                                {/* Compact budget overview: stat cards + progress */}
+                            <Text fw={500} mb="md">Project Budget Overview (tokens)</Text>
+                            {(() => {
+                                const totalCommitted = Number((testProject.adminPay + testProject.sumMilestonesAllocatedLaunchTokens) || 0) + Number(testProject.sumMilestonesAllocatedLaunchTokens || 0);
+                                const budget = Number(testProject.budget || 0) || 1;
+                                const pctUsed = Math.min(100, (totalCommitted / budget) * 100);
+                                return (
+                                    <>
+
+                                        <Card shadow="xs" radius="md" p="md">
+                                            <Text size="xs" c="dimmed">Admin Pay</Text>
+                                            <Text fw={700} mt={4}>{Number(testProject.adminPay || 0).toLocaleString()} tokens</Text>
+                                            <Text size="xs" c="dimmed" mt={6}>{((testProject.adminPay / testProject.budget) * 100).toFixed(1)}% of budget</Text>
+                                        </Card>
+
+                                        <Card shadow="xs" radius="md" p="md">
+                                            <Text size="xs" c="dimmed">Milestones</Text>
+                                            <Text fw={700} mt={4}>{Number(testProject.sumMilestonesAllocatedLaunchTokens || 0).toLocaleString()} tokens</Text>
+                                            <Text size="xs" c="dimmed" mt={6}>Committed to milestones</Text>
+                                        </Card>
+
+                                        <Card shadow="xs" radius="md" p="md">
+                                            <Text size="xs" c="dimmed">Network Fees</Text>
+                                            <Text fw={700} mt={4}>0.50 tokens</Text>
+                                            <Text size="xs" c="dimmed" mt={6}>{(testProject.networkTransactionFee * 100).toFixed(2)}% of committed</Text>
+                                        </Card>
+
+                                        <Card shadow="xs" radius="md" p="md">
+                                            <Text size="xs" c="dimmed">Total Committed</Text>
+                                            <Text fw={700} mt={4}>{totalCommitted.toFixed(2)} tokens</Text>
+                                            <Text size="xs" c="dimmed" mt={6}>of {budget.toLocaleString()} budget</Text>
+                                        </Card>
+
+                                        <Card p="md" shadow="xs" radius="md">
+                                        <Group mb="xs">
+                                            <Text size="sm" c="dimmed">Budget utilization</Text>
+                                            <Text size="sm" fw={700}>{pctUsed.toFixed(0)}%</Text>
+                                        </Group>
+                                        <Progress value={pctUsed} size="lg" radius="xl" />
+                                        <Group mt="xs">
+                                            <Text size="sm" c="dimmed">Remaining</Text>
+                                            <Text size="sm" fw={700}>{Math.max(0, (budget - totalCommitted)).toLocaleString()} tokens</Text>
+                                        </Group>
+                                        </Card>
+                                    </>
+                                );
+                             })()}
+                            </div>
+                            </SimpleGrid>
+                            
                         </Stack>
                     </Grid.Col>
                     <Grid.Col span={1}>

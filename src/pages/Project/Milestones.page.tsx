@@ -1023,7 +1023,7 @@ export function ProjectMilestones() {
                     <NumberInput label="Payment Amount" value={editLaunchTokenAmount} onChange={(v) => setEditLaunchTokenAmount(v)} min={0} error={editErrors.allocatedLaunchTokens} suffix=" tokens" />
                     <Text fw={600} size="sm" mb={4}>Cash Equivalent</Text>
                     {selectedMilestone.cashEquivalent > 0 ? (
-                      <Text mb="lg"><NumberFormatter prefix="$ " value={selectedMilestone.cashEquivalent} thousandSeparator decimalScale={2}/></Text>
+                      <Text mb="lg"><NumberFormatter prefix="$" value={selectedMilestone.cashEquivalent} thousandSeparator decimalScale={2}/></Text>
                     ) : (
                       <Text mb="lg">N/A</Text>
                     )}
@@ -1043,7 +1043,7 @@ export function ProjectMilestones() {
 
                     <Text fw={600} size="sm" c="dimmed" mb={4}>Cash Equivalent</Text>
                     {selectedMilestone.cashEquivalent > 0 ? (
-                      <Text mb="lg"><NumberFormatter prefix="$ " value={selectedMilestone.cashEquivalent} thousandSeparator decimalScale={2}/></Text>
+                      <Text mb="lg"><NumberFormatter prefix="$" value={selectedMilestone.cashEquivalent} thousandSeparator decimalScale={2}/></Text>
                     ) : (
                       <Text mb="lg">N/A</Text>
                     )}

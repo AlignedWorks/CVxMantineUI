@@ -138,9 +138,12 @@ export function ProjectHome() {
       // calculate change in admin pay from form to use for validation below
       const adminPayChange = Number(formValues.adminPay || 0) - (project ? Number(project.adminPay || 0) : 0);
 
+      const projectMilestonesPlusAdminPay = project ? project.budget - project.balance + adminPayChange : 0;
+      const projectNetworkTxFee = project ? (project.networkTransactionFee * (projectMilestonesPlusAdminPay)) : 0;
+
       // Make sure new budget doesn't drop below already allocated tokens for milestones
-      if (project && project.budget - Number(value) > project.balance - adminPayChange) {
-        error = `The budget cannot be reduced below the amount already allocated to milestones + admin pay (${(project.budget - project.balance + adminPayChange).toLocaleString()} tokens)`;
+      if (project && project.budget - Number(value) > project.balance - adminPayChange - projectNetworkTxFee) {
+        error = `The budget cannot be reduced below the amount already allocated to milestones + admin pay + network transaction fee (${(projectMilestonesPlusAdminPay + projectNetworkTxFee).toLocaleString()} tokens)`;
       }
 
       const projectBudgetTokens = Number(value);
@@ -360,12 +363,12 @@ export function ProjectHome() {
               </Text>
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md">
                 <div>
-                  <Group mb="md" align="flex-start">
-                    <Text>
-                      Admin:
-                    </Text>
+                  <Stack>
                     <div>
-                      <Text fz="md">
+                      <Text fz="sm" c="dimmed">
+                        Admin
+                      </Text>
+                      <Text fz="lg">
                         {project.adminName}
                       </Text>
                       <Text 
@@ -381,46 +384,49 @@ export function ProjectHome() {
                         {project.adminEmail}
                       </Text>
                     </div>
-                  </Group>
-                  <Group mb="md">
-                    <Text>
-                        Created:
-                    </Text>
-                    <Text>
-                      {project.createdAt}
-                    </Text>
-                  </Group>
-                  <Group mb="md">
-                    <Text>
-                        Description:
-                    </Text>
-                    <Text lineClamp={4}>
-                      {project.description}
-                    </Text>
-                  </Group>
-                  <Group mb="md">
-                    {project.approvalStatus === 'Active' ? (
-                      <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
-                    ) : project.approvalStatus === 'Draft' ? (
-                      <Tooltip
-                        color="gray"
-                        label="Pending submission of a completed proposal by the assigned Project Admin"
-                        multiline
-                        w={220}
-                      >
+                    <div>
+                      <Text fz="sm" c="dimmed">
+                          Created
+                      </Text>
+                      <Text fz="lg">
+                        {project.createdAt}
+                      </Text>
+                    </div>
+                    <div>
+                      <Text fz="sm" c="dimmed">
+                          Description
+                      </Text>
+                      <Text fz="lg" lineClamp={4}>
+                        {project.description}
+                      </Text>
+                    </div>
+                    <Group mb="md">
+                      {project.approvalStatus === 'Active' ? (
+                        <Badge variant="light" color="yellow">{project.approvalStatus}</Badge>
+                      ) : project.approvalStatus === 'Draft' ? (
+                        <Tooltip
+                          color="gray"
+                          label="Pending submission of a completed proposal by the assigned Project Admin"
+                          multiline
+                          w={220}
+                        >
+                          <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
+                        </Tooltip>
+                      ) : (
                         <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
-                      </Tooltip>
-                    ) : (
-                      <Badge variant="light" color="pink">{project.approvalStatus}</Badge>
-                    )}
-                  </Group>
+                      )}
+                    </Group>
+                  </Stack>
                 </div>
                 <div>
                   <Text fw={500} mb="md">Project Budget Overview (launch tokens)</Text>
                   <Table variant="vertical" layout="fixed" withTableBorder>
                     <Table.Tbody>
                         <Table.Tr>
-                            <Table.Th>Project Admin Pay</Table.Th>
+                            <Table.Th>
+                              Project Admin Pay<br />
+                              <Text size="sm" c="dimmed">({(project.adminPay / project.budget * 100).toFixed(2)}% of budget total)</Text>
+                            </Table.Th>
                             <Table.Td>{Number(project.adminPay).toFixed(2)}</Table.Td>
                         </Table.Tr>
 
@@ -430,17 +436,19 @@ export function ProjectHome() {
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Th>SUBTOTAL</Table.Th>
+                            <Table.Th align="right">SUBTOTAL</Table.Th>
                             <Table.Td>{budgetSubtotal.toFixed(2)}</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Th>Network Transaction Fee</Table.Th>
+                            <Table.Th>Network Transaction Fee
+                              <Text size="sm" c="dimmed">({project.networkTransactionFee * 100}% of subtotal)</Text>
+                            </Table.Th>
                             <Table.Td>{sumNetworkTransactionFees.toFixed(2)}</Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Th>TOTAL</Table.Th>
+                            <Table.Th align="right">TOTAL</Table.Th>
                             <Table.Td>{(sumNetworkTransactionFees + budgetSubtotal).toFixed(2)}</Table.Td>
                         </Table.Tr>
                     </Table.Tbody>
@@ -631,10 +639,10 @@ export function ProjectHome() {
               {percentOfProjectBudget !== null ? `${percentOfProjectBudget.toFixed(0)}% of Project Budget` : '0% of Project Budget'}
             </Text>
             <Group justify="right" mt="md">
+              <Button variant="outline" type="submit">Save</Button>
               <Button variant="default" type="button" onClick={() => { setIsEditModalOpen(false); setFormErrors({}); }}>
                 Cancel
               </Button>
-              <Button variant="outline" type="submit">Save</Button>
             </Group>
           </Stack>
         </form>

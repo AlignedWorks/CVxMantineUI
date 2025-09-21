@@ -197,79 +197,81 @@ export function CollaborativeHome() {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 12, md: 10, lg: 10 }}>
             <Stack>
-              <Title order={2} ta="center" hiddenFrom="sm" mt="xs" mb="xl">
+              <Title order={2} ta="center" hiddenFrom="sm" mt="xs">
                 {collaborative.name} Collaborative
               </Title>
-              <Title order={2} visibleFrom="sm" mt="xs" mb="xl">
+              <Title order={2} visibleFrom="sm" mt="xs" >
                 {collaborative.name} Collaborative
               </Title>
+
+              {collaborative.approvalStatus === 'Active' ? (
+                <Badge variant="light" color="yellow" mb="xl">
+                    {collaborative.approvalStatus}
+                </Badge>
+              ) : (
+                <Badge variant="light" color="pink" mb="xl">
+                    {collaborative.approvalStatus}
+                </Badge>
+              )}
+
               <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
                 <div>
-                  <Group mb="md" align="flex-start">
-                    <Text>
-                      Admin:
-                    </Text>
+                  <Stack>
                     <div>
-                      <Text fz="md">
-                          {collaborative.adminName}
+                      <Text fz="sm" c="dimmed">
+                        Collab Admin
                       </Text>
-                      <Text 
-                        fz="sm" 
-                        c="#0077b5"
-                        component="a"
-                        href={`mailto:${collaborative.adminEmail}`}
-                        style={{
-                          textDecoration: 'none',
-                          transition: 'color 0.2s ease'
-                        }}
-                      >
-                        {collaborative.adminEmail}
+                      <div>
+                        <Text fz="lg">
+                            {collaborative.adminName}
+                        </Text>
+                        <Text 
+                          fz="sm" 
+                          c="#0077b5"
+                          component="a"
+                          href={`mailto:${collaborative.adminEmail}`}
+                          style={{
+                            textDecoration: 'none',
+                            transition: 'color 0.2s ease'
+                          }}
+                        >
+                          {collaborative.adminEmail}
+                        </Text>
+                      </div>
+                    </div>
+                    <div>
+                      <Text fz="sm" c="dimmed">
+                          Created
+                      </Text>
+                      <Text fz="lg">
+                        {collaborative.createdAt}
                       </Text>
                     </div>
-                  </Group>
-                  <Group mb="md">
-                    <Text>
-                        Created:
-                    </Text>
-                    <Text>
-                      {collaborative.createdAt}
-                    </Text>
-                  </Group>
-                  <Group mb="md">
-                    <Text>
-                        Description:
-                    </Text>
-                    <Text>
-                      {collaborative.description}
-                    </Text>
-                  </Group>
-                  <Group wrap="nowrap" gap={10}>
-                    <IconAt stroke={1.5} size={16} />
-                    <a
-                      href={collaborative.websiteUrl}
-                      style={{ color: '#0077b5', textDecoration: 'none' }}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                        {getDisplayUrl(collaborative.websiteUrl)}
-                    </a>
-                  </Group>
-                  <Group wrap="nowrap" gap={10} mt={10}>
-                    <IconMapPin stroke={1.5} size={16} />
-                    <Text>
-                        {collaborative.city}, {collaborative.state}
-                    </Text>
-                  </Group>
-                  <Group mt={10}>
-                    {collaborative.approvalStatus === 'Active' ? (
-                      <Badge variant="light" color="yellow">
-                          {collaborative.approvalStatus}
-                      </Badge>
-                    ) : (
-                      <Badge variant="light" color="pink">
-                          {collaborative.approvalStatus}
-                      </Badge>
-                    )}
-                  </Group>
+                    <div>
+                      <Text fz="sm" c="dimmed">
+                          Description
+                      </Text>
+                      <Text fz="lg">
+                        {collaborative.description}
+                      </Text>
+                    </div>
+                    <Group wrap="nowrap" gap={10}>
+                      <IconAt stroke={1.5} size={18} />
+                      <a
+                        href={collaborative.websiteUrl}
+                        style={{ color: '#0077b5', textDecoration: 'none' }}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                          {getDisplayUrl(collaborative.websiteUrl)}
+                      </a>
+                    </Group>
+                    <Group wrap="nowrap" gap={10} mt={10}>
+                      <IconMapPin stroke={1.5} size={18} />
+                      <Text fz="lg">
+                          {collaborative.city}, {collaborative.state}
+                      </Text>
+                    </Group>
+                  </Stack>
                 </div>
                 <div>
                   <Text mb="md">

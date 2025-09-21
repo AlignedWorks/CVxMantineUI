@@ -121,7 +121,7 @@ export function FileUpload({
       ) : (
         <>
           <FileInput
-            label={`Select ${fileTypeDisplay} to upload`}
+            label={`Select a ${fileTypeDisplay} to upload`}
             placeholder={`Click to select a ${fileTypeDisplay} from your device to upload`}
             accept={getAcceptTypes()}
             value={file}
