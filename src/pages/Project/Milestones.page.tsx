@@ -604,7 +604,7 @@ export function ProjectMilestones() {
       </Table.Td>
       <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
         <Text>
-          {(Number(item.allocatedLaunchTokens) / project.launchTokenBudget).toFixed(2)}%
+          {(Number(item.allocatedLaunchTokens) / project.launchTokenBudget * 100).toFixed(2)}%
         </Text>
       </Table.Td>
     </Table.Tr>
@@ -659,25 +659,21 @@ export function ProjectMilestones() {
                         <Table.Th>Milestones</Table.Th>
                         <Table.Th>Assignee</Table.Th>
                         <Table.Th>Status</Table.Th>
-                        <Table.Th style={{ textAlign: 'right' }}>Payout (tokens)</Table.Th>
-                        <Table.Th style={{ textAlign: 'right' }}>Payout (% of budget)</Table.Th>
+                        <Table.Th style={{ textAlign: 'right' }}>Payout<br/>(tokens)</Table.Th>
+                        <Table.Th style={{ textAlign: 'right' }}>Payout<br/>(% of budget)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                       {milestoneRows}
                       <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
                         <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
-                          Total:<br />
-                          <Text c="dimmed">
-                            Project Budget:
+                          <Text fw={500}>
+                            Total Assigned Tokens: {Number(totalMilestoneTokens).toFixed(2)}
                           </Text>
                         </Table.Td>
                         <Table.Td style={{ textAlign: 'right' }}>
-                          <Text fw={700}>
-                            {Number(totalMilestoneTokens).toFixed(2)}
-                          </Text>
-                          <Text c="dimmed" fw={500}>
-                            {Number(project.launchTokenBudget).toFixed(2)}
+                          <Text fw={500}>
+                            Project Budget: {Number(project.launchTokenBudget).toFixed(2)}
                           </Text>
                         </Table.Td>
                       </Table.Tr>
