@@ -22,7 +22,7 @@ import {
   Textarea,
   Progress,
  } from '@mantine/core';
-import { ProjectDataHome } from '../../data.ts';
+import { ProjectDataHome, approvalStatusColors } from '../../data.ts';
 
 export function ProjectHome() {
   const location = useLocation();
@@ -370,7 +370,7 @@ export function ProjectHome() {
               {/* Group status badge with collab name on medium+ screens */}
               <Group visibleFrom="md">
                   {project.approvalStatus === 'Active' ? (
-                    <Badge visibleFrom="md" variant="light" color="yellow" mb="md">{project.approvalStatus}</Badge>
+                    <Badge visibleFrom="md" variant="light" color={approvalStatusColors[project.approvalStatus] ?? 'gray'} mb="md">{project.approvalStatus}</Badge>
                   ) : project.approvalStatus === 'Draft' ? (
                       <Tooltip
                       color="gray"
@@ -378,10 +378,10 @@ export function ProjectHome() {
                       multiline
                       w={220}
                       >
-                      <Badge variant="light" color="pink" mb="md">{project.approvalStatus}</Badge>
+                       <Badge variant="light" color={approvalStatusColors[project.approvalStatus] ?? 'gray'} mb="md">{project.approvalStatus}</Badge>
                       </Tooltip>
                   ) : (
-                      <Badge variant="light" color="pink" mb="md">{project.approvalStatus}</Badge>
+                      <Badge variant="light" color={approvalStatusColors[project.approvalStatus] ?? 'gray'} mb="md">{project.approvalStatus}</Badge>
                   )}
                   <Text lts="2px" c="dimmed" mb="md">
                       {project.collabName.toUpperCase()} COLLABORATIVE

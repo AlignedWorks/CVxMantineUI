@@ -17,7 +17,7 @@ import {
   Badge,
   Image,
  } from '@mantine/core';
-import { CollaborativeData, Project } from '../../data.ts';
+import { CollaborativeData, Project, approvalStatusColors, approvalStatusSortOrder } from '../../data.ts';
 
 interface TokenDistribution {
   currentTokenRelease: number;
@@ -125,6 +125,13 @@ export function CollaborativeProjects() {
     fetchProjects();
   }, [id]);
 
+  // Sort projects by approval status before mapping
+  const sortedProjects = [...projects].sort((a, b) => {
+    const aOrder = approvalStatusSortOrder[a.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
+    const bOrder = approvalStatusSortOrder[b.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
+    return aOrder - bOrder;
+  });
+
   if (loading) {
     return (
       <Container size="md" py="xl">
@@ -182,7 +189,7 @@ export function CollaborativeProjects() {
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
-                    {projects.map((project) => (
+                    {sortedProjects.map((project) => (
                       <Table.Tr key={project.id}>
                         <Table.Td>
                           <Text fz="sm" fw={500} 
@@ -201,14 +208,13 @@ export function CollaborativeProjects() {
                         <Table.Td>
                           {project.approvalStatus == 'Draft' ? (
                             <Tooltip color="gray" label="Pending submission of a completed proposal by the assigned Project Admin">
-                              <Badge color={'pink'} variant="light">
+                              <Badge color={'gray'} variant="light">
                                 {project.approvalStatus}
                               </Badge>
                             </Tooltip>
                           ) : (
                             <Badge
-                              color={project.approvalStatus === 'Active' ? 'green' : 
-                                      project.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                              color={approvalStatusColors[project.approvalStatus] ?? 'gray'}
                               variant="light"
                             >
                               {project.approvalStatus}

@@ -309,6 +309,22 @@ export const assigneeStatusColors: { [key: string]: string } = {
   Declined: 'red',
 };
 
+export const approvalStatusColors: Record<string, string> = {
+  Active: 'green',
+  Submitted: 'yellow',
+  Draft: 'gray',
+  Archived: 'blue',
+  Declined: 'red',
+};
+
+export const approvalStatusSortOrder: Record<string, number> = { 
+  'Active': 1,
+  'Submitted': 2,
+  'Draft': 3,
+  'Archived': 4,
+  'Declined': 5
+}
+
 export enum PayoutFrequency {
   Monthly = 'Monthly',
   Quarterly = 'Quarterly',

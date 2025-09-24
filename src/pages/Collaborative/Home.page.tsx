@@ -16,7 +16,7 @@ import {
   Center,
   Image,
  } from '@mantine/core';
-import { CollaborativeData } from '../../data.ts';
+import { CollaborativeData, approvalStatusColors } from '../../data.ts';
 import {
   IconAt,
   IconMapPin,
@@ -204,29 +204,15 @@ export function CollaborativeHome() {
               </Title>
 
               {/* Center status badge on small screens */}
-              {collaborative.approvalStatus === 'Active' ? (
-                <Center>
-                  <Badge hiddenFrom="md" variant="light" color="yellow" mb="md">
-                      {collaborative.approvalStatus}
-                  </Badge>
-                </Center>
-              ) : (
-                <Center>
-                  <Badge hiddenFrom="md" variant="light" color="pink" mb="md">
-                      {collaborative.approvalStatus}
-                  </Badge>
-                </Center>
-              )}
+              <Center>
+                <Badge hiddenFrom="md" variant="light" color={approvalStatusColors[collaborative.approvalStatus] ?? 'gray'} mb="md">
+                  {collaborative.approvalStatus}
+                </Badge>
+              </Center>
 
-              {collaborative.approvalStatus === 'Active' ? (
-                <Badge visibleFrom="md" variant="light" color="yellow" mb="md">
-                    {collaborative.approvalStatus}
-                </Badge>
-              ) : (
-                <Badge visibleFrom="md" variant="light" color="pink" mb="md">
-                    {collaborative.approvalStatus}
-                </Badge>
-              )}
+              <Badge visibleFrom="md" variant="light" color={approvalStatusColors[collaborative.approvalStatus] ?? 'gray'} mb="md">
+                {collaborative.approvalStatus}
+              </Badge>
 
               <Grid>
                 <Grid.Col span={{ base: 12, sm: 12, md: 7 }}>

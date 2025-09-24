@@ -28,7 +28,7 @@ import {
   Switch,
   Paper,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, MilestoneDetail, assigneeStatusColors } from '../../data.ts';
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, MilestoneDetail, assigneeStatusColors, approvalStatusColors, approvalStatusSortOrder } from '../../data.ts';
 import { FileUpload } from '../../components/uploads/FileUpload.tsx';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
@@ -561,13 +561,10 @@ export function ProjectMilestones() {
       label: `${member.firstName} ${member.lastName}`,
   }));
 
-  // Define the sort order for approval status
-  const statusOrder = { 'Submitted': 1, 'Declined': 2, 'Draft': 3, 'Archived': 4 };
-
   // Sort milestones by approval status before mapping
   const sortedMilestones = [...project.milestones].sort((a, b) => {
-    const aOrder = statusOrder[a.approvalStatus as keyof typeof statusOrder] || 999;
-    const bOrder = statusOrder[b.approvalStatus as keyof typeof statusOrder] || 999;
+    const aOrder = approvalStatusSortOrder[a.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
+    const bOrder = approvalStatusSortOrder[b.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
     return aOrder - bOrder;
   });
 
@@ -589,18 +586,12 @@ export function ProjectMilestones() {
       </Table.Td>
       <Table.Td style={{ verticalAlign: 'top' }}>
         <Text>
-          {item.description}
-        </Text>
-      </Table.Td>
-      <Table.Td style={{ verticalAlign: 'top' }}>
-        <Text>
           {item.assigneeName}
         </Text>
       </Table.Td>
       <Table.Td style={{ verticalAlign: 'top' }}>
         <Badge
-          color={item.approvalStatus === 'Active' ? 'green' : 
-                  item.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+          color={approvalStatusColors[item.approvalStatus] ?? 'gray'}
           variant="light"
         >
           {item.approvalStatus}
@@ -611,7 +602,11 @@ export function ProjectMilestones() {
           {Number(item.allocatedLaunchTokens).toFixed(2)}
         </Text>
       </Table.Td>
-      
+      <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+        <Text>
+          {(Number(item.allocatedLaunchTokens) / project.launchTokenBudget).toFixed(2)}%
+        </Text>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -619,7 +614,6 @@ export function ProjectMilestones() {
   const totalMilestoneTokens = project.milestones.reduce((sum, milestone) => {
     return sum + milestone.allocatedLaunchTokens;
   }, 0);
-
 
   // Check permissions for the selected milestone
   const isProjectAdmin = selectedMilestone?.projectAdmins?.some(admin => admin.adminId === user?.userId);
@@ -663,10 +657,10 @@ export function ProjectMilestones() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Milestones</Table.Th>
-                        <Table.Th>Description</Table.Th>
                         <Table.Th>Assignee</Table.Th>
                         <Table.Th>Status</Table.Th>
                         <Table.Th style={{ textAlign: 'right' }}>Payout (tokens)</Table.Th>
+                        <Table.Th style={{ textAlign: 'right' }}>Payout (% of budget)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>

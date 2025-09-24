@@ -32,7 +32,11 @@ import {
   ProjectInvite,
   MilestoneAssignment,
   MilestoneCompletion,
+  approvalStatusColors,
+  approvalStatusSortOrder
 } from '../data.ts';
+
+import { useMediaQuery } from '@mantine/hooks';
 
 interface User {
   id: string;
@@ -48,6 +52,10 @@ interface User {
 }
 
 export function Dashboard() {
+  // small screens: reduce tab font-size to avoid wrapping
+  const isSmall = useMediaQuery('(max-width: 640px)');
+  const tabFz = isSmall ? 'md' : 'lg';
+
   const [denialReasons, setDenialReasons] = useState<{ [userId: string]: string }>({});
   const [userApprovals, setUserApprovals] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
@@ -119,6 +127,13 @@ export function Dashboard() {
   useEffect(() => {
     fetchDashboardData();
   }, []);
+
+  // Sort projects by approval status before mapping
+  const sortedProjects = [...projects].sort((a, b) => {
+    const aOrder = approvalStatusSortOrder[a.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
+    const bOrder = approvalStatusSortOrder[b.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
+    return aOrder - bOrder;
+  });
 
   /*
   if (loading) {
@@ -431,9 +446,9 @@ export function Dashboard() {
 
         <Tabs value={activeTab} onChange={setActiveTab} mt="xl">
           <Tabs.List>
-            <Tabs.Tab value="first" fz="lg" fw={500}>Notifications</Tabs.Tab>
-            <Tabs.Tab value="second" fz="lg" fw={500}>Collaboratives</Tabs.Tab>
-            <Tabs.Tab value="third" fz="lg" fw={500}>Projects</Tabs.Tab>
+            <Tabs.Tab value="first" fz={tabFz} fw={500}>Notifications</Tabs.Tab>
+            <Tabs.Tab value="second" fz={tabFz} fw={500}>Collaboratives</Tabs.Tab>
+            <Tabs.Tab value="third" fz={tabFz} fw={500}>Projects</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="first" pt="xl">
@@ -897,14 +912,10 @@ export function Dashboard() {
                             {collab.description}
                         </Text>
                       </Tooltip>
-                      <Badge 
-                        color={
-                          collab.status === 'Active' ? 'green' : 
-                          collab.status === 'Submitted' ? 'yellow' : 
-                          'pink'
-                        } 
-                        variant="light" 
-                        mt="sm" 
+                      <Badge
+                        color={approvalStatusColors[collab.status] ?? 'gray'}
+                        variant="light"
+                        mt="sm"
                         mb="lg"
                       >
                         {collab.status}
@@ -946,7 +957,7 @@ export function Dashboard() {
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
-                      {projects.map((p) => (
+                      {sortedProjects.map((p) => (
                         <Table.Tr key={p.id}>
                           <Table.Td>
                             <Text
@@ -962,7 +973,7 @@ export function Dashboard() {
                           <Table.Td>{p.description ?? '—'}</Table.Td>
                           <Table.Td>
                             <Badge
-                              color={p.approvalStatus === 'Active' ? 'green' : p.approvalStatus === 'Submitted' ? 'yellow' : 'pink'}
+                              color={approvalStatusColors[p.approvalStatus] ?? 'gray'}
                               variant="light"
                             >
                               {p.approvalStatus}
