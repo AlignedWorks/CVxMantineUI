@@ -666,8 +666,8 @@ export function ProjectMilestones() {
                     <Table.Tbody>
                       {milestoneRows}
                       <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
-                        <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
-                          <Group>
+                        <Table.Td colSpan={4}>
+                          <Group justify="right">
                             <Text c="dimmed">
                               Total Assigned Tokens:
                             </Text>
@@ -676,8 +676,8 @@ export function ProjectMilestones() {
                             </Text>
                           </Group>
                         </Table.Td>
-                        <Table.Td style={{ textAlign: 'right' }}>
-                          <Group>
+                        <Table.Td>
+                          <Group justify="right">
                             <Text c="dimmed">
                               Project Budget:
                             </Text>

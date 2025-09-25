@@ -36,8 +36,6 @@ import {
   approvalStatusSortOrder
 } from '../data.ts';
 
-import { useMediaQuery } from '@mantine/hooks';
-
 interface User {
   id: string;
   username: string;
@@ -52,10 +50,6 @@ interface User {
 }
 
 export function Dashboard() {
-  // small screens: reduce tab font-size to avoid wrapping
-  const isSmall = useMediaQuery('(max-width: 640px)');
-  const tabsOrientation = isSmall ? 'vertical' : 'horizontal';
-
   const [denialReasons, setDenialReasons] = useState<{ [userId: string]: string }>({});
   const [userApprovals, setUserApprovals] = useState<User[] | null>([]);
   const [rolesData, setRolesData] = useState<string[]>([]);
@@ -444,7 +438,7 @@ export function Dashboard() {
         </Group>
         )}
 
-        <Tabs orientation={tabsOrientation} value={activeTab} onChange={setActiveTab} mt="xl">
+        <Tabs value={activeTab} onChange={setActiveTab} mt="xl">
           <Tabs.List>
             <Tabs.Tab value="first" fz='lg' fw={500}>Notifications</Tabs.Tab>
             <Tabs.Tab value="second" fz='lg' fw={500}>Collaboratives</Tabs.Tab>
