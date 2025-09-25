@@ -54,7 +54,7 @@ interface User {
 export function Dashboard() {
   // small screens: reduce tab font-size to avoid wrapping
   const isSmall = useMediaQuery('(max-width: 640px)');
-  const tabFz = isSmall ? 'md' : 'lg';
+  const tabsOrientation = isSmall ? 'vertical' : 'horizontal';
 
   const [denialReasons, setDenialReasons] = useState<{ [userId: string]: string }>({});
   const [userApprovals, setUserApprovals] = useState<User[] | null>([]);
@@ -444,11 +444,11 @@ export function Dashboard() {
         </Group>
         )}
 
-        <Tabs value={activeTab} onChange={setActiveTab} mt="xl">
+        <Tabs orientation={tabsOrientation} value={activeTab} onChange={setActiveTab} mt="xl">
           <Tabs.List>
-            <Tabs.Tab value="first" fz={tabFz} fw={500}>Notifications</Tabs.Tab>
-            <Tabs.Tab value="second" fz={tabFz} fw={500}>Collaboratives</Tabs.Tab>
-            <Tabs.Tab value="third" fz={tabFz} fw={500}>Projects</Tabs.Tab>
+            <Tabs.Tab value="first" fz='lg' fw={500}>Notifications</Tabs.Tab>
+            <Tabs.Tab value="second" fz='lg' fw={500}>Collaboratives</Tabs.Tab>
+            <Tabs.Tab value="third" fz='lg' fw={500}>Projects</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="first" pt="xl">

@@ -183,8 +183,8 @@ export function CollaborativeProjects() {
                     <Table.Tr>
                       <Table.Th>Projects</Table.Th>
                       <Table.Th>Description</Table.Th>
+                      <Table.Th>Admin</Table.Th>
                       <Table.Th>Approval Status</Table.Th>
-                      <Table.Th>Created</Table.Th>
                       <Table.Th style={{ textAlign: 'right' }}>Budget (tokens)</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
@@ -205,6 +205,7 @@ export function CollaborativeProjects() {
                           </Text>
                         </Table.Td>
                         <Table.Td>{project.description}</Table.Td>
+                        <Table.Td>{project.adminName}</Table.Td>
                         <Table.Td>
                           {project.approvalStatus == 'Draft' ? (
                             <Tooltip color="gray" label="Pending submission of a completed proposal by the assigned Project Admin">
@@ -221,7 +222,6 @@ export function CollaborativeProjects() {
                             </Badge>
                           )}
                         </Table.Td>
-                        <Table.Td>{new Date(project.createdAt).toLocaleDateString()}</Table.Td>
                         <Table.Td style={{ textAlign: 'right' }}>{project.budget}</Table.Td>
                       </Table.Tr>
                     ))}
