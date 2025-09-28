@@ -599,12 +599,12 @@ export function ProjectMilestones() {
       </Table.Td>
       <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
         <Text>
-          {Number(item.allocatedLaunchTokens).toFixed(2)}
+          {Math.round(Number(item.allocatedLaunchTokens) / project.launchTokenBudget * 100)}%
         </Text>
       </Table.Td>
       <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
         <Text>
-          {(Number(item.allocatedLaunchTokens) / project.launchTokenBudget * 100).toFixed(2)}%
+          {Number(item.allocatedLaunchTokens).toFixed(2)}
         </Text>
       </Table.Td>
     </Table.Tr>
@@ -656,17 +656,17 @@ export function ProjectMilestones() {
                   <Table verticalSpacing="sm">
                     <Table.Thead>
                       <Table.Tr>
-                        <Table.Th>Milestones</Table.Th>
-                        <Table.Th>Assignee</Table.Th>
-                        <Table.Th>Status</Table.Th>
-                        <Table.Th style={{ textAlign: 'right' }}>Payout<br/>(tokens)</Table.Th>
-                        <Table.Th style={{ textAlign: 'right' }}>Payout<br/>(% of budget)</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Milestone</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Assignee</Table.Th>
+                        <Table.Th w={110} style={{ verticalAlign: 'top' }}>Status</Table.Th>
+                        <Table.Th w={80} style={{ textAlign: 'right', verticalAlign: 'top' }}>Payout<br/>(% of budget)</Table.Th>
+                        <Table.Th w={80} style={{ textAlign: 'right', verticalAlign: 'top' }}>Payout<br/>(tokens)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                       {milestoneRows}
-                      <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
-                        <Table.Td colSpan={4}>
+                      <Table.Tr style={{ borderTop: '1px solid #dee2e6', fontWeight: 'bold' }}>
+                        <Table.Td colSpan={5} style={{ verticalAlign: 'top' }}>
                           <Group justify="right">
                             <Text c="dimmed">
                               Total Assigned Tokens:
@@ -675,8 +675,6 @@ export function ProjectMilestones() {
                               {Number(totalMilestoneTokens).toFixed(2)}
                             </Text>
                           </Group>
-                        </Table.Td>
-                        <Table.Td>
                           <Group justify="right">
                             <Text c="dimmed">
                               Project Budget:

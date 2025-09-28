@@ -25,7 +25,7 @@ import {
   Image,
   Tabs,
 } from '@mantine/core';
-import { mock_collab_data, User, users, inviteStatusColors } from '../data.ts';
+import { mock_collab_data, User, users, inviteStatusColors, mock_projects, approvalStatusColors } from '../data.ts';
 import { Link } from 'react-router-dom';
 import classes from './Test.module.css';
 import {
@@ -999,6 +999,77 @@ export function Test() {
                     </Button>
                 </Grid.Col>
             </Grid>
+
+            {mock_projects && mock_projects.length > 0 ? (
+                <Card padding="lg" withBorder shadow="xs" mt="md">
+                <Table.ScrollContainer minWidth={400}>
+                    <Table verticalSpacing="sm" highlightOnHover>
+                    <Table.Thead>
+                        <Table.Tr>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Project</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Collaborative</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Description</Table.Th>
+                        <Table.Th w={110} style={{ verticalAlign: 'top' }}>Status</Table.Th>
+                        <Table.Th w={80} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
+                        </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                        {mock_projects.map((p) => (
+                        <Table.Tr key={p.id}>
+                            <Table.Td style={{ verticalAlign: 'top' }}>
+                            <Text
+                                component={Link}
+                                to={`/collaboratives/${p.collabId}/projects/${p.id}`}
+                                state={{ from: location.pathname }}
+                                style={{ textDecoration: 'none', color: '#0077b5' }}
+                            >
+                                {p.name}
+                            </Text>
+                            </Table.Td>
+                            <Table.Td style={{ verticalAlign: 'top' }}>{p.collabName ?? '—'}</Table.Td>
+                            <Table.Td style={{ verticalAlign: 'top' }}>{p.description ?? '—'}</Table.Td>
+                            <Table.Td style={{ verticalAlign: 'top' }}>
+                            <Badge
+                                color={approvalStatusColors[p.approvalStatus] ?? 'gray'}
+                                variant="light"
+                            >
+                                {p.approvalStatus}
+                            </Badge>
+                            </Table.Td>
+                            <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+                            {typeof p.budget === 'number' ? p.budget.toLocaleString() : (p.budget ?? '—')}
+                            </Table.Td>
+                        </Table.Tr>
+                        ))}
+
+                        <Table.Tr style={{ borderTop: '1px solid #dee2e6', fontWeight: 'bold' }}>
+                            <Table.Td colSpan={5} style={{ verticalAlign: 'top' }}>
+                                <Group justify="right">
+                                    <Text c="dimmed">
+                                        Total Assigned Tokens:
+                                    </Text>
+                                    <Text fw={500}>
+                                        9.00
+                                    </Text>
+                                </Group>
+                                <Group justify="right">
+                                    <Text c="dimmed">
+                                        Project Budget:
+                                    </Text>
+                                    <Text fw={500}>
+                                        10.00
+                                    </Text>
+                                </Group>
+                            </Table.Td>
+                        </Table.Tr>
+                    </Table.Tbody>
+                    </Table>
+                </Table.ScrollContainer>
+
+                </Card>
+            ) : (
+                <Text c="dimmed" mt="md">No projects available.</Text>
+            )}
 
             <Modal
                 opened={isModalOpen}

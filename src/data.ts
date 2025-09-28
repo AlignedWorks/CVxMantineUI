@@ -848,3 +848,20 @@ export const mock_collab_data: CollaborativeData[] = [
 export const us_states = [
   "AL", "AK", "AZ", "AR", "CA", "CO", "CT","DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
 ];
+
+export interface ProjectDisplay {
+  id: number,
+  name: string,
+  collabId?: number,
+  collabName: string,
+  approvalStatus: string,
+  description: string,
+  budget: number,
+}
+
+export const mock_projects: ProjectDisplay[] = [
+  { id: 1, name: 'Project Supercalifragilisticexpialidocious and such', collabName: 'CodeForge Collective', approvalStatus: 'Active', description: 'This is the first project.', budget: 5000 },
+  { id: 2, name: 'Project Two', collabName: 'Breadcoin PA Capital region', approvalStatus: 'Submitted', description: 'This is the second project.', budget: 10000 },
+  { id: 3, name: 'Project Three', collabName: '717 Tacos', approvalStatus: 'Draft', description: 'This is the third project.', budget: 7500 },
+  { id: 4, name: 'Project Four', collabName: 'SCC Tattoos', approvalStatus: 'Declined', description: 'This is the fourth project.', budget: 12000 },
+]

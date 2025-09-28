@@ -174,7 +174,7 @@ export function CollaborativeMemberWallet() {
                       >
                         <Text fz="md" fw={500} c="#999">My Current Share</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100).toFixed(2)}%</Text>
+                      <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100)}%</Text>
                       
                       <Tooltip
                         color="gray"
@@ -184,7 +184,7 @@ export function CollaborativeMemberWallet() {
                       >
                         <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>
+                      <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100)}%</Text>
                     </Stack>
                   </div>
                 </SimpleGrid>

@@ -181,17 +181,17 @@ export function CollaborativeProjects() {
                 <Table verticalSpacing="sm">
                   <Table.Thead>
                     <Table.Tr>
-                      <Table.Th>Projects</Table.Th>
-                      <Table.Th>Description</Table.Th>
-                      <Table.Th>Admin</Table.Th>
-                      <Table.Th>Approval Status</Table.Th>
-                      <Table.Th style={{ textAlign: 'right' }}>Budget (tokens)</Table.Th>
+                      <Table.Th style={{ verticalAlign: 'top' }}>Project</Table.Th>
+                      <Table.Th style={{ verticalAlign: 'top' }}>Description</Table.Th>
+                      <Table.Th style={{ verticalAlign: 'top' }}>Admin</Table.Th>
+                      <Table.Th w={110} style={{ verticalAlign: 'top' }}>Approval Status</Table.Th>
+                      <Table.Th w={80} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
                     {sortedProjects.map((project) => (
                       <Table.Tr key={project.id}>
-                        <Table.Td>
+                        <Table.Td style={{ verticalAlign: 'top' }}>
                           <Text fz="sm" fw={500} 
                             style={{ 
                               color: '#0077b5', 
@@ -204,9 +204,9 @@ export function CollaborativeProjects() {
                             {project.name}
                           </Text>
                         </Table.Td>
-                        <Table.Td>{project.description}</Table.Td>
-                        <Table.Td>{project.adminName}</Table.Td>
-                        <Table.Td>
+                        <Table.Td style={{ verticalAlign: 'top' }}>{project.description}</Table.Td>
+                        <Table.Td style={{ verticalAlign: 'top' }}>{project.adminName}</Table.Td>
+                        <Table.Td style={{ verticalAlign: 'top' }}>
                           {project.approvalStatus == 'Draft' ? (
                             <Tooltip color="gray" label="Pending submission of a completed proposal by the assigned Project Admin">
                               <Badge color={'gray'} variant="light">
@@ -222,7 +222,7 @@ export function CollaborativeProjects() {
                             </Badge>
                           )}
                         </Table.Td>
-                        <Table.Td style={{ textAlign: 'right' }}>{project.budget}</Table.Td>
+                        <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>{project.budget.toFixed(2)}</Table.Td>
                       </Table.Tr>
                     ))}
                   </Table.Tbody>
