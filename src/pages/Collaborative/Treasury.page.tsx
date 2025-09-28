@@ -130,19 +130,19 @@ export function CollaborativeTreasury() {
                     <Tooltip color="gray" label="(Total Token Assets) / (Total Token Liabilities)">
                       <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
                     </Tooltip>
-                          <Text fz="xl" fw={700} c="#444">{workingTokenRatio.toFixed(2)}</Text>
+                          <Text fz="xl" fw={700} c="#444">{Math.round(workingTokenRatio)}</Text>
                         </div>
                   <div>
                     <Tooltip color="gray" label="(Total Token Assets) - (Total Token Liabilities)">
                       <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
                     </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{(totalTokenAssets - totalTokenLiabilities).toFixed(2)}</Text>
+                    <Text fz="xl" fw={700} c="#444">{Math.round(totalTokenAssets - totalTokenLiabilities)}</Text>
                   </div>
                   <div>
                     <Tooltip color="gray" label="(Current Token Balance) - (Total Token Liabilities)">
                       <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
                     </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{(collaborative.tokenBalance - totalTokenLiabilities).toFixed(2)}</Text>
+                    <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.tokenBalance - totalTokenLiabilities)}</Text>
                   </div>
                 </SimpleGrid>
               </Paper>

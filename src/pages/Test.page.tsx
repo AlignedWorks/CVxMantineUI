@@ -1010,7 +1010,7 @@ export function Test() {
                         <Table.Th style={{ verticalAlign: 'top' }}>Collaborative</Table.Th>
                         <Table.Th style={{ verticalAlign: 'top' }}>Description</Table.Th>
                         <Table.Th w={110} style={{ verticalAlign: 'top' }}>Status</Table.Th>
-                        <Table.Th w={80} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
+                        <Table.Th w={100} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -1028,7 +1028,7 @@ export function Test() {
                             </Table.Td>
                             <Table.Td style={{ verticalAlign: 'top' }}>{p.collabName ?? '—'}</Table.Td>
                             <Table.Td style={{ verticalAlign: 'top' }}>{p.description ?? '—'}</Table.Td>
-                            <Table.Td style={{ verticalAlign: 'top' }}>
+                            <Table.Td style={{ align: 'center', verticalAlign: 'top' }}>
                             <Badge
                                 color={approvalStatusColors[p.approvalStatus] ?? 'gray'}
                                 variant="light"
@@ -1037,18 +1037,24 @@ export function Test() {
                             </Badge>
                             </Table.Td>
                             <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            {typeof p.budget === 'number' ? p.budget.toLocaleString() : (p.budget ?? '—')}
+                                <Text>
+                                    {typeof p.budgetTokens === 'number' ? p.budgetTokens.toLocaleString() : (p.budgetTokens ?? '—')}
+                                </Text>
+                                <Text c="dimmed" fz="sm">    
+                                    {typeof p.budgetPercent === 'number' ? p.budgetPercent.toLocaleString() : (p.budgetPercent ?? '—')}%
+                                </Text>
                             </Table.Td>
                         </Table.Tr>
                         ))}
-
-                        <Table.Tr style={{ borderTop: '1px solid #dee2e6', fontWeight: 'bold' }}>
-                            <Table.Td colSpan={5} style={{ verticalAlign: 'top' }}>
+                        
+                        <br/>
+                        <Table.Tr>
+                            <Table.Td colSpan={6} style={{ verticalAlign: 'top' }}>
                                 <Group justify="right">
                                     <Text c="dimmed">
                                         Total Assigned Tokens:
                                     </Text>
-                                    <Text fw={500}>
+                                    <Text size="lg" fw={500}>
                                         9.00
                                     </Text>
                                 </Group>
@@ -1056,7 +1062,7 @@ export function Test() {
                                     <Text c="dimmed">
                                         Project Budget:
                                     </Text>
-                                    <Text fw={500}>
+                                    <Text size="lg" fw={500}>
                                         10.00
                                     </Text>
                                 </Group>

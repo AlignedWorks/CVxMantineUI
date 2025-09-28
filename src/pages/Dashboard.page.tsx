@@ -943,17 +943,17 @@ export function Dashboard() {
                   <Table verticalSpacing="sm" highlightOnHover>
                     <Table.Thead>
                       <Table.Tr>
-                        <Table.Th>Project</Table.Th>
-                        <Table.Th>Collaborative</Table.Th>
-                        <Table.Th>Description</Table.Th>
-                        <Table.Th>Status</Table.Th>
-                        <Table.Th style={{ textAlign: 'right' }}>Budget (tokens)</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Project</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Collaborative</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Description</Table.Th>
+                        <Table.Th w={110} style={{ verticalAlign: 'top' }}>Status</Table.Th>
+                        <Table.Th w={100} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                       {sortedProjects.map((p) => (
                         <Table.Tr key={p.id}>
-                          <Table.Td>
+                          <Table.Td style={{ verticalAlign: 'top' }}>
                             <Text
                               component={Link}
                               to={`/collaboratives/${p.collabId}/projects/${p.id}`}
@@ -963,9 +963,9 @@ export function Dashboard() {
                               {p.name}
                             </Text>
                           </Table.Td>
-                          <Table.Td>{p.collabName ?? '—'}</Table.Td>
-                          <Table.Td>{p.description ?? '—'}</Table.Td>
-                          <Table.Td>
+                          <Table.Td style={{ verticalAlign: 'top' }}>{p.collabName ?? '—'}</Table.Td>
+                          <Table.Td style={{ verticalAlign: 'top' }}>{p.description ?? '—'}</Table.Td>
+                          <Table.Td style={{ verticalAlign: 'top' }}>
                             <Badge
                               color={approvalStatusColors[p.approvalStatus] ?? 'gray'}
                               variant="light"
@@ -973,7 +973,7 @@ export function Dashboard() {
                               {p.approvalStatus}
                             </Badge>
                           </Table.Td>
-                          <Table.Td style={{ textAlign: 'right' }}>
+                          <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
                             {typeof p.budget === 'number' ? p.budget.toLocaleString() : (p.budget ?? '—')}
                           </Table.Td>
                         </Table.Tr>

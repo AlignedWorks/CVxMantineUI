@@ -185,7 +185,7 @@ export function CollaborativeProjects() {
                       <Table.Th style={{ verticalAlign: 'top' }}>Description</Table.Th>
                       <Table.Th style={{ verticalAlign: 'top' }}>Admin</Table.Th>
                       <Table.Th w={110} style={{ verticalAlign: 'top' }}>Approval Status</Table.Th>
-                      <Table.Th w={80} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
+                      <Table.Th w={100} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>

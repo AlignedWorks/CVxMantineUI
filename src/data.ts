@@ -856,12 +856,13 @@ export interface ProjectDisplay {
   collabName: string,
   approvalStatus: string,
   description: string,
-  budget: number,
+  budgetTokens: number,
+  budgetPercent: number,
 }
 
 export const mock_projects: ProjectDisplay[] = [
-  { id: 1, name: 'Project Supercalifragilisticexpialidocious and such', collabName: 'CodeForge Collective', approvalStatus: 'Active', description: 'This is the first project.', budget: 5000 },
-  { id: 2, name: 'Project Two', collabName: 'Breadcoin PA Capital region', approvalStatus: 'Submitted', description: 'This is the second project.', budget: 10000 },
-  { id: 3, name: 'Project Three', collabName: '717 Tacos', approvalStatus: 'Draft', description: 'This is the third project.', budget: 7500 },
-  { id: 4, name: 'Project Four', collabName: 'SCC Tattoos', approvalStatus: 'Declined', description: 'This is the fourth project.', budget: 12000 },
+  { id: 1, name: 'Project Supercalifragilisticexpialidocious and such', collabName: 'CodeForge Collective', approvalStatus: 'Active', description: 'This is the first project.', budgetTokens: 5000, budgetPercent: 50 },
+  { id: 2, name: 'Project Two', collabName: 'Breadcoin PA Capital region', approvalStatus: 'Submitted', description: 'This is the second project.', budgetTokens: 10000, budgetPercent: 100 },
+  { id: 3, name: 'Project Three', collabName: '717 Tacos', approvalStatus: 'Draft', description: 'This is the third project.', budgetTokens: 7500, budgetPercent: 75 },
+  { id: 4, name: 'Project Four', collabName: 'SCC Tattoos', approvalStatus: 'Declined', description: 'This is the fourth project.', budgetTokens: 12000, budgetPercent: 120 },
 ]
