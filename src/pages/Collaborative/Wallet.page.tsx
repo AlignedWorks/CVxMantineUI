@@ -77,18 +77,32 @@ export function CollaborativeMemberWallet() {
   }
 
   // Generate table rows for launch token transactions if user is collab member
-  const transactionRows = collaborative.userIsCollabMember ? collaborative.launchTokenTransactions.map((transaction) => (
-    <Table.Tr key={transaction.id}>
-      <Table.Td>{new Date(transaction.date).toLocaleDateString()}</Table.Td>
-      <Table.Td>{transaction.project}</Table.Td>
-      <Table.Td>{transaction.milestone}</Table.Td>
-      <Table.Td>
-        <Badge color={transaction.amount > 0 ? 'green' : 'red'} variant="light">
-          {transaction.amount > 0 ? '+' : ''}{transaction.amount.toFixed(2)}
-        </Badge>
-      </Table.Td>
-    </Table.Tr>
-  )) : [];
+  const transactionRows = collaborative.userIsCollabMember ? collaborative.launchTokenTransactions.map((transaction) => {
+
+    const projectDisplay = transaction.project || '—';
+    const milestoneDisplay = transaction.milestone || '—';
+
+    return (
+      <Table.Tr key={transaction.id}>
+        <Table.Td>{new Date(transaction.date).toLocaleDateString()}</Table.Td>
+        <Table.Td>
+          <Badge size="sm" variant="outline" color={
+            transaction.type === 'Milestone' ? 'blue' : 
+            transaction.type === 'Project Admin' ? 'green' : 'purple'
+          }>
+            {transaction.type}
+          </Badge>
+        </Table.Td>
+        <Table.Td>{projectDisplay}</Table.Td>
+        <Table.Td>{milestoneDisplay}</Table.Td>
+        <Table.Td>
+          <Badge color={transaction.amount > 0 ? 'green' : 'red'} variant="light">
+            {transaction.amount > 0 ? '+' : ''}{transaction.amount.toFixed(2)}
+          </Badge>
+        </Table.Td>
+      </Table.Tr>
+    );
+   }) : [];
 
   // Calculate total number of user earned tokens from the collaborative of all transaction amounts if user is collab member
   const userEarnedTokensFromCollabTotal = collaborative.userIsCollabMember ? collaborative.launchTokenTransactions.reduce((sum, transaction) => {
@@ -199,6 +213,7 @@ export function CollaborativeMemberWallet() {
                       <Table.Thead>
                         <Table.Tr>
                           <Table.Th>Date</Table.Th>
+                          <Table.Th>Type</Table.Th>
                           <Table.Th>Project</Table.Th>
                           <Table.Th>Milestone</Table.Th>
                           <Table.Th>Amount</Table.Th>

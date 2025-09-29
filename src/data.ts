@@ -126,6 +126,7 @@ export interface LaunchTokenTransaction {
   id: number;
   amount: number;
   date: string;
+  type: string;
   project: string;
   milestone: string;
 }
