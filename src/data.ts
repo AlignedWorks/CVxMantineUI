@@ -6,6 +6,7 @@ export interface Collaborative {
   websiteUrl: string;
   city: string;
   state: string;
+  csaDocUrl?: string;
   logoUrl: string;
   // default: 10,000
   launchTokensCreated: number;

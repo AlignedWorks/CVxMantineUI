@@ -1037,7 +1037,7 @@ export function Test() {
                             </Badge>
                             </Table.Td>
                             <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                                <Text>
+                                <Text size="lg">
                                     {typeof p.budgetTokens === 'number' ? p.budgetTokens.toLocaleString() : (p.budgetTokens ?? '—')}
                                 </Text>
                                 <Text c="dimmed" fz="sm">    

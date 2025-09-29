@@ -16,10 +16,8 @@ import {
   SimpleGrid,
   Grid,
 } from '@mantine/core';
-import {
-  Collaborative,
-  us_states,
-} from '../data.ts';
+import { Collaborative, us_states } from '../data.ts';
+import { FileUpload } from '../components/uploads/FileUpload.tsx';
 
 export function CreateCollaborative() {
     const navigate = useNavigate();
@@ -39,6 +37,7 @@ export function CreateCollaborative() {
           skills: [],
           experience: [],
           logoUrl: '',
+          csaDocUrl: '',
           launchTokensCreated: 10000,
           launchTokensPriorWorkPercent: 0,
           launchCyclePeriod: 12,
@@ -76,6 +75,7 @@ export function CreateCollaborative() {
     description: '',
     websiteUrl: '',
     logoUrl: "/assets/logos/Default.png",
+    csaDocUrl: '',
     city: '',
     state: '',
     skills: [],
@@ -543,6 +543,14 @@ export function CreateCollaborative() {
           {/* empty placeholder to reserve the second column so widths match */}
         </div>
       </SimpleGrid>
+
+      <Title order={2} mt="md" mb="md" pt="xl" pb="md" ta="center">
+        Collaborative Sharing Agreement
+      </Title>
+
+      <FileUpload
+        onSuccess={(url) => handleInputChange('csaDocUrl', url)}
+      />
 
       <Group justify="flex-end" mt="xl">
         <Button variant="outline" onClick={handleSubmit}>Submit Collaborative Proposal</Button>
