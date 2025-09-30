@@ -86,9 +86,9 @@ export function CollaborativeMemberWallet() {
       <Table.Tr key={transaction.id}>
         <Table.Td>{new Date(transaction.date).toLocaleDateString()}</Table.Td>
         <Table.Td>
-          <Badge size="sm" variant="outline" color={
-            transaction.type === 'Milestone' ? 'blue' : 
-            transaction.type === 'Project Admin' ? 'green' : 'purple'
+          <Badge size="sm" variant="light" color={
+            transaction.type === 'Milestone' ? 'orange' : 
+            transaction.type === 'Project Admin' ? 'teal' : 'grape'
           }>
             {transaction.type}
           </Badge>
@@ -223,7 +223,7 @@ export function CollaborativeMemberWallet() {
                         {transactionRows}
                         {/* Total row */}
                         <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
-                          <Table.Td colSpan={3} style={{ textAlign: 'right', fontWeight: 'bold' }}>
+                          <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
                             Total:
                           </Table.Td>
                           <Table.Td>
