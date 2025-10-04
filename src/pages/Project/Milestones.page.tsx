@@ -585,6 +585,14 @@ export function ProjectMilestones() {
           </Text>
       </Table.Td>
       <Table.Td style={{ verticalAlign: 'top' }}>
+        <Badge
+          color={assigneeStatusColors[item.assigneeStatus] ?? 'gray'}
+          variant="light"
+        >
+          {item.assigneeStatus}
+        </Badge>
+      </Table.Td>
+      <Table.Td style={{ verticalAlign: 'top' }}>
         <Text>
           {item.assigneeName}
         </Text>
@@ -655,6 +663,7 @@ export function ProjectMilestones() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th style={{ verticalAlign: 'top' }}>Milestone</Table.Th>
+                        <Table.Th style={{ verticalAlign: 'top' }}>Assignee Status</Table.Th>
                         <Table.Th style={{ verticalAlign: 'top' }}>Assignee</Table.Th>
                         <Table.Th w={110} style={{ verticalAlign: 'top' }}>Status</Table.Th>
                         <Table.Th w={100} style={{ textAlign: 'right', verticalAlign: 'top' }}>Payout<br/>(tokens)</Table.Th>

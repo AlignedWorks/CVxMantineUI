@@ -87,8 +87,8 @@ export function CollaborativeMemberWallet() {
         <Table.Td>{new Date(transaction.date).toLocaleDateString()}</Table.Td>
         <Table.Td>
           <Badge size="sm" variant="light" color={
-            transaction.type === 'Milestone' ? 'orange' : 
-            transaction.type === 'Project Admin' ? 'teal' : 'grape'
+            transaction.type === 'Milestone' ? 'blue' : 
+            transaction.type === 'Project Admin' ? 'teal' : 'pink'
           }>
             {transaction.type}
           </Badge>
@@ -96,9 +96,9 @@ export function CollaborativeMemberWallet() {
         <Table.Td>{projectDisplay}</Table.Td>
         <Table.Td>{milestoneDisplay}</Table.Td>
         <Table.Td>
-          <Badge color={transaction.amount > 0 ? 'green' : 'red'} variant="light">
-            {transaction.amount > 0 ? '+' : ''}{transaction.amount.toFixed(2)}
-          </Badge>
+          <Text>
+            {transaction.amount.toFixed(2)}
+          </Text>
         </Table.Td>
       </Table.Tr>
     );
@@ -222,18 +222,14 @@ export function CollaborativeMemberWallet() {
                       <Table.Tbody>
                         {transactionRows}
                         {/* Total row */}
-                        <Table.Tr style={{ borderTop: '2px solid #dee2e6', fontWeight: 'bold' }}>
-                          <Table.Td colSpan={4} style={{ textAlign: 'right', fontWeight: 'bold' }}>
-                            Total:
+                        <Table.Tr>
+                          <Table.Td colSpan={4} style={{ textAlign: 'right'}}>
+                            <Text fw={500} c="dimmed">Total:</Text>
                           </Table.Td>
                           <Table.Td>
-                            <Badge 
-                              color={userEarnedTokensFromCollabTotal > 0 ? 'green' : userEarnedTokensFromCollabTotal < 0 ? 'red' : 'gray'} 
-                              variant="filled"
-                              size="lg"
-                            >
-                              {userEarnedTokensFromCollabTotal > 0 ? '+' : ''}{userEarnedTokensFromCollabTotal.toFixed(2)}
-                            </Badge>
+                            <Text fw={500}>  
+                              {userEarnedTokensFromCollabTotal.toFixed(2)}
+                            </Text>
                           </Table.Td>
                         </Table.Tr>
                       </Table.Tbody>

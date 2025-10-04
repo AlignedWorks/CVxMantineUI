@@ -24,6 +24,7 @@ import {
   Progress,
   Image,
   Tabs,
+  MultiSelect
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors, mock_projects, approvalStatusColors } from '../data.ts';
 import { Link } from 'react-router-dom';
@@ -36,6 +37,12 @@ import {
 const rolesData = ['Network Owner','Network Contributor']
 
 const testCollab = mock_collab_data[0]
+
+const selectData = [
+    { group: 'Frontend', items: ['React', 'Angular', 'Vue'] },
+    { group: 'Backend', items: ['Express', 'Django', 'FastAPI'] },
+    { group: 'Database', items: ['PostgreSQL', 'MongoDB', 'Redis'] }
+]
 
 const testProject = {
     adminName: 'Jordon Byers',
@@ -61,6 +68,29 @@ export function Test() {
     const [inviteSuccess, setInviteSuccess] = useState(false);
     const [inviteError, setInviteError] = useState('');
     const [activeTab, setActiveTab] = useState<string | null>('first');
+    const [searchValue, setSearchValue] = useState('');
+
+    const filteredSelectdata = selectData
+        .map(group => {
+            // Check if group name matches
+            const groupMatches = group.group.toLowerCase().includes(searchValue.toLowerCase());
+            
+            // Filter items that match search
+            const filteredItems = group.items.filter(item =>
+                item.toLowerCase().includes(searchValue.toLowerCase())
+            );
+            
+            // Include group if group name matches OR if it has matching items
+            if (groupMatches || filteredItems.length > 0) {
+                return {
+                    ...group,
+                    items: groupMatches ? group.items : filteredItems // Show all items if group matches, otherwise show filtered items
+                };
+            }
+            
+            return null;
+        })
+        .filter(group => group !== null); // Remove null groups
 
     const fetchAllUsers = async () => {
         setLoadingUsers(true);
@@ -208,6 +238,15 @@ export function Test() {
                 </Stack>
                 </form>
             </Card>
+
+            <MultiSelect
+                label="Your favorite libraries"
+                placeholder="Pick value"
+                searchValue={searchValue}
+                onSearchChange={setSearchValue}
+                searchable
+                data={filteredSelectdata}
+                />
 
             <Tabs value={activeTab} onChange={setActiveTab} mt="lg">
                 <Tabs.List>
@@ -524,7 +563,11 @@ export function Test() {
 
                                         <Group mb="md">
                                         {testProject.approvalStatus === 'Active' ? (
-                                            <Badge variant="light" color="yellow">{testProject.approvalStatus}</Badge>
+                                            <>
+                                                <Badge variant="light" color="blue">{testProject.approvalStatus}</Badge>
+                                                <Badge variant="light" color="teal">{testProject.approvalStatus}</Badge>
+                                                <Badge variant="light" color="pink">{testProject.approvalStatus}</Badge>
+                                            </>
                                         ) : testProject.approvalStatus === 'Draft' ? (
                                             <Tooltip
                                             color="gray"
