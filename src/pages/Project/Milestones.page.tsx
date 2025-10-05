@@ -259,6 +259,7 @@ export function ProjectMilestones() {
             isComplete: selectedMilestone.isComplete,
             completionSummary: selectedMilestone.completionSummary,
             artifactUrl: selectedMilestone.artifactUrl,
+            allocatedLaunchTokens: selectedMilestone.allocatedLaunchTokens,
           }),
         }
       );
