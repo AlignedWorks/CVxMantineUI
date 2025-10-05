@@ -178,10 +178,8 @@ export function CreateProject() {
 
     // Validate launch token allocation
     if (tokenDistribution && formValues.budget > 0) {
-      const tokenAmount = (Number(formValues.budget) / 100) * tokenDistribution.currentTokenRelease;
-      if (tokenAmount > tokenDistribution.launchTokensBalance) {
-        newErrors.budget = `This allocation (${tokenAmount.toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`;
-        return;
+      if (Number(formValues.budget) > tokenDistribution.launchTokensBalance) {
+        newErrors.budget = `This allocation (${Number(formValues.budget).toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`;
       }
     }
 
