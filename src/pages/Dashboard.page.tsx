@@ -706,7 +706,7 @@ export function Dashboard() {
                       </Button>
                       <Button
                         variant="default"
-                        onClick={() => handleInitiateDecline(assignment.id, 'decline')}
+                        onClick={() => handleInitiateDecline(assignment.id, 'milestone')}
                         ml="md">
                           Decline
                       </Button>
