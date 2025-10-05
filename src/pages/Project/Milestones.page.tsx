@@ -214,7 +214,6 @@ export function ProjectMilestones() {
             completionSummary,
             artifactUrl,
             assigneeId: selectedMilestone.assigneeId,
-            allocatedLaunchTokens: Number(selectedMilestone.allocatedLaunchTokens),
           }),
         }
       );
@@ -260,7 +259,6 @@ export function ProjectMilestones() {
             isComplete: selectedMilestone.isComplete,
             completionSummary: selectedMilestone.completionSummary,
             artifactUrl: selectedMilestone.artifactUrl,
-            allocatedLaunchTokens: Number(selectedMilestone.allocatedLaunchTokens),
           }),
         }
       );
