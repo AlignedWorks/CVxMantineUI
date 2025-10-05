@@ -186,6 +186,7 @@ export function CreateProject() {
     }
 
     setErrors(newErrors);
+    console.log(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted:', formValues);

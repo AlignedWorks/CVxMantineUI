@@ -690,7 +690,7 @@ export function ProjectMilestones() {
                               Network Transaction Fees ({(project.networkTransactionFeeRate * 100).toFixed(2)}%):
                             </Text>
                             <Text fz="small" c="teal" fw={500}>
-                              {Number(totalMilestoneTokens * (1 - project.networkTransactionFeeRate)).toFixed(2)}
+                              {(totalMilestoneTokens * project.networkTransactionFeeRate).toFixed(2)}
                             </Text>
                           </Group>
                           <Group justify="right">
@@ -846,7 +846,7 @@ export function ProjectMilestones() {
               w={220}
             >
             <Text size="sm" c="dimmed" mt="xs">
-              Available Project Budget: {project.launchTokenBalance !== null ? project.launchTokenBalance - Number(launchTokenAmount) : 0} Tokens
+              Available Project Budget: {project.launchTokenBalance !== null ? (project.launchTokenBalance - Number(launchTokenAmount)).toFixed(1) : 0} Tokens
             </Text>
           </Tooltip>
 
