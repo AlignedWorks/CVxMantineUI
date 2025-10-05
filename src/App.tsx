@@ -2,6 +2,7 @@ import "@mantine/core/styles.css";
 import '@mantine/dates/styles.css';
 import { MantineProvider, AppShell } from "@mantine/core";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { ProtectedRoute } from './components/ProtectedRoute.tsx';
 import { ImageUpload } from './components/ImageUpload.page.tsx';
 import { FileUpload } from './components/FileUpload.page.tsx';
 import { useDisclosure } from '@mantine/hooks';
@@ -143,25 +144,25 @@ function MainContent({ user }: { user: any }) {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
         <Route path="/member-directory" element={<MemberDirectory />} />
-        <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/user-profile/edit" element={<EditUserProfile />} />
-        <Route path="/create-collaborative" element={<CreateCollaborative />} />
-        <Route path="/create-project/:collabId" element={<CreateProject />} />
+        <Route path="/user-profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+        <Route path="/user-profile/edit" element={<ProtectedRoute><EditUserProfile /></ProtectedRoute>} />
+        <Route path="/create-collaborative" element={<ProtectedRoute><CreateCollaborative /></ProtectedRoute>} />
+        <Route path="/create-project/:collabId" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/test" element={<Test/>} /> {/* Test route for development */}
-        <Route path="/collaboratives/:id" element={<CollaborativeHome/>} />
-        <Route path="/collaboratives/:id/edit" element={<EditCollaborative />} />
-        <Route path="/collaboratives/:id/members" element={<CollaborativeMembers/>} />
-        <Route path="/collaboratives/:id/projects" element={<CollaborativeProjects/>} />
-        <Route path="/collaboratives/:id/treasury" element={<CollaborativeTreasury/>} />
-        <Route path="/collaboratives/:id/treasury/edit" element={<EditCollaborativeTreasury />} />
-        <Route path="/collaboratives/:id/wallet" element={<CollaborativeMemberWallet/>} />
-        <Route path="/collaboratives/:id/csa-agreement" element={<CSAAgreement />} />
-        <Route path="/collaboratives/:collabId/projects/:projectId" element={<ProjectHome />} />
-        <Route path="/collaboratives/:collabId/projects/:projectId/members" element={<ProjectMembers />} />
-        <Route path="/collaboratives/:collabId/projects/:projectId/milestones" element={<ProjectMilestones />} />
-        <Route path="/collaboratives/:collabId/projects/:projectId/milestones/:milestoneId" element={<ProjectMilestoneDetail />} />
-        <Route path="/members/:id" element={<MemberProfile/>} />
+        <Route path="/test" element={<ProtectedRoute><Test/></ProtectedRoute>} /> {/* Test route for development */}
+        <Route path="/collaboratives/:id" element={<ProtectedRoute><CollaborativeHome/></ProtectedRoute>} />
+        <Route path="/collaboratives/:id/edit" element={<ProtectedRoute><EditCollaborative /></ProtectedRoute>} />
+        <Route path="/collaboratives/:id/members" element={<ProtectedRoute><CollaborativeMembers/></ProtectedRoute>} />
+        <Route path="/collaboratives/:id/projects" element={<ProtectedRoute><CollaborativeProjects/></ProtectedRoute>} />
+        <Route path="/collaboratives/:id/treasury" element={<ProtectedRoute><CollaborativeTreasury/></ProtectedRoute>} />
+        <Route path="/collaboratives/:id/treasury/edit" element={<ProtectedRoute><EditCollaborativeTreasury /></ProtectedRoute>} />
+        <Route path="/collaboratives/:id/wallet" element={<ProtectedRoute><CollaborativeMemberWallet/></ProtectedRoute>} />
+        <Route path="/collaboratives/:id/csa-agreement" element={<ProtectedRoute><CSAAgreement /></ProtectedRoute>} />
+        <Route path="/collaboratives/:collabId/projects/:projectId" element={<ProtectedRoute><ProjectHome /></ProtectedRoute>} />
+        <Route path="/collaboratives/:collabId/projects/:projectId/members" element={<ProtectedRoute><ProjectMembers /></ProtectedRoute>} />
+        <Route path="/collaboratives/:collabId/projects/:projectId/milestones" element={<ProtectedRoute><ProjectMilestones /></ProtectedRoute>} />
+        <Route path="/collaboratives/:collabId/projects/:projectId/milestones/:milestoneId" element={<ProtectedRoute><ProjectMilestoneDetail /></ProtectedRoute>} />
+        <Route path="/members/:id" element={<ProtectedRoute><MemberProfile/></ProtectedRoute>} />
         <Route path="/upload-image" element={<ImageUpload />} />
         <Route path="/upload-file" element={<FileUpload />} />
         <Route path="/invite" element={<Invite />} />

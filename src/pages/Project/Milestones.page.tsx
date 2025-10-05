@@ -1071,7 +1071,7 @@ export function ProjectMilestones() {
                     </Badge>
 
                     {selectedMilestone.assigneeStatus === 'Declined' && (
-                      <Button size="xs" variant="outline" c="red" onClick={handleMilestoneResubmit}>Resubmit to assignee</Button>
+                      <Button size="xs" variant="outline" color="red" onClick={handleMilestoneResubmit}>Resubmit to assignee</Button>
                     )}
                   </Stack>
                 ) : (
