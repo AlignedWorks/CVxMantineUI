@@ -214,6 +214,7 @@ export function ProjectMilestones() {
             completionSummary,
             artifactUrl,
             assigneeId: selectedMilestone.assigneeId,
+            allocatedLaunchTokens: Number(selectedMilestone.allocatedLaunchTokens),
           }),
         }
       );
