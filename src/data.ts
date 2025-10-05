@@ -215,6 +215,7 @@ export interface ProjectDataWithMilestones {
   launchTokenBudget: number;
   launchTokenBalance: number;
   userIsProjectAdminAndStatusAccepted: boolean;
+  networkTransactionFeeRate: number;
   milestones: Milestone[];
 }
 

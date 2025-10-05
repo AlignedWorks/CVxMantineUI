@@ -686,6 +686,14 @@ export function ProjectMilestones() {
                             </Text>
                           </Group>
                           <Group justify="right">
+                            <Text fz="small" c="teal">
+                              Network Transaction Fees ({(project.networkTransactionFeeRate * 100).toFixed(2)}%):
+                            </Text>
+                            <Text fz="small" c="teal" fw={500}>
+                              {Number(totalMilestoneTokens * (1 - project.networkTransactionFeeRate)).toFixed(2)}
+                            </Text>
+                          </Group>
+                          <Group justify="right">
                             <Text c="dimmed">
                               Project Budget:
                             </Text>
