@@ -459,6 +459,7 @@ export function ProjectMilestones() {
             allocatedLaunchTokens: Number(editLaunchTokenAmount) || 0,
             startDate: editStartDate ? editStartDate.toISOString() : null,
             dueDate: editDueDate ? editDueDate.toISOString() : null,
+            assigneeStatus: selectedMilestone.assigneeStatus,
           }),
         }
       );
@@ -489,6 +490,15 @@ export function ProjectMilestones() {
       console.error('Error saving milestone edits', err);
     }
   };
+
+  const handleMilestoneResubmit = async () => {
+    if (!selectedMilestone) return;
+
+    setSelectedMilestone(prev => prev ? {
+      ...prev,
+      assigneeStatus: 'Assigned'
+    } : null);
+  }
 
   // Function to handle due date change with validation
   const handleDueDateChange = (date: Date | null) => {
@@ -951,8 +961,8 @@ export function ProjectMilestones() {
                     ) : null
                   ) : (
                     <>
-                      <Button size="xs" color="green" onClick={handleSaveMilestoneEdits}>Save</Button>
-                      <Button size="xs" variant="outline" onClick={() => {
+                      <Button size="xs" variant="outline" onClick={handleSaveMilestoneEdits}>Save</Button>
+                      <Button size="xs" variant="default" onClick={() => {
                         // cancel: restore edit fields from selectedMilestone
                         setIsEditingMilestone(false);
                         setEditName(selectedMilestone.name || '');
@@ -1057,6 +1067,8 @@ export function ProjectMilestones() {
                     >
                       {selectedMilestone.assigneeStatus}
                     </Badge>
+
+                    <Button size="sm" variant="outline" onClick={handleMilestoneResubmit}>Resubmit</Button>
                   </Stack>
                 ) : (
                   <>
