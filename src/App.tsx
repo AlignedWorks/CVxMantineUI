@@ -142,14 +142,14 @@ function MainContent({ user }: { user: any }) {
         <Route path="/register" element={<RegistrationTile />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/collaborative-directory" element={<CollaborativeDirectory />} />
-        <Route path="/member-directory" element={<MemberDirectory />} />
+        <Route path="/collaborative-directory" element={<ProtectedRoute><CollaborativeDirectory /></ProtectedRoute>} />
+        <Route path="/member-directory" element={<ProtectedRoute><MemberDirectory /></ProtectedRoute>} />
         <Route path="/user-profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/user-profile/edit" element={<ProtectedRoute><EditUserProfile /></ProtectedRoute>} />
         <Route path="/create-collaborative" element={<ProtectedRoute><CreateCollaborative /></ProtectedRoute>} />
         <Route path="/create-project/:collabId" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/test" element={<ProtectedRoute><Test/></ProtectedRoute>} /> {/* Test route for development */}
+        <Route path="/test" element={<Test/>} /> {/* Test route for development */}
         <Route path="/collaboratives/:id" element={<ProtectedRoute><CollaborativeHome/></ProtectedRoute>} />
         <Route path="/collaboratives/:id/edit" element={<ProtectedRoute><EditCollaborative /></ProtectedRoute>} />
         <Route path="/collaboratives/:id/members" element={<ProtectedRoute><CollaborativeMembers/></ProtectedRoute>} />
