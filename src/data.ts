@@ -261,6 +261,7 @@ export interface MilestoneDetail {
   projectName: string;
   projectAdmins: { adminId: string; adminName: string }[];
   feedback: string;
+  reasonForDecline: string;
   collabIsActive: boolean;
 }
 

@@ -990,6 +990,13 @@ export function ProjectMilestones() {
 
                     <Text fw={600} size="sm" c="dimmed" mb={4}>Deliverables</Text>
                     <Text mb="lg">{selectedMilestone.deliverables}</Text>
+
+                    {selectedMilestone.reasonForDecline && (
+                      <>
+                        <Text fw={600} size="sm" c="dimmed" mb={4}>Reason for Decline</Text>
+                        <Text mb="lg" c="red">{selectedMilestone.reasonForDecline}</Text>
+                      </>
+                    )}
                   </>
                 )}
 
