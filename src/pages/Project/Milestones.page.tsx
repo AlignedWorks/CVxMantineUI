@@ -412,6 +412,7 @@ export function ProjectMilestones() {
           setMilestoneDescription('');
           setLaunchTokenAmount('');
           setDueDate(null);
+          setStartDate(null);
           setAssigneeId(null);
           setErrors({});
 

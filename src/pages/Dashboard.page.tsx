@@ -65,6 +65,8 @@ export function Dashboard() {
   const [projectDeclineReasons, setProjectDeclineReasons] = useState<Record<number, string>>({});
   const [projectInvites, setProjectInvites] = useState<ProjectInvite[]>([]);
   const [milestoneAssignments, setMilestoneAssignments] = useState<MilestoneAssignment[]>([]);
+  const [decliningMilestoneId, setDecliningMilestoneId] = useState<number | null>(null);
+  const [milestoneDeclineReasons, setMilestoneDeclineReasons] = useState<Record<number, string>>({});
   const [milestoneCompletions, setMilestoneCompletions] = useState<MilestoneCompletion[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<{ [userId: string]: string }>({}); // Temporary state for selected roles
   const [submittedUsers, setSubmittedUsers] = useState<{ [userId: string]: boolean }>({});
@@ -230,19 +232,23 @@ export function Dashboard() {
     });
   }
 
-  const handleInitiateDecline = (id: number, collabOrProject: string) => {
-    if (collabOrProject === 'collab') {
+  const handleInitiateDecline = (id: number, declineEntityType: string) => {
+    if (declineEntityType === 'collab') {
       setDecliningCollabId(id);
-    } else {
+    } else if (declineEntityType === 'project') {
       setDecliningProjectId(id);
+    } else if (declineEntityType === 'milestone') {
+      setDecliningMilestoneId(id);
     }
   };
 
-  const handleDeclineReasonChange = (id: number, collabOrProject: string, value: string) => {
-    if (collabOrProject === 'collab') {
+  const handleDeclineReasonChange = (id: number, declineEntityType: string, value: string) => {
+    if (declineEntityType === 'collab') {
       setCollabDeclineReasons((prev) => ({ ...prev, [id]: value }));
-    } else {
+    } else if (declineEntityType === 'project') {
       setProjectDeclineReasons((prev) => ({ ...prev, [id]: value }));
+    } else if (declineEntityType === 'milestone') {
+      setMilestoneDeclineReasons((prev) => ({ ...prev, [id]: value }));
     }
   };
 
@@ -393,7 +399,8 @@ export function Dashboard() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          acceptanceStatus: newStatus
+          acceptanceStatus: newStatus,
+          reasonForDecline: milestoneDeclineReasons[assignmentId] ?? ''
         }),
       })
       .then((res) => {
@@ -678,6 +685,17 @@ export function Dashboard() {
                             <strong>Due Date:</strong> {new Date(assignment.dueDate).toLocaleDateString()}
                           </Text>
                         </Group>
+
+                        {/* If this milestone is being declined, show the reason textarea here (second column) */}
+                        {decliningMilestoneId === assignment.id && (
+                          <Textarea
+                            mt="sm"
+                            label="Reason for decline"
+                            placeholder="Provide a brief reason for declining this milestone"
+                            value={milestoneDeclineReasons[assignment.id] ?? ''}
+                            onChange={(e) => handleDeclineReasonChange(assignment.id, 'milestone', e.currentTarget.value)}
+                          />
+                        )}
                       </Stack>
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
@@ -688,10 +706,21 @@ export function Dashboard() {
                       </Button>
                       <Button
                         variant="default"
-                        onClick={() => handleMilestoneAssignment(assignment.id, 'decline')}
+                        onClick={() => handleInitiateDecline(assignment.id, 'decline')}
                         ml="md">
                           Decline
                       </Button>
+
+                      {decliningMilestoneId === assignment.id ? (
+                        <Button
+                          color="red"
+                          variant="outline"
+                          mt="lg"
+                          onClick={() => handleMilestoneAssignment(assignment.id, 'decline')}
+                        >
+                          Submit Decline
+                        </Button>
+                      ) : null}
                     </Grid.Col>
                   </Grid>
               </Card>
