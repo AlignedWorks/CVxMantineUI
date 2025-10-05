@@ -476,7 +476,9 @@ export function ProjectMilestones() {
                 description: updated.description,
                 definitionOfDone: updated.definitionOfDone,
                 deliverables: updated.deliverables,
-                allocatedLaunchTokens: updated.allocatedLaunchTokens ?? m.allocatedLaunchTokens }
+                allocatedLaunchTokens: updated.allocatedLaunchTokens ?? m.allocatedLaunchTokens,
+                assigneeStatus: updated.assigneeStatus ?? m.assigneeStatus,
+              }
             : m)
         } : null);
 
@@ -1068,7 +1070,9 @@ export function ProjectMilestones() {
                       {selectedMilestone.assigneeStatus}
                     </Badge>
 
-                    <Button size="sm" variant="outline" onClick={handleMilestoneResubmit}>Resubmit</Button>
+                    {selectedMilestone.assigneeStatus === 'Declined' && (
+                      <Button size="xs" variant="outline" c="red" onClick={handleMilestoneResubmit}>Resubmit to assignee</Button>
+                    )}
                   </Stack>
                 ) : (
                   <>
