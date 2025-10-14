@@ -86,7 +86,7 @@ export function Dashboard() {
         .then((res) => res.json())
         .then((data) => {
           const {
-            users,
+            usersNeedingApproval,
             roles,
             collabs,
             collabsNeedingApproval,
@@ -107,7 +107,7 @@ export function Dashboard() {
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
           setCsaApprovalRequests(csaApprovalRequests); // Set the CSA approval requests data
-          setUserApprovals(users);
+          setUserApprovals(usersNeedingApproval);
           setProjects(projects);
           setProjectsNeedingApproval(projectsNeedingApproval);
           setProjectInvites(projectInvites);
