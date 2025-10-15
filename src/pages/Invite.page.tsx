@@ -140,6 +140,7 @@ export function Invite() {
 
       setSuccess(true);
       setError('');
+      
     } catch (err) {
       console.error('Error sending invitation:', err);
       setError(

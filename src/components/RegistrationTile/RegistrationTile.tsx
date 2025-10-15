@@ -133,7 +133,12 @@ export function RegistrationTile() {
         }
 
         setError(''); // Clear any previous errors
-        console.log('Form Data:', formData);
+        if (!response.ok) {
+          // Handle HTTP error responses (4xx, 5xx)
+          const errorData = await response.json().catch(() => ({ message: 'Registration failed' }));
+          setError(errorData.message || `Registration failed with status ${response.status}`);
+          return;
+        }
 
       } catch (err) {
         console.error('Error registering user:', err);
