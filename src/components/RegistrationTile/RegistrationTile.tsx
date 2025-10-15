@@ -135,16 +135,16 @@ export function RegistrationTile() {
         setError(''); // Clear any previous errors
         console.log('Form Data:', formData);
 
-      } catch (error) {
-        console.error('Error registering user:', error);
+      } catch (err) {
+        console.error('Error registering user:', err);
         setError(
-          error instanceof Error
-            ? error.message
+          err instanceof Error
+            ? err.message
             : 'Failed to register user. Please try again.'
         );
       }
     }
-  }
+  };
 
   return (
     <Container size="sm" my={40}>
