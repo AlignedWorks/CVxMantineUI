@@ -185,7 +185,7 @@ export function Invite() {
                 required
                 mt="md"
               />
-              <Popover opened={popoverOpened} position="bottom" width="target" transitionProps={{ transition: 'pop' }}>
+              <Popover opened={popoverOpened} position="top" width="target" transitionProps={{ transition: 'pop' }}>
                 <Popover.Target>
                   <div
                     onFocusCapture={() => setPopoverOpened(true)}

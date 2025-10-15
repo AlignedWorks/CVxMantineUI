@@ -116,25 +116,35 @@ export function RegistrationTile() {
                         password: formData.password
                       };
 
-      const response = await fetch(
-        new URL("register", import.meta.env.VITE_API_BASE),
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(payload),
-      });
-  
-      if (response.ok) {
-        navigate('/login');
-      }
+      try {
+        const response = await fetch(
+          new URL("register", import.meta.env.VITE_API_BASE),
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(payload),
+        });
+    
+        if (response.ok) {
+          navigate('/login');
+        }
 
-    setError(''); // Clear any previous errors
-    console.log('Form Data:', formData);
+        setError(''); // Clear any previous errors
+        console.log('Form Data:', formData);
+
+      } catch (error) {
+        console.error('Error registering user:', error);
+        setError(
+          error instanceof Error
+            ? error.message
+            : 'Failed to register user. Please try again.'
+        );
+      }
     }
-  };
+  }
 
   return (
     <Container size="sm" my={40}>
@@ -175,7 +185,7 @@ export function RegistrationTile() {
                 onChange={(event) => handleInputChange('lastName', event.currentTarget.value)}
                 required
               />
-              <Popover opened={popoverOpened} position="bottom" width="target" transitionProps={{ transition: 'pop' }}>
+              <Popover opened={popoverOpened} position="top" width="target" transitionProps={{ transition: 'pop' }}>
                 <Popover.Target>
                   <div
                     onFocusCapture={() => setPopoverOpened(true)}
@@ -210,6 +220,13 @@ export function RegistrationTile() {
                 value={formData.confirmPassword}
                 onChange={(event) => handleInputChange('confirmPassword', event.currentTarget.value)}
               />
+
+              {error && (
+                <Text c="red" size="sm" mt="sm">
+                  {error}
+                </Text>
+              )}
+
             </div>
             <div>
               <Textarea
@@ -270,4 +287,3 @@ export function RegistrationTile() {
     </Container>
   );
 }
-
