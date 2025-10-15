@@ -65,7 +65,7 @@ export function CollaborativeTreasury() {
         console.log(data);
         setCollaborative(data);
         setTotalTokenAssets(data.tokensReceivable + data.tokenBalance);
-        setTotalTokenLiabilities(data.tokensCollabAdmin + data.tokensNetworkFee + data.projectWorkPayment + data.tokensPriorWork);
+        setTotalTokenLiabilities(data.tokensCollabAdmin + data.tokensNetworkFee + data.projectWorkPayment);
         // setFrom(location.state?.from || '/collaborative-directory');
         setLoading(false);
       })
@@ -193,7 +193,7 @@ export function CollaborativeTreasury() {
 
                       <Tooltip
                         color="gray"
-                        label="The number of Tokens released for use and not yet assigned to a Collaborative member."
+                        label="The number of Tokens released for use and not yet paid to a Collaborative member."
                         multiline
                         w={220}>
                         <Text fz="md" fw={500} c="#999">Tokens Balance</Text>
@@ -233,15 +233,6 @@ export function CollaborativeTreasury() {
                         <Text fz="md" fw={500} c="#999">Project Work</Text>
                       </Tooltip>
                       <Text fz="xl" fw={500} c="#444">{collaborative.projectWorkPayment.toFixed(2)}</Text>
-
-                      <Tooltip
-                        color="gray"
-                        label="Tokens set aside to pay for work completed prior to the creation of this Collaborative."
-                        multiline
-                        w={220}>
-                        <Text fz="md" fw={500} c="#999">Reserved Launch Tokens</Text>
-                      </Tooltip>
-                      <Text fz="xl" fw={500} c="#444">{collaborative.tokensPriorWork}</Text>
 
                       <Text fz="md" fw={500} c="red">Total Token Liabilities</Text>
                       <Text fz="xl" fw={500} c="#444">{totalTokenLiabilities.toFixed(2)}</Text>

@@ -182,13 +182,13 @@ export function CollaborativeMemberWallet() {
                     <Stack>
                       <Tooltip
                         color="gray"
-                        label="Your percent share of the payout to Token holders if the Tokens were retired today. This is calculated as [(My Assigned Tokens)/(All Assigned Tokens)] * 100"
+                        label="Your percent share of the payout to Token holders if the Tokens were retired today. This is calculated as [(My Assigned Tokens)/(All Assigned Tokens + Reserved Launch Tokens)] * 100"
                         multiline
                         w={220}
                       >
                         <Text fz="md" fw={500} c="#999">My Current Share</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.userAssignedLaunchTokens / collaborative.allAssignedLaunchTokens * 100)}%</Text>
+                      <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.userAssignedLaunchTokens / (collaborative.allAssignedLaunchTokens + collaborative.tokensPriorWork) * 100)}%</Text>
                       
                       <Tooltip
                         color="gray"
@@ -198,7 +198,7 @@ export function CollaborativeMemberWallet() {
                       >
                         <Text fz="md" fw={500} c="#999">My Minimum Share</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100)}%</Text>
+                      <Text fz="xl" fw={700} c="#444">{(collaborative.userAssignedLaunchTokens / collaborative.launchTokensCreated * 100).toFixed(2)}%</Text>
                     </Stack>
                   </div>
                 </SimpleGrid>

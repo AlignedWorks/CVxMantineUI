@@ -516,7 +516,7 @@ export function ProjectHome() {
                     </Group>
                     <Group mb="xs">
                         <Text size="sm" c="dimmed">Budget Utilization</Text>
-                        <Text size="sm" fw={700}>{((sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100).toFixed(2)}%</Text>
+                        <Text size="sm" fw={700}>{Math.round((sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100)}%</Text>
                     </Group>
                     <Progress color="teal" value={(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100} size="lg" radius="xl" />
                     <Group mt="xs">

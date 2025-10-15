@@ -116,6 +116,7 @@ export interface CollaborativeDataWallet {
   name: string;
   logoUrl: string;
   launchTokensCreated: number;
+  tokensPriorWork: number;
   userAssignedLaunchTokens: number;
   allAssignedLaunchTokens: number;
   launchTokenTransactions: LaunchTokenTransaction[];

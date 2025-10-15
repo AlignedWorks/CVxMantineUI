@@ -343,7 +343,7 @@ export function CreateProject() {
             variant="default" 
             type="submit"
           >
-            Submit Project Proposal
+            Launch Project
           </Button>
         </Group>
       </form>

@@ -255,7 +255,7 @@ export function CollaborativeProjects() {
             w={220}
           >
             <Button disabled mb="sm">
-              Propose a Project
+              Initiate a Project
             </Button>
           </Tooltip>
         </Group>

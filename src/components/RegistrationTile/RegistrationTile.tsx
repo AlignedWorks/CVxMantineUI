@@ -227,7 +227,7 @@ export function RegistrationTile() {
               />
 
               {error && (
-                <Text c="red" size="sm" mt="sm">
+                <Text c="red" size="sm" mt="md">
                   {error}
                 </Text>
               )}
@@ -277,12 +277,6 @@ export function RegistrationTile() {
               />
             </div>
           </SimpleGrid>
-
-          {error && (
-            <Text c="red" size="sm" mt="sm">
-              {error}
-            </Text>
-          )}
 
           <Group mt="xl" justify="flex-end">
             <Button type="submit" variant="outline">Sign up</Button>

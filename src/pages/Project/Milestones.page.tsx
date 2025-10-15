@@ -857,13 +857,13 @@ export function ProjectMilestones() {
               w={220}
             >
             <Text size="sm" c="dimmed" mt="xs">
-              Available Project Budget: {project.launchTokenBalance !== null ? (project.launchTokenBalance - Number(launchTokenAmount)).toFixed(1) : 0} Tokens
+              Available Project Budget: {project.launchTokenBalance !== null ? (project.launchTokenBalance - Number(launchTokenAmount)).toFixed(2) : 0} Tokens
             </Text>
           </Tooltip>
 
           <Text size="sm" c="dimmed">
             Percent of Project Balance: {
-              project.launchTokenBalance !== null ? `${(Number(launchTokenAmount) / project.launchTokenBalance * 100).toFixed(0)}%` : '0%'
+              project.launchTokenBalance !== null ? `${(Number(launchTokenAmount) / project.launchTokenBalance * 100).toFixed(2)}%` : '0%'
             }
           </Text>
 
@@ -917,6 +917,14 @@ export function ProjectMilestones() {
               onClick={() => {
                 setIsModalOpen(false);
                 setErrors({});
+                setMilestoneName('');
+                setMilestoneDescription('');
+                setMilestoneDefinitionOfDone('');
+                setMilestoneDeliverables('');
+                setLaunchTokenAmount('');
+                setDueDate(null);
+                setStartDate(null);
+                setAssigneeId(null);
               }}
             >
               Cancel
