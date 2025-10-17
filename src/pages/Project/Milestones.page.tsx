@@ -28,7 +28,7 @@ import {
   Switch,
   Paper,
  } from '@mantine/core';
-import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, Milestone, MilestoneDetail, assigneeStatusColors, approvalStatusColors, approvalStatusSortOrder } from '../../data.ts';
+import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, MilestoneDetail, assigneeStatusColors, approvalStatusColors, approvalStatusSortOrder } from '../../data.ts';
 import { FileUpload } from '../../components/uploads/FileUpload.tsx';
 import { CSADocumentViewer } from '../../components/CSADocumentViewer';
 
@@ -396,7 +396,7 @@ export function ProjectMilestones() {
         );
 
         if (response.ok) {
-          
+
           // Refetch the entire project data to get updated launchTokenBalance
           const projectResponse = await fetch(
             new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
@@ -869,7 +869,7 @@ export function ProjectMilestones() {
               w={220}
             >
             <Text size="sm" c="dimmed" mt="xs">
-              Available Project Budget: {project.launchTokenBalance !== null ? (project.launchTokenBalance - Number(launchTokenAmount)).toFixed(2) : 0} Tokens
+              Available Project Budget: {project.launchTokenBalance !== null ? ((project.launchTokenBalance * (1 - project.networkTransactionFeeRate)) - Number(launchTokenAmount)).toFixed(2) : 0} Tokens
             </Text>
           </Tooltip>
 
