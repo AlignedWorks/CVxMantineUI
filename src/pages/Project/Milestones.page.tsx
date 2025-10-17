@@ -396,18 +396,30 @@ export function ProjectMilestones() {
         );
 
         if (response.ok) {
-          const newMilestone: Milestone = await response.json();
-          console.log("Milestone added successfully:", newMilestone);
           
-          // Update the project state with the new milestone
-          setProject(prev => prev ? {
-            ...prev,
-            milestones: [...prev.milestones, newMilestone]
-          } : null);
+          // Refetch the entire project data to get updated launchTokenBalance
+          const projectResponse = await fetch(
+            new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
+            {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          if (projectResponse.ok) {
+            const updatedProject: ProjectDataWithMilestones = await projectResponse.json();
+            setProject(updatedProject);
+            console.log("Project data refreshed with updated milestone and balance");
+          }
 
           // Reset form
           setMilestoneName('');
           setMilestoneDescription('');
+          setMilestoneDefinitionOfDone('');
+          setMilestoneDeliverables('');
           setLaunchTokenAmount('');
           setDueDate(null);
           setStartDate(null);
