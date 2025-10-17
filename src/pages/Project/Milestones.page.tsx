@@ -741,7 +741,7 @@ export function ProjectMilestones() {
 
       {project.userIsProjectAdminAndStatusAccepted ? (
         <Group justify="right">
-          {project.launchTokenBalance > 0 ? (
+          {project.launchTokenBalance >= 1 ? (
             <Button
               mb="sm"
               variant="default"
@@ -869,7 +869,7 @@ export function ProjectMilestones() {
               w={220}
             >
             <Text size="sm" c="dimmed" mt="xs">
-              Available Project Budget: {project.launchTokenBalance !== null ? ((project.launchTokenBalance * (1 - project.networkTransactionFeeRate)) - Number(launchTokenAmount)).toFixed(2) : 0} Tokens
+              Available Project Budget: {project.launchTokenBalance !== null ? (((project.launchTokenBalance - project.projectAdminCompensationLaunchTokens) * (1 - project.networkTransactionFeeRate)) - Number(launchTokenAmount)).toFixed(2) : 0} Tokens
             </Text>
           </Tooltip>
 

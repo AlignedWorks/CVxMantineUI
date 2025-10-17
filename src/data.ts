@@ -215,6 +215,7 @@ export interface ProjectDataWithMilestones {
   collabLogoUrl: string;
   launchTokenBudget: number;
   launchTokenBalance: number;
+  projectAdminCompensationLaunchTokens: number;
   userIsProjectAdminAndStatusAccepted: boolean;
   networkTransactionFeeRate: number;
   milestones: Milestone[];
