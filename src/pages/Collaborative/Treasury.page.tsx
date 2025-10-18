@@ -65,7 +65,7 @@ export function CollaborativeTreasury() {
         console.log(data);
         setCollaborative(data);
         setTotalTokenAssets(data.tokensReceivable + data.tokenBalance);
-        setTotalTokenLiabilities(data.tokensCollabAdmin + data.tokensNetworkFee + data.projectWorkPayment);
+        setTotalTokenLiabilities(data.tokensCollabAdmin + data.projectWorkPayment);
         // setFrom(location.state?.from || '/collaborative-directory');
         setLoading(false);
       })
