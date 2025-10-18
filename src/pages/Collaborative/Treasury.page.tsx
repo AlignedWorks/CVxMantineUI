@@ -218,16 +218,16 @@ export function CollaborativeTreasury() {
 
                       <Tooltip
                         color="gray"
-                        label={`Tokens budgeted to make future payments to the Collaborative Admin (${collaborative.collabAdminCompensationPercent}%) and Network (${collaborative.networkFeePercent}%).`}
+                        label={`Tokens budgeted to make future payments to the Collaborative Admin (${collaborative.collabAdminCompensationPercent}%), includes Network Transaction Fee (${collaborative.networkFeePercent}%)`}
                         multiline
                         w={220}>
                         <Text fz="md" fw={500} c="#999">Collaborative Admin + Network Fee</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={500} c="#444">{(collaborative.tokensCollabAdmin * (1 + collaborative.tokensNetworkFee)).toFixed(2)}</Text>
+                      <Text fz="xl" fw={500} c="#444">{(collaborative.tokensCollabAdmin).toFixed(2)}</Text>
 
                       <Tooltip
                         color="gray"
-                        label="All unpaid Tokens in approved budgets to cover Project management and milestone completion."
+                        label={`All unpaid Tokens in approved budgets to cover Project management and milestone completion, includes Network Transaction Fee (${collaborative.networkFeePercent}%)`}
                         multiline
                         w={220}>
                         <Text fz="md" fw={500} c="#999">Project Work</Text>
