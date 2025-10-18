@@ -223,7 +223,7 @@ export function CollaborativeTreasury() {
                         w={220}>
                         <Text fz="md" fw={500} c="#999">Collaborative Admin + Network Fee</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={500} c="#444">{collaborative.tokensCollabAdmin + collaborative.tokensNetworkFee}</Text>
+                      <Text fz="xl" fw={500} c="#444">{(collaborative.tokensCollabAdmin * (1 + collaborative.tokensNetworkFee)).toFixed(2)}</Text>
 
                       <Tooltip
                         color="gray"

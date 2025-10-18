@@ -521,7 +521,7 @@ export function ProjectHome() {
                     <Progress color="teal" value={(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100} size="lg" radius="xl" />
                     <Group mt="xs">
                         <Text size="sm" c="dimmed">Remaining</Text>
-                        <Text size="sm" fw={700}>{(project.budget - (sumNetworkTransactionFees + budgetSubtotal)).toFixed(2)} tokens</Text>
+                        <Text size="sm" fw={700}>{Math.round(project.budget - (sumNetworkTransactionFees + budgetSubtotal))} tokens</Text>
                     </Group>
                   </Paper>
                 </Grid.Col>

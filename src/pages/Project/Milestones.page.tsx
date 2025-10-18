@@ -757,7 +757,7 @@ export function ProjectMilestones() {
 
       {project.userIsProjectAdminAndStatusAccepted ? (
         <Group justify="right">
-          {project.launchTokenBalance >= 1 ? (
+          {(project.launchTokenBalance - project.projectAdminCompensationLaunchTokens * (1 + project.networkTransactionFeeRate)) >= 1 ? (
             <Button
               mb="sm"
               variant="default"
