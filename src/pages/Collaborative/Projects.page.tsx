@@ -19,16 +19,10 @@ import {
  } from '@mantine/core';
 import { CollaborativeData, Project, approvalStatusColors, approvalStatusSortOrder } from '../../data.ts';
 
-interface TokenDistribution {
-  currentTokenRelease: number;
-  launchTokensBalance: number;
-}
-
 export function CollaborativeProjects() {
   const { id } = useParams(); // Get the 'id' parameter from the URL
   const { setCollaborativeId } = useCollaborativeContext();
   const [collaborative, setCollaborative] = useState<CollaborativeData | null>(null);
-  const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -65,36 +59,8 @@ export function CollaborativeProjects() {
       setLoading(false); // Ensure loading state is updated regardless of success or failure
     }
   };
-
-  const fetchTokenDistribution = async () => {
-      try {
-        const response = await fetch(
-          new URL(`collaboratives/${id}/token-distribution`, import.meta.env.VITE_API_BASE),
-          {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch token distribution');
-        }
-
-        const data: TokenDistribution = await response.json();
-        setTokenDistribution(data);
-        console.log('Token Distribution:', tokenDistribution);
-
-      } catch (error) {
-        console.error('Error fetching token distribution:', error);
-        setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
-      }
-    };
     
   fetchCollaborativeData();
-  fetchTokenDistribution();
 }, [id]);
 
   useEffect(() => {

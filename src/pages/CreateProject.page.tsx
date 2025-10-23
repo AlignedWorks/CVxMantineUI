@@ -3,16 +3,11 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Container, TextInput, NumberInput, Select, Text, Textarea, Button, Group, Title, SimpleGrid, Tooltip } from '@mantine/core';
 import { Project, CollaborativeDataWithMembers } from '../data';
 
-interface TokenDistribution {
-  currentTokenRelease: number;
-  launchTokensBalance: number;
-}
-
 export function CreateProject() {
   const navigate = useNavigate();
   const { collabId } = useParams<{ collabId: string }>();
   const [collaborative, setCollaborative] = useState<CollaborativeDataWithMembers | null>(null);
-  const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution | null>(null);
+  const [collabTokenBalance, setCollabTokenBalance] = useState<number | null>(null);
   // display helpers for Project Budget preview
   const [remainingCollaborativeBalance, setRemainingCollaborativeBalance] = useState<number | null>(null);
   const [percentOfAvailableBalance, setPercentOfAvailableBalance] = useState<number | null>(null);
@@ -60,10 +55,10 @@ export function CreateProject() {
       }
     };
 
-    const fetchTokenDistribution = async () => {
+    const fetchCollabTokenBalance = async () => {
       try {
         const response = await fetch(
-          new URL(`collaboratives/${collabId}/token-distribution`, import.meta.env.VITE_API_BASE),
+          new URL(`collaboratives/${collabId}/token-balance`, import.meta.env.VITE_API_BASE),
           {
             method: 'GET',
             credentials: 'include',
@@ -74,19 +69,20 @@ export function CreateProject() {
         );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch token distribution');
+          throw new Error('Failed to fetch collab token balance');
         }
 
-        const data: TokenDistribution = await response.json();
-        setTokenDistribution(data);
+        const data = await response.json();
+        setCollabTokenBalance(data.launchTokensBalance);
+
       } catch (error) {
-        console.error('Error fetching token distribution:', error);
-        setTokenDistribution({launchTokensBalance: 1000, currentTokenRelease: 0});
+        console.error('Error fetching collab token balance:', error);
+        setCollabTokenBalance(1000);
       }
     };
 
     fetchCollaborativeMembers();
-    fetchTokenDistribution();
+    fetchCollabTokenBalance();
   }, [collabId]);
 
   const handleInputChange = (field: keyof ProjectFormValues, value: any) => {
@@ -108,7 +104,7 @@ export function CreateProject() {
     });
 
     // Reset previews if no valid token distribution or no value
-    if (!tokenDistribution || !value || Number(value) <= 0) {
+    if (!collabTokenBalance || !value || Number(value) <= 0) {
       setRemainingCollaborativeBalance(null);
       setPercentOfAvailableBalance(null);
       setRemainingProjectBalance(null);
@@ -117,12 +113,12 @@ export function CreateProject() {
     }
     
     // Validate if value is provided and token distribution is available
-    if (value && Number(value) > 0 && tokenDistribution) {
+    if (value && Number(value) > 0 && collabTokenBalance) {
 
       const projectBudgetTokens = Number(value);
-      const remaining = tokenDistribution.launchTokensBalance - projectBudgetTokens;
-      const percentOfAvailable = tokenDistribution.launchTokensBalance > 0
-        ? (projectBudgetTokens / tokenDistribution.launchTokensBalance) * 100
+      const remaining = collabTokenBalance - projectBudgetTokens;
+      const percentOfAvailable = collabTokenBalance > 0
+        ? (projectBudgetTokens / collabTokenBalance) * 100
         : 0;
 
       const adminComp = Number(formValues.adminPay || 0);
@@ -154,8 +150,8 @@ export function CreateProject() {
     const adminCompTokens = Number(value || 0);
     const projectBudgetTokens = Number(formValues.budget || 0);
 
-    // derive tokenAmount from current budget & tokenDistribution (same calc as above)
-    if (!tokenDistribution || !formValues.budget || Number(formValues.budget) <= 0) {
+    // derive tokenAmount from current budget & collabTokenBalance (same calc as above)
+    if (!collabTokenBalance || !formValues.budget || Number(formValues.budget) <= 0) {
       setRemainingProjectBalance(null);
       setPercentOfProjectBudget(null);
       return;
@@ -177,9 +173,9 @@ export function CreateProject() {
     if (Number(formValues.adminPay) >= Number(formValues.budget)) newErrors.adminPay = 'Project admin pay must be less than the project budget.';
 
     // Validate launch token allocation
-    if (tokenDistribution && formValues.budget > 0) {
-      if (Number(formValues.budget) > tokenDistribution.launchTokensBalance) {
-        newErrors.budget = `This allocation (${Number(formValues.budget).toFixed(0)} tokens) exceeds available balance (${tokenDistribution.launchTokensBalance} tokens)`;
+    if (collabTokenBalance && formValues.budget > 0) {
+      if (Number(formValues.budget) > collabTokenBalance) {
+        newErrors.budget = `This allocation (${Number(formValues.budget).toFixed(0)} tokens) exceeds available balance (${collabTokenBalance} tokens)`;
       }
     }
 
@@ -284,7 +280,7 @@ export function CreateProject() {
               allowNegative={false}
               required
               min={0}
-              max={tokenDistribution ? tokenDistribution.launchTokensBalance - formValues.adminPay : undefined}
+              max={collabTokenBalance ? collabTokenBalance - formValues.adminPay : undefined}
               suffix=" tokens"
             />
             </Tooltip>
@@ -295,7 +291,7 @@ export function CreateProject() {
               w={220}
             >
               <Text size="sm" c="dimmed" mt="xs">
-                Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${tokenDistribution?.launchTokensBalance} tokens`}
+                Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${collabTokenBalance} tokens`}
               </Text>
             </Tooltip>
             <Tooltip
