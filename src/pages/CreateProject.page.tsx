@@ -227,7 +227,7 @@ export function CreateProject() {
       </Link>
 
       <Title order={2} mb="lg">
-        Propose a Project
+        Initiate a Project
       </Title>
       <form onSubmit={handleSubmit} noValidate>
         <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }} spacing="lg">

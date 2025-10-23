@@ -242,7 +242,7 @@ export function CollaborativeProjects() {
         <Group justify="right">
           <Link to={`/create-project/${id}`} style={{ textDecoration: 'none' }}>
             <Button variant="default" mb="sm">
-              Propose a Project
+              Initiate a Project
             </Button>
           </Link>
         </Group>

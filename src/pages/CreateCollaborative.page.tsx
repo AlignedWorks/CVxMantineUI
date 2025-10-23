@@ -42,7 +42,7 @@ export function CreateCollaborative() {
           launchTokensPriorWorkPercent: 0,
           launchCyclePeriod: 12,
           launchTokenReleaseRate: 10,
-          launchTokenSecondReleaseWeeks: 0,
+          launchTokenSecondReleaseWeeks: 12,
           launchTokenValue: 0,
           collabAdminCompensationPercent: 0,
         });
@@ -85,7 +85,7 @@ export function CreateCollaborative() {
     launchCyclePeriod: 12,
     launchTokenReleaseRate: 10,
     launchTokenValue: 0,
-    launchTokenSecondReleaseWeeks: 0,
+    launchTokenSecondReleaseWeeks: 12,
     collabAdminCompensationPercent: 0,
   });
 
@@ -103,9 +103,20 @@ export function CreateCollaborative() {
 
 
   const handleInputChange = (field: keyof Collaborative, value: any) => {
-    setFormValues((current) => ({
-      ...current, [field]: value,
-    }));
+
+    // if change to launchCyclePeriod, update launchTokenSecondReleaseWeeks to match as well
+    if (field === 'launchCyclePeriod') {
+      setFormValues((current) => ({
+        ...current,
+        [field]: value,
+        launchTokenSecondReleaseWeeks: value,
+      }));
+    } else {
+      setFormValues((current) => ({
+        ...current,
+        [field]: value,
+      }));
+    }
 
     // Clear errors when the user starts typing
     if (field === 'description') {
@@ -512,7 +523,7 @@ export function CreateCollaborative() {
             allowNegative={false}
           />
           <Text size="sm" c="dimmed" mb="md">
-            # weeks after collab approval (0 = at approval)
+            # weeks after collab approval (0 = at approval, default = Launch Cycle Period)
           </Text>
         </div>
       </SimpleGrid>
