@@ -703,24 +703,24 @@ export function ProjectMilestones() {
 
                       <br/>
                       <Table.Tr>
-                        <Table.Td colSpan={3}>
+                        <Table.Td colSpan={2} valign="bottom">
                           <Group mb="xs">
                             <Text size="sm" c="dimmed">Budget Utilization</Text>
                             <Text size="sm" fw={700}>{Math.round(budgetSubtotal) / project.launchTokenBudget * 100}%</Text>
                           </Group>
-                          <Progress color="teal" value={budgetSubtotal / project.launchTokenBudget} size="lg" radius="xl" />
+                          <Progress color="teal" value={budgetSubtotal / project.launchTokenBudget * 100} size="lg" radius="xl" />
                           <Group mt="xs">
                             <Text size="sm" c="dimmed">Remaining</Text>
                             <Text size="sm" fw={700}>{Math.round(project.launchTokenBudget - budgetSubtotal)} tokens</Text>
                           </Group>
                         </Table.Td>
-                        <Table.Td colSpan={2}>
+                        <Table.Td colSpan={3}>
                           <Paper p="lg" radius="md" bg="#fafafa" mt="lg">
                             <Group justify="right">
                               <Text c="dimmed">
                                 Total Assigned Tokens:
                               </Text>
-                              <Text fw={500}>
+                              <Text fw={500} c="dimmed">
                                 {Number(totalMilestoneTokens).toFixed(2)}
                               </Text>
                             </Group>
@@ -728,7 +728,7 @@ export function ProjectMilestones() {
                               <Text c="dimmed">
                                 Project Admin Pay ({((project.projectAdminCompensationLaunchTokens / project.launchTokenBudget) * 100).toFixed(2)}%):
                               </Text>
-                              <Text c="dimmed">
+                              <Text fw={500} c="dimmed">
                                 {project.projectAdminCompensationLaunchTokens }
                               </Text>
                             </Group>
@@ -736,7 +736,7 @@ export function ProjectMilestones() {
                               <Text c="dimmed">
                                 Network Transaction Fees ({(project.networkTransactionFeeRate * 100).toFixed(2)}%):
                               </Text>
-                              <Text c="dimmed" fw={500}>
+                              <Text fw={500} c="dimmed">
                                 {sumNetworkTransactionFees}
                               </Text>
                             </Group>
@@ -749,7 +749,7 @@ export function ProjectMilestones() {
                               </Text>
                             </Group>
                           </Paper>
-                            <Group justify="right">
+                            <Group justify="right" mt="md" mr="lg">
                               <Text>
                                 Project Budget:
                               </Text>
