@@ -598,6 +598,58 @@ export function Test() {
                                         )}
                                         </Group>
                                         </Stack>
+                                        <Paper p="sm" shadow="xs" radius="md" bg="#fafafa" mt="md">
+                                            <Table withRowBorders={false}>
+                                                <Table.Tr>
+                                                    <Table.Td align="right">
+                                                        <Text>
+                                                            Total Assigned Tokens:
+                                                        </Text>
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                        <Text fw={500}>
+                                                            20.00
+                                                        </Text>
+                                                    </Table.Td>
+                                                </Table.Tr>
+                                                <Table.Tr>
+                                                    <Table.Td align="right">
+                                                        <Text size="sm" c="dimmed">
+                                                            Project Admin Pay (5%):
+                                                        </Text>
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                        <Text fw={500} c="dimmed">
+                                                            10
+                                                        </Text>
+                                                    </Table.Td>
+                                                </Table.Tr>
+                                                <Table.Tr>
+                                                    <Table.Td align="right">
+                                                        <Text size="sm" c="dimmed">
+                                                            Network Transaction Fees (5%):
+                                                        </Text>
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                        <Text fw={500} c="dimmed">
+                                                            0.60
+                                                        </Text>
+                                                    </Table.Td>
+                                                </Table.Tr>
+                                                <Table.Tr>
+                                                    <Table.Td align="right">
+                                                        <Text size="lg" mt="sm">
+                                                            Budget Subtotal:
+                                                        </Text>
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                        <Text size="lg" fw={500} mt="sm">
+                                                            30.60
+                                                        </Text>
+                                                    </Table.Td>
+                                                </Table.Tr>
+                                            </Table>
+                                        </Paper>
                                     </div>
                                     <div>
                                         <Paper shadow="xs" p="lg" radius="md" bg="#fafafa">

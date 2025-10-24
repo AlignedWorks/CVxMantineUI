@@ -716,42 +716,64 @@ export function ProjectMilestones() {
                         </Table.Td>
                         <Table.Td colSpan={3}>
                           <Paper p="lg" radius="md" bg="#fafafa" mt="lg">
-                            <Group justify="right">
-                              <Text c="dimmed">
-                                Total Assigned Tokens:
-                              </Text>
-                              <Text fw={500} c="dimmed">
-                                {Number(totalMilestoneTokens).toFixed(2)}
-                              </Text>
-                            </Group>
-                            <Group justify="right">
-                              <Text c="dimmed">
-                                Project Admin Pay ({((project.projectAdminCompensationLaunchTokens / project.launchTokenBudget) * 100).toFixed(2)}%):
-                              </Text>
-                              <Text fw={500} c="dimmed">
-                                {project.projectAdminCompensationLaunchTokens }
-                              </Text>
-                            </Group>
-                            <Group justify="right" mb="lg">
-                              <Text c="dimmed">
-                                Network Transaction Fees ({(project.networkTransactionFeeRate * 100).toFixed(2)}%):
-                              </Text>
-                              <Text fw={500} c="dimmed">
-                                {sumNetworkTransactionFees}
-                              </Text>
-                            </Group>
-                            <Group justify="right">
-                              <Text>
-                                Budget Subtotal:
-                              </Text>
-                              <Text fw={500}>
-                                {budgetSubtotal}
-                              </Text>
-                            </Group>
+                            <Table withRowBorders={false}>
+                              <Table.Tr>
+                                <Table.Td align="right">
+                                  <Text>
+                                    Total Assigned Tokens:
+                                  </Text>
+                                </Table.Td>
+                                <Table.Td>
+                                  <Text fw={500}>
+                                    {Number(totalMilestoneTokens).toFixed(2)}
+                                  </Text>
+                                </Table.Td>
+                              </Table.Tr>
+                              <Table.Tr>
+                                <Table.Td align="right">
+                                  <Text size="sm" c="dimmed">
+                                    Project Admin Pay ({Math.round(project.projectAdminCompensationLaunchTokens / project.launchTokenBudget) * 100}%):
+                                  </Text>
+                                </Table.Td>
+                                <Table.Td>
+                                  <Text fw={500} c="dimmed">
+                                    {project.projectAdminCompensationLaunchTokens}
+                                  </Text>
+                                </Table.Td>
+                              </Table.Tr>
+                              <Table.Tr>
+                                <Table.Td align="right">
+                                  <Text size="sm" c="dimmed">
+                                    Network Transaction Fees ({Math.round(project.networkTransactionFeeRate * 100)}%):
+                                  </Text>
+                                </Table.Td>
+                                <Table.Td>
+                                  <Text fw={500} c="dimmed">
+                                    {sumNetworkTransactionFees}
+                                  </Text>
+                                </Table.Td>
+                              </Table.Tr>
+                              <Table.Tr>
+                                <Table.Td align="right">
+                                  <Text size="lg" mt="sm">
+                                    Budget Subtotal:
+                                  </Text>
+                                </Table.Td>
+                                <Table.Td>
+                                  <Text size="lg" fw={500} mt="sm">
+                                    {budgetSubtotal}
+                                  </Text>
+                                </Table.Td>
+                              </Table.Tr>
+                            </Table>
                           </Paper>
-                            <Group justify="right" mt="md" mr="lg">
+                        </Table.Td>
+                      </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td colSpan={5}>
+                          <Group justify="right" mt="md" mr="md">
                               <Text>
-                                Project Budget:
+                                Budget Total:
                               </Text>
                               <Text fw={500}>
                                 {(project.launchTokenBudget).toFixed(2)}
