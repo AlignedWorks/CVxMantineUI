@@ -443,7 +443,7 @@ export function ProjectHome() {
                     </div>
                     <div>
                       <Text fz="sm" c="dimmed">
-                          Created
+                        Created
                       </Text>
                       <Text fz="md">
                         {project.createdAt}
@@ -467,61 +467,61 @@ export function ProjectHome() {
                 <Grid.Col span={{ base: 12, sm: 12, md: 6 }}>
                   <Paper shadow="xs" p="lg" radius="md" bg="#fafafa" mt="lg">
                     <div>
-                        <Text fz="sm" c="dimmed">
-                            Project Admin Pay
-                        </Text>
-                        <Text fw={500 } fz="xl">
-                            {formatAmount(project.adminPay)}
-                        </Text>
-                        <Text fz="sm" c="teal" mb="lg">
-                            Total Budget x {formatAmount((project.adminPay / project.budget) * 100)}%
-                        </Text>
+                      <Text fz="sm" c="dimmed">
+                        Milestones
+                      </Text>
+                      <Text fw={500 } fz="xl" mb="lg">
+                        {formatAmount(project.sumMilestonesAllocatedLaunchTokens)}
+                      </Text>
                     </div>
                     <div>
-                        <Text fz="sm" c="dimmed">
-                            Milestones
-                        </Text>
-                        <Text fw={500 } fz="xl" mb="lg">
-                            {formatAmount(project.sumMilestonesAllocatedLaunchTokens)}
-                        </Text>
+                      <Text fz="sm" c="dimmed">
+                        Project Admin Pay
+                      </Text>
+                      <Text fw={500 } fz="xl">
+                        {formatAmount(project.adminPay)}
+                      </Text>
+                      <Text fz="sm" c="teal" mb="lg">
+                        Total Budget x {formatAmount((project.adminPay / project.budget) * 100)}%
+                      </Text>
                     </div>
                     <div>
-                        <Text fz="sm" c="dimmed">
-                            Network Transaction Fees
-                        </Text>
-                        <Text fw={500 } fz="xl">
-                            {sumNetworkTransactionFees.toFixed(2)}
-                        </Text>
-                        <Text fz="sm" c="teal" mb="lg">
-                            (Project Admin Pay + Milestones) x {project.networkTransactionFee * 100}%
-                        </Text>
+                      <Text fz="sm" c="dimmed">
+                        Network Transaction Fees
+                      </Text>
+                      <Text fw={500 } fz="xl">
+                        {sumNetworkTransactionFees.toFixed(2)}
+                      </Text>
+                      <Text fz="sm" c="teal" mb="lg">
+                        (Project Admin Pay + Milestones) x {project.networkTransactionFee * 100}%
+                      </Text>
                     </div>
                     <Group>
-                        <div>
-                            <Text fz="sm" c="dimmed">
-                                Total Tokens Committed
-                            </Text>
-                            <Text fw={500 } fz="xl" mb="lg">
-                                {formatAmount(sumNetworkTransactionFees + budgetSubtotal)}
-                            </Text>
-                        </div>
-                        <div>
-                            <Text fz="sm" c="dimmed">
-                                Total Budget
-                            </Text>
-                            <Text fw={500 } fz="xl" mb="lg">
-                                {formatAmount(project.budget)}
-                            </Text>
-                        </div>
+                      <div>
+                        <Text fz="sm" c="dimmed">
+                          Total Tokens Committed
+                        </Text>
+                        <Text fw={500 } fz="xl" mb="lg">
+                          {formatAmount(sumNetworkTransactionFees + budgetSubtotal)}
+                        </Text>
+                      </div>
+                      <div>
+                        <Text fz="sm" c="dimmed">
+                          Total Budget
+                        </Text>
+                        <Text fw={500 } fz="xl" mb="lg">
+                          {formatAmount(project.budget)}
+                        </Text>
+                      </div>
                     </Group>
                     <Group mb="xs">
-                        <Text size="sm" c="dimmed">Budget Utilization</Text>
-                        <Text size="sm" fw={700}>{Math.round((sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100)}%</Text>
+                      <Text size="sm" c="dimmed">Budget Utilization</Text>
+                      <Text size="sm" fw={700}>{Math.round((sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100)}%</Text>
                     </Group>
                     <Progress color="teal" value={(sumNetworkTransactionFees + budgetSubtotal) / project.budget * 100} size="lg" radius="xl" />
                     <Group mt="xs">
-                        <Text size="sm" c="dimmed">Remaining</Text>
-                        <Text size="sm" fw={700}>{Math.round(project.budget - (sumNetworkTransactionFees + budgetSubtotal))} tokens</Text>
+                      <Text size="sm" c="dimmed">Remaining</Text>
+                      <Text size="sm" fw={700}>{Math.round(project.budget - (sumNetworkTransactionFees + budgetSubtotal))} tokens</Text>
                     </Group>
                   </Paper>
                 </Grid.Col>

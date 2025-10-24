@@ -183,7 +183,7 @@ export function CollaborativeTreasury() {
                     <Stack>
                       <Tooltip
                         color="gray"
-                          label="The number of Launch Tokens Created but not yet been released for use."
+                          label="The number of Launch Tokens created but not yet been released for use."
                           multiline
                           w={220}>
                         <Text fz="md" fw={500} c="#999">Tokens Receivable</Text>

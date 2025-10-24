@@ -224,7 +224,7 @@ export function CollaborativeMemberWallet() {
                         {/* Total row */}
                         <Table.Tr>
                           <Table.Td colSpan={4} style={{ textAlign: 'right'}}>
-                            <Text fw={500} c="dimmed">Total:</Text>
+                            <Text fw={500}>Total:</Text>
                           </Table.Td>
                           <Table.Td>
                             <Text fw={500}>  

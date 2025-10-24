@@ -24,7 +24,7 @@ import {
   Progress,
   Image,
   Tabs,
-  MultiSelect
+  MultiSelect,
 } from '@mantine/core';
 import { mock_collab_data, User, users, inviteStatusColors, mock_projects, approvalStatusColors } from '../data.ts';
 import { Link } from 'react-router-dom';
@@ -69,6 +69,7 @@ export function Test() {
     const [inviteError, setInviteError] = useState('');
     const [activeTab, setActiveTab] = useState<string | null>('first');
     const [searchValue, setSearchValue] = useState('');
+    const [focused, setFocused] = useState(false);
 
     const filteredSelectdata = selectData
         .map(group => {
@@ -238,6 +239,21 @@ export function Test() {
                 </Stack>
                 </form>
             </Card>
+
+            <Tooltip label="This is a tooltip example" position="top-start" color="gray" >
+            <TextInput
+                label="TextInput with tooltip"
+                description="Tooltip will be relative to the input"
+                placeholder="Focus me to see tooltip"
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                inputContainer={(children) => (
+                    <Tooltip label="Additional information" position="top-start" opened={focused}>
+                    {children}
+                    </Tooltip>
+                )}
+                />
+            </Tooltip>
 
             <MultiSelect
                 label="Your favorite libraries"

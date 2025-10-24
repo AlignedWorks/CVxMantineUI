@@ -15,6 +15,7 @@ import {
   Group,
   SimpleGrid,
   Grid,
+  Tooltip,
 } from '@mantine/core';
 import { Collaborative, us_states } from '../data.ts';
 import { FileUpload } from '../components/uploads/FileUpload.tsx';
@@ -405,25 +406,29 @@ export function CreateCollaborative() {
         onImageSelected={(url) => handleInputChange('logoUrl', url)}
       />
 
-      <Title order={2} mt="xl" mb="md" pt="xl" pb="md" ta="center">
-        Launch Tokens
-      </Title>
+      <Tooltip label="Exchanged with Collaborative members for work and other contributions, Launch Tokens represent a pro-rata share of future payments to all Token holders, such as from revenue share payments, royalty payments, or a cash buyout" position="top-start" color="gray">
+        <Title order={2} mt="xl" mb="md" pt="xl" pb="md" ta="center">
+          Launch Tokens
+        </Title>
+      </Tooltip>
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
-        <NumberInput
-          label="Tokens Created"
-          placeholder="Enter the number of tokens created (default: 10,000)"
-          value={formValues.launchTokensCreated}
-          onChange={(value) =>
-            handleInputChange('launchTokensCreated', value)
-          }
-          error={errors.launchTokensCreated} // Display validation error
-          required
-          step={100}
-          thousandSeparator=","
-          allowNegative={false}
-          mb="md"
-        />
+        <Tooltip label="Maximum number of Launch Tokens that may be issued to pre-revenue contributors, alterable only according to provisions, if any, in the Collaborative Sharing Agreement" position="top-start" color="gray">
+          <NumberInput
+            label="Tokens Created"
+            placeholder="Enter the number of tokens created (default: 10,000)"
+            value={formValues.launchTokensCreated}
+            onChange={(value) =>
+              handleInputChange('launchTokensCreated', value)
+            }
+            error={errors.launchTokensCreated} // Display validation error
+            required
+            step={100}
+            thousandSeparator=","
+            allowNegative={false}
+            mb="md"
+          />
+        </Tooltip>
 
         <div>
           <NumberInput
@@ -452,19 +457,21 @@ export function CreateCollaborative() {
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <div>
-          <NumberInput
-            label="Reserved Launch Tokens"
-            placeholder="Tokens set aside to pay for work completed prior to the creation of this Collaborative"
-            value={formValues.launchTokensPriorWorkPercent }
-            onChange={(value) =>
-              handleInputChange('launchTokensPriorWorkPercent', value)
-            }
-            min={0}
-            max={100}
-            suffix="%"
-            decimalScale={2}
-            mb="xs"
-          />
+          <Tooltip label="Tokens already allocated to inventors, founders, and/or others who made contributions before launching on the CVx platform" position="top-start" color="gray">
+            <NumberInput
+              label="Reserved Launch Tokens"
+              placeholder="Tokens set aside to pay for work completed prior to the creation of this Collaborative"
+              value={formValues.launchTokensPriorWorkPercent }
+              onChange={(value) =>
+                handleInputChange('launchTokensPriorWorkPercent', value)
+              }
+              min={0}
+              max={100}
+              suffix="%"
+              decimalScale={2}
+              mb="xs"
+            />
+          </Tooltip>
           <Text size="sm" c="dimmed" mb="md">
             # tokens: {formValues.launchTokensPriorWorkPercent > 0 ? `${((formValues.launchTokensPriorWorkPercent / 100) * formValues.launchTokensCreated).toLocaleString('en-US', {
               minimumFractionDigits: 0,
@@ -474,21 +481,23 @@ export function CreateCollaborative() {
         </div>
 
         <div>
-          <NumberInput
-            label="Token Release Rate"
-            placeholder="Enter the release rate percentage (default: 10%)"
-            value={formValues.launchTokenReleaseRate}
-            onChange={(value) =>
-              handleInputChange('launchTokenReleaseRate', value)
-            }
-            error={errors.launchTokenReleaseRate} // Display validation error
-            required
-            min={0}
-            max={100}
-            suffix="%"
-            decimalScale={2}
-            mb="xs"
-          />
+          <Tooltip label="Percentage of all remaining Tokens released for use at the start of each successive Launch Cycle" position="top-start" color="gray">
+            <NumberInput
+              label="Token Release Rate"
+              placeholder="Enter the release rate percentage (default: 10%)"
+              value={formValues.launchTokenReleaseRate}
+              onChange={(value) =>
+                handleInputChange('launchTokenReleaseRate', value)
+              }
+              error={errors.launchTokenReleaseRate} // Display validation error
+              required
+              min={0}
+              max={100}
+              suffix="%"
+              decimalScale={2}
+              mb="xs"
+            />
+          </Tooltip>
           <Text size="sm" c="dimmed" mb="md">
             {releaseCyclesPreview}
           </Text>
@@ -496,32 +505,35 @@ export function CreateCollaborative() {
       </SimpleGrid>
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
-        <NumberInput
-          label="Launch Cycle Period (weeks)"
-          placeholder="Enter the cycle period in weeks (default: 12)"
-          value={formValues.launchCyclePeriod}
-          onChange={(value) =>
-            handleInputChange('launchCyclePeriod', value)
-          }
-          error={errors.launchCyclePeriod} // Display validation error
-          required
-          allowNegative={false}
-          mb="md"
-        />
-
-        <div>
+        <Tooltip label="The amount of time between each Token release" position="top-start" color="gray">
           <NumberInput
-            label="Second Release (weeks)"
-            placeholder="Enter weeks (0 = at approval)"
-            value={formValues.launchTokenSecondReleaseWeeks}
+            label="Launch Cycle Period (weeks)"
+            placeholder="Enter the cycle period in weeks (default: 12)"
+            value={formValues.launchCyclePeriod}
             onChange={(value) =>
-              handleInputChange('launchTokenSecondReleaseWeeks', value)
+              handleInputChange('launchCyclePeriod', value)
             }
-            error={errors.launchTokenSecondReleaseWeeks} // Display validation error
+            error={errors.launchCyclePeriod} // Display validation error
             required
-            mb="xs"
             allowNegative={false}
+            mb="md"
           />
+        </Tooltip>
+        <div>
+          <Tooltip label="The amount of time between when the collaborative is approved and the second cycle tokens is released" position="top-start" color="gray">
+            <NumberInput
+              label="Second Release (weeks)"
+              placeholder="Enter weeks (0 = at approval)"
+              value={formValues.launchTokenSecondReleaseWeeks}
+              onChange={(value) =>
+                handleInputChange('launchTokenSecondReleaseWeeks', value)
+              }
+              error={errors.launchTokenSecondReleaseWeeks} // Display validation error
+              required
+              mb="xs"
+              allowNegative={false}
+            />
+          </Tooltip>
           <Text size="sm" c="dimmed" mb="md">
             # weeks after collab approval (0 = at approval, default = Launch Cycle Period)
           </Text>
@@ -530,20 +542,22 @@ export function CreateCollaborative() {
 
       <SimpleGrid cols={{ base: 1, sm: 1, md: 2 }}>
         <div>
-          <NumberInput
-            label="Collab Admin Pay"
-            placeholder="Percentage of each release cycle allocated to the collaborative admin (default: 0%)"
-            value={formValues.collabAdminCompensationPercent}
-            onChange={(value) =>
-              handleInputChange('collabAdminCompensationPercent', value)
-            }
-            required
-            min={0}
-            max={100}
-            suffix="%"
-            decimalScale={2}
-            mb="xs"
-          />
+          <Tooltip label="Percent of the previous Token release that is assigned to the Collaborative Admin at the end of each Launch Cycle" position="top-start" color="gray">
+            <NumberInput
+              label="Collab Admin Pay"
+              placeholder="Percentage of each release cycle allocated to the collaborative admin (default: 0%)"
+              value={formValues.collabAdminCompensationPercent}
+              onChange={(value) =>
+                handleInputChange('collabAdminCompensationPercent', value)
+              }
+              required
+              min={0}
+              max={100}
+              suffix="%"
+              decimalScale={2}
+              mb="xs"
+            />
+          </Tooltip>
           <Text size="sm" c="dimmed" mb="md">
             {adminPaymentsPreview
               ? <>{adminPaymentsPreview}</>

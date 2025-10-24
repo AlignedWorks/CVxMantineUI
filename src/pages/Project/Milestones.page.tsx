@@ -27,6 +27,7 @@ import {
   Divider,
   Switch,
   Paper,
+  Progress,
  } from '@mantine/core';
 import { ProjectDataWithMilestones, ProjectMember, ProjectDataWithMembers, MilestoneDetail, assigneeStatusColors, approvalStatusColors, approvalStatusSortOrder } from '../../data.ts';
 import { FileUpload } from '../../components/uploads/FileUpload.tsx';
@@ -646,6 +647,9 @@ export function ProjectMilestones() {
     return sum + milestone.allocatedLaunchTokens;
   }, 0);
 
+  const sumNetworkTransactionFees = ((project.projectAdminCompensationLaunchTokens + totalMilestoneTokens) * project.networkTransactionFeeRate).toFixed(2);
+  const budgetSubtotal = Number((totalMilestoneTokens + project.projectAdminCompensationLaunchTokens) * (1 + project.networkTransactionFeeRate));
+
   // Check permissions for the selected milestone
   const isProjectAdmin = selectedMilestone?.projectAdmins?.some(admin => admin.adminId === user?.userId);
   const isAssigneeAndAccepted = selectedMilestone?.assigneeId === user?.userId && selectedMilestone?.assigneeStatus === 'Accepted';
@@ -699,47 +703,60 @@ export function ProjectMilestones() {
 
                       <br/>
                       <Table.Tr>
-                        <Table.Td colSpan={5}>
-                          <Group justify="right">
-                            <Text c="dimmed">
-                              Total Assigned Tokens:
-                            </Text>
-                            <Text fw={500}>
-                              {Number(totalMilestoneTokens).toFixed(2)}
-                            </Text>
+                        <Table.Td colSpan={3}>
+                          <Group mb="xs">
+                            <Text size="sm" c="dimmed">Budget Utilization</Text>
+                            <Text size="sm" fw={700}>{Math.round(budgetSubtotal) / project.launchTokenBudget * 100}%</Text>
                           </Group>
-                          <Group justify="right">
-                            <Text fz="small" c="orange">
-                              Project Admin Compensation ({((project.projectAdminCompensationLaunchTokens / project.launchTokenBudget) * 100).toFixed(2)}%):
-                            </Text>
-                            <Text fz="small" c="orange">
-                              {project.projectAdminCompensationLaunchTokens }
-                            </Text>
+                          <Progress color="teal" value={budgetSubtotal / project.launchTokenBudget} size="lg" radius="xl" />
+                          <Group mt="xs">
+                            <Text size="sm" c="dimmed">Remaining</Text>
+                            <Text size="sm" fw={700}>{Math.round(project.launchTokenBudget - budgetSubtotal)} tokens</Text>
                           </Group>
-                          <Group justify="right">
-                            <Text fz="small" c="teal">
-                              Network Transaction Fees ({(project.networkTransactionFeeRate * 100).toFixed(2)}%):
-                            </Text>
-                            <Text fz="small" c="teal" fw={500}>
-                              {((project.projectAdminCompensationLaunchTokens + totalMilestoneTokens) * project.networkTransactionFeeRate).toFixed(2)}
-                            </Text>
-                          </Group>
-                          <Group justify="right">
-                            <Text c="dimmed">
-                              Total:
-                            </Text>
-                            <Text fw={500}>
-                              {((totalMilestoneTokens + project.projectAdminCompensationLaunchTokens) * (1 + project.networkTransactionFeeRate)).toFixed(2)}
-                            </Text>
-                          </Group>
-                          <Group justify="right">
-                            <Text c="dimmed">
-                              Project Budget:
-                            </Text>
-                            <Text fw={500}>
-                              {(project.launchTokenBudget).toFixed(2)}
-                            </Text>
-                          </Group>
+                        </Table.Td>
+                        <Table.Td colSpan={2}>
+                          <Paper p="lg" radius="md" bg="#fafafa" mt="lg">
+                            <Group justify="right">
+                              <Text c="dimmed">
+                                Total Assigned Tokens:
+                              </Text>
+                              <Text fw={500}>
+                                {Number(totalMilestoneTokens).toFixed(2)}
+                              </Text>
+                            </Group>
+                            <Group justify="right">
+                              <Text c="dimmed">
+                                Project Admin Pay ({((project.projectAdminCompensationLaunchTokens / project.launchTokenBudget) * 100).toFixed(2)}%):
+                              </Text>
+                              <Text c="dimmed">
+                                {project.projectAdminCompensationLaunchTokens }
+                              </Text>
+                            </Group>
+                            <Group justify="right" mb="lg">
+                              <Text c="dimmed">
+                                Network Transaction Fees ({(project.networkTransactionFeeRate * 100).toFixed(2)}%):
+                              </Text>
+                              <Text c="dimmed" fw={500}>
+                                {sumNetworkTransactionFees}
+                              </Text>
+                            </Group>
+                            <Group justify="right">
+                              <Text>
+                                Budget Subtotal:
+                              </Text>
+                              <Text fw={500}>
+                                {budgetSubtotal}
+                              </Text>
+                            </Group>
+                          </Paper>
+                            <Group justify="right">
+                              <Text>
+                                Project Budget:
+                              </Text>
+                              <Text fw={500}>
+                                {(project.launchTokenBudget).toFixed(2)}
+                              </Text>
+                            </Group>
                         </Table.Td>
                       </Table.Tr>
                     </Table.Tbody>
