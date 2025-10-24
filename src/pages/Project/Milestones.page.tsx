@@ -715,7 +715,7 @@ export function ProjectMilestones() {
                           </Group>
                         </Table.Td>
                         <Table.Td colSpan={3}>
-                          <Paper p="lg" radius="md" bg="#fafafa" mt="lg">
+                          <Paper p="sm" radius="md" bg="#fafafa" mt="lg">
                             <Table withRowBorders={false}>
                               <Table.Tr>
                                 <Table.Td align="right">
@@ -732,7 +732,7 @@ export function ProjectMilestones() {
                               <Table.Tr>
                                 <Table.Td align="right">
                                   <Text size="sm" c="dimmed">
-                                    Project Admin Pay ({Math.round(project.projectAdminCompensationLaunchTokens / project.launchTokenBudget) * 100}%):
+                                    Project Admin Pay ({Math.round((project.projectAdminCompensationLaunchTokens / project.launchTokenBudget) * 100)}%):
                                   </Text>
                                 </Table.Td>
                                 <Table.Td>
@@ -769,18 +769,6 @@ export function ProjectMilestones() {
                           </Paper>
                         </Table.Td>
                       </Table.Tr>
-                      <Table.Tr>
-                        <Table.Td colSpan={5}>
-                          <Group justify="right" mt="md" mr="md">
-                              <Text>
-                                Budget Total:
-                              </Text>
-                              <Text fw={500}>
-                                {(project.launchTokenBudget).toFixed(2)}
-                              </Text>
-                            </Group>
-                        </Table.Td>
-                      </Table.Tr>
                     </Table.Tbody>
                   </Table>
                 </Table.ScrollContainer>
@@ -789,6 +777,14 @@ export function ProjectMilestones() {
                   No milestones have been added yet.
                 </Text>
               )}
+              <Group justify="right" mt="md" mr="md">
+                <Text size="lg">
+                  Budget Total:
+                </Text>
+                <Text size="lg" fw={500}>
+                  {(project.launchTokenBudget).toFixed(2)}
+                </Text>
+              </Group>
             </Stack>
           </Grid.Col>
         </Grid>
