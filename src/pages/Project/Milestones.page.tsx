@@ -715,7 +715,7 @@ export function ProjectMilestones() {
                           </Group>
                         </Table.Td>
                         <Table.Td colSpan={3}>
-                          <Paper p="sm" radius="md" bg="#fafafa" mt="lg">
+                          <Paper p="xs" radius="md" bg="#fafafa" mt="sm">
                             <Table withRowBorders={false}>
                               <Table.Tr>
                                 <Table.Td align="right">
@@ -761,7 +761,7 @@ export function ProjectMilestones() {
                                 </Table.Td>
                                 <Table.Td>
                                   <Text size="lg" fw={500} mt="sm">
-                                    {budgetSubtotal}
+                                    {(budgetSubtotal).toFixed(2)}
                                   </Text>
                                 </Table.Td>
                               </Table.Tr>
@@ -777,7 +777,7 @@ export function ProjectMilestones() {
                   No milestones have been added yet.
                 </Text>
               )}
-              <Group justify="right" mt="md" mr="md">
+              <Group justify="right" mt="xs" mr="xl">
                 <Text size="lg">
                   Budget Total:
                 </Text>

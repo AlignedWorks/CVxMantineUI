@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../AuthContext.tsx";
 import {
   Container,
   Title,
@@ -74,7 +73,7 @@ export function Dashboard() {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteError, setInviteError] = useState('');
   const [activeTab, setActiveTab] = useState<string | null>('first');
-  const { user } = useAuth();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   // const [loading, setLoading] = useState(true);
 
   const fetchDashboardData = () => {
@@ -86,6 +85,7 @@ export function Dashboard() {
         .then((res) => res.json())
         .then((data) => {
           const {
+            currentUser,
             usersNeedingApproval,
             roles,
             collabs,
@@ -103,6 +103,7 @@ export function Dashboard() {
           console.log(collabInvites);
           console.log(csaApprovalRequests);
           console.log(collabs);
+          setCurrentUser(currentUser);
           setCollabs(collabs); // Set the collabs data
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
           setCollabInvites(collabInvites); // Set the collab invites data
@@ -122,6 +123,14 @@ export function Dashboard() {
     
   useEffect(() => {
     fetchDashboardData();
+
+    // Poll every 30 seconds (30000ms)
+    const pollInterval = setInterval(() => {
+      fetchDashboardData();
+    }, 30000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(pollInterval);
   }, []);
 
   // Sort projects by approval status before mapping
@@ -173,7 +182,7 @@ export function Dashboard() {
        credentials: "include",
        headers: { "Content-Type": "application/json" },
       // include denial reason when denying an applicant
-      body: JSON.stringify({ role: newRole, reasonForDenial: denialReasons[userId] ?? '', networkAdmin: user }),
+      body: JSON.stringify({ role: newRole, reasonForDenial: denialReasons[userId] ?? '', networkAdmin: currentUser }),
      })
       .then((res) => res.json())
       .then((updatedUser) => {
@@ -428,10 +437,10 @@ export function Dashboard() {
             COLLABORATIVE VALUE EXCHANGE
         </Title>
         <Title order={1} mb="md" pt="sm" pb="lg">
-            {user ? user.firstName + "'s " : ""}Dashboard
+            {currentUser ? currentUser.firstName + "'s " : ""}Dashboard
         </Title>
 
-        {['Network Admin', 'Network Contributor'].includes(user?.memberStatus || '') && (
+        {['Network Admin', 'Network Contributor'].includes(currentUser?.memberStatus || '') && (
         <Group justify="flex-start" mt="xl">
           <Link to="/create-collaborative">
             <Button variant="default">
@@ -800,7 +809,7 @@ export function Dashboard() {
               </Card>
             ))}
 
-            {user?.memberStatus === 'Network Admin' && Array.isArray(userApprovals) && userApprovals.length > 0 && (
+            {currentUser?.memberStatus === 'Network Admin' && Array.isArray(userApprovals) && userApprovals.length > 0 && (
               <Title order={3} mt="lg" mb="md" pt="sm" pb="lg">
                   Approve users
               </Title>
