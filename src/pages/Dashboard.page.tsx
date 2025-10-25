@@ -40,12 +40,11 @@ interface User {
   username: string;
   firstName: string;
   lastName: string;
-  bio?: string;
-  phoneNumber?: string;
-  linkedIn?: string;
-  avatarUrl?: string;
   createdAt: string;
   memberStatus: string;
+  bio: string;
+  linkedIn: string;
+  avatarUrl: string;
 }
 
 export function Dashboard() {
@@ -104,7 +103,6 @@ export function Dashboard() {
           console.log(csaApprovalRequests);
           console.log(collabs);
           setCurrentUser(currentUser);
-          console.log(data.currentUser);
           console.log(currentUser);
           setCollabs(collabs); // Set the collabs data
           setCollabsNeedingApproval(collabsNeedingApproval); // Set the collabs needing approval data
