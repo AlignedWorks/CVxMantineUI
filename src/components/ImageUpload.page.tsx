@@ -167,12 +167,6 @@ export function ImageUpload({onSuccess, onCancel}: ImageUploadProps) {
               )}
 
               <Group justify="space-between">
-                <Text>
-                  The image should ideally be<br/>
-                  1) roughly square<br/>
-                  2) tightly cropped<br/>
-                  3) set against a white or transparent background
-                </Text>
                 <Button 
                   onClick={handleUpload} 
                   leftSection={<IconUpload size={16} />}

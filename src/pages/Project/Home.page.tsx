@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
+import { useAuth } from '../../AuthContext.tsx';
 import {
   Container,
   Text,
@@ -30,6 +31,7 @@ export function ProjectHome() {
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataHome | null>(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   // budget values
   const [budgetSubtotal, setBudgetSubtotal] = useState<number | 0>(0);
@@ -629,70 +631,103 @@ export function ProjectHome() {
               error={formErrors.description}
               minRows={3}
             />
-            <Tooltip
-              color="gray"
-              label="Enter a Project Budget as a number of Launch Tokens"
-              multiline
-              w={220}
-            >
-              <NumberInput
-                label="Budget"
-                placeholder="Enter a Project Budget as a number of Launch Tokens"
-                value={formValues.budget}
-                onChange={handleBudgetChange}
-                error={formErrors.budget}
-                allowNegative={false}
-                required
-                min={0}
-                max={project?.collabLaunchTokenBalance - formValues.adminPay || 0}
-                suffix=" tokens"
-              />
-            </Tooltip>
-            <Tooltip
-              color="gray"
-              label="The # of Tokens in the Collaborative released for use and still unassigned after this project is launched"
-              multiline
-              w={220}
-            >
-              <Text size="sm" c="dimmed" mt="xs">
-                Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${project?.collabLaunchTokenBalance} tokens`}
-              </Text>
-            </Tooltip>
-            <Tooltip
-              color="gray"
-              label="The percent of released and unassigned Tokens in the Collaborative needed to fund this project"
-              multiline
-              w={220}
-            >
-              <Text size="sm" c="dimmed" mb="md">
-                {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance?.toFixed(0)}% of available balance` : '0% of available balance'}
-              </Text>
-            </Tooltip>
-            <Tooltip
-              color="gray"
-              label="The percent of released and unassigned Tokens in the Collaborative needed to fund this project"
-              multiline
-              w={220}
-            >
-              <NumberInput
-                label="Project Admin Pay"
-                placeholder="Enter the Project Admin pay as a # of Tokens"
-                value={formValues.adminPay}
-                onChange={handleAdminPayChange}
-                error={formErrors.adminPay}
-                allowNegative={false}
-                max={formValues.budget || 0}
-                required
-                suffix=" tokens"
-                step={1}
-              />
-            </Tooltip>
-            <Text size="sm" c="dimmed" mt="xs">
-              Remaining Project Balance: {remainingProjectBalance !== null ? `${remainingProjectBalance.toLocaleString()} Tokens` : '0 tokens'}
-            </Text>
-            <Text size="sm" c="dimmed">
-              {percentOfProjectBudget !== null ? `${percentOfProjectBudget.toFixed(0)}% of Project Budget` : '0% of Project Budget'}
-            </Text>
+
+            {user?.userName === project?.adminEmail ? (
+              <>
+                <Tooltip
+                  color="gray"
+                  label="Enter a Project Budget as a number of Launch Tokens"
+                  multiline
+                  w={220}
+                >
+                <NumberInput
+                  label="Budget"
+                  placeholder="Enter a Project Budget as a number of Launch Tokens"
+                  value={formValues.budget}
+                  onChange={handleBudgetChange}
+                  error={formErrors.budget}
+                  allowNegative={false}
+                  required
+                  min={0}
+                  max={project?.collabLaunchTokenBalance - formValues.adminPay || 0}
+                  suffix=" tokens"
+                />
+                </Tooltip>
+                <Tooltip
+                  color="gray"
+                  label="The # of Tokens in the Collaborative released for use and still unassigned after this project is launched"
+                  multiline
+                  w={220}
+                >
+                  <Text size="sm" c="dimmed" mt="xs">
+                    Remaining Collaborative Balance: {remainingCollaborativeBalance !== null ? `${remainingCollaborativeBalance.toLocaleString()} Tokens` : `${project?.collabLaunchTokenBalance} tokens`}
+                  </Text>
+                </Tooltip>
+                <Tooltip
+                  color="gray"
+                  label="The percent of released and unassigned Tokens in the Collaborative needed to fund this project"
+                  multiline
+                  w={220}
+                >
+                  <Text size="sm" c="dimmed" mb="md">
+                    {percentOfAvailableBalance !== null ? `${percentOfAvailableBalance?.toFixed(0)}% of available balance` : '0% of available balance'}
+                  </Text>
+                </Tooltip>
+                <Tooltip
+                  color="gray"
+                  label="Enter the Project Admin pay as a # of Tokens"
+                  multiline
+                  w={220}
+                >
+                  <NumberInput
+                    label="Project Admin Pay"
+                    placeholder="Enter the Project Admin pay as a # of Tokens"
+                    value={formValues.adminPay}
+                    onChange={handleAdminPayChange}
+                    error={formErrors.adminPay}
+                    allowNegative={false}
+                    max={formValues.budget || 0}
+                    required
+                    suffix=" tokens"
+                    step={1}
+                  />
+                </Tooltip>
+                <Text size="sm" c="dimmed" mt="xs">
+                  Remaining Project Balance: {remainingProjectBalance !== null ? `${remainingProjectBalance.toLocaleString()} Tokens` : '0 tokens'}
+                </Text>
+                <Text size="sm" c="dimmed">
+                  {percentOfProjectBudget !== null ? `${percentOfProjectBudget.toFixed(0)}% of Project Budget` : '0% of Project Budget'}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Tooltip
+                  color="gray"
+                  label="You must be a Collab Admin to edit the project budget"
+                  multiline
+                  w={220}
+                >
+                <NumberInput
+                  label="Budget"
+                  placeholder={formValues.budget}
+                  disabled
+                />
+                </Tooltip>
+                <Tooltip
+                  color="gray"
+                  label="You must be a Collab Admin to edit the project admin pay"
+                  multiline
+                  w={220}
+                >
+                  <NumberInput
+                    label="Project Admin Pay"
+                    placeholder={formValues.adminPay}
+                    disabled
+                  />
+                </Tooltip>
+              </>
+            )}
+            
             <Group justify="right" mt="md">
               <Button variant="outline" type="submit">Save</Button>
               <Button variant="default" type="button" onClick={() => { setIsEditModalOpen(false); setFormErrors({}); }}>
