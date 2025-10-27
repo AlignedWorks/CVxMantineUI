@@ -70,7 +70,7 @@ export function ProjectMilestones() {
   const [launchTokenAmount, setLaunchTokenAmount] = useState<number | string>('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [dueDate, setDueDate] = useState<Date | null>(null);
-  const [assigneeId, setAssigneeId] = useState<string | null>(null);
+  const [assigneeId, setAssigneeId] = useState('');
 
   // Edit-in-modal state for selected milestone
   const [isEditingMilestone, setIsEditingMilestone] = useState(false);
