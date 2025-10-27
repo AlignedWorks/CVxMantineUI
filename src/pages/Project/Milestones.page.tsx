@@ -70,7 +70,7 @@ export function ProjectMilestones() {
   const [launchTokenAmount, setLaunchTokenAmount] = useState<number | string>('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [dueDate, setDueDate] = useState<Date | null>(null);
-  const [assigneeId, setAssigneeId] = useState('');
+  const [assigneeId, setAssigneeId] = useState<string | null>(null);
 
   // Edit-in-modal state for selected milestone
   const [isEditingMilestone, setIsEditingMilestone] = useState(false);
@@ -343,7 +343,7 @@ export function ProjectMilestones() {
 
     if (!milestoneName) newErrors.name = 'Milestone name is required.';
     if (!milestoneDescription) newErrors.description = 'Milestone description is required.';
-    if (!assigneeId) newErrors.adminId = 'Milestone assignee is required.';
+    if (!assigneeId || assigneeId.trim() === '') newErrors.adminId = 'Milestone assignee is required.';
     if (launchTokenAmount === 0) newErrors.budget = 'Milestone budget must be greater than 0.';
     if (startDate === null) newErrors.startDate = 'Milestone start date is required.';
     if (dueDate === null) newErrors.dueDate = 'Milestone due date is required.';
