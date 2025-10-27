@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { useCollaborativeContext } from '../../CollaborativeContext.tsx';
-import { useAuth } from '../../AuthContext.tsx';
 import {
   Container,
   Text,
@@ -31,7 +30,6 @@ export function ProjectHome() {
   const { setCollaborativeId } = useCollaborativeContext();
   const [project, setProject] = useState<ProjectDataHome | null>(null);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
 
   // budget values
   const [budgetSubtotal, setBudgetSubtotal] = useState<number | 0>(0);
@@ -632,7 +630,7 @@ export function ProjectHome() {
               minRows={3}
             />
 
-            {user?.userName === project?.adminEmail ? (
+            {project.userIsCollabAdmin ? (
               <>
                 <Tooltip
                   color="gray"
@@ -709,7 +707,7 @@ export function ProjectHome() {
                 >
                 <NumberInput
                   label="Budget"
-                  placeholder={formValues.budget}
+                  value={formValues.budget}
                   disabled
                 />
                 </Tooltip>
@@ -721,7 +719,7 @@ export function ProjectHome() {
                 >
                   <NumberInput
                     label="Project Admin Pay"
-                    placeholder={formValues.adminPay}
+                    value={formValues.adminPay}
                     disabled
                   />
                 </Tooltip>

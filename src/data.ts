@@ -197,6 +197,7 @@ export interface ProjectDataHome {
   userIsProjectAdmin: boolean;
   allUsersAcceptedTheirInvites: boolean;
   reasonsForDecline: { id: number; memberName: string; reason: string }[];
+  userIsCollabAdmin: string;
 }
 
 export interface ProjectDataWithMembers {
