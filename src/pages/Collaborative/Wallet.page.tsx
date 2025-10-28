@@ -188,7 +188,7 @@ export function CollaborativeMemberWallet() {
                       >
                         <Text fz="md" fw={500} c="#999">My Current Share</Text>
                       </Tooltip>
-                      <Text fz="xl" fw={700} c="#444">{collaborative.userAssignedLaunchTokens ? Math.round(collaborative.userAssignedLaunchTokens / (collaborative.allAssignedLaunchTokens + collaborative.tokensPriorWork) * 100) : 0}%</Text>
+                      <Text fz="xl" fw={700} c="#444">{collaborative.userAssignedLaunchTokens ? (collaborative.userAssignedLaunchTokens / (collaborative.allAssignedLaunchTokens + collaborative.tokensPriorWork) * 100).toFixed(2) : 0}%</Text>
                       
                       <Tooltip
                         color="gray"

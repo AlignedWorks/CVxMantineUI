@@ -89,7 +89,10 @@ function MainContent({ user }: { user: any }) {
           backgroundColor: '#F4F4F4',
           padding: '8px 0',
           borderBottom: '1px solid #dee2e6',
-          margin: '-16px -16px 16px -16px' // Negative margins to counteract AppShell padding
+          margin: '-16px -16px 16px -16px', // Negative margins to counteract AppShell padding
+          position: 'sticky',
+          top: 0,
+          zIndex: 100,
         }}>
           <Container size="md">
             <Group justify="center" gap="lg" pt="xs">
