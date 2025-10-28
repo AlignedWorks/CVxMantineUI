@@ -449,7 +449,7 @@ export function ProjectHome() {
                         {project.createdAt}
                       </Text>
                     </div>
-                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
+                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) ? (
                       <div>
                         <Text c="red" mb="xs">
                           <strong>Reasons this project was declined:</strong>
