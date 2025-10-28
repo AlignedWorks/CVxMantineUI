@@ -508,12 +508,14 @@ export function ProjectHome() {
                         {project.createdAt}
                       </Text>
                     </div>
-                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.reasonsForDecline.length > 0 ? (
+
+                    {/* Display reasons for invite declines if user is project admin */}
+                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForInviteDecline) && project.reasonsForInviteDecline.length > 0 ? (
                       <div>
                         <Text c="red" mt="lg">
-                          <strong>Reasons this project was declined:</strong>
+                          <strong>Reasons users declined their project invites:</strong>
                         </Text>
-                        {project.reasonsForDecline.map((decline) => (
+                        {project.reasonsForInviteDecline.map((decline) => (
                           <Text c="red" key={decline.id}>
                             <strong>{decline.memberName}:</strong> {decline.reason}
                           </Text>
@@ -529,6 +531,27 @@ export function ProjectHome() {
                       </div>
                     ) : null}
 
+                    {/* Display reasons for members declined the project */}
+                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.reasonsForDecline.length > 0 ? (
+                      <div>
+                        <Text c="red" mt="lg">
+                          <strong>Reasons members declined the project:</strong>
+                        </Text>
+                        {project.reasonsForDecline.map((decline) => (
+                          <Text c="red" key={decline.id}>
+                            <strong>{decline.memberName}:</strong> {decline.reason}
+                          </Text>
+                        ))}
+                        <Button
+                          variant="outline"
+                          color="red"
+                          onClick={() => handleSubmitForApproval()}
+                          mt="lg"
+                        >
+                          Resubmit Project
+                        </Button>
+                      </div>
+                    ) : null}
                   </Stack>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 6 }}>
