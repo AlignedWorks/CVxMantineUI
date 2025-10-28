@@ -272,7 +272,8 @@ export function Dashboard() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          inviteStatus: newStatus 
+          inviteStatus: newStatus,
+          reasonForDecline: collabDeclineReasons[collabId] ?? ''
         }),
       })
       .then((res) => {
@@ -543,6 +544,17 @@ export function Dashboard() {
                       <Text>
                         You've been invited to join the collaborative<br/><strong><Link to={`/collaboratives/${invite.collabId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.collabName}</Link></strong> as a <strong>{invite.userRole}</strong>.
                       </Text>
+
+                      {/* If this collab is being declined, show the reason textarea here (second column) */}
+                      {decliningCollabId === invite.collabId && (
+                        <Textarea
+                          mt="sm"
+                          label="Reason for decline"
+                          placeholder="Provide a brief reason for declining this collaborative"
+                          value={collabDeclineReasons[invite.collabId] ?? ''}
+                          onChange={(e) => handleDeclineReasonChange(invite.collabId, 'collab', e.currentTarget.value)}
+                        />
+                      )}
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                       <Button
@@ -552,10 +564,22 @@ export function Dashboard() {
                       </Button>
                       <Button
                         variant="default"
-                        onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
-                        ml="md">
-                          Decline
+                        ml="md"
+                        onClick={() => handleInitiateDecline(invite.collabId, 'collab')}
+                      >
+                        Decline
                       </Button>
+
+                      {decliningCollabId === invite.collabId ? (
+                        <Button
+                          color="red"
+                          variant="outline"
+                          mt="lg"
+                          onClick={() => handleCollabInvite(invite.collabId, invite.userId, 'decline')}
+                        >
+                          Submit Decline
+                        </Button>
+                      ) : null}
                     </Grid.Col>
                   </Grid>
               </Card>
