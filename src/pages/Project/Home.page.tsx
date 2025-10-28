@@ -452,7 +452,7 @@ export function ProjectHome() {
                     {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.approvalStatus === 'Declined' ? (
                       <div>
                         <Text c="red" mb="xs">
-                          <strong>Reasons this collaborative was declined:</strong>
+                          <strong>Reasons this project was declined:</strong>
                         </Text>
                         {project.reasonsForDecline.map((decline) => (
                           <Text c="red" key={decline.id}>

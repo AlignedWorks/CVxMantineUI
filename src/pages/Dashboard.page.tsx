@@ -347,7 +347,8 @@ export function Dashboard() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          inviteStatus: newStatus 
+          inviteStatus: newStatus,
+          reasonForDecline: projectDeclineReasons[projectId] ?? ''
         }),
       })
       .then((res) => {
@@ -642,6 +643,17 @@ export function Dashboard() {
                       <Text>
                         You've been invited to join the project<br/><strong><Link to={`/collaboratives/${invite.collabId}/projects/${invite.projectId}`} state={{ from: location.pathname }} style={{ textDecoration: 'none', color: '#0077b5' }}>{invite.projectName}</Link></strong> as a <strong>{invite.userRole}</strong>.
                       </Text>
+
+                      {/* If this project is being declined, show the reason textarea here (second column) */}
+                        {decliningProjectId === invite.projectId && (
+                          <Textarea
+                            mt="sm"
+                            label="Reason for decline"
+                            placeholder="Provide a brief reason for declining this project"
+                            value={projectDeclineReasons[invite.projectId] ?? ''}
+                            onChange={(e) => handleDeclineReasonChange(invite.projectId, 'project', e.currentTarget.value)}
+                          />
+                        )}
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, sm: 12, md: 3, lg: 3 }}>
                       <Button
@@ -651,10 +663,21 @@ export function Dashboard() {
                       </Button>
                       <Button
                         variant="default"
-                        onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'decline')}
+                        onClick={() => handleInitiateDecline(invite.projectId, 'project')}
                         ml="md">
                           Decline
                       </Button>
+
+                      {decliningProjectId === invite.projectId     ? (
+                        <Button
+                          color="red"
+                          variant="outline"
+                          mt="lg"
+                          onClick={() => handleProjectInvite(invite.projectId, invite.userId, 'decline')}
+                        >
+                          Submit Decline
+                        </Button>
+                      ) : null}
                     </Grid.Col>
                   </Grid>
               </Card>

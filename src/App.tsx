@@ -91,7 +91,7 @@ function MainContent({ user }: { user: any }) {
           borderBottom: '1px solid #dee2e6',
           margin: '-16px -16px 16px -16px', // Negative margins to counteract AppShell padding
           position: 'sticky',
-          top: 0,
+          top: 58,
           zIndex: 100,
         }}>
           <Container size="md">
