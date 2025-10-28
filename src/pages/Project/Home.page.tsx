@@ -245,6 +245,37 @@ export function ProjectHome() {
     }
   };
 
+  const handleProjectReinvites = () => {
+
+    // Logic to reinvite members for declined project
+    project?.reasonsForDecline.forEach(reason => {
+      fetch(
+        new URL(`projects/${project.id}/members/${reason.memberId}`, import.meta.env.VITE_API_BASE),
+        {
+          method: 'PATCH',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            inviteStatus: 'Invited' }),
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to reinvite member');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log('Reinvite successful:', data);
+        })
+        .catch((error) => {
+          console.error('API Error:', error);
+        });
+    });
+  }
+
   const handleEdit = () => {
     if (!project) return;
     setFormValues({
@@ -451,7 +482,7 @@ export function ProjectHome() {
                     </div>
                     {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) ? (
                       <div>
-                        <Text c="red" mb="xs">
+                        <Text c="red" mt="lg">
                           <strong>Reasons this project was declined:</strong>
                         </Text>
                         {project.reasonsForDecline.map((decline) => (
@@ -459,6 +490,13 @@ export function ProjectHome() {
                             <strong>{decline.memberName}:</strong> {decline.reason}
                           </Text>
                         ))}
+                        <Button
+                          variant="outline"
+                          color="red"
+                          onClick={() => handleProjectReinvites()}
+                        >
+                          Reinvite Members
+                        </Button>
                       </div>
                     ) : null}
 
