@@ -707,7 +707,7 @@ export function ProjectMilestones() {
                           <Table.Td colSpan={2} valign="bottom">
                             <Group mb="xs">
                               <Text size="sm" c="dimmed">Budget Utilization</Text>
-                              <Text size="sm" fw={700}>{Math.round(budgetSubtotal) / project.launchTokenBudget * 100}%</Text>
+                              <Text size="sm" fw={700}>{Math.round((budgetSubtotal) / project.launchTokenBudget * 100)}%</Text>
                             </Group>
                             <Progress color="teal" value={budgetSubtotal / project.launchTokenBudget * 100} size="lg" radius="xl" />
                             <Group mt="xs">

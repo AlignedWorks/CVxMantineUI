@@ -250,7 +250,7 @@ export function ProjectHome() {
 
     try {
       // Execute all reinvites in parallel
-      const reinvitePromises = project.reasonsForDecline.map(reason =>
+      const reinvitePromises = project.reasonsForInviteDecline.map(reason =>
         fetch(
           new URL(`projects/${project.id}/members/${reason.memberId}`, import.meta.env.VITE_API_BASE),
           {
