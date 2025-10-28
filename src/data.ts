@@ -68,7 +68,7 @@ export interface CollaborativeData {
   userIsCollabContributor: boolean;
   skills: { id: number; value: string }[];
   experience: { id: number; value: string }[];
-  
+  reasonsForInviteDecline?: { id: number; memberId: string; memberName: string; reason: string }[];
 }
 
 export interface CollabDataCompact {

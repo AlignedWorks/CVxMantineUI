@@ -159,6 +159,70 @@ export function CollaborativeHome() {
     }
   };
 
+  const handleCollabReinvites = async () => {
+    if (!collaborative) return;
+
+    if (collaborative.reasonsForInviteDecline === undefined || collaborative.reasonsForInviteDecline.length === 0) {
+      console.log('No members to reinvite.');
+      return;
+    }
+
+    try {
+      // Execute all reinvites in parallel
+      const reinvitePromises = collaborative.reasonsForInviteDecline.map(reason =>
+        fetch(
+          new URL(`collaboratives/${collaborative.id}/members/${reason.memberId}`, import.meta.env.VITE_API_BASE),
+          {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              inviteStatus: 'Invited' 
+            }),
+          }
+        )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Failed to reinvite member ${reason.memberId}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log('Reinvite successful:', data);
+            return reason.memberId; // Return the successfully reinvited member ID
+          })
+          .catch((error) => {
+            console.error(`API Error for member ${reason.memberId}:`, error);
+            return null; // Return null for failed reinvites
+          })
+      );
+
+      // Wait for all promises to complete
+      const results = await Promise.all(reinvitePromises);
+      
+      // Filter out successful reinvites (non-null results)
+      const successfulMemberIds = results.filter(id => id !== null);
+
+      // Update collaborative state to remove successfully reinvited members from reasonsForInviteDecline
+      if (successfulMemberIds.length > 0) {
+        setCollaborative(prev => {
+          if (!prev || !prev.reasonsForInviteDecline) return prev;
+          return {
+            ...prev,
+            reasonsForInviteDecline: prev.reasonsForInviteDecline.filter(
+              reason => !successfulMemberIds.includes(reason.memberId)
+            )
+          };
+        });
+      }
+
+    } catch (err) {
+      console.error('Error during reinvites:', err);
+    }
+  }
+
   if (loading) {
     return (
       <Container size="md" py="xl">
@@ -273,6 +337,26 @@ export function CollaborativeHome() {
                           {collaborative.city}, {collaborative.state}
                       </Text>
                     </Group>
+                    {collaborative.userIsCollabAdmin && Array.isArray(collaborative.reasonsForInviteDecline) && collaborative.reasonsForInviteDecline.length > 0 ? (
+                      <div>
+                        <Text c="red" mt="lg">
+                          <strong>Reasons this project was declined:</strong>
+                        </Text>
+                        {collaborative.reasonsForInviteDecline.map((decline) => (
+                          <Text c="red" key={decline.id}>
+                            <strong>{decline.memberName}:</strong> {decline.reason}
+                          </Text>
+                        ))}
+                        <Button
+                          variant="outline"
+                          color="red"
+                          onClick={() => handleCollabReinvites()}
+                          mt="lg"
+                        >
+                          Reinvite Members
+                        </Button>
+                      </div>
+                    ) : null}
                   </Stack>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 12, md: 5 }}>
