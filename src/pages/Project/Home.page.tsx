@@ -292,7 +292,7 @@ export function ProjectHome() {
           if (!prev) return prev;
           return {
             ...prev,
-            reasonsForDecline: prev.reasonsForDecline.filter(
+            reasonsForInviteDecline: prev.reasonsForInviteDecline.filter(
               reason => !successfulMemberIds.includes(reason.memberId)
             )
           };
