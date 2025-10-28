@@ -245,35 +245,63 @@ export function ProjectHome() {
     }
   };
 
-  const handleProjectReinvites = () => {
+  const handleProjectReinvites = async () => {
+    if (!project) return;
 
-    // Logic to reinvite members for declined project
-    project?.reasonsForDecline.forEach(reason => {
-      fetch(
-        new URL(`projects/${project.id}/members/${reason.memberId}`, import.meta.env.VITE_API_BASE),
-        {
-          method: 'PATCH',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            inviteStatus: 'Invited' }),
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Failed to reinvite member');
+    try {
+      // Execute all reinvites in parallel
+      const reinvitePromises = project.reasonsForDecline.map(reason =>
+        fetch(
+          new URL(`projects/${project.id}/members/${reason.memberId}`, import.meta.env.VITE_API_BASE),
+          {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              inviteStatus: 'Invited' 
+            }),
           }
-          return response.json();
-        })
-        .then((data) => {
-          console.log('Reinvite successful:', data);
-        })
-        .catch((error) => {
-          console.error('API Error:', error);
+        )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Failed to reinvite member ${reason.memberId}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log('Reinvite successful:', data);
+            return reason.memberId; // Return the successfully reinvited member ID
+          })
+          .catch((error) => {
+            console.error(`API Error for member ${reason.memberId}:`, error);
+            return null; // Return null for failed reinvites
+          })
+      );
+
+      // Wait for all promises to complete
+      const results = await Promise.all(reinvitePromises);
+      
+      // Filter out successful reinvites (non-null results)
+      const successfulMemberIds = results.filter(id => id !== null);
+
+      // Update project state to remove successfully reinvited members from reasonsForDecline
+      if (successfulMemberIds.length > 0) {
+        setProject(prev => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            reasonsForDecline: prev.reasonsForDecline.filter(
+              reason => !successfulMemberIds.includes(reason.memberId)
+            )
+          };
         });
-    });
+      }
+
+    } catch (err) {
+      console.error('Error during reinvites:', err);
+    }
   }
 
   const handleEdit = () => {
@@ -480,7 +508,7 @@ export function ProjectHome() {
                         {project.createdAt}
                       </Text>
                     </div>
-                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) ? (
+                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForDecline) && project.reasonsForDecline.length > 0 ? (
                       <div>
                         <Text c="red" mt="lg">
                           <strong>Reasons this project was declined:</strong>
@@ -494,6 +522,7 @@ export function ProjectHome() {
                           variant="outline"
                           color="red"
                           onClick={() => handleProjectReinvites()}
+                          mt="lg"
                         >
                           Reinvite Members
                         </Button>
