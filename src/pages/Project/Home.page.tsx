@@ -258,7 +258,7 @@ export function ProjectHome() {
     }
   };
 
-  const handleProjectReinvites = async () => {
+  const handleProjectReinvites = async (role: string) => {
     if (!project) return;
 
     try {
@@ -301,15 +301,11 @@ export function ProjectHome() {
 
       // Update project state to remove successfully reinvited members from reasonsForDecline
       if (successfulMemberIds.length > 0) {
-        setProject(prev => {
-          if (!prev) return prev;
-          return {
-            ...prev,
-            reasonsForInviteDecline: prev.reasonsForInviteDecline.filter(
-              reason => !successfulMemberIds.includes(reason.memberId)
-            )
-          };
-        });
+        if (role === 'collabAdmin') {
+          setReasonsForDeclineCollabAdmin(prev => prev.filter(reason => !successfulMemberIds.includes(reason.memberId)));
+        } else if (role === 'projectAdmin') {
+          setReasonsForDeclineProjectAdmin(prev => prev.filter(reason => !successfulMemberIds.includes(reason.memberId)));
+        }
       }
 
     } catch (err) {
@@ -536,7 +532,7 @@ export function ProjectHome() {
                         <Button
                           variant="outline"
                           color="red"
-                          onClick={() => handleProjectReinvites()}
+                          onClick={() => handleProjectReinvites('collabAdmin')}
                           mt="lg"
                         >
                           Reinvite Members
@@ -558,7 +554,7 @@ export function ProjectHome() {
                         <Button
                           variant="outline"
                           color="red"
-                          onClick={() => handleProjectReinvites()}
+                          onClick={() => handleProjectReinvites('projectAdmin')}
                           mt="lg"
                         >
                           Reinvite Members
