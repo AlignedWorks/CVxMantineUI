@@ -340,7 +340,7 @@ export function CollaborativeHome() {
                     {collaborative.userIsCollabAdmin && Array.isArray(collaborative.reasonsForInviteDecline) && collaborative.reasonsForInviteDecline.length > 0 ? (
                       <div>
                         <Text c="red" mt="lg">
-                          <strong>Reasons this project was declined:</strong>
+                          <strong>Reasons users declined their collab invites:</strong>
                         </Text>
                         {collaborative.reasonsForInviteDecline.map((decline) => (
                           <Text c="red" key={decline.id}>

@@ -197,7 +197,7 @@ export interface ProjectDataHome {
   userIsProjectAdmin: boolean;
   allUsersAcceptedTheirInvites: boolean;
   reasonsForDecline: { id: number; memberId: string; memberName: string; reason: string }[];
-  reasonsForInviteDecline: { id: number; memberId: string; memberName: string; reason: string }[];
+  reasonsForInviteDecline: { id: number; memberId: string; memberName: string; memberRole: string; reason: string }[];
   userIsCollabAdmin: string;
 }
 

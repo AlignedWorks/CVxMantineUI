@@ -509,13 +509,35 @@ export function ProjectHome() {
                       </Text>
                     </div>
 
-                    {/* Display reasons for invite declines if user is project admin */}
+                    {/* Display reasons for invite declines if user is collab admin and invitees are project admins*/}
+                    {project.userIsCollabAdmin && Array.isArray(project.reasonsForInviteDecline) && project.reasonsForInviteDecline.length > 0 ? (
+                      <div>
+                        <Text c="red" mt="lg">
+                          <strong>Reasons users declined their project invites:</strong>
+                        </Text>
+                        {project.reasonsForInviteDecline.filter(reason => reason.memberRole === 'Project Admin').map((decline) => (
+                          <Text c="red" key={decline.id}>
+                            <strong>{decline.memberName}:</strong> {decline.reason}
+                          </Text>
+                        ))}
+                        <Button
+                          variant="outline"
+                          color="red"
+                          onClick={() => handleProjectReinvites()}
+                          mt="lg"
+                        >
+                          Reinvite Members
+                        </Button>
+                      </div>
+                    ) : null}
+
+                    {/* Display reasons for invite declines if user is project admin and invitees are project members*/}
                     {project.userIsProjectAdmin && Array.isArray(project.reasonsForInviteDecline) && project.reasonsForInviteDecline.length > 0 ? (
                       <div>
                         <Text c="red" mt="lg">
                           <strong>Reasons users declined their project invites:</strong>
                         </Text>
-                        {project.reasonsForInviteDecline.map((decline) => (
+                        {project.reasonsForInviteDecline.filter(reason => reason.memberRole === 'Project Member').map((decline) => (
                           <Text c="red" key={decline.id}>
                             <strong>{decline.memberName}:</strong> {decline.reason}
                           </Text>
