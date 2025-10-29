@@ -24,6 +24,14 @@ import {
  } from '@mantine/core';
 import { ProjectDataHome, approvalStatusColors } from '../../data.ts';
 
+interface reasonForDecline {
+  id: number;
+  memberId: string;
+  memberName: string;
+  memberRole: string;
+  reason: string
+}
+
 export function ProjectHome() {
   const location = useLocation();
   const { collabId, projectId } = useParams();
@@ -42,6 +50,9 @@ export function ProjectHome() {
   // project-level derived values
   const [remainingProjectBalance, setRemainingProjectBalance] = useState<number | null>(null);
   const [percentOfProjectBudget, setPercentOfProjectBudget] = useState<number | null>(null);
+
+  const [reasonsForDeclineCollabAdmin, setReasonsForDeclineCollabAdmin] = useState<reasonForDecline[]>([]);
+  const [reasonsForDeclineProjectAdmin, setReasonsForDeclineProjectAdmin] = useState<reasonForDecline[]>([]);
 
   // Edit modal state + form
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -99,6 +110,8 @@ export function ProjectHome() {
         .then((data: ProjectDataHome) => {
           console.log(data);
           setProject(data);
+          setReasonsForDeclineCollabAdmin(data ? data.reasonsForInviteDecline.filter(reason => reason.memberRole === 'Project Admin') : []);
+          setReasonsForDeclineProjectAdmin(data ? data.reasonsForInviteDecline.filter(reason => reason.memberRole === 'Project Member') : []);
           setBudgetSubtotal(data ? (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens)) : 0);
           setSumNetworkTransactionFees(data ? Number(data.networkTransactionFee * (Number(data.adminPay) + Number(data.sumMilestonesAllocatedLaunchTokens))) : 0);
           setRemainingCollaborativeBalance(data ? data.collabLaunchTokenBalance - data?.budget! : null);
@@ -510,12 +523,12 @@ export function ProjectHome() {
                     </div>
 
                     {/* Display reasons for invite declines if user is collab admin and invitees are project admins*/}
-                    {project.userIsCollabAdmin && Array.isArray(project.reasonsForInviteDecline) && project.reasonsForInviteDecline.length > 0 ? (
+                    {project.userIsCollabAdmin && reasonsForDeclineCollabAdmin.length > 0 ? (
                       <div>
                         <Text c="red" mt="lg">
                           <strong>Reasons users declined their project invites:</strong>
                         </Text>
-                        {project.reasonsForInviteDecline.filter(reason => reason.memberRole === 'Project Admin').map((decline) => (
+                        {reasonsForDeclineCollabAdmin.map((decline) => (
                           <Text c="red" key={decline.id}>
                             <strong>{decline.memberName}:</strong> {decline.reason}
                           </Text>
@@ -532,12 +545,12 @@ export function ProjectHome() {
                     ) : null}
 
                     {/* Display reasons for invite declines if user is project admin and invitees are project members*/}
-                    {project.userIsProjectAdmin && Array.isArray(project.reasonsForInviteDecline) && project.reasonsForInviteDecline.length > 0 ? (
+                    {project.userIsProjectAdmin && reasonsForDeclineProjectAdmin.length > 0 ? (
                       <div>
                         <Text c="red" mt="lg">
                           <strong>Reasons users declined their project invites:</strong>
                         </Text>
-                        {project.reasonsForInviteDecline.filter(reason => reason.memberRole === 'Project Member').map((decline) => (
+                        {reasonsForDeclineProjectAdmin.map((decline) => (
                           <Text c="red" key={decline.id}>
                             <strong>{decline.memberName}:</strong> {decline.reason}
                           </Text>
