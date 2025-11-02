@@ -442,7 +442,7 @@ export function Dashboard() {
             {currentUser ? currentUser.firstName + "'s " : ""}Dashboard
         </Title>
 
-        {['Network Admin', 'Network Contributor'].includes(currentUser?.memberStatus || '') && (
+        {['Network Admin', 'Network Contributor'].includes(currentUser?.memberStatus || '') ? (
         <Group justify="flex-start" mt="xl">
           <Link to="/create-collaborative">
             <Button variant="default">
@@ -454,6 +454,19 @@ export function Dashboard() {
               Invite a Member
           </Button>
         </Group>
+        ) : (
+          <Group justify="flex-start" mt="xl">
+            <Tooltip label="You must be accepted to the network as a contributor in order to propose a collaborative" multiline w={300} position="bottom" color="gray">
+              <Button disabled>
+                Propose a Collaborative
+              </Button>
+            </Tooltip>
+            <Tooltip label="You must be accepted to the network as a contributor in order to invite a member" multiline w={300} position="bottom" color="gray">
+              <Button disabled>
+                Invite a Member
+              </Button>
+            </Tooltip>
+          </Group>
         )}
 
         <Tabs value={activeTab} onChange={setActiveTab} mt="xl">

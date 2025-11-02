@@ -136,3 +136,5 @@ vite.config.ts
 
 # test page
 # src/pages/Test.page.tsx
+
+readme_deleted_chunk.md
