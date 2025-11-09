@@ -331,12 +331,15 @@ export function CollaborativeHome() {
                         </a>
                       </Group>
                     )}
-                    <Group wrap="nowrap" gap={10} mt={10}>
-                      <IconMapPin stroke={1.5} size={18} />
-                      <Text fz="md">
-                          {collaborative.city}, {collaborative.state}
-                      </Text>
-                    </Group>
+                    {collaborative.city && (
+                      <Group wrap="nowrap" gap={10} mt={10}>
+                        <IconMapPin stroke={1.5} size={18} />
+                        <Text fz="md">
+                            {collaborative.city}, {collaborative.state}
+                        </Text>
+                      </Group>
+                    )}
+                    
                     {collaborative.userIsCollabAdmin && Array.isArray(collaborative.reasonsForInviteDecline) && collaborative.reasonsForInviteDecline.length > 0 ? (
                       <div>
                         <Text c="red" mt="lg">
