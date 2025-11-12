@@ -471,9 +471,9 @@ export function Dashboard() {
 
         <Tabs value={activeTab} onChange={setActiveTab} mt="xl">
           <Tabs.List>
-            <Tabs.Tab value="first" fz='lg' fw={500}>Notifications</Tabs.Tab>
-            <Tabs.Tab value="second" fz='lg' fw={500}>Collaboratives</Tabs.Tab>
-            <Tabs.Tab value="third" fz='lg' fw={500}>Projects</Tabs.Tab>
+            <Tabs.Tab value="first" fz='lg' fw={500}>My Notifications</Tabs.Tab>
+            <Tabs.Tab value="second" fz='lg' fw={500}>My Collaboratives</Tabs.Tab>
+            <Tabs.Tab value="third" fz='lg' fw={500}>My Projects</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="first" pt="xl">
