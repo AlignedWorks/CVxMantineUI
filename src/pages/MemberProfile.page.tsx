@@ -12,6 +12,7 @@ import {
   Grid,
   Stack,
   Center,
+  Button
 } from '@mantine/core';
 import {
   IconAt,
@@ -232,11 +233,13 @@ export function MemberProfile() {
       )}
 
       {user?.userId === id && (
-        <Center mt="md">
-          <Link to="/edit-member-profile" style={{ textDecoration: 'none', color: '#0077b5' }}>
-            Edit Profile
+        <Group justify="right" mt="xl">
+          <Link to="/user-profile/edit" style={{ textDecoration: 'none' }}>
+            <Button variant="default">
+              Edit User Profile
+            </Button>
           </Link>
-        </Center>
+        </Group>
       )}
     </Container>
     </>
