@@ -181,8 +181,11 @@ export function Dashboard() {
        method: "PATCH",
        credentials: "include",
        headers: { "Content-Type": "application/json" },
-      // include denial reason when denying an applicant
-      body: JSON.stringify({ role: newRole, reasonForDenial: denialReasons[userId] ?? '', networkAdmin: currentUser }),
+        // include denial reason when denying an applicant
+        body: JSON.stringify({
+          role: newRole,
+          reasonForDenial: denialReasons[userId] ?? '',
+          networkAdmin: currentUser }),
      })
       .then((res) => res.json())
       .then((updatedUser) => {

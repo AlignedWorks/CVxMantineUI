@@ -49,21 +49,19 @@ export function MemberProfile() {
 
   const fetchMemberData = () => {
     try {
-        fetch(`https://cvx.jordonbyers.com/members/${id}`, {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => { 
-             setMember(data);
-        })
-        .catch((err) => 
-          {
-            console.error("Error fetching profile:", err);
-          });
+      fetch(
+        new URL(`members/${id}`, import.meta.env.VITE_API_BASE),
+      {
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((data) => { 
+          setMember(data);
+      })
+      .catch((err) => 
+        {
+          console.error("Error fetching profile:", err);
+        });
       } catch (err) {
         console.error("Error forming URL:", err);
       }
