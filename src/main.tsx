@@ -11,9 +11,12 @@ if (!Promise.withResolvers) {
 }
 
 import ReactDOM from 'react-dom/client';
+import { pdfjs } from 'react-pdf';
 import { AuthProvider } from './AuthContext';
 import { CollaborativeProvider } from './CollaborativeContext';
 import App from './App';
+
+pdfjs.GlobalWorkerOptions.workerSrc = '/polyfill-pdf.worker.js';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <AuthProvider>

@@ -1,11 +1,9 @@
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 import { useState } from 'react';
 import { Button, Group } from '@mantine/core';
 // Add these CSS imports for proper text layer styling
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-
-pdfjs.GlobalWorkerOptions.workerSrc = '/polyfill-pdf.worker.js';
 
 interface CSADocumentViewerProps {
   documentUrl: string;

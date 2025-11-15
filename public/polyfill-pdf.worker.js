@@ -13,4 +13,4 @@ if (!self.Promise.withResolvers) {
 // 2. Load the original pdf.js worker script
 // This path assumes the original worker is also in the public directory.
 // We will copy it there in the next step.
-self.importScripts('/pdf.worker.min.mjs');
+self.importScripts(`https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`);
