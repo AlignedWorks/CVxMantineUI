@@ -5,7 +5,7 @@ import { Button, Group } from '@mantine/core';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = '/polyfill-pdf.worker.js';
 
 interface CSADocumentViewerProps {
   documentUrl: string;
