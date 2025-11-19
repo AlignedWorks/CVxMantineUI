@@ -334,7 +334,7 @@ export function ProjectMembers() {
             w={220}
           >  
             <Button disabled mb="sm">
-              Invite Members
+              Invite New Project Members
             </Button>
           </Tooltip>
         </Group>

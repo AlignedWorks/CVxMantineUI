@@ -454,7 +454,7 @@ export function Dashboard() {
           </Link>
 
           <Button variant="default" onClick={() => setInviteModalOpen(true)}>
-              Invite a Member
+              Invite a new user to the network
           </Button>
         </Group>
         ) : (
@@ -464,9 +464,9 @@ export function Dashboard() {
                 Propose a Collaborative
               </Button>
             </Tooltip>
-            <Tooltip label="You must be accepted to the network as a contributor in order to invite a member" multiline w={300} position="bottom" color="gray">
+            <Tooltip label="You must be accepted to the network as a contributor in order to invite a new user" multiline w={300} position="bottom" color="gray">
               <Button disabled>
-                Invite a Member
+                Invite a new user to the network
               </Button>
             </Tooltip>
           </Group>
@@ -477,6 +477,7 @@ export function Dashboard() {
             <Tabs.Tab value="first" fz='lg' fw={500}>My Notifications</Tabs.Tab>
             <Tabs.Tab value="second" fz='lg' fw={500}>My Collaboratives</Tabs.Tab>
             <Tabs.Tab value="third" fz='lg' fw={500}>My Projects</Tabs.Tab>
+            <Tabs.Tab value="fourth" fz='lg' fw={500}>My Milestones</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="first" pt="xl">
@@ -793,6 +794,7 @@ export function Dashboard() {
                           Submit Decline
                         </Button>
                       ) : null}
+
                     </Grid.Col>
                   </Grid>
               </Card>
@@ -1046,7 +1048,6 @@ export function Dashboard() {
                       <Table.Tr>
                         <Table.Th style={{ verticalAlign: 'top' }}>Project</Table.Th>
                         <Table.Th style={{ verticalAlign: 'top' }}>Collaborative</Table.Th>
-                        <Table.Th style={{ verticalAlign: 'top' }}>Description</Table.Th>
                         <Table.Th w={110} style={{ verticalAlign: 'top' }}>Status</Table.Th>
                         <Table.Th w={100} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
                       </Table.Tr>
@@ -1065,7 +1066,6 @@ export function Dashboard() {
                             </Text>
                           </Table.Td>
                           <Table.Td style={{ verticalAlign: 'top' }}>{p.collabName ?? '—'}</Table.Td>
-                          <Table.Td style={{ verticalAlign: 'top' }}>{p.description ?? '—'}</Table.Td>
                           <Table.Td style={{ verticalAlign: 'top' }}>
                             <Badge
                               color={approvalStatusColors[p.approvalStatus] ?? 'gray'}
@@ -1087,6 +1087,11 @@ export function Dashboard() {
               <Text c="dimmed" mt="md">No projects available.</Text>
             )}
            </Tabs.Panel>
+
+            <Tabs.Panel value="fourth" pt="xl">
+              
+              This feature still to be implemented.
+            </Tabs.Panel>
         </Tabs>
 
 
@@ -1094,7 +1099,7 @@ export function Dashboard() {
         <Modal
           opened={inviteModalOpen}
           onClose={() => setInviteModalOpen(false)}
-          title="Invite a new member"
+          title="Invite a new user to the network"
         >
           <Stack>
             <TextInput

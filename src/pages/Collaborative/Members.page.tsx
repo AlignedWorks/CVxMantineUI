@@ -334,7 +334,7 @@ export function CollaborativeMembers() {
             w={220}
           >
             <Button disabled mb="sm">
-              Invite Members
+              Invite New Collaborative Members
             </Button>
           </Tooltip>
         </Group>
