@@ -148,7 +148,6 @@ export function CollaborativeProjects() {
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th style={{ verticalAlign: 'top' }}>Project</Table.Th>
-                      <Table.Th style={{ verticalAlign: 'top' }}>Description</Table.Th>
                       <Table.Th style={{ verticalAlign: 'top' }}>Admin</Table.Th>
                       <Table.Th w={110} style={{ verticalAlign: 'top' }}>Approval Status</Table.Th>
                       <Table.Th w={100} style={{ textAlign: 'right', verticalAlign: 'top' }}>Budget (tokens)</Table.Th>
@@ -170,7 +169,6 @@ export function CollaborativeProjects() {
                             {project.name}
                           </Text>
                         </Table.Td>
-                        <Table.Td style={{ verticalAlign: 'top' }}>{project.description}</Table.Td>
                         <Table.Td style={{ verticalAlign: 'top' }}>{project.adminName}</Table.Td>
                         <Table.Td style={{ verticalAlign: 'top' }}>
                           {project.approvalStatus == 'Draft' ? (
