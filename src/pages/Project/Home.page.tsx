@@ -709,7 +709,7 @@ export function ProjectHome() {
           </>
         )}
 
-        {project.userIsProjectAdmin ? (
+        {project.userIsProjectAdmin || project.userIsCollabAdmin ? (
           <Button variant="default" mb="sm" ml="xs" onClick={handleEdit}>
             Edit Project Profile
           </Button>

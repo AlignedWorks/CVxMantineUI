@@ -154,7 +154,7 @@ export function CollaborativeMembers() {
       const response = await fetch(
         new URL(`collaboratives/${collaborative.id}/members`, import.meta.env.VITE_API_BASE),
         {
-          method: "POST", // Changed from PATCH to POST
+          method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
