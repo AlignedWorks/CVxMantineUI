@@ -709,14 +709,14 @@ export function ProjectHome() {
           </>
         )}
 
-        {project.userIsProjectAdmin || project.userIsCollabAdmin ? (
+        {project.userIsCollabAdmin ? (
           <Button variant="default" mb="sm" ml="xs" onClick={handleEdit}>
             Edit Project Profile
           </Button>
         ) : (
           <Tooltip
             color="gray"
-            label="Only project admins can edit the profile"
+            label="Only collab admins can edit the project profile"
             multiline
             w={220}
           >
