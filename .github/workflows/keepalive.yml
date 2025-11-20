@@ -13,6 +13,7 @@ jobs:
       - name: Curl backend or keepalive endpoint
         env:
           KEEPALIVE_URL: ${{ secrets.KEEPALIVE_URL }}
+          KEEPALIVE_URL2: ${{ secrets.KEEPALIVE_URL2 }}
           KEEPALIVE_AUTH: ${{ secrets.KEEPALIVE_AUTH }}
         run: |
           if [ -z "$KEEPALIVE_URL" ]; then
@@ -25,11 +26,18 @@ jobs:
           # Use header-based auth if KEEPALIVE_AUTH is set (optional)
           if [ -n "$KEEPALIVE_AUTH" ]; then
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "x-keepalive-secret: $KEEPALIVE_AUTH" "$KEEPALIVE_URL")
+            STATUS_2=$(curl -s -o /dev/null -w "%{http_code}" -H "x-keepalive-secret: $KEEPALIVE_AUTH" "$KEEPALIVE_URL2")
           else
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$KEEPALIVE_URL")
+            STATUS_2=$(curl -s -o /dev/null -w "%{http_code}" "$KEEPALIVE_URL2")
           fi
 
           echo "status=$STATUS"
+          echo "status_2=$STATUS_2"
+          
+          if [ "$STATUS_2" -ge 400 ]; then
+            echo "Keepalive request returned $STATUS_2" >&2
+
           if [ "$STATUS" -ge 400 ]; then
             echo "Keepalive request returned $STATUS" >&2
             exit 1
