@@ -6,7 +6,7 @@
         },
         {
             "source": "/api/:path*",
-            "destination": "$VITE_API_BASE/:path*"
+            "destination": "$BACKEND_URL/:path*"
         },
         {
             "source": "/(.*)",
