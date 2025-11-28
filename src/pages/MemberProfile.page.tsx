@@ -50,7 +50,7 @@ export function MemberProfile() {
   const fetchMemberData = () => {
     try {
       fetch(
-        new URL(`members/${id}`, import.meta.env.VITE_API_BASE),
+        "/api/members/${id}",
       {
         credentials: "include",
       })

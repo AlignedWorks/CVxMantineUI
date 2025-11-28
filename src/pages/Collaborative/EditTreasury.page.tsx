@@ -55,7 +55,7 @@ export function EditCollaborativeTreasury() {
 
   useEffect(() => {
     fetch(
-      new URL(`collaboratives/${id}/treasury`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${id}/treasury`,
       {
         method: 'GET',
         credentials: 'include',
@@ -176,7 +176,7 @@ export function EditCollaborativeTreasury() {
     setSaving(true);
     try {
       const response = await fetch(
-        new URL(`collaboratives/${id}/treasury`, import.meta.env.VITE_API_BASE),
+        `/api/collaboratives/${id}/treasury`,
         {
           method: 'PATCH',
           credentials: 'include',

@@ -34,7 +34,7 @@ export function CreateProject() {
     const fetchCollaborativeMembers = async () => {
       try {
         const response = await fetch(
-          new URL(`collaboratives/${collabId}/members`, import.meta.env.VITE_API_BASE),
+          `/api/collaboratives/${collabId}/members`,
           {
             method: 'GET',
             credentials: 'include',
@@ -58,7 +58,7 @@ export function CreateProject() {
     const fetchCollabTokenBalance = async () => {
       try {
         const response = await fetch(
-          new URL(`collaboratives/${collabId}/token-balance`, import.meta.env.VITE_API_BASE),
+          `/api/collaboratives/${collabId}/token-balance`,
           {
             method: 'GET',
             credentials: 'include',
@@ -187,7 +187,7 @@ export function CreateProject() {
 
       try {
         const response = await fetch(
-          new URL("projects", import.meta.env.VITE_API_BASE),
+          "/api/projects",
           {
             method: 'POST',
             headers: {

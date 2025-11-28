@@ -33,7 +33,7 @@ export function CollaborativeMemberWallet() {
 
   useEffect(() => {
     fetch(
-      new URL(`collaboratives/${id}/wallet`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${id}/wallet`,
     {
       method: 'GET',
       credentials: 'include',

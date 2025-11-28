@@ -36,7 +36,7 @@ export function CollaborativeProjects() {
     const fetchCollaborativeData = async () => {
     try {
       const response = await fetch(
-        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+        `/api/collaboratives/${id}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -67,7 +67,7 @@ export function CollaborativeProjects() {
     const fetchProjects = async () => {
       try {
         const response = await fetch(
-          new URL(`collaboratives/${id}/projects`, import.meta.env.VITE_API_BASE),
+          `/api/collaboratives/${id}/projects`,
           {
             method: 'GET',
             credentials: 'include',

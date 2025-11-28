@@ -64,7 +64,7 @@ export function UserProfile() {
     setLoading(true);  // Set loading to true before fetching
     try {
       fetch(
-        new URL("profile", import.meta.env.VITE_API_BASE),
+        "/api/profile",
       {
         credentials: "include",
       })

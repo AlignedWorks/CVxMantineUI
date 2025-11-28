@@ -21,7 +21,7 @@ export function CollaborativeDirectory() {
   // Fetch collaborative data from the backend
      useEffect(() => {
       fetch(
-        new URL("collaboratives", import.meta.env.VITE_API_BASE),
+        "/api/collaboratives",
       {
         method: 'GET',
         credentials: 'include', // Include cookies if needed

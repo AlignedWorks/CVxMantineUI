@@ -78,20 +78,9 @@ export function CollaborativeHome() {
   }, [id, setCollaborativeId]);
 
   useEffect(() => {
-    // Check if API base URL is available and valid
-    const apiBase = import.meta.env.VITE_API_BASE;
-    
-    if (!apiBase) {
-      console.warn('VITE_API_BASE not configured, using mock data');
-      setCollaborative(mockCollaborative);
-      setLoading(false);
-      return;
-    }
 
     try {
-      const apiUrl = new URL(`collaboratives/${id}`, apiBase);
-      
-      fetch(apiUrl, {
+      fetch(`/api/collaboratives/${id}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -124,16 +113,9 @@ export function CollaborativeHome() {
   const handleSubmitForApproval = () => {
     // Logic to submit the collaborative for approval
     if (collaborative) {
-      const apiBase = import.meta.env.VITE_API_BASE;
-
-      if (!apiBase) {
-        console.warn('VITE_API_BASE not configured');
-        return;
-      }
 
       try {
-        const apiUrl = new URL(`collaboratives/${collaborative.id}/submit`, apiBase);
-        fetch(apiUrl, {
+        fetch(`/api/collaboratives/${collaborative.id}/submit`, {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -171,7 +153,7 @@ export function CollaborativeHome() {
       // Execute all reinvites in parallel
       const reinvitePromises = collaborative.reasonsForInviteDecline.map(reason =>
         fetch(
-          new URL(`collaboratives/${collaborative.id}/members/${reason.memberId}`, import.meta.env.VITE_API_BASE),
+          `/api/collaboratives/${collaborative.id}/members/${reason.memberId}`,
           {
             method: 'PATCH',
             credentials: 'include',

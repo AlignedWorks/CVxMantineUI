@@ -91,7 +91,7 @@ export function ProjectMilestones() {
 
   useEffect(() => {
     fetch(
-      new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
+      `/api/projects/${projectId}/milestones`,
     {
       method: 'GET',
       credentials: 'include',
@@ -121,7 +121,7 @@ export function ProjectMilestones() {
     setDetailLoading(true);
     try {
       const response = await fetch(
-        new URL(`milestones/${milestoneId}`, import.meta.env.VITE_API_BASE),
+        `/api/milestones/${milestoneId}`,
         {
           method: "GET",
           credentials: "include",
@@ -205,7 +205,7 @@ export function ProjectMilestones() {
 
     try {
       const response = await fetch(
-        new URL(`milestones/${selectedMilestone.id}`, import.meta.env.VITE_API_BASE),
+        `/api/milestones/${selectedMilestone.id}`,
         {
           method: "PATCH",
           credentials: "include",
@@ -249,7 +249,7 @@ export function ProjectMilestones() {
 
     try {
       const response = await fetch(
-        new URL(`milestones/${selectedMilestone.id}`, import.meta.env.VITE_API_BASE),
+        `/api/milestones/${selectedMilestone.id}`,
         {
           method: "PATCH",
           credentials: "include",
@@ -313,7 +313,7 @@ export function ProjectMilestones() {
 
   const fetchProjectMembers = async () => {
     await fetch(
-      new URL(`projects/${projectId}/members`, import.meta.env.VITE_API_BASE),
+      `/api/projects/${projectId}/members`,
     {
       method: 'GET',
       credentials: 'include',
@@ -377,7 +377,7 @@ export function ProjectMilestones() {
 
       try {
         const response = await fetch(
-          new URL("milestones", import.meta.env.VITE_API_BASE),
+          "/api/milestones",
           {
             method: "POST",
             credentials: "include",
@@ -400,7 +400,7 @@ export function ProjectMilestones() {
 
           // Refetch the entire project data to get updated launchTokenBalance
           const projectResponse = await fetch(
-            new URL(`projects/${projectId}/milestones`, import.meta.env.VITE_API_BASE),
+            `/api/projects/${projectId}/milestones`,
             {
               method: 'GET',
               credentials: 'include',
@@ -459,7 +459,7 @@ export function ProjectMilestones() {
 
     try {
       const response = await fetch(
-        new URL(`milestones/${selectedMilestone.id}`, import.meta.env.VITE_API_BASE),
+        `/api/milestones/${selectedMilestone.id}`,
         {
           method: 'PATCH',
           credentials: 'include',

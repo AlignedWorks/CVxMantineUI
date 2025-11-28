@@ -53,7 +53,7 @@ export function CreateCollaborative() {
 
     const fetchSkillsAndExperience = async () => {
         fetch(
-          new URL("skills-and-experience", import.meta.env.VITE_API_BASE),
+          "/api/skills-and-experience",
         {
             credentials: "include",
         })
@@ -194,7 +194,7 @@ export function CreateCollaborative() {
 
       try {
         const response = await fetch(
-          new URL("collaboratives", import.meta.env.VITE_API_BASE),
+          "/api/collaboratives",
         {
           method: 'POST',
           headers: {

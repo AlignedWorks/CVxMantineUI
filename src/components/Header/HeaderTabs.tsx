@@ -74,7 +74,7 @@ export function HeaderTabs() {
   const handleLogout = async () => {
     try {
         const response = await fetch(
-          new URL("logout", import.meta.env.VITE_API_BASE),
+          "/api/logout",
         {
             method: 'POST',
             headers: {

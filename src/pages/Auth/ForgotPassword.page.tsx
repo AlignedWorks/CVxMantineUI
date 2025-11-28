@@ -12,7 +12,7 @@ export function ForgotPassword() {
 
     try {
       const res = await fetch(
-        new URL('forgotPassword', import.meta.env.VITE_API_BASE),
+        "/api/forgotPassword",
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

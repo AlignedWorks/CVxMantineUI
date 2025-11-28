@@ -36,7 +36,7 @@ export function AuthenticationTitle() {
 
     const queryParam = remember ? 'useCookies=true' : 'useSessionCookies=true';
     const response = await fetch(
-      new URL(`login?${queryParam}`, import.meta.env.VITE_API_BASE),
+      "/api/login?${queryParam}",
     {
       method: 'POST',
       headers: {
@@ -51,7 +51,7 @@ export function AuthenticationTitle() {
     if (response.ok) {
       // Fetch user profile after login
       const profileResponse = await fetch(
-        new URL("profile", import.meta.env.VITE_API_BASE),
+        "/api/profile",
       {
         credentials: 'include',
       });

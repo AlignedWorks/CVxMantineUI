@@ -47,7 +47,7 @@ export function CollaborativeTreasury() {
 
   useEffect(() => {
     fetch(
-      new URL(`collaboratives/${id}/treasury`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${id}/treasury`,
     {
       method: 'GET',
       credentials: 'include',

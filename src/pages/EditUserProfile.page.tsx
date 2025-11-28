@@ -90,7 +90,7 @@ export function EditUserProfile() {
     try {
       setLoading(true);
       const response = await fetch(
-        new URL("profile", import.meta.env.VITE_API_BASE),
+        "/api/profile",
         {
           credentials: "include",
         }
@@ -137,7 +137,7 @@ export function EditUserProfile() {
   const fetchSkillsAndExperience = async () => {
     try {
       const response = await fetch(
-        new URL("skills-and-experience", import.meta.env.VITE_API_BASE),
+        "/api/skills-and-experience",
         {
           credentials: "include",
         }
@@ -196,7 +196,7 @@ export function EditUserProfile() {
       console.log("Payload being sent:", payload);
 
       const response = await fetch(
-        new URL("profile", import.meta.env.VITE_API_BASE),
+        "/api/profile",
         {   
           method: "PATCH",
           credentials: "include",

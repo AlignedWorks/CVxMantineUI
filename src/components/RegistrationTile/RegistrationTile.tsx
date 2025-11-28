@@ -118,7 +118,7 @@ export function RegistrationTile() {
 
       try {
         const response = await fetch(
-          new URL("register", import.meta.env.VITE_API_BASE),
+          "/api/register",
         {
           method: 'POST',
           headers: {

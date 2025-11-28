@@ -80,7 +80,7 @@ export function Dashboard() {
 
   const fetchDashboardData = () => {
       fetch(
-        new URL("dashboard", import.meta.env.VITE_API_BASE),
+        "/api/dashboard",
       {
         credentials: "include",
       })
@@ -188,7 +188,7 @@ export function Dashboard() {
     console.log(`User ID: ${userId}, New Role: ${newRole}`);
  
     fetch(
-       new URL(`members/${userId}`, import.meta.env.VITE_API_BASE),
+       `/api/members/${userId}`,
      {
        method: "PATCH",
        credentials: "include",
@@ -221,7 +221,7 @@ export function Dashboard() {
     const reason = collabDeclineReasons[collabId] ?? '';
 
     fetch(
-      new URL(`collaboratives/${collabId}/status`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${collabId}/status`,
     {
       method: "PATCH",
       credentials: "include",
@@ -281,7 +281,7 @@ export function Dashboard() {
     const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
     
     fetch(
-      new URL(`collaboratives/${collabId}/members/${userId}`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${collabId}/members/${userId}`,
       {
         method: "PATCH",
         credentials: "include",
@@ -313,7 +313,7 @@ export function Dashboard() {
     const reason = projectDeclineReasons[projectId] ?? '';
 
     fetch(
-      new URL(`projects/${projectId}/status`, import.meta.env.VITE_API_BASE),
+      `/api/projects/${projectId}/status`,
     {
       method: "PATCH",
       credentials: "include",
@@ -357,7 +357,7 @@ export function Dashboard() {
     const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
     
     fetch(
-      new URL(`projects/${projectId}/members/${userId}`, import.meta.env.VITE_API_BASE),
+      `/api/projects/${projectId}/members/${userId}`,
       {
         method: "PATCH",
         credentials: "include",
@@ -387,7 +387,7 @@ export function Dashboard() {
 
   const handleInviteSubmit = async () => {
     try {
-      const response = await fetch(new URL('invite', import.meta.env.VITE_API_BASE), {
+      const response = await fetch("api/invite", {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -419,7 +419,7 @@ export function Dashboard() {
     const newStatus = action === 'accept' ? 'Accepted' : 'Declined';
     
     fetch(
-      new URL(`milestones/${assignmentId}`, import.meta.env.VITE_API_BASE),
+      `/api/milestones/${assignmentId}`,
       {
         method: "PATCH",
         credentials: "include",

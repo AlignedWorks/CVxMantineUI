@@ -38,7 +38,7 @@ export function MemberDirectory() {
   // Fetch members data from the backend
   useEffect(() => {
     fetch(
-      new URL("members", import.meta.env.VITE_API_BASE),
+      "/api/members",
     {
       method: 'GET',
       credentials: 'include', // Include cookies if needed

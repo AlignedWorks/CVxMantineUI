@@ -50,7 +50,7 @@ export function ProjectMembers() {
 
   useEffect(() => {
     fetch(
-      new URL(`projects/${projectId}/members`, import.meta.env.VITE_API_BASE),
+      `/api/projects/${projectId}/members`,
     {
       method: 'GET',
       credentials: 'include',
@@ -84,7 +84,7 @@ export function ProjectMembers() {
   const fetchCollabMembers = async () => {
     setLoadingUsers(true);
     await fetch(
-      new URL(`collaboratives/${collabId}/members`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${collabId}/members`,
     {
       method: 'GET',
       credentials: 'include',
@@ -142,7 +142,7 @@ export function ProjectMembers() {
 
     try {
       const response = await fetch(
-        new URL(`projects/${project.id}/members`, import.meta.env.VITE_API_BASE),
+        "/api/projects/${project.id}/members",
         {
           method: "POST",
           credentials: "include",

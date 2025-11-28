@@ -59,7 +59,7 @@ export function ProjectMilestoneDetail() {
     const fetchMilestone = async () => {
       try {
         const response = await fetch(
-          new URL(`milestones/${milestoneId}`, import.meta.env.VITE_API_BASE),
+          "/api/milestones/${milestoneId}",
           {
             method: "GET",
             credentials: "include",
@@ -92,7 +92,7 @@ export function ProjectMilestoneDetail() {
 
     try {
       const response = await fetch(
-        new URL(`milestones/${milestoneId}`, import.meta.env.VITE_API_BASE),
+        "/api/milestones/${milestoneId}",
         {
           method: "PATCH",
           credentials: "include",
@@ -122,7 +122,7 @@ export function ProjectMilestoneDetail() {
 
     try {
       const response = await fetch(
-        new URL(`milestones/${milestoneId}`, import.meta.env.VITE_API_BASE),
+        "/api/milestones/${milestoneId}",
         {
           method: "PATCH",
           credentials: "include",

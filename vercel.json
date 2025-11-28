@@ -5,6 +5,10 @@
             "destination": "/api/upload/route"
         },
         {
+            "source": "/api/:path*",
+            "destination": "$VITE_API_BASE/:path*"
+        },
+        {
             "source": "/(.*)",
             "destination": "/"
         }

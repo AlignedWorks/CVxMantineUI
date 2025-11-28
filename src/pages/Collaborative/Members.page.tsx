@@ -67,7 +67,7 @@ export function CollaborativeMembers() {
 
   useEffect(() => {
     fetch(
-      new URL(`collaboratives/${id}/members`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${id}/members`,
     {
       method: 'GET',
       credentials: 'include',
@@ -113,7 +113,7 @@ export function CollaborativeMembers() {
   const fetchAllUsers = async () => {
     setLoadingUsers(true);
     await fetch(
-      new URL("members", import.meta.env.VITE_API_BASE),
+      "/api/members",
     {
       method: 'GET',
       credentials: 'include',
@@ -152,7 +152,7 @@ export function CollaborativeMembers() {
 
     try {
       const response = await fetch(
-        new URL(`collaboratives/${collaborative.id}/members`, import.meta.env.VITE_API_BASE),
+        `/api/collaboratives/${collaborative.id}/members`,
         {
           method: "POST",
           credentials: "include",

@@ -33,7 +33,7 @@ export function CSAAgreement() {
     try {
       setLoading(true);
       const response = await fetch(
-        new URL(`collaboratives/${id}/CSAAgreement`, import.meta.env.VITE_API_BASE),
+        `/api/collaboratives/${id}/CSAAgreement`,
         {
           credentials: "include",
         }
@@ -77,7 +77,7 @@ export function CSAAgreement() {
 
       // Send agreement confirmation to API
       const response = await fetch(
-        new URL(`collaboratives/${id}/members/${userId}`, import.meta.env.VITE_API_BASE),
+        `/api/collaboratives/${id}/members/${userId}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -102,7 +102,7 @@ export function CSAAgreement() {
 
       // Send agreement confirmation to API
       const response = await fetch(
-        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+        `/api/collaboratives/${id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

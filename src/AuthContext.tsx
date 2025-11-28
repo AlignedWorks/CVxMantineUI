@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       try {
         // Assume you have a '/profile' or similar endpoint that requires authentication
-        const response = await fetch(new URL("profile", import.meta.env.VITE_API_BASE), {
+        const response = await fetch("/api/profile", {
           credentials: 'include',
         });
 

@@ -106,7 +106,7 @@ export function EditCollaborative() {
   useEffect(() => {
     setLoading(true);
     fetch(
-      new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+      `/api/collaboratives/${id}`,
       { credentials: "include" }
     )
       .then((res) => {
@@ -140,7 +140,7 @@ export function EditCollaborative() {
 
   const fetchSkillsAndExperience = async () => {
     fetch(
-      new URL("skills-and-experience", import.meta.env.VITE_API_BASE),
+      "/api/skills-and-experience",
     {
         credentials: "include",
     })
@@ -206,7 +206,7 @@ export function EditCollaborative() {
       console.log("Payload being sent:", payload);
 
       const response = await fetch(
-        new URL(`collaboratives/${id}`, import.meta.env.VITE_API_BASE),
+        `/api/collaboratives/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -226,7 +226,7 @@ export function EditCollaborative() {
         console.log("Sending CSA payload (POST):", { csaDocUrl: (changedFields as any).csaDocUrl });
 
         const csaResp = await fetch(
-          new URL(`collaboratives/${id}/csa`, import.meta.env.VITE_API_BASE),
+          `/api/collaboratives/${id}/csa`,
           {
             method: "POST",
             headers: {

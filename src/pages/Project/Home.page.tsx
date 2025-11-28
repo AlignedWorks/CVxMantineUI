@@ -82,19 +82,10 @@ export function ProjectHome() {
   }, [collabId, setCollaborativeId]);
 
   useEffect(() => {
-    // Check if API base URL is available and valid
-    const apiBase = import.meta.env.VITE_API_BASE;
-    
-    if (!apiBase) {
-      console.warn('VITE_API_BASE not configured');
-      setLoading(false);
-      return;
-    }
 
     try {
-      const apiUrl = new URL(`projects/${projectId}`, apiBase);
 
-      fetch(apiUrl, {
+      fetch(`/api/projects/${projectId}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -215,17 +206,10 @@ export function ProjectHome() {
   const handleSubmitForApproval = () => {
     // Logic to submit the project for approval
     if (project) {
-      const apiBase = import.meta.env.VITE_API_BASE;
-
-      if (!apiBase) {
-        console.warn('VITE_API_BASE not configured');
-        return;
-      }
 
       try {
-        const apiUrl = new URL(`projects/${project.id}/submit`, apiBase);
 
-        fetch(apiUrl, {
+        fetch(`/api/projects/${project.id}/submit`, {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -265,7 +249,7 @@ export function ProjectHome() {
       // Execute all reinvites in parallel
       const reinvitePromises = project.reasonsForInviteDecline.map(reason =>
         fetch(
-          new URL(`projects/${project.id}/members/${reason.memberId}`, import.meta.env.VITE_API_BASE),
+          `/api/projects/${project.id}/members/${reason.memberId}`,
           {
             method: 'PATCH',
             credentials: 'include',
@@ -349,14 +333,9 @@ export function ProjectHome() {
     if (Object.keys(errs).length > 0) { setFormErrors(errs); return; }
 
     if (!project) return;
-
-    const apiBase = import.meta.env.VITE_API_BASE;
-
-    if (!apiBase) { console.warn('VITE_API_BASE not configured'); return; }
     
     try {
-      const apiUrl = new URL(`projects/${project.id}`, apiBase);
-      const response = await fetch(apiUrl, {
+      const response = await fetch(`/api/projects/${project.id}`, {
         method: 'PATCH',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
