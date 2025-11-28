@@ -345,6 +345,14 @@ export const approvalStatusSortOrder: Record<string, number> = {
   'Declined': 5
 }
 
+export const milestoneApprovalStatusSortOrder: Record<string, number> = {
+  'Draft': 1,
+  'Submitted': 2,
+  'Active': 3,
+  'Archived': 4,
+  'Declined': 5
+}
+
 export enum PayoutFrequency {
   Monthly = 'Monthly',
   Quarterly = 'Quarterly',

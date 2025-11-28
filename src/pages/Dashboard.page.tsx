@@ -33,7 +33,8 @@ import {
   MilestoneAssignment,
   MilestoneCompletion,
   approvalStatusColors,
-  approvalStatusSortOrder
+  approvalStatusSortOrder,
+  milestoneApprovalStatusSortOrder,
 } from '../data.ts';
 
 interface User {
@@ -141,6 +142,13 @@ export function Dashboard() {
   const sortedProjects = [...projects].sort((a, b) => {
     const aOrder = approvalStatusSortOrder[a.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
     const bOrder = approvalStatusSortOrder[b.approvalStatus as keyof typeof approvalStatusSortOrder] || 999;
+    return aOrder - bOrder;
+  });
+
+  // Sort milestones by approval status before mapping
+  const sortedMilestones = [...milestones].sort((a, b) => {
+    const aOrder = milestoneApprovalStatusSortOrder[a.approvalStatus as keyof typeof milestoneApprovalStatusSortOrder] || 999;
+    const bOrder = milestoneApprovalStatusSortOrder[b.approvalStatus as keyof typeof milestoneApprovalStatusSortOrder] || 999;
     return aOrder - bOrder;
   });
 
@@ -1095,7 +1103,7 @@ export function Dashboard() {
             <Tabs.Panel value="fourth" pt="xl">
               
               {/* Milestones list */}
-              {milestones && milestones.length > 0 ? (
+              {sortedMilestones && sortedMilestones.length > 0 ? (
                 <Card padding="lg" withBorder shadow="xs" mt="md">
                   <Table.ScrollContainer minWidth={400}>
                     <Table verticalSpacing="sm" highlightOnHover>
