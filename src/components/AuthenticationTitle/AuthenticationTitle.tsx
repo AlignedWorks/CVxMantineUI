@@ -36,7 +36,7 @@ export function AuthenticationTitle() {
 
     const queryParam = remember ? 'useCookies=true' : 'useSessionCookies=true';
     const response = await fetch(
-      "/api/login?${queryParam}",
+      `/api/login?${queryParam}`,
     {
       method: 'POST',
       headers: {
