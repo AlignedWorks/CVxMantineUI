@@ -245,6 +245,18 @@ export interface Milestone {
   createdAt: string;
 }
 
+export interface MilestoneSlim {
+  id: number;
+  name: string;
+  approvalStatus: string;
+  dueDate: string;
+  allocatedLaunchTokens: number;
+  collabId: number;
+  collabName: string;
+  projectId: number;
+  projectName: string;
+}
+
 export interface MilestoneDetail {
   id: number;
   name: string;

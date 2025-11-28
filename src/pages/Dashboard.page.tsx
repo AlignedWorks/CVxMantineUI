@@ -29,6 +29,7 @@ import {
   ProjectSlim,
   ProjectNeedingApproval,
   ProjectInvite,
+  MilestoneSlim,
   MilestoneAssignment,
   MilestoneCompletion,
   approvalStatusColors,
@@ -62,6 +63,7 @@ export function Dashboard() {
   const [decliningProjectId, setDecliningProjectId] = useState<number | null>(null);
   const [projectDeclineReasons, setProjectDeclineReasons] = useState<Record<number, string>>({});
   const [projectInvites, setProjectInvites] = useState<ProjectInvite[]>([]);
+  const [milestones, setMilestones] = useState<MilestoneSlim[]>([]);
   const [milestoneAssignments, setMilestoneAssignments] = useState<MilestoneAssignment[]>([]);
   const [decliningMilestoneId, setDecliningMilestoneId] = useState<number | null>(null);
   const [milestoneDeclineReasons, setMilestoneDeclineReasons] = useState<Record<number, string>>({});
@@ -96,6 +98,7 @@ export function Dashboard() {
             projectInvites,
             milestoneAssignments,
             milestoneCompletions,
+            milestones,
           } = data;
 
           console.log(collabsNeedingApproval);
@@ -112,6 +115,7 @@ export function Dashboard() {
           setProjects(projects);
           setProjectsNeedingApproval(projectsNeedingApproval);
           setProjectInvites(projectInvites);
+          setMilestones(milestones);
           setMilestoneAssignments(milestoneAssignments);
           setMilestoneCompletions(milestoneCompletions);
 
@@ -1090,7 +1094,57 @@ export function Dashboard() {
 
             <Tabs.Panel value="fourth" pt="xl">
               
-              This feature still to be implemented.
+              {/* Milestones list */}
+              {milestones && milestones.length > 0 ? (
+                <Card padding="lg" withBorder shadow="xs" mt="md">
+                  <Table.ScrollContainer minWidth={400}>
+                    <Table verticalSpacing="sm" highlightOnHover>
+                      <Table.Thead>
+                        <Table.Tr>
+                          <Table.Th style={{ verticalAlign: 'top' }}>Milestone</Table.Th>
+                          <Table.Th style={{ verticalAlign: 'top' }}>Project</Table.Th>
+                          <Table.Th style={{ verticalAlign: 'top' }}>Collaborative</Table.Th>
+                          <Table.Th style={{ verticalAlign: 'top' }}>Due Date</Table.Th>
+                          <Table.Th w={110} style={{ verticalAlign: 'top' }}>Status</Table.Th>
+                          <Table.Th w={100} style={{ textAlign: 'right', verticalAlign: 'top' }}>Payout (tokens)</Table.Th>
+                        </Table.Tr>
+                      </Table.Thead>
+                      <Table.Tbody>
+                        {milestones.map((m) => (
+                          <Table.Tr key={m.id}>
+                            <Table.Td style={{ verticalAlign: 'top' }}>
+                              <Text
+                                component={Link}
+                                to={`/collaboratives/${m.collabId}/projects/${m.projectId}/milestones`}
+                                state={{ openMilestoneId: m.id, from: location.pathname }}
+                                style={{ textDecoration: 'none', color: '#0077b5' }}
+                              >
+                                {m.name}
+                              </Text>
+                            </Table.Td>
+                            <Table.Td style={{ verticalAlign: 'top' }}>{m.projectName}</Table.Td>
+                            <Table.Td style={{ verticalAlign: 'top' }}>{m.collabName}</Table.Td>
+                            <Table.Td style={{ verticalAlign: 'top' }}>{m.dueDate ?? '—'}</Table.Td>
+                            <Table.Td style={{ verticalAlign: 'top' }}>
+                              <Badge
+                                color={approvalStatusColors[m.approvalStatus] ?? 'gray'}
+                                variant="light"
+                              >
+                                {m.approvalStatus}
+                              </Badge>
+                            </Table.Td>
+                            <Table.Td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+                              {typeof m.allocatedLaunchTokens === 'number' ? m.allocatedLaunchTokens.toLocaleString() : (m.allocatedLaunchTokens ?? '—')}
+                            </Table.Td>
+                          </Table.Tr>
+                        ))}
+                      </Table.Tbody>
+                    </Table>
+                  </Table.ScrollContainer>
+                </Card>
+              ) : (
+                <Text c="dimmed" mt="md">No milestones available.</Text>
+              )}
             </Tabs.Panel>
         </Tabs>
 
