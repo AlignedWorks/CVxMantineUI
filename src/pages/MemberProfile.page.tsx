@@ -50,7 +50,7 @@ export function MemberProfile() {
   const fetchMemberData = () => {
     try {
       fetch(
-        "/api/members/${id}",
+        `/api/members/${id}`,
       {
         credentials: "include",
       })

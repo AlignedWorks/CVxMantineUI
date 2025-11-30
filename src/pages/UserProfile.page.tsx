@@ -38,24 +38,6 @@ interface User {
   experience: { id: number; value: string }[];
 }
 
-const mockUser: User = 
-{
-  userName: 'gerry@aligned.works',
-  firstName: 'Gerry',
-  lastName: 'Hartis',
-  bio: 'The AlignedWorks’ vision for aligning the full value of people with full value solutions to social, economic and environmental problems originated with co-founder Gerry Hartis when he worked with outdoor adventure teams in the 1980s as an educator. Gerry asked each member of the team to affirm that they would give the full value of their commitment, knowledge, skills, and effort to the other members of the team as they jointly negotiated the rigors of the deep wilderness.',
-  phoneNumber: '123-456-7890',
-  avatarUrl: '/assets/profile-pic-Gerry-Hartis.jpeg',
-  city: 'Somewhere',
-  state: 'PA',
-  createdAt: 'January 1st, 2023',
-  memberStatus: 'Invited',
-  linkedIn: 'https://www.linkedin.com/in/gerryhartis',
-  collaboratives: ['AlignedWorks', 'AlignedWorks Foundation'],
-  skills: [{id: 1, value: 'Design & Creative'}],
-  experience: [{id: 1, value: 'Education'},{id: 2, value: 'Non-Profit'},{id: 3, value: 'Retail'}],
-}
-
 export function UserProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true); // Add a loading state
@@ -80,7 +62,6 @@ export function UserProfile() {
           });
       } catch (err) {
         console.error("Error forming URL:", err);
-        setUser(mockUser); // Use mock data in case of error
         setLoading(false);
       }
   };

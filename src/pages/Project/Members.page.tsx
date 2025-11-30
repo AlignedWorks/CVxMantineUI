@@ -142,7 +142,7 @@ export function ProjectMembers() {
 
     try {
       const response = await fetch(
-        "/api/projects/${project.id}/members",
+        `/api/projects/${project.id}/members`,
         {
           method: "POST",
           credentials: "include",

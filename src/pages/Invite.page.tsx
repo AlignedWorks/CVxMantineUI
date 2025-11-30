@@ -117,7 +117,7 @@ export function Invite() {
     }
 
     try {
-      const response = await fetch(new URL('accept-invite', import.meta.env.VITE_API_BASE), {
+      const response = await fetch("api/accept-invite", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
