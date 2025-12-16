@@ -120,34 +120,11 @@ export function CollaborativeTreasury() {
               </Title>
 
               <Title order={4} mt="md">
-                Launch Tokens
+                Launch Tokens Created = {collaborative.tokensCreated?.toLocaleString('en-US')}
               </Title>
 
-              <Title order={4} lts="1px" mt="sm" c="green">Financial Health Metrics</Title>
-              <Paper p="lg" radius="md" bg="#fafafa">
-                <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
-                  <div>
-                    <Tooltip color="gray" label="(Total Token Assets) / (Total Token Liabilities)">
-                      <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
-                    </Tooltip>
-                          <Text fz="xl" fw={700} c="#444">{Math.round(workingTokenRatio)}</Text>
-                        </div>
-                  <div>
-                    <Tooltip color="gray" label="(Total Token Assets) - (Total Token Liabilities)">
-                      <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
-                    </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{Math.round(totalTokenAssets - totalTokenLiabilities)}</Text>
-                  </div>
-                  <div>
-                    <Tooltip color="gray" label="(Current Token Balance) - (Total Token Liabilities)">
-                      <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
-                    </Tooltip>
-                    <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.tokenBalance - totalTokenLiabilities)}</Text>
-                  </div>
-                </SimpleGrid>
-              </Paper>
-
               <Title order={4} lts="1px" mt="xl" c="green">Launch Token Release</Title>
+              <Text c="dimmed">({collaborative.tokenReleaseRate}% of the remaining Launch Tokens are released every {collaborative.launchCyclePeriodWeeks} weeks)</Text>
 
               <Paper p="lg" radius="md" bg="#fafafa">
                 <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
@@ -176,6 +153,31 @@ export function CollaborativeTreasury() {
                 </SimpleGrid>
               </Paper>
 
+              <Title order={4} lts="1px" mt="sm" c="green">Financial Health Metrics</Title>
+
+              <Paper p="lg" radius="md" bg="#fafafa">
+                <SimpleGrid cols={{ base: 1, xs: 1, sm: 3 }}>
+                  <div>
+                    <Tooltip color="gray" label="(Total Token Assets) / (Total Token Liabilities)">
+                      <Text fz="md" fw={500} c="#999">Working Token Ratio</Text>
+                    </Tooltip>
+                          <Text fz="xl" fw={700} c="#444">{Math.round(workingTokenRatio)}</Text>
+                        </div>
+                  <div>
+                    <Tooltip color="gray" label="(Total Token Assets) - (Total Token Liabilities)">
+                      <Text fz="md" fw={500} c="#999">Working Token Capital</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{Math.round(totalTokenAssets - totalTokenLiabilities)}</Text>
+                  </div>
+                  <div>
+                    <Tooltip color="gray" label="(Current Token Balance) - (Total Token Liabilities)">
+                      <Text fz="md" fw={500} c="#999">Net Token Assets</Text>
+                    </Tooltip>
+                    <Text fz="xl" fw={700} c="#444">{Math.round(collaborative.tokenBalance - totalTokenLiabilities)}</Text>
+                  </div>
+                </SimpleGrid>
+              </Paper>
+
               <SimpleGrid cols={{ base: 1, xs: 2 }} mt="xl" mb="md" spacing="xl">
                 <div>
                   <Title order={4} lts="1px" c="blue">Current Token Assets</Title>
@@ -189,7 +191,7 @@ export function CollaborativeTreasury() {
                         <Text fz="md" fw={500} c="#999">Tokens Receivable</Text>
                       </Tooltip>
 
-                      <Text fz="xl" fw={500} c="#444">{collaborative.tokensReceivable}</Text>
+                      <Text fz="xl" fw={500} c="#444">{(collaborative.tokensReceivable).toFixed(2)}</Text>
 
                       <Tooltip
                         color="gray"
@@ -208,11 +210,24 @@ export function CollaborativeTreasury() {
                       <Text fz="xl" fw={500} c="#444">{totalTokenAssets.toFixed(2)}</Text>
                     </Stack>
                   </Paper>
-                  <Text fz="md" fw={500} c="#999">Launch Token Price</Text>
+                  <Tooltip
+                    color="gray"
+                    label="Token reimbursement rate for approved cash expenditures."
+                    multiline
+                    w={220}>
+                      <Text fz="md" fw={500} c="#999">Launch Token Price</Text>
+                  </Tooltip>
                   <Text fz="xl" fw={700} c="#444">${(collaborative.tokenValue).toFixed(2)}</Text>
                 </div>
                 <div>
-                  <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
+                  <Tooltip
+                    color="gray"
+                    label="Collaborative Admin Pay + Project Work."
+                    multiline
+                    w={220}>
+                      <Title order={4} lts="1px" c="blue">Current Token Liabilities</Title>
+                  </Tooltip>
+                  
                   <Paper p="lg" withBorder radius="md" mb="sm" mt="lg">
                     <Stack>
 
